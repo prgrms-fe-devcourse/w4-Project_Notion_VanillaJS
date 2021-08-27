@@ -8,100 +8,99 @@ import {
 } from "./api.js";
 import EditorPage from "./editorPage.js";
 export default function App({ $target }) {
+  //문서를 지우는 함수
   const onRemove = async (id) => {
     const currentPage = window.location.pathname.substr(1);
     const isCurrentPageDeleted = parseInt(currentPage) === id;
-    const willRemoveDocument = await getDocumentById(id);
-    const isHaveChild = willRemoveDocument.documents.length;
-    console.log(isHaveChild);
-    if (isHaveChild) {
-      if (!confirm("하위 문서가 존재하는 문서입니다. 삭제하시겠습니까?")) {
+    const intenedRemoveDocument = await getDocumentById(id);
+    const hasDocumentChild = intenedRemoveDocument.documents.length;
+    if (hasDocumentChild) {
+      if (!confirm("하위 문서가 존재하는 문서입니다. 삭제하시겠습니까?"))
         return;
-      }
-    }
-    if (isCurrentPageDeleted) {
-      history.replaceState(null, null, "/");
     }
     await deleteDocument(id);
-    fetchDocument();
-    fetchNav();
+    fetchDocumentByUrl();
+    updateNav();
+    if (isCurrentPageDeleted) history.replaceState(null, null, "/");
   };
-  const onSelected = async (id) => {
+
+  const onSelecte = (id) => {
     history.pushState(null, null, id);
-    await fetchDocument();
+    fetchDocumentByUrl();
+  };
+
+  //최상위 루트에 문서를 추가
+  const createInRoot = async () => {
+    await createDocument();
+    const documents = await getDocuments();
+    const newDocument = documents[documents.length - 1];
+    history.pushState(null, null, newDocument.id);
+  };
+
+  // 특정 문서의 하위문서로 추가
+  const createInDocument = async (id) => {
+    const parentDocument = await getDocumentById(id);
+    await createDocument(parentDocument);
+    const newParentDocument = await getDocumentById(id);
+    const newDocument =
+      newParentDocument.documents[newParentDocument.documents.length - 1];
+    history.pushState(null, null, newDocument.id);
   };
 
   const onCreate = async (id = null) => {
+    // 상위문서가 있는 경우
     if (id) {
-      // 부모문서가 있는 경우
-      const parentDocument = await getDocumentById(id);
-      await createDocument(parentDocument);
-      const newParentDocument = await getDocumentById(id);
-      const newChild =
-        newParentDocument.documents[newParentDocument.documents.length - 1];
-      history.pushState(null, null, newChild.id);
+      await createInDocument(id);
+      //상위문서가 없는경우
     } else {
-      // 루트에 생성할 경우
-      await createDocument();
-      const documents = await fetchNav();
-      const newDocument = documents[documents.length - 1];
-      history.pushState(null, null, newDocument.id);
+      await createInRoot();
     }
-    fetchNav();
-    fetchDocument();
+    updateNav();
+    fetchDocumentByUrl();
   };
 
-  const fetchNav = async () => {
-    const result = await getDocuments();
-    this.setState(result);
-    return result;
-  };
-  const fetchDocument = async () => {
+  //URL path에 적힌 id를 이용해서 editorPage 로딩하는 함수
+  const fetchDocumentByUrl = async () => {
     const id = window.location.pathname.substr(1);
-    if (id.length > 0) {
-      const result = await getDocumentById(id);
-      if (!result) {
-        history.replaceState(null, null, "/");
-      }
-      editorPage.setState(result);
-    } else {
-      editorPage.setState(null);
-    }
+    if (!id) return;
+    const result = await getDocumentById(id);
+    if (!result) history.replaceState(null, null, "/");
+    editorPage.setState(result);
   };
 
-  const updateDocument = async ({ id, title, content }) => {
-    await updateDocumentById({ id, title, content });
-  };
-  this.state = [];
-
-  this.setState = (nextState) => {
-    this.state = nextState;
-    nav.setState(this.state);
-  };
   const onSave = async ({ title, content, id }) => {
-    await updateDocument({ title, content, id });
-    fetchNav();
+    await updateDocumentById({ title, content, id });
+    updateNav();
   };
+
+  const updateNav = async () => {
+    const documents = await getDocuments();
+    nav.setState(documents);
+  };
+
+  updateNav();
+
   const nav = new Nav({
     $target,
-    initialState: this.state,
-    onSelected,
+    initialState: null,
+    onSelecte,
     onCreate,
     onRemove,
   });
+
   const editorPage = new EditorPage({
     $target,
-    initialState: [],
+    initialState: null,
     onSave,
-    onSelected,
+    onSelecte,
     onRemove,
   });
-  fetchNav();
 
   window.addEventListener("popstate", () => {
-    fetchDocument();
+    fetchDocumentByUrl();
   });
+
   window.addEventListener("load", () => {
-    fetchDocument();
+    fetchDocumentByUrl();
   });
 }

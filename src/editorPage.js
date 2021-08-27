@@ -3,7 +3,7 @@ export default function EditorPage({
   ininialState,
   onSave,
   onRemove,
-  onSelected,
+  onSelecte,
 }) {
   const $editorPage = document.createElement("div");
   $editorPage.className = "editorPage";
@@ -44,24 +44,21 @@ export default function EditorPage({
         `;
   };
   let debounce = null;
+
   $editorPage.addEventListener("keyup", (e) => {
     clearTimeout(debounce);
     debounce = setTimeout(() => {
-      console.log(this.state.documents);
       const title = $editorPage.querySelector(".editor-title").value;
       const content = $editorPage.querySelector(".editor-content").value;
       onSave({ title, content, id: this.state.id });
     }, 500);
   });
+
   $editorPage.addEventListener("click", (e) => {
-    if (e.target.id) {
-      onSelected(e.target.id);
-      return;
-    }
+    const clickedButton = e.target.id;
     const isDeleteButton = e.target.className === "delete";
-    if (isDeleteButton) {
-      onRemove(this.state.id);
-    }
+    if (clickedButton) onSelecte(e.target.id);
+    if (isDeleteButton) onRemove(this.state.id);
   });
   this.render();
 }
