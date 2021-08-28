@@ -7,7 +7,7 @@
 기본적인 레이아웃은 노션과 같으며, 스타일링, 컬러값 등은 원하는대로 커스텀합니다.
 
   - [ ] 글 단위를 Document라고 합니다. Document는 Document 여러개를 포함할 수 있습니다.
-- [ ]  화면 좌측에 Root Documents를 불러오는 API를 통해 루트 Documents를 렌더링합니다.
+- [x]  화면 좌측에 Root Documents를 불러오는 API를 통해 루트 Documents를 렌더링합니다.
   - [ ]  Root Document를 클릭하면 오른쪽 편집기 영역에 해당 Document의 Content를 렌더링합니다.
   - [ ] 해당 Root Document에 하위 Document가 있는 경우, 해당 Document 아래에 트리 형태로 렌더링 합니다.
   - [ ] Document Tree에서 각 Document 우측에는 + 버튼이 있습니다. 해당 버튼을 클릭하면, 클릭한 Document의 하위 Document로 새 Document를 생성하고 편집화면으로 넘깁니다.
@@ -33,6 +33,7 @@
 
 header에 해당 값이 누락이 되면 API 호출에 실패합니다.
 
+// list에서 li 내용들을 가져올 때 사용.
 ### Root Documents 가져오기
 
 전체 Document의 구조를 트리 형태로 가져옵니다.
@@ -67,6 +68,7 @@ Response의 형태는 아래와 같습니다.
 ]
 ```
 
+// id를 바탕으로 document content를 내려 받을 때
 ### 특정 Document의 content 조회하기
 
 > https://kdt.roto.codes/documents/{documentId} - GET
