@@ -16,7 +16,15 @@ export default function App($target, initialState) {
 				editor.setState(await getDocuments(id));
 			},
 			createDocument: async id => {
-				console.log($(`[data-id="${id}"]`));
+				const $ul = document.createElement('ul');
+				const $li = document.createElement('li');
+				$li.innerHTML = `
+				<span class="notion-document"> 제목 없음 </span>
+				<span class="document-context">...</span>
+				<span class="document-create">+</span>`;
+
+				$ul.appendChild($li);
+				$(`[data-id="${id}"]`).append($ul);
 			},
 		},
 	});
@@ -24,4 +32,6 @@ export default function App($target, initialState) {
 		$target,
 		initialState: this.state.currentDocument,
 	});
+
+	// const newDocumentModal = new NewDocumentModal({})
 }

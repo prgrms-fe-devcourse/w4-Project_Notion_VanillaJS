@@ -11,19 +11,23 @@ export default function Nav({ $target, initialState, onClick }) {
 	this.drawTree = (target, state) => {
 		const $ul = document.createElement('ul');
 
-		state.forEach((item, index) => {
+		state.forEach(item => {
 			const { id, title, documents } = item;
 			const $li = document.createElement('li');
 			const $span = document.createElement('span');
 
+			$li.setAttribute('data-id', id);
 			$li.innerHTML = `
 				<span
-					data-id=${id}
-					${id === this.state.currentDocument['id'] ? 'class="selected"' : ''}>
+					class="${
+						id === this.state.currentDocument['id']
+							? 'notion-document selected'
+							: 'notion-document'
+					}">
 					${title}
 				</span>
-				<span>...</span>
-				<span>+</span>
+				<span class="document-context">...</span>
+				<span class="document-create">+</span>
 			`;
 
 			if (documents.length > 0) {
@@ -37,10 +41,16 @@ export default function Nav({ $target, initialState, onClick }) {
 	};
 
 	$nav.addEventListener('click', e => {
-		if (e.target.tagName !== 'SPAN') return;
+		const { tagName, className } = e.target;
 
-		const { id } = e.target.dataset;
-		onClick.getDocument(parseInt(id));
+		if (tagName !== 'SPAN') return;
+		const { id } = e.target.parentNode.dataset;
+
+		if (className.includes('notion-document')) {
+			onClick.getDocument(parseInt(id));
+		} else if (className.includes('document-create')) {
+			onClick.createDocument(parseInt(id));
+		}
 	});
 
 	this.render = () => {
