@@ -58,4 +58,5 @@ export default function Editor({ $target, initialState, onEdit }) {
   }
 
   init()
+  this.render()
 }

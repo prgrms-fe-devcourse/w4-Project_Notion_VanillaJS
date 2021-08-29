@@ -85,7 +85,6 @@ export default function App({ $target }) {
     },
     onEdit: async (id, document) => {
       await requestPUT(`/documents/${id}`, document)
-      const { title, content } = document
       this.setState({
         ...this.state,
         selectedDocumentId: id,
