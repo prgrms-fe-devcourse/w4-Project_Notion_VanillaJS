@@ -5,3 +5,22 @@
 .selected {
 	font-weight: bold;
 }
+
+.editor-modal {
+	position: absolute;
+	top: 72px;
+	left: 72px;
+	right: 72px;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 960px;
+	height: calc(100% - 144px);
+	box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px,
+		rgb(15 15 15 / 10%) 0px 5px 10px, rgb(15 15 15 / 20%) 0px 15px 40px;
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 3px;
+}
+.editor-modal.hide {
+	display: none;
+}

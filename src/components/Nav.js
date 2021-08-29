@@ -1,6 +1,6 @@
 export default function Nav({ $target, initialState, onClick }) {
-	const $nav = document.createElement('nav');
-	$target.appendChild($nav);
+	const $tree = document.createElement('div');
+	$target.appendChild($tree);
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -14,15 +14,12 @@ export default function Nav({ $target, initialState, onClick }) {
 		state.forEach(item => {
 			const { id, title, documents } = item;
 			const $li = document.createElement('li');
-			const $span = document.createElement('span');
 
 			$li.setAttribute('data-id', id);
 			$li.innerHTML = `
 				<span
-					class="${
-						id === this.state.currentDocument['id']
-							? 'notion-document selected'
-							: 'notion-document'
+					class="notion-document ${
+						id === this.state.currentDocument['id'] ? 'selected' : ''
 					}">
 					${title}
 				</span>
@@ -33,14 +30,23 @@ export default function Nav({ $target, initialState, onClick }) {
 			if (documents.length > 0) {
 				this.drawTree($li, documents);
 			}
-
 			$ul.appendChild($li);
 		});
-
 		target.appendChild($ul);
 	};
 
-	$nav.addEventListener('click', e => {
+	this.drawCreatePageBtn = () => {
+		const $li = document.createElement('li');
+		$li.classList.add('notion-create');
+		$('nav ul').appendChild($li);
+
+		$li.innerHTML = `
+			<span class="create-btn">+</span>
+			<span class="create-title">페이지 추가</span>
+		`;
+	};
+
+	$tree.addEventListener('click', e => {
 		const { tagName, className } = e.target;
 
 		if (tagName !== 'SPAN') return;
@@ -48,13 +54,20 @@ export default function Nav({ $target, initialState, onClick }) {
 
 		if (className.includes('notion-document')) {
 			onClick.getDocument(parseInt(id));
-		} else if (className.includes('document-create')) {
-			onClick.createDocument(parseInt(id));
+		} else if (className.includes('create')) {
+			if (id) {
+				const $target = $(`[data-id="${id}"]`);
+				onClick.createDocumentTree($target, true);
+			} else {
+				const $target = e.target.parentNode;
+				onClick.createDocumentTree($target, false);
+			}
 		}
 	});
 
 	this.render = () => {
-		this.drawTree($nav, this.state.allDocuments);
+		this.drawTree($tree, this.state.allDocuments);
+		this.drawCreatePageBtn();
 	};
 
 	this.render();
