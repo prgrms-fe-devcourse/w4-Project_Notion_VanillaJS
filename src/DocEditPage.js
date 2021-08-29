@@ -7,10 +7,8 @@ export default function DocEditPage({
     $target,
     initialState = {
         id: '',
-        doc: {
-            title: '',
-            content: '',
-        },
+        title: '',
+        content: '',
     },
 }) {
     const $docEditPage = document.createElement('div');
@@ -22,53 +20,60 @@ export default function DocEditPage({
 
     this.state = initialState;
 
-    let timerForStorage = null;
+    let timer = null;
 
-    let CURRENT_DOC_KEY = `current-doc-${this.state.id}`
+    let CURRENT_DOC_KEY = `current-doc-${this.state.id}`;
 
     const editor = new Editor({
         $target: $docEditPage,
-        intialState: this.state.doc,
-        onEditing : async (nextDoc) => {
-            if(timerForStorage !== null) {
-                clearTimeout(timerForStorage);
+        intialState: {
+            title: this.state.title,
+            content: this.state.content,
+        },
+        onEditing: async (nextDoc) => {
+            if (timer !== null) {
+                clearTimeout(timer);
             }
 
             // 2초에 한번꼴로 로컬스토리지에 저장
-            timerForStorage = setTimeout(() => {
+            timer = setTimeout(() => {
                 setItem(CURRENT_DOC_KEY, {
                     ...nextDoc,
-                    savedTime : new Date()
+                    savedTime: new Date(),
                 });
-
-            } ,2000);
+            }, 2000);
 
             // 10초에 한번꼴로 서버에 저장
             setTimeout(async () => {
                 await request(`/documents/${this.state.id}`, {
                     method: 'PUT',
-                    body : JSON.stringify(nextDoc)
-                })
-                
+                    body: JSON.stringify(nextDoc),
+                });
+
+                this.setState({
+                    ...this.state,
+                    ...nextDoc,
+                });
                 removeItem(CURRENT_DOC_KEY);
             }, 10000);
-        }
+        },
     });
-    
-    this.setState = async (
-        nextState = {
-            id: '',
-            doc: {
-                title: '',
-                content: '',
-            },
-        }
-    ) => {
-        if(this.state.id !== nextState.id) {
+
+    this.setState = async (nextState) => {
+        // 해당 Doc에 처음 접근하는 경우, setState와 nextState의 무한루프 형성 방지를 위한 조건문
+        if(!nextState.title && !nextState.content) {
             this.state = nextState;
             await fetchDoc();
+            return;
         }
-        editor.setState(this.state.doc);
+
+        this.state = nextState;
+
+        editor.setState({
+            title: this.state.title,
+            content: this.state.content,
+        });
+
         this.render();
     };
 
@@ -78,40 +83,32 @@ export default function DocEditPage({
 
     const fetchDoc = async () => {
         const { id } = this.state;
-        const { title, content, updated_at } = await request(`/documents/${id}`, {
-            method: 'GET'
+        const serverDoc = await request(`/documents/${id}`, {
+            method: 'GET',
         });
-        
-        const tempDoc = getItem(CURRENT_DOC_KEY, {
-            title: '',
-            content : '',
-        })
 
-        if(tempDoc.savedTime && tempDoc.savedTime > updated_at) {
+        const localDoc = getItem(CURRENT_DOC_KEY, {
+            title: '',
+            content: '',
+        });
+        if (localDoc.savedTime && localDoc.savedTime > serverDoc.updated_at) {
             this.setState({
                 ...this.state,
-                doc : {
-                    title : tempDoc.title,
-                    content : tempDoc.content
-                }
-            })
+                title: localDoc.title,
+                content: localDoc.content,
+            });
 
             await request(`/documents/${id}`, {
-                method : 'PUT',
-                body : JSON.stringify({
-                    title : tmepDoc.title,
-                    content : tempDoc.content
-                })
-            })
+                method: 'PUT',
+                body: JSON.stringify(localDoc),
+            });
 
             removeItem(CURRENT_DOC_KEY);
         } else {
             this.setState({
                 ...this.state,
-                doc: {
-                    title,
-                    content,
-                },
+                title: serverDoc.title,
+                content: serverDoc.content,
             });
         }
     };

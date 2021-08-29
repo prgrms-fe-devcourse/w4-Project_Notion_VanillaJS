@@ -1,9 +1,11 @@
+import { getItem } from './storage.js';
+
 export default function Editor({
     $target,
     initialState = {
-        title: '',
-        content: '',
-    },
+            mainTitle : '',
+            mainContent : ''
+        },
     onEditing
 }) {
     const $editor = document.createElement('div');
@@ -17,38 +19,44 @@ export default function Editor({
         this.render();
     };
 
-    this.render = () => {
-      const { title, content } = this.state;
+    let isInit = false;
 
-      $editor.innerHTML =
-      `
-      <div class='title-container'>
-      <label for='title'>title</label>
-      <input id='title' value='${title}'>
-      </div>
-      <div class='content-container'>
-      <div class='subject'>content</div>
-      <div class='content' contentEditable='true'>${content ? content : ''}</div>
-      </div>
-      `
+    this.render = () => {
+      if(!isInit) {
+          const { title, content } = this.state;
+    
+          $editor.innerHTML =
+          `
+          <div class='title-container'>
+          <label for='title'>title</label>
+          <input id='title' value='${title}'>
+          </div>
+          <div class='content-container'>
+          <div class='subject'>content</div>
+          <div class='content' contentEditable='true'>${content ? content : ''}</div>
+          </div>
+          `
+        isInit = true;
+      }
     };
 
     $editor.addEventListener('keyup', e => {
         const { target } = e;
         if(target.className === 'content') {
-            const nextDoc = {
-                    ...this.state,
-                    content : target.textContent
+            const nextState = {
+                        ...this.state,
+                        content : target.textContent
             }
-            onEditing(nextDoc);
+
+            this.setState(nextState);
+            onEditing(nextState);
         } else if(target.tagName ==='INPUT') {
-            const nextDoc = {
+            const nextState = {
                 ...this.state,
                 title : target.value
             }
-            onEditing(nextDoc);
+            this.setState(nextState);
+            onEditing(nextState);
         }
     })
-
-    this.render();
 }

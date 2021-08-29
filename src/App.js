@@ -1,6 +1,7 @@
 import DocsListPage from './DocsListPage.js';
 import DocEditPage from './DocEditPage.js';
 import { initRouter } from './router.js';
+import { request } from './api.js';
 
 
 export default function App({ $target }) {
@@ -15,13 +16,23 @@ export default function App({ $target }) {
     });
 
 
-    this.route = () => {
+    this.route = async () => {
+        console.log('GET')
+        console.log(await request(`/documents`, {
+            method: 'GET'
+        }))
+
+        console.log('GET2');
+        console.log(await request(`/documents/1214`, {
+            method: 'GET'
+        }))
+
         const { pathname } = window.location;
 
         if (pathname.indexOf('/documents/') === 0) {
+            docEditPage.innerHTML = ``;
             const [, , id] = pathname.split('/');
-            console.log('onRoute실행 후',id);
-            docEditPage.setState({id, doc : {title : '', content : ''}})
+            docEditPage.setState({id})
         }
     };
 
