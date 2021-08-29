@@ -13,10 +13,7 @@ const Component = class {
   }
 
   setState(newState) {
-    this.state = {
-      ...this.state,
-      ...newState
-    }
+    this.state = newState;
     this.render();
   }
 
