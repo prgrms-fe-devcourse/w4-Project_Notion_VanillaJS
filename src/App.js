@@ -17,16 +17,6 @@ export default function App({ $target }) {
 
 
     this.route = async () => {
-        console.log('GET')
-        console.log(await request(`/documents`, {
-            method: 'GET'
-        }))
-
-        console.log('GET2');
-        console.log(await request(`/documents/1214`, {
-            method: 'GET'
-        }))
-
         const { pathname } = window.location;
 
         if (pathname.indexOf('/documents/') === 0) {
