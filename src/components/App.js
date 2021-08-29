@@ -24,32 +24,35 @@ export default function App({ $target }) {
     content: '',
   }
 
-  this.setState = (nextState) => {
-    this.state = nextState
-    const { documents, selectedDocumentId, title, content } = this.state
-    console.log(documents)
-    sidebar.setState(documents)
+  this.setState = async (nextState) => {
+    if (this.state.selectedDocumentId !== nextState.selectedDocumentId) {
+      const selectedDocument = await requestGET(
+        `/documents/${nextState.selectedDocumentId}`,
+      )
 
-    editor.setState({
-      title,
-      content,
-      selectedDocumentId,
-    })
+      const { id, title, content } = selectedDocument
+      editor.setState({
+        title,
+        content,
+        selectedDocumentId: id,
+      })
+    }
+
+    this.state = nextState
+    const { documents } = this.state
+
+    sidebar.setState(documents)
   }
 
   const sidebar = new Sidebar({
     $target,
     initialState: this.state.documents,
     onDocumentClick: async (selectedDocumentId) => {
-      const selectedDocument = await requestGET(
-        `/documents/${selectedDocumentId}`,
-      )
+      history.pushState(null, null, `/documents/${selectedDocumentId}`)
 
       this.setState({
         ...this.state,
         selectedDocumentId,
-        title: selectedDocument.title,
-        content: selectedDocument.content,
       })
     },
     onAddDocument: async (document) => {
@@ -60,8 +63,6 @@ export default function App({ $target }) {
       this.setState({
         ...this.state,
         selectedDocumentId: createdDocument.id,
-        title: createdDocument.title,
-        content: createdDocument.content,
       })
 
       history.replaceState(null, null, `/documents/${createdDocument.id}`)
@@ -88,8 +89,6 @@ export default function App({ $target }) {
       this.setState({
         ...this.state,
         selectedDocumentId: id,
-        title,
-        content,
       })
       await fetchDocuments()
     },

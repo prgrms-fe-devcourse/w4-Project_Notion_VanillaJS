@@ -1,4 +1,4 @@
-import { requestGET, requestPUT } from '../../utils/api.js'
+const DOCUMENT_NOT_SELECTED_TEXT = '선택된 문서가 없습니다.'
 
 const EDITOR_NAMES = {
   TITLE: 'title',
@@ -19,11 +19,13 @@ export default function Editor({ $target, initialState, onEdit }) {
   }
 
   this.render = () => {
-    const { title, content } = this.state
-    $editor.innerHTML = `
+    const { selectedDocumentId, title, content } = this.state
+    $editor.innerHTML = selectedDocumentId
+      ? `
       <input name="${EDITOR_NAMES.TITLE}" type="text" value="${title}"/>
       <textarea name="${EDITOR_NAMES.CONTENT}">${content} </textarea>
     `
+      : DOCUMENT_NOT_SELECTED_TEXT
   }
 
   const init = async () => {
