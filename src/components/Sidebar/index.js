@@ -59,6 +59,7 @@ export default function Sidebar({
   }
 
   const init = async () => {
+    let timer = null
     $sidebar.addEventListener('click', async (e) => {
       const { className } = e.target
       if (className) {
@@ -69,21 +70,25 @@ export default function Sidebar({
             break
 
           case SIDEBAR_CLASSES.DOCUMENT_ADD_BUTTON: {
-            const $li = e.target.closest(`.${SIDEBAR_CLASSES.DOCUMENT}`)
-            let parent = null
-
-            if ($li) {
-              const { id } = $li.dataset
-              parent = id
+            if (timer) {
+              clearTimeout(timer)
             }
+            timer = setTimeout(() => {
+              const $li = e.target.closest(`.${SIDEBAR_CLASSES.DOCUMENT}`)
+              let parent = null
 
-            const document = {
-              title: 'Untitled',
-              parent,
-            }
+              if ($li) {
+                const { id } = $li.dataset
+                parent = id
+              }
 
-            onAddDocument(document)
+              const document = {
+                title: 'Untitled',
+                parent,
+              }
 
+              onAddDocument(document)
+            }, 300)
             break
           }
 

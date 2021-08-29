@@ -1,4 +1,9 @@
-import { requestDELETE, requestGET, requestPOST } from '../utils/api.js'
+import {
+  requestDELETE,
+  requestGET,
+  requestPOST,
+  requestPUT,
+} from '../utils/api.js'
 import Editor from './Editor/index.js'
 import Sidebar from './Sidebar/index.js'
 
@@ -21,9 +26,8 @@ export default function App({ $target }) {
 
   this.setState = (nextState) => {
     this.state = nextState
-
     const { documents, selectedDocumentId, title, content } = this.state
-
+    console.log(documents)
     sidebar.setState(documents)
 
     editor.setState({
@@ -77,6 +81,17 @@ export default function App({ $target }) {
       selectedDocumentId: this.state.selectedDocumentId,
       title: 'Untitled',
       content: '',
+    },
+    onEdit: async (id, document) => {
+      await requestPUT(`/documents/${id}`, document)
+      const { title, content } = document
+      this.setState({
+        ...this.state,
+        selectedDocumentId: id,
+        title,
+        content,
+      })
+      await fetchDocuments()
     },
   })
 

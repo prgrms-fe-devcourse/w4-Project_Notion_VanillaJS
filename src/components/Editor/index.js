@@ -5,7 +5,7 @@ const EDITOR_NAMES = {
   CONTENT: 'content',
 }
 
-export default function Editor({ $target, initialState }) {
+export default function Editor({ $target, initialState, onEdit }) {
   const $editor = document.createElement('div')
   $editor.className = 'Editor'
 
@@ -27,41 +27,32 @@ export default function Editor({ $target, initialState }) {
   }
 
   const init = async () => {
-    $editor.addEventListener('keyup', async (e) => {
-      const { name, value } = e.target
-      if (name) {
-        switch (name) {
-          case EDITOR_NAMES.TITLE:
-            this.state.title = value
-            // localStorage, setState
-            break
-          case EDITOR_NAMES.CONTENT:
-            this.state.content = value
-            //localStorage setSTate
-            break
-          default:
-            break
-        }
-
-        const { selectedDocumentId, title, content } = this.state
-        await requestPUT(`/documents/${selectedDocumentId}`, {
-          title,
-          content,
-        })
+    let timer = null
+    $editor.addEventListener('keyup', (e) => {
+      if (timer) {
+        clearTimeout(timer)
       }
+      timer = setTimeout(async () => {
+        const { name, value } = e.target
+        if (name) {
+          switch (name) {
+            case EDITOR_NAMES.TITLE:
+              this.state.title = value
+              // localStorage, setState
+              break
+
+            case EDITOR_NAMES.CONTENT:
+              this.state.content = value
+              //localStorage setSTate
+              break
+          }
+
+          const { selectedDocumentId, title, content } = this.state
+
+          onEdit(selectedDocumentId, { title, content })
+        }
+      }, 2000)
     })
-
-    const { selectedDocumentId } = this.state
-    if (selectedDocumentId) {
-      const selectedDocument = await requestGET(
-        `documents/${selectedDocumentId}`,
-      )
-
-      this.setState({
-        ...this.state,
-        selectedDocument,
-      })
-    }
   }
 
   init()
