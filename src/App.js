@@ -11,9 +11,12 @@ export default function App($target, initialState) {
 		initialState: this.state,
 		onClick: {
 			getDocument: async id => {
-				document.querySelector('.selected')?.classList.remove('selected');
-				document.querySelector(`[data-id="${id}"]`)?.classList.add('selected');
+				$('.selected')?.classList.remove('selected');
+				$(`[data-id="${id}"] > .notion-document`)?.classList.add('selected');
 				editor.setState(await getDocuments(id));
+			},
+			createDocument: async id => {
+				console.log($(`[data-id="${id}"]`));
 			},
 		},
 	});
