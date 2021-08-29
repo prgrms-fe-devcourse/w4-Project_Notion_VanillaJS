@@ -3,30 +3,32 @@ import { getItem } from './storage.js';
 export default function Editor({
     $target,
     initialState = {
-            mainTitle : '',
-            mainContent : ''
-        },
-    onEditing
+        mainTitle: '',
+        mainContent: '',
+    },
+    onEditing,
 }) {
     const $editor = document.createElement('div');
-    $editor.className = 'editor'
+    $editor.className = 'editor';
     $target.appendChild($editor);
 
     this.state = initialState;
+    let tempState = {
+        title : '',
+        content : ''
+    }
 
     this.setState = (nextState) => {
         this.state = nextState;
+        tempState = {...this.state};
         this.render();
     };
 
-    let isInit = false;
 
     this.render = () => {
-      if(!isInit) {
-          const { title, content } = this.state;
-    
-          $editor.innerHTML =
-          `
+        const { title, content } = this.state;
+
+        $editor.innerHTML = `
           <div class='title-container'>
           <label for='title'>title</label>
           <input id='title' value='${title}'>
@@ -35,28 +37,27 @@ export default function Editor({
           <div class='subject'>content</div>
           <div class='content' contentEditable='true'>${content ? content : ''}</div>
           </div>
-          `
-        isInit = true;
-      }
+          `;
     };
 
-    $editor.addEventListener('keyup', e => {
+    $editor.addEventListener('keyup', (e) => {
         const { target } = e;
-        if(target.className === 'content') {
-            const nextState = {
-                        ...this.state,
-                        content : target.textContent
-            }
+        if (target.className === 'content') {
+            tempState = {
+                ...tempState,
+                content: target.textContent,
+            };
 
-            this.setState(nextState);
-            onEditing(nextState);
-        } else if(target.tagName ==='INPUT') {
-            const nextState = {
-                ...this.state,
-                title : target.value
-            }
-            this.setState(nextState);
-            onEditing(nextState);
+            // this.setState(nextState);
+            onEditing(tempState);
+        } else if (target.tagName === 'INPUT') {
+            tempState = {
+                ...tempState,
+                title: target.value,
+            };
+
+            // this.setState(nextState);
+            onEditing(tempState);
         }
-    })
+    });
 }

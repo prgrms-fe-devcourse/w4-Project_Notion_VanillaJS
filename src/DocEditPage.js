@@ -22,7 +22,7 @@ export default function DocEditPage({
 
     let timer = null;
 
-    let CURRENT_DOC_KEY = `current-doc-${this.state.id}`;
+    const keyBy = id => `current-doc-${id}`;
 
     const editor = new Editor({
         $target: $docEditPage,
@@ -36,31 +36,27 @@ export default function DocEditPage({
             }
 
             // 2초에 한번꼴로 로컬스토리지에 저장
-            timer = setTimeout(() => {
-                setItem(CURRENT_DOC_KEY, {
+            timer = (id => {setTimeout(() => {
+                setItem(keyBy(id), {
                     ...nextDoc,
                     savedTime: new Date(),
                 });
-            }, 2000);
+            }, 1000)})(this.state.id);
 
             // 10초에 한번꼴로 서버에 저장
-            setTimeout(async () => {
-                await request(`/documents/${this.state.id}`, {
+            (id=>{setTimeout(async () => {
+                await request(`/documents/${id}`, {
                     method: 'PUT',
                     body: JSON.stringify(nextDoc),
                 });
 
-                this.setState({
-                    ...this.state,
-                    ...nextDoc,
-                });
-                removeItem(CURRENT_DOC_KEY);
-            }, 10000);
+                removeItem(keyBy(id));
+            }, 3000)})(this.state.id);
         },
     });
 
     this.setState = async (nextState) => {
-        // 해당 Doc에 처음 접근하는 경우, setState와 nextState의 무한루프 형성 방지를 위한 조건문
+        // App을 통해서 setState를 하는 경우, fetchDoc은 필수 진행
         if(!nextState.title && !nextState.content) {
             this.state = nextState;
             await fetchDoc();
@@ -68,7 +64,6 @@ export default function DocEditPage({
         }
 
         this.state = nextState;
-
         editor.setState({
             title: this.state.title,
             content: this.state.content,
@@ -87,7 +82,7 @@ export default function DocEditPage({
             method: 'GET',
         });
 
-        const localDoc = getItem(CURRENT_DOC_KEY, {
+        const localDoc = getItem(keyBy(id), {
             title: '',
             content: '',
         });
@@ -103,7 +98,7 @@ export default function DocEditPage({
                 body: JSON.stringify(localDoc),
             });
 
-            removeItem(CURRENT_DOC_KEY);
+            removeItem(keyBy(id));
         } else {
             this.setState({
                 ...this.state,
