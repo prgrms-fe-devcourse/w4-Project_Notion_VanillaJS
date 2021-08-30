@@ -1,0 +1,184 @@
+@import "./reset.css";
+
+*{
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+#app{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(255, 253, 248);
+    display: grid;
+    grid-template-columns:300px 1fr;
+    grid-template-areas: 
+    "list-page content";
+
+}
+
+.list-page{
+    grid-area: list-page;
+    background-color: rgb(247, 239, 229);
+
+}
+
+.list-page__documents-list{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    font-size: 20px;
+
+}
+.documents-list__wrapper{
+    font-size: 30px;
+    display: flex;
+}
+.documents-list__wrapper > * {
+    margin-right: 15px;
+}
+.documents-list__wrapper > button{
+    font-size: 30px;
+}
+
+
+.documents-list__ul>*{
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.documents-list__ul .hidden {
+     visibility: hidden; 
+     height: 0; 
+     width: 0; 
+}
+
+
+
+.documents-list__li {
+    width: max-content;
+    padding: 5px 10px ;
+    display: grid;
+    grid-template-columns: 30px 1fr 30px;
+    grid-template-areas: "toggle title button";
+
+
+}
+.documents-list__li:hover{
+    background-color: rgb(252, 248, 235);
+    border-radius: 10px;
+}
+.documents-list__toggle{
+    outline: none;
+    border: none;
+    background-color: rgba(127, 255, 212, 0);
+    cursor: pointer;
+    grid-area: toggle;
+}
+.documents-list__toggle:hover{
+    opacity: 0.9;
+    color: rgb(59, 54, 37);
+}
+.documents-list__toggle:active{
+    transform: rotate(0.5turn)
+
+}
+.documents-list__toggle.toggled{
+    transform: rotate(0.5turn)
+
+}
+.documents-list__toggle.toggled:active{
+    transform:rotate(0);
+}
+
+.documents-list__title{
+    grid-area:title;
+}
+
+.documents-list__li button{
+    opacity: 0;
+    transition: transform 0.2s ease;
+}
+.documents-list__li:hover button{
+    opacity: 0.4;    
+}
+.documents-list__li:hover button:hover{
+    opacity: 1;
+}
+.create-document-button{
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(253, 253, 253, 0);
+    cursor:pointer;
+    text-align: center;
+    font-weight: 800;
+    display: inline-block;
+    opacity: 0.4;
+    grid-area: button;
+}
+.create-document-button:hover{
+    opacity: 1;
+}
+.selected  {
+    font-weight: 800;
+    background-color: rgb(252, 248, 235);
+    border-radius: 10px;
+
+}
+.selected >*{
+    color:initial;
+    font-weight: 700;
+}
+
+
+
+.content-page{
+    grid-area: content;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.content-page__editor{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    width: 100%;
+
+
+}
+.content-page__editor>*{
+    margin-bottom: 10px;
+}
+
+.content-page__editor input[name=title]{
+    height: 100px;
+    width: 100%;
+    font-size: x-large;
+    border: none;
+    background-color: inherit;
+    border-bottom: 1px solid rgb(243, 239, 230);
+    border-radius: 10px;
+
+    
+
+}
+.content-page__editor input:focus{
+    outline: none;
+    caret-color: rgb(177, 172, 128);
+
+}
+
+.content-page__editor textarea{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0);
+    border:none;
+    font-size: large;
+    font-weight: 400;
+    resize:none;
+    caret-color: rgb(177, 172, 128);
+}
+.content-page__editor textarea:focus{
+    outline: none;
+}

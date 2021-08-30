@@ -33,107 +33,48 @@
 
 header에 해당 값이 누락이 되면 API 호출에 실패합니다.
 
-### Root Documents 가져오기
+## 구현 리스트
 
-전체 Document의 구조를 트리 형태로 가져옵니다.
+- [x] api.js 작성
+  - [x] Root Document 가져오기
+  - [x] Document id 로 해당 Document content, 하위 Document 목록 가져오기
+  - [x] Document 생성하기
+  - [x] 특정 Document 수정하기
+  - [x] 특정 Document 삭제하기
+- [x] route.js 작성
+  - [x] rootPage
+  - [x] documentPage
+- [ ] Component 작성
 
-> https://kdt.roto.codes/documents - GET
+  - [ ] App
+    - [ ] ListPage
+      - (Favorites)
+      - [ ] Documents
+    - [ ] ContentPage
+      - [x] Editor
+        - [x] Title
+        - [x] Content
+      - [ ] 하위 Documents
 
-Response의 형태는 아래와 같습니다.
-```
-[
-  {
-    "id": 1, // Document id
-    "title": "노션을 만들자", // Document title
-    "documents": [
-      {
-        "id": 2,
-        "title": "블라블라",
-        "documents": [
-          {
-            "id": 3,
-            "title": "함냐함냐",
-            "documents": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "title": "hello!",
-    "documents": []
-  }
-]
-```
+- 기능 구현
 
-### 특정 Document의 content 조회하기
+  - [x] Document List에서 Document 클릭시 Content 렌더링
+  - [ ] 선택한 Document 하위 Document 있을경우 트리 형태로 아래 목록 렌더링
+    - [x] 모든 하위 Document 렌더링
+    - [x] 선택했을때만 Document 렌더링
+  - [x] Document 생성하고 편집화면으로 넘김
+  - [x] 기록할때마다 자동 저장
+  - [x] 제목 수정시 ListPage도 state변경, 반영
+  - [ ] div , contentEditable을 통해 다양한 기능의 에디터 만들기
+  - [ ] 편집기 내에서 하위 Document 링크 렌더링
+  - [ ] 편집기 내에서 다른 Document name을 적을 시 자동으로 해당 Document의 편집 페이지로 이동하는 링크 기능 추가
+  - [x] document 삭제기능
+  - [ ] XSS 공격 방지
+  - [ ] 하위 Document 옮기기 기능
 
-> https://kdt.roto.codes/documents/{documentId} - GET
-
-Response의 형태는 아래와 같습니다.
-
-```
-{
-  "id": 1,
-  "title": "노션을 만들자",
-  "content": "즐거운 자바스크립트의 세계!",
-  "documents": [
-    {
-      "id": 2,
-      "title": "",
-      "createdAt": "",
-      "updatedAt": ""
-    }
-  ],
-  "createdAt": "",
-  "updatedAt": ""
-}
-```
-
-### Document 생성하기
-
-> https://kdt.roto.codes/documents - POST
-
-request body에 JSON 형태로 아래처럼 값을 넣어야 합니다.
-
-```json
-{
-  "title": "문서 제목",
-  // parent가 null이면 루트 Document가 됩니다.
-  // 특정 Document에 속하게 하려면 parent에
-  // 해당 Document id를 넣으세요.
-  "parent": null
-}
-```
-
-생성에 성공하면 reponse에 아래처럼 생성된 결과를 내려줍니다.
-
-```json
-{
-  "id": 6,
-  "title": "문서 제목",
-  "createdAt": "생성된 날짜",
-  "updatedAt": "수정된 날짜"
-}
-```
-
-### 특정 Document 수정하기
-
-> https://kdt.roto.codes/documents/{documentId} - PUT
-
-request body에 수정할 내용을 JSON 형태로 넣으면 됩니다.
-```json
-{
-  "title": "제목 수정",
-  "content": "내용 수정"
-}
-```
-
-### 특정 Document 삭제하기
-
-> https://kdt.roto.codes/documents/{documentId} - DELETE
-
-documentId에 해당하는 Document를 삭제합니다.
-
-만약 하위 documents가 있는 document를 삭제한 경우, 하위 documents 등은 상위 document가 없어지므로 root document로 인식됩니다.
+- 다음에 할일
+  - [x] Document를 클릭했을때, DocumentsList가 새로 렌더링되며 토글 된 Tree가 사라지는 현상. - 토글을 시켰을때, 토글된 id를 state에서 기억한다. - tree 렌더링을 실행하고, 토글된 id에 한해서 내부 Tree를 렌더링한다.
+  - [x] 상위 Document를 삭제했을때, 하위 Document가 삭제 되지 않고 root Document로 이동되는 문제
+    - [x] 삭제 진행시, 해당하위 document들을 순회하며 삭제요청
+  - [ ] 새로고침시, 선택된 Document 표시 안되는 문제
+  - [ ] 커서 올릴때, 하위 문서의 버튼도 보이게 되는 문제 (CSS)
