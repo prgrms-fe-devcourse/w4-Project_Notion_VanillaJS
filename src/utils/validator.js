@@ -42,10 +42,7 @@ export const isLessThanGivenLength = (value, length) => {
 };
 
 export const checkUseConstructorFunction = (newTarget, constructorFunction) => {
-  if (
-    newTarget !== constructorFunction ||
-    !isCorrectType(constructorFunction, 'function')
-  ) {
+  if (newTarget !== constructorFunction || !isCorrectType(constructorFunction, 'function')) {
     throw new Error(ERROR_MSG_IS_CONSTRUCTOR_FUNCTION);
   }
 };
@@ -64,8 +61,6 @@ export const checkIsEmptyThrowError = value => {
 
 export const checkCorrectTypeThrowError = (value, type) => {
   if (!isCorrectType(value, type)) {
-    throw new Error(
-      `${ERROR_MSG_INVALID_TYPE} ${typeof value} / ${ERROR_MSG_EXPECT_TYPE} ${type}`
-    );
+    throw new Error(`${ERROR_MSG_INVALID_TYPE} ${typeof value} / ${ERROR_MSG_EXPECT_TYPE} ${type}`);
   }
 };
