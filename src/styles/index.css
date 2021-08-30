@@ -1,0 +1,182 @@
+@import url('normalize.css');
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  width: 100vw;
+  height: 100vh;
+}
+
+.dimmed {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.modal {
+  min-width: 500px;
+  width: 50%;
+  height: 60px;
+  z-index: 10;
+  background-color: white;
+}
+
+.modal input {
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+  outline: none;
+  border: none;
+  padding: 5px 10px;
+}
+
+.document-list {
+  display: flex;
+  flex-direction: column;
+  color: gray;
+}
+
+.document-list .message-container {
+  position: absolute;
+  top: 50%;
+  align-self: center;
+}
+
+.document-tree,
+.document-tree ul {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.document-tree li {
+  position: relative;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.document-tree li,
+.document-tree label {
+  cursor: pointer;
+}
+
+.document-tree .button-group {
+  display: inline;
+  position: absolute;
+  right: 10px;
+}
+
+.document-tree .button-group i {
+  padding: 0 2px;
+  color: #cdccc9;
+}
+
+.document-tree .button-group i:hover {
+  color: gray;
+}
+
+.document-tree label::before {
+  content: '📂  ';
+}
+
+.document-tree label.last-node::before {
+  content: '📄  ';
+}
+
+.document-tree input[type='checkbox'] {
+  display: none;
+}
+
+.document-tree input[type='checkbox']:checked ~ ul {
+  display: none;
+}
+
+.document-tree input[type='checkbox']:checked + label::before {
+  content: '📁  ';
+}
+
+.document-tree input[type='checkbox']:checked + label.last-node::before {
+  content: '📄  ';
+}
+
+.edit-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.document-title {
+  width: 70%;
+  height: 70px;
+  font-size: 48px;
+  border: 0;
+  outline: none;
+}
+
+.document-editor {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  height: 60%;
+  margin-top: 10px;
+  font-size: 24px;
+  border-radius: 0;
+  border: 1px solid #93938c;
+  outline: none;
+  resize: none;
+}
+
+.documents-page {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f6f3;
+  overflow-y: auto;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px;
+  height: 100%;
+}
+
+.logo-image {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  align-self: flex-start;
+}
+
+.root-document-add-button {
+  align-self: center;
+  width: 100%;
+  height: 38px;
+  font-size: 14px;
+  margin-left: 20px;
+  color: gray;
+  border: 1px solid gray;
+}
+
+.root-document-add-button:hover {
+  color: white;
+  background-color: gray;
+}
+
+.display-flex {
+  display: flex;
+}
