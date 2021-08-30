@@ -49,10 +49,8 @@ export async function createDocument(parent = null) {
       method: "POST",
       headers: { "x-username": userName, "Content-Type": "application/json" },
       body: JSON.stringify({
-        // prettier-ignore
-        "title": title,
-        // prettier-ignore
-        "parent": parent,
+        title,
+        parent,
       }),
     });
   } catch (e) {

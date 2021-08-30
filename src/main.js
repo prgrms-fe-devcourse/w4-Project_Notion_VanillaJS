@@ -1,8 +1,8 @@
 import App from "./App.js";
 
 function main() {
-  this.$target = document.getElementById("App");
-  new App({ $target: this.$target });
+  const $target = document.getElementById("App");
+  new App({ $target });
 }
 
-new main();
+main();

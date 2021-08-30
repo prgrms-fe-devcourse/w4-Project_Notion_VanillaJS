@@ -1,4 +1,4 @@
-import Nav from "./nav.js";
+import Nav from "./Nav.js";
 import {
   getDocuments,
   getDocumentById,
@@ -6,8 +6,16 @@ import {
   createDocument,
   deleteDocument,
 } from "./api.js";
-import EditorPage from "./editorPage.js";
+import EditorPage from "./EditorPage.js";
+
 export default function App({ $target }) {
+  const removeStorage = async (id) => {
+    const targetDocument = await getDocumentById(id);
+    const childDocuemnts = targetDocument.documents;
+    childDocuemnts.forEach((document) => {
+      window.localStorage.removeItem(document.id);
+    });
+  };
   //문서를 지우는 함수
   const onRemove = async (id) => {
     const currentPage = window.location.pathname.substr(1);
@@ -15,6 +23,7 @@ export default function App({ $target }) {
     const intenedRemoveDocument = await getDocumentById(id);
     const hasDocumentChild = intenedRemoveDocument.documents.length;
     if (hasDocumentChild) {
+      removeStorage(id);
       if (!confirm("하위 문서가 존재하는 문서입니다. 삭제하시겠습니까?"))
         return;
     }
@@ -23,7 +32,6 @@ export default function App({ $target }) {
     updateNav();
     if (isCurrentPageDeleted) history.replaceState(null, null, "/");
   };
-
   const onSelecte = (id) => {
     history.pushState(null, null, id);
     fetchDocumentByUrl();
@@ -75,6 +83,7 @@ export default function App({ $target }) {
 
   const updateNav = async () => {
     const documents = await getDocuments();
+    console.log(documents);
     nav.setState(documents);
   };
 

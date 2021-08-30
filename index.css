@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 button {
@@ -68,4 +69,12 @@ nav * {
 button.new-document {
   width: 25%;
   margin-left: 40px;
+}
+
+ul.hide {
+  display: none;
+}
+
+ul::before {
+  content: "\25B8";
 }
