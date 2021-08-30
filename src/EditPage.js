@@ -29,7 +29,7 @@ export default function EditPage({ $target, initialState }) {
 		$editContent.innerHTML = /* html */`
 		
     <textarea rows="10" cols="100">
-      ${documentContent}
+      ${documentContent===null?'':documentContent}
       
     </textarea>
     

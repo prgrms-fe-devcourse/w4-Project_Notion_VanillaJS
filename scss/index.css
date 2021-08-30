@@ -2,21 +2,40 @@
   padding: 0;
   list-style: none;
   position: relative;
+  width: 95%;
   left: 10px;
+  overflow: hidden;
 }
 .doc-row {
   position: relative;
   list-style: none;
-  width: auto;
-  padding-left: 10px;
-  margin: 5px 0 5px 0;
+  padding: 3px 0 3px 0;
 }
 .doc-row:hover {
   cursor: pointer;
   background-color: whitesmoke;
 }
-.doc-row:hover > .plus-button {
-  visibility: visible;
+.doc-carot {
+  padding: 5px;
+}
+.doc-plusButton, .doc-delButton {
+  position: absolute;
+  right: 5px;
+  padding: 5px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: none;
+  color: #c7c4c4;
+  font-weight: bolder;
+}
+.doc-plusButton:hover, .doc-delButton:hover {
+  background-color: #bab7b7;
+  color: black;
+  border-radius: 5px;
+}
+.doc-delButton {
+  right: 27px;
 }
 
 #page {
@@ -37,26 +56,6 @@
   flex-grow: 2;
   height: 100%;
   margin-right: 2px;
-}
-
-.plus-button {
-  position: absolute;
-  right: 7px;
-  border: 1px solid black;
-  border-radius: 4px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  font-weight: bolder;
-  visibility: hidden;
-}
-.plus-button:hover {
-  background-color: gray;
-}
-
-.class-doc-carot {
-  padding: 5px;
 }
 
 .add-page {

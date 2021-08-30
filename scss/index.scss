@@ -4,22 +4,49 @@
     padding: 0;
     list-style: none;
     position: relative;
+    width: 95%;
     left: 10px;
+    overflow: hidden;
   }
   &-row{
     position: relative;
     list-style: none;
-    width: auto;
-    padding-left: 10px;
-    margin: 5px 0 5px 0;
+
+    padding: 3px 0 3px 0;
     &:hover{
       cursor: pointer;
       background-color:whitesmoke;
-      & > .plus-button{
-        visibility: visible;
-      }
+
     }
   }
+  &-carot{
+    padding: 5px;
+    //border: 1px solid black;
+  }
+  &-plusButton,&-delButton{
+    position: absolute;
+    right: 5px;
+    padding: 5px;
+    height: 20px;
+
+    width: 20px;
+    background-color: transparent;
+    border: none;
+    color: #c7c4c4;
+    font-weight: bolder;
+    &:hover{
+      background-color: #bab7b7;
+      color: black;
+      border-radius: 5px;
+    }
+
+  }
+  &-delButton{
+    right: 27px;
+  }
+
+
+
 }
 #page {
   display: flex;
@@ -39,24 +66,22 @@
   margin-right: 2px;
 }
 
-.plus-button {
-  position: absolute;
-  right: 7px;
-  border: 1px solid black;
-  border-radius: 4px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  font-weight: bolder;
-  visibility: hidden;
-  &:hover{
-    background-color: gray;
-  }
-}
-.class-doc-carot{
-  padding:5px
-}
+//.plus-button,.del-button {
+//  position: absolute;
+//  right: 7px;
+//  border: 1px solid black;
+//  border-radius: 4px;
+//  width: 20px;
+//  height: 20px;
+//  line-height: 20px;
+//  text-align: center;
+//  font-weight: bolder;
+//  visibility: hidden;
+//  &:hover{
+//    background-color: gray;
+//  }
+//}
+
 .add-page{
   position: relative;
   left: 15px;

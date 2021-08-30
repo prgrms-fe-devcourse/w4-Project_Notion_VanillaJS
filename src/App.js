@@ -33,17 +33,17 @@ export default function App({ $target, initialState }) {
 			documentTree,
 		},
     onClickTitle:async ($title,_id)=>{
-      // console.log($title)
-      // console.log(` id: ${_id}`)
 
       const doc=await request(`/${_id}`,{
         method:'GET'
       })
+      push(`/${_id}`)
       editPage.setState({
         documentTitle:doc.title,
         documentContent:doc.content,
-
       })
+
+
     },
     onClickPlus:($plusButton)=>{
       console.log($plusButton)
@@ -51,6 +51,22 @@ export default function App({ $target, initialState }) {
 
       const $row=document.querySelector(`#row${_id}`)
       pageGenerator($row,_id)
+    },
+    onClickDel:async ($delButton)=>{
+		  let _id=$delButton.id.substr(6)
+      //del은 response없고 .. request에서 200여부는 체크해주고 보내기 때문에 별도의 확인 불필요
+      await request(`/${_id}`,{
+        method:'DELETE'
+      })
+
+      const documentTree=await request('',{
+        method:'GET'
+      })
+      console.log(documentTree)
+      navigation.setState({
+        documentTree
+      })
+
     },
     onClickAddPage:()=>{pageGenerator($target)}
 	});
