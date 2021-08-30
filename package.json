@@ -1,0 +1,25 @@
+{
+  "name": "notion-clone",
+  "version": "1.0.0",
+  "description": "## 기본 요구사항",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ext js .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prgrms-fe-devcourse/w4-Project_Notion_VanillaJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prgrms-fe-devcourse/w4-Project_Notion_VanillaJS/issues"
+  },
+  "homepage": "https://github.com/prgrms-fe-devcourse/w4-Project_Notion_VanillaJS#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
