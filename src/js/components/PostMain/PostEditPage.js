@@ -1,22 +1,22 @@
-import { getItem, removeItem, setItem } from "../Storage.js";
-import { request } from "../api.js";
-import Editor from "./Editor.js";
+import { getItem, removeItem, setItem } from '../Storage.js'
+import { request } from '../api.js'
+import Editor from './Editor.js'
 
 // PageEdit 페이지의 역할은 무엇일까?
 // 상황에 맞는 Editor를 출력하고, 데이터를 불러와서 보여주는 역할을 수행?
 export default function PostEditPage({ $target, initialState }) {
-  const $page = document.createElement("div");
+  const $page = document.createElement('div')
 
-  this.state = initialState;
+  this.state = initialState
 
-  let postLocalSaveKey = `temp-post-${this.state.postId}`;
+  let postLocalSaveKey = `temp-post-${this.state.postId}`
 
   const post = getItem(postLocalSaveKey, {
-    title: "",
-    content: "",
-  });
+    title: '',
+    content: '',
+  })
 
-  let timer = null;
+  let timer = null
 
   const editor = new Editor({
     $target: $page,
@@ -24,84 +24,84 @@ export default function PostEditPage({ $target, initialState }) {
     onEditing: async (post) => {
       // debounce
       if (timer !== null) {
-        clearTimeout(timer);
+        clearTimeout(timer)
       }
 
       timer = setTimeout(async () => {
         setItem(postLocalSaveKey, {
           ...post,
           tempSaveDate: new Date(),
-        });
-        const isNew = this.state.postId === "new";
+        })
+        const isNew = this.state.postId === 'new'
         if (isNew) {
-          const createdPost = await request("/documents", {
-            method: "POST",
+          const createdPost = await request('/documents', {
+            method: 'POST',
             body: JSON.stringify(post),
-          });
+          })
 
-          history.replaceState(null, null, `/documents/${createdPost.id}`);
-          removeItem(postLocalSaveKey);
+          history.replaceState(null, null, `/documents/${createdPost.id}`)
+          removeItem(postLocalSaveKey)
           this.setState({
             postId: createdPost.id,
-          });
+          })
         } else {
           // 기존에 존재하는 포스트의 경우
           await request(`/documents/${post.id}`, {
-            method: "PUT",
+            method: 'PUT',
             body: JSON.stringify(post),
-          });
-          removeItem(postLocalSaveKey);
+          })
+          removeItem(postLocalSaveKey)
         }
-      }, 1000);
+      }, 1000)
     },
-  });
+  })
 
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
-      this.state = nextState;
-      postLocalSaveKey = `temp-post-${this.state.postId}`;
-      await fetchPost();
-      return;
+      this.state = nextState
+      postLocalSaveKey = `temp-post-${this.state.postId}`
+      await fetchPost()
+      return
     }
 
-    this.state = nextState;
-    this.render();
+    this.state = nextState
+    this.render()
     editor.setState(
       this.state.post || {
-        title: "",
-        content: "",
-      }
-    );
-  };
+        title: '',
+        content: '',
+      },
+    )
+  }
 
   this.render = () => {
-    $target.appendChild($page);
-  };
+    $target.appendChild($page)
+  }
 
   const fetchPost = async () => {
-    const { postId } = this.state;
+    const { postId } = this.state
 
-    if (postId !== "new") {
-      const post = await request(`/documents/${postId}`);
+    if (postId !== 'new') {
+      const post = await request(`/documents/${postId}`)
       const tempPost = getItem(postLocalSaveKey, {
-        title: "",
-        content: "",
-      });
+        title: '',
+        content: '',
+      })
 
       if (tempPost.tempSaveDate && post.created_at < tempPost.tempSaveDate) {
-        if (confirm("저장되지 않은 데이터가 있씁니다. 불러올까요?")) {
+        if (confirm('저장되지 않은 데이터가 있씁니다. 불러올까요?')) {
           this.setState({
             ...this.state,
             post: tempPost,
-          });
-          return;
+          })
+          return
         }
       }
 
       this.setState({
         ...this.state,
         post,
-      });
+      })
     }
-  };
+  }
 }
