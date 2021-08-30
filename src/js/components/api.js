@@ -2,7 +2,6 @@ export const API_END_POINT = "https://kdt.roto.codes";
 
 export const request = async (url, options = {}) => {
   try {
-    console.log(url);
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {

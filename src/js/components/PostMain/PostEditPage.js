@@ -9,9 +9,9 @@ export default function PostEditPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  let TEMP_POST_SAVE_KEY = `temp-post-${this.state.postId}`;
+  let postLocalSaveKey = `temp-post-${this.state.postId}`;
 
-  const post = getItem(TEMP_POST_SAVE_KEY, {
+  const post = getItem(postLocalSaveKey, {
     title: "",
     content: "",
   });
@@ -28,7 +28,7 @@ export default function PostEditPage({ $target, initialState }) {
       }
 
       timer = setTimeout(() => {
-        setItem(TEMP_POST_SAVE_KEY, {
+        setItem(postLocalSaveKey, {
           ...post,
           tempSaveDate: new Date(),
         });
@@ -42,8 +42,14 @@ export default function PostEditPage({ $target, initialState }) {
   });
 
   this.setState = async (nextState) => {
+    if (this.state.postId !== nextState.postId) {
+      this.state = nextState;
+      postLocalSaveKey = `temp-post-${this.state.postId}`;
+      await fetchPost();
+      return;
+    }
+
     this.state = nextState;
-    await fetchPost();
     this.render();
     editor.setState(this.state.post);
   };
@@ -56,7 +62,7 @@ export default function PostEditPage({ $target, initialState }) {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/documents/${postId}`);
+      const post = await request(`/posts/${postId}`);
 
       this.setState({
         ...this.state,

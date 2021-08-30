@@ -15,6 +15,7 @@ export default function PostList({ $target, initialState, onPostClick }) {
   this.createTreeView = (data) => {
     let str = "";
 
+    // 템플릿으로 빼서 사용하는게 좋지 않을까 생각 중.
     for (const key in data) {
       if (data[key].documents.length) {
         str += `<li data-id="${data[key].id}">${
