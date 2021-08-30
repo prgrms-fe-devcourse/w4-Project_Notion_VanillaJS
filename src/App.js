@@ -42,7 +42,12 @@ export default function App({ $target, initialState }) {
         documentTitle:doc.title,
         documentContent:doc.content,
       })
-
+      setItem('meta',{
+        'title':doc.title,
+        'createdAt':doc.createdAt,
+        'updatedAt':doc.updatedAt
+      })
+      setItem('content',doc.content)
 
     },
     onClickPlus:($plusButton)=>{
@@ -50,7 +55,7 @@ export default function App({ $target, initialState }) {
       let _id=$plusButton.id.substr(7) // id(숫자부분)만 추출
 
       const $row=document.querySelector(`#row${_id}`)
-      pageGenerator($row,_id)
+      pageGenerator($row,$plusButton,_id)
     },
     onClickDel:async ($delButton)=>{
 		  let _id=$delButton.id.substr(6)
@@ -62,13 +67,17 @@ export default function App({ $target, initialState }) {
       const documentTree=await request('',{
         method:'GET'
       })
-      console.log(documentTree)
+      // console.log(documentTree)
       navigation.setState({
         documentTree
       })
 
     },
-    onClickAddPage:()=>{pageGenerator($target)}
+    onClickAddPage:()=>{
+		  const $btn=document.querySelector('.add-page')
+      const $navPage=document.querySelector('#nav-page')
+		  pageGenerator($navPage,$btn)
+		}
 	});
 	const editPage = new EditPage({
 		$target: $page,
@@ -78,8 +87,8 @@ export default function App({ $target, initialState }) {
 		},
 	});
 	// 새 페이지 생성 위한 모든 절차 수행 담당
-	const pageGenerator=($target,parent='')=>{
-    const $btn=document.querySelector('.add-page')
+	const pageGenerator=($target,$btn,parent='')=>{
+
     $btn.setAttribute('disabled','disabled')
     const $input=document.createElement('input')
     $input.setAttribute('style','position:relative;left:15px')
@@ -89,8 +98,6 @@ export default function App({ $target, initialState }) {
     $input.onkeydown= async(e)=>{
       if(e.code==='Enter'){
         title=$input.value
-        // console.log('enter '+title)
-
 
         // TODO 1. API에 전송 ..ok
         const res=await request('',{
@@ -136,6 +143,11 @@ export default function App({ $target, initialState }) {
 
         $input.remove()
         $btn.removeAttribute('disabled')
+      }
+      else if(e.code==='Escape'){
+        $input.remove()
+        $btn.removeAttribute('disabled')
+
       }
     }
     $target.appendChild($input)

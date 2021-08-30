@@ -37,6 +37,10 @@
 .doc-delButton {
   right: 27px;
 }
+.doc .add-page {
+  position: relative;
+  left: 15px;
+}
 
 #page {
   display: flex;
@@ -54,13 +58,17 @@
   border: 1px solid black;
   flex-basis: 20%;
   flex-grow: 2;
+  flex-shrink: 0;
   height: 100%;
   margin-right: 2px;
 }
 
-.add-page {
-  position: relative;
-  left: 15px;
+#textarea-title {
+  font-size: 30px;
+  overflow: hidden;
+}
+#textarea-content {
+  overflow: auto;
 }
 
 /*# sourceMappingURL=index.css.map */

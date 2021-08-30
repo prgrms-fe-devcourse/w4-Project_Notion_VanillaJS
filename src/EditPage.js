@@ -24,11 +24,11 @@ export default function EditPage({ $target, initialState }) {
     const {documentTitle,documentContent}=this.state
     // console.log(documentTitle);
     $editTitle.innerHTML=`
-    <textarea cols="100">${documentTitle===undefined?'':documentTitle}</textarea>
+    <textarea rows='1' cols="50" id="textarea-title" placeholder="제목 없음">${documentTitle===undefined?'':documentTitle}</textarea>
     `
 		$editContent.innerHTML = /* html */`
 		
-    <textarea rows="10" cols="100">
+    <textarea rows="100" cols="100" id="textarea-content" placeholder="content">
       ${documentContent===null?'':documentContent}
       
     </textarea>
