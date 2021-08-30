@@ -13,8 +13,6 @@ export default function DocumentList({ $target, inititalState, onClick }) {
         ${documentsIndex.map(document => document.join('')).join('')}
         </ul>
       `;
-
-    $document.addEventListener('click', onClick);
   };
 
   this.orderDocuments = document => {
@@ -39,6 +37,8 @@ export default function DocumentList({ $target, inititalState, onClick }) {
 
     return documentsIndex;
   };
+
+  $document.addEventListener('click', onClick);
 
   this.render();
 }
