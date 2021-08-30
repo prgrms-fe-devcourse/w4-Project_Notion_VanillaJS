@@ -7,14 +7,16 @@ import { getItem, setItem } from "./storage.js";
 
 export default function App({ $target, initialState }) {
   // State , setState
-  //  State : {documents:Array, selectedDocument:{...}, toggledDocuments,Map() }
+  //  State : {documents:Array, selectedDocument:{...}, toggledDocuments:{} , favoriteDocuments:{} }
   this.state = initialState;
 
-  this.setState = (nextState) => {
+  this.setState = (nextState, sendState = true) => {
     this.state = nextState;
-    listPage.setState(this.state);
-    if (this.state.selectedDocument.id) {
-      contentPage.setState(this.state);
+    if (sendState) {
+      listPage.setState(this.state);
+      if (this.state.selectedDocument.id) {
+        contentPage.setState(this.state);
+      }
     }
   };
   // Components
@@ -31,9 +33,15 @@ export default function App({ $target, initialState }) {
       });
       if ($newDocument) {
         const { id } = $newDocument;
-        getRootDocument();
+        if (parent) {
+          toggleDocument(parent, false);
+        }
+        getRootDocument(false);
         await getDocument(id);
       }
+    },
+    onToggleDocument: (id) => {
+      toggleDocument(id);
     },
   });
 
@@ -47,17 +55,32 @@ export default function App({ $target, initialState }) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
+        if (this.state.favoriteDocuments[id]) {
+          const { favoriteDocuments } = this.state;
+          favoriteDocuments[id] = title;
+          this.setState({ ...this.state, favoriteDocuments }, false);
+        }
         updateDocument(id, title, content);
         target.focus();
-        console.log("saved!");
       }, 500);
     },
     onDeleteDocument: async (documentId, isLast) => {
+      const { favoriteDocuments } = this.state;
+      if (favoriteDocuments[documentId]) {
+        console.log("deleting favorite");
+        toggleFavorite(documentId, false);
+      }
       await api.deleteDocumentById(documentId);
       if (isLast) {
         getRootDocument();
         push("/");
       }
+    },
+    onGetDocument: async (id) => {
+      await getDocument(id);
+    },
+    onToggleFavorite: (id) => {
+      toggleFavorite(id);
     },
   });
   // Routing
@@ -82,32 +105,54 @@ export default function App({ $target, initialState }) {
 
   // Functions
 
-  const updateDocument = async (id, title, content) => {
-    await api.updateDocumentContentById(id, { title, content });
-    const documents = await api.getRootDocuments();
-    this.setState({
-      ...this.state,
-      documents,
-      selectedDocument: {
-        ...this.state.selectedDocument,
-        title,
-        content,
-      },
-    });
+  const toggleFavorite = (id, sendState = true) => {
+    const { selectedDocument, favoriteDocuments } = this.state;
+    const { title } = selectedDocument;
+    favoriteDocuments[id]
+      ? delete favoriteDocuments[id]
+      : (favoriteDocuments[id] = title);
+    this.setState({ ...this.state, favoriteDocuments }, sendState);
+    setItem(LOCAL_STORAGE_KEY.FAVORITE_DOCUMENTS, favoriteDocuments);
   };
 
-  const getRootDocument = async () => {
-    const documents = await api.getRootDocuments();
-    this.setState({ ...this.state, documents });
+  const toggleDocument = (id, sendState = true) => {
+    const { toggledDocuments } = this.state;
+    toggledDocuments[id] && sendState
+      ? delete toggledDocuments[id]
+      : (toggledDocuments[id] = true);
+    this.setState({ ...this.state, toggledDocuments }, sendState);
+    setItem(LOCAL_STORAGE_KEY.TOGGLED_DOCUMENTS, toggledDocuments);
   };
-  const getDocument = async (id) => {
+
+  const updateDocument = async (id, title, content, sendState = true) => {
+    await api.updateDocumentContentById(id, { title, content });
+    const documents = await api.getRootDocuments();
+    this.setState(
+      {
+        ...this.state,
+        documents,
+        selectedDocument: {
+          ...this.state.selectedDocument,
+          title,
+          content,
+        },
+      },
+      sendState
+    );
+  };
+
+  const getRootDocument = async (sendState = true) => {
+    const documents = await api.getRootDocuments();
+    this.setState({ ...this.state, documents }, sendState);
+  };
+  const getDocument = async (id, sendState = true) => {
     const selectedDocument = await api.getDocumentContentById(id);
     if (!selectedDocument) {
-      this.setState({ ...this.state, selectedDocument: {} });
+      this.setState({ ...this.state, selectedDocument: {} }, sendState);
       push("/");
       return;
     }
-    this.setState({ ...this.state, selectedDocument });
+    this.setState({ ...this.state, selectedDocument }, sendState);
     push(`/${routeName.document}/${id}`);
   };
 

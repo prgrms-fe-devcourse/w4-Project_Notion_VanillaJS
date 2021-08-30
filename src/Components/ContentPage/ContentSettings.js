@@ -4,12 +4,13 @@ export default function ContentSettings({
   $target,
   initialState,
   onDeleteDocument,
+  onToggleFavorite,
 }) {
   const $settings = document.createElement("div");
   $target.appendChild($settings);
 
   // State, setState
-  //    state :  selectedDocument {id: Number , content: String , documents:Array}
+  //    state :  {selectedDocument {id: Number , content: String , documents:Array}, favoriteDocuments:{}}
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -19,17 +20,27 @@ export default function ContentSettings({
   };
 
   this.render = () => {
-    $settings.innerHTML = `
-        <button class="content-settings_delete">delete this Document</button>
-        `;
+    const { selectedDocument, favoriteDocuments } = this.state;
+    if (selectedDocument.id) {
+      const isFavorite = favoriteDocuments[selectedDocument.id];
+      $settings.innerHTML = `
+          <button class="content-settings__delete">delete this Document</button>
+          <button class="content-settings__favorite-toggle">${
+            isFavorite ? "UnFavorite" : "Favorite"
+          }</button>
+          `;
+    }
   };
 
   // EventHandler
   $settings.addEventListener("click", async (e) => {
     const { target } = e;
-    if (target.classList.contains("content-settings_delete")) {
-      const { id, documents: underDocuments } = this.state;
+    if (target.classList.contains("content-settings__delete")) {
+      const { id, documents: underDocuments } = this.state.selectedDocument;
       await deleteDocuments(id, underDocuments);
+    } else if (target.classList.contains("content-settings__favorite-toggle")) {
+      const { id } = this.state.selectedDocument;
+      onToggleFavorite(id);
     }
   });
 

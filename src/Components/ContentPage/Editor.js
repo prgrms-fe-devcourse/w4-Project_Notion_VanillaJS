@@ -3,6 +3,7 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
   // DOM Create
   const $editor = document.createElement("div");
   $editor.className = "content-page__editor";
+  $target.appendChild($editor);
 
   // State , setState
   // state : selectedDocument
@@ -16,8 +17,6 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
   this.render = () => {
     const { content, createdAt, id, title, documents, updatedAt } = this.state;
     if (!isInit) {
-      $target.appendChild($editor);
-
       $editor.innerHTML = `
         <input type="text" name="title" placeholder="Untitled" value="" />
         <textarea name="content" placeholder="내용을 입력하세요" ></textarea>

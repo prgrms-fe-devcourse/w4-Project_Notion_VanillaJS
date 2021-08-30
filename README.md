@@ -66,11 +66,12 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [x] 기록할때마다 자동 저장
   - [x] 제목 수정시 ListPage도 state변경, 반영
   - [ ] div , contentEditable을 통해 다양한 기능의 에디터 만들기
-  - [ ] 편집기 내에서 하위 Document 링크 렌더링
+  - [x] 편집기 내에서 하위 Document 링크 렌더링
   - [ ] 편집기 내에서 다른 Document name을 적을 시 자동으로 해당 Document의 편집 페이지로 이동하는 링크 기능 추가
   - [x] document 삭제기능
   - [ ] XSS 공격 방지
   - [ ] 하위 Document 옮기기 기능
+  - [x] Favorite Documents
 
 - 다음에 할일
   - [x] Document를 클릭했을때, DocumentsList가 새로 렌더링되며 토글 된 Tree가 사라지는 현상. - 토글을 시켰을때, 토글된 id를 state에서 기억한다. - tree 렌더링을 실행하고, 토글된 id에 한해서 내부 Tree를 렌더링한다.
@@ -79,3 +80,5 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [x] 새로고침시, 선택된 Document 표시 안되는 문제
   - [ ] 커서 올릴때, 하위 문서의 버튼도 보이게 되는 문제 (CSS)
   - [x] State관리를 모두 App.js의 state에서 모아 관리하는 방식으로 변경
+  - [ ] Toggled된 Documents 삭제시 LocalStorage에 dummy-data 쌓이는 문제
+  - [x] Favorite 된 Documents 삭제시 localStorage에 dummy-data 쌓이는 문제

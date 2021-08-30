@@ -179,3 +179,11 @@
 .content-page__editor textarea:focus{
     outline: none;
 }
+
+.link{
+    font-weight: 600;
+    cursor: pointer;
+}
+.link>span:hover{
+    opacity: 0.7;
+}

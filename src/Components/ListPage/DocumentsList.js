@@ -25,7 +25,7 @@ export default function DocumentsList({
 
   // Render
   this.render = () => {
-    console.log("render Documents!");
+    console.log("render Document");
     const { documents } = this.state;
     $documentsList.innerHTML = `
         <div class="documents-list__wrapper">
@@ -45,10 +45,12 @@ export default function DocumentsList({
 
     if (targetClass) {
       if (targetClass.includes("create-document-button")) {
-        $li
-          ? (await onCreateDocument($li.dataset.id),
-            onToggleDocument(parseInt($li.dataset.id)))
-          : await onCreateDocument();
+        if ($li) {
+          const { id } = $li.dataset;
+          await onCreateDocument(parseInt(id));
+        } else {
+          await onCreateDocument();
+        }
       } else if (targetClass.includes("documents-list__toggle")) {
         const { id } = $li.dataset;
         onToggleDocument(parseInt(id));
@@ -74,6 +76,7 @@ export default function DocumentsList({
             class="documents-list__li  ${visible}"
           >
             ${
+              // Toggle Button
               underDocuments.length > 0
                 ? `<button class="documents-list__toggle ${
                     toggledDocuments[id] ? "toggled" : ""
