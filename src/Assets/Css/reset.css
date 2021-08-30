@@ -50,8 +50,8 @@ dl,
 dt,
 dd,
 ol,
-/* ul, */
-/* li, */
+ul,
+li,
 fieldset,
 form,
 label,
@@ -126,4 +126,9 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+button:focus {
+  border: none;
+  outline: none;
 }
