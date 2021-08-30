@@ -1,0 +1,48 @@
+:root {
+  --toggle: 90deg;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+.app {
+  height: 1339px;
+  display: flex;
+}
+
+.notion-sidebar-container {
+  padding-left: 10px;
+  position: relative;
+  width: 218px;
+  background-color: #f7f6f3;
+  height: 1339px;
+}
+.memo {
+  position: relative;
+  width: 500px;
+}
+polygon {
+  box-sizing: border-box;
+  fill: rgba(55, 53, 47, 0.4);
+}
+svg {
+  padding: 5px;
+  width: 0.6875em;
+  height: 0.6875em;
+  display: block;
+  fill: rgba(55, 53, 47, 0.4);
+  flex-shrink: 0;
+  transition: transform 200ms ease-out 0s;
+  transform: rotateZ(var(--toggle));
+  opacity: 1;
+  cursor: pointer;
+}
+
+.sidebar-block {
+  display: flex;
+}
+/* 블록한개 */
+/* 
+{
+  <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;"><div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">기본기 있는 Front end 웹개발자</div></div>
+} */
