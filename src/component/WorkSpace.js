@@ -3,6 +3,7 @@ import { getAllData } from "../util/api.js";
 import Component from "./Component.js";
 import { ToggleTriangle, SidebarEmpty } from "./util/utilComponent.js";
 import { customCreateNode, on, qs, qsAll } from "../util/util.js";
+import { nodeName } from "../util/constant.js";
 class WorkSpace extends Component {
   state;
   constructor(...rest) {
@@ -17,7 +18,6 @@ class WorkSpace extends Component {
   template() {
     const a = this.spaceRender(this.state, 0);
     for (const test of a) {
-      console.log(test, "test");
       this.$target.appendChild(test);
     }
   }
@@ -50,18 +50,24 @@ class WorkSpace extends Component {
     });
   }
   mount() {
-    const toggles = qsAll("svg", this.$target);
-    toggles.forEach((el) =>
-      on(el, "click", (e) => {
-        if (e.currentTarget.classList.length < 1) {
-          e.currentTarget.classList.add("active");
-          e.currentTarget.style.setProperty("--toggle", "180deg");
-        } else {
-          e.currentTarget.classList.remove("active");
-          e.currentTarget.style.setProperty("--toggle", "90deg");
-        }
-      }),
-    );
+    on(this.$target, "click", (e) => {
+      const { nodeName: targetNode } = e.target;
+      if (targetNode == nodeName.POLYGON || targetNode == nodeName.SVG) {
+        handleToggle(e);
+      } else {
+      }
+    });
+
+    const handleToggle = ({ target }) => {
+      const svgNode = target.closest("svg");
+      if (svgNode.classList.length < 1) {
+        svgNode.classList.add("active");
+        svgNode.style.setProperty("--toggle", "180deg");
+      } else {
+        svgNode.classList.remove("active");
+        svgNode.style.setProperty("--toggle", "90deg");
+      }
+    };
   }
 }
 

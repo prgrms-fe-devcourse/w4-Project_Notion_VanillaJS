@@ -1,10 +1,11 @@
 import { NOTION_API } from "./constant.js";
 
-export const getAllData = async () => {
+export const getAllData = async (documentId = "", method = "GET") => {
   try {
-    const res = await fetch(`${NOTION_API}`, {
+    const res = await fetch(`${NOTION_API}/${documentId}`, {
       headers: {
         "x-username": "jinn2u",
+        method,
       },
     });
     if (!res.ok) {
