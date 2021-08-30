@@ -57,6 +57,7 @@ export default function EditorPage({ $target, initialState }) {
     this.state = nextState;
 
     editor.setState({
+      ...editor.state,
       ...this.state,
     });
     this.render();

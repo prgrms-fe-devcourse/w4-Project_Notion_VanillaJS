@@ -16,6 +16,6 @@ export const request = async (url, options = {}) => {
 
     throw new Error('API 호출 오류');
   } catch (e) {
-    alert(e.message);
+    throw new Error(e.message);
   }
 };
