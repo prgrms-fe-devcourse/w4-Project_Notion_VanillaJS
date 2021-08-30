@@ -38,11 +38,24 @@ svg {
   cursor: pointer;
 }
 
-.sidebar-block {
+.notion-sidebar-block {
   display: flex;
+  justify-content: space-between;
 }
-/* 블록한개 */
-/* 
-{
-  <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;"><div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">기본기 있는 Front end 웹개발자</div></div>
-} */
+
+.notion-sidebar-block span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 160px;
+}
+
+button.add {
+  opacity: 0;
+  transition: all 200ms ease-in 0s;
+  border: lightgray;
+  margin-right: 5%;
+}
+button:hover {
+  background-color: darkgray;
+}
