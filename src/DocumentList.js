@@ -1,4 +1,4 @@
-export default function DocumentList({ $target, inititalState, onClcik }) {
+export default function DocumentList({ $target, inititalState, onClick }) {
   this.state = inititalState;
 
   const $document = document.createElement('div');
@@ -13,6 +13,8 @@ export default function DocumentList({ $target, inititalState, onClcik }) {
         ${documentsIndex.map(document => document.join('')).join('')}
         </ul>
       `;
+
+    $document.addEventListener('click', onClick);
   };
 
   this.orderDocuments = document => {
@@ -20,9 +22,10 @@ export default function DocumentList({ $target, inititalState, onClcik }) {
 
     const dfs = (node, level) => {
       documentsIndex.push(
-        `<li data-id="${node.id}"style="padding-left:${10 * level}px;">${
-          node.title
-        }<button>+</button></li>`
+        `<li data-id="${node.id}"style="padding-left:${10 * level}px;">
+        <span>${node.title}</span>
+        <button>+</button>
+        </li>`
       );
 
       if (node.documents.length > 0) {
