@@ -55,7 +55,6 @@ class WorkSpace extends Component {
       if (targetNode == nodeName.POLYGON || targetNode == nodeName.SVG) {
         handleToggle(e);
       } else {
-        console.log("yes");
       }
     });
 
