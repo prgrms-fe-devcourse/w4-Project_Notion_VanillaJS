@@ -13,17 +13,32 @@ export default function App({ $target }) {
 
   const docsPage = new DocsPage({
     $target: $container,
+    onClickDoc: (id) => {
+      this.setState({
+        ...this.state,
+        selectedDoc: {
+          id,
+        },
+      });
+    },
   });
 
   const editorPage = new EditorPage({
     $target: $container,
     initialState: {
-      id: 1,
+      id: '',
     },
   });
 
   this.state = {
-    documents: [],
+    selectedDoc: {
+      id: '',
+    },
+  };
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+    editorPage.setState(this.state.selectedDoc);
   };
 
   this.route = async () => {

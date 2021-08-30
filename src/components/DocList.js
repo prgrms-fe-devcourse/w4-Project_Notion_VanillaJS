@@ -1,4 +1,4 @@
-export default function DocList({ $target, initialState }) {
+export default function DocList({ $target, initialState, onClickDoc }) {
   const $list = document.createElement('div');
   $target.appendChild($list);
 
@@ -26,4 +26,12 @@ export default function DocList({ $target, initialState }) {
   };
 
   this.render();
+
+  $list.addEventListener('click', (e) => {
+    const $li = e.target.closest('li');
+
+    const { id } = $li.dataset;
+
+    onClickDoc(id);
+  });
 }
