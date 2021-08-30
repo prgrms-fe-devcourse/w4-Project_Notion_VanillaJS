@@ -1,3 +1,4 @@
+import { isEmptyArray } from './validator.js';
 import {
   CLASS_NAME_DOCUMENT_ADD_BUTTON,
   CLASS_NAME_DOCUMENT_DELETE_BUTTON,
@@ -7,6 +8,12 @@ import {
   CLASS_NAME_NODE_LABEL,
   CLASS_NAME_DOCUMENT_TREE,
   CLASS_NAME_BUTTON_GROUP,
+  CLASS_NAME_MESSAGE_CONTAINER,
+  CLASS_NAME_LOGO_CONTAINER,
+  MSG_DOCUMENTS_DOES_NOT_EXIST,
+  CLASS_NAME_LOGO_IMAGE,
+  CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON,
+  MSG_ADD_DOCUMENT,
 } from './constants.js';
 
 const makeListTemplate = (id, title, documents, recursive) => {
@@ -61,5 +68,21 @@ export const makeChildDocumentLinkTemplate = list => {
         )
         .join('')}
     </ul>
+  `;
+};
+
+export const makeDocumentList = state => {
+  return `
+    <div class="${CLASS_NAME_LOGO_CONTAINER}">
+      <img class="${CLASS_NAME_LOGO_IMAGE}" src="/src/images/logo.png" alt="logo image" />
+      <button class="${CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON}">
+        <i class="fas fa-book-open fa-md"></i> ${MSG_ADD_DOCUMENT}
+      </button>
+    </div>
+    ${
+      isEmptyArray(state)
+        ? `<div class="${CLASS_NAME_MESSAGE_CONTAINER}">${MSG_DOCUMENTS_DOES_NOT_EXIST}</div>`
+        : `<ul class="${CLASS_NAME_DOCUMENT_TREE}">${makeDocumentTreeTemplate(state)}</ul>`
+    }
   `;
 };

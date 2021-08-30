@@ -1,4 +1,4 @@
-import { makeDocumentTreeTemplate } from '../utils/template.js';
+import { makeDocumentTreeTemplate, makeDocumentList } from '../utils/template.js';
 import { checkCorrectTypeThrowError, checkIsArrayThrowError, isEmptyArray } from '../utils/validator.js';
 import { fetchDeleteDocument } from '../utils/api.js';
 import { movePage } from '../utils/eventListeners.js';
@@ -41,19 +41,7 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
   };
 
   this.render = () => {
-    $documentList.innerHTML = `
-      <div class="${CLASS_NAME_LOGO_CONTAINER}">
-        <img class="${CLASS_NAME_LOGO_IMAGE}" src="/src/images/logo.png" alt="logo image" />
-        <button class="${CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON}">
-          <i class="fas fa-book-open fa-md"></i> ${MSG_ADD_DOCUMENT}
-        </button>
-      </div>
-      ${
-        isEmptyArray(this.state)
-          ? `<div class="${CLASS_NAME_MESSAGE_CONTAINER}">${MSG_DOCUMENTS_DOES_NOT_EXIST}</div>`
-          : `<ul class="${CLASS_NAME_DOCUMENT_TREE}">${makeDocumentTreeTemplate(this.state)}</ul>`
-      }
-    `;
+    $documentList.innerHTML = makeDocumentList(this.state);
   };
 
   let isInit = false;
