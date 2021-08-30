@@ -17,20 +17,26 @@ export default function App({ $target }) {
     });
   };
   //문서를 지우는 함수
+
   const onRemove = async (id) => {
+    const intenedRemoveDocument = document.getElementById(id);
     const currentPage = window.location.pathname.substr(1);
     const isCurrentPageDeleted = parseInt(currentPage) === id;
-    const intenedRemoveDocument = await getDocumentById(id);
-    const hasDocumentChild = intenedRemoveDocument.documents.length;
+    console.log(intenedRemoveDocument.lastChild.tagName);
+    const hasDocumentChild = intenedRemoveDocument.lastChild.tagName === "UL";
     if (hasDocumentChild) {
-      removeStorage(id);
       if (!confirm("하위 문서가 존재하는 문서입니다. 삭제하시겠습니까?"))
         return;
     }
+    removeStorage(id);
+    intenedRemoveDocument.remove();
     await deleteDocument(id);
-    fetchDocumentByUrl();
     updateNav();
-    if (isCurrentPageDeleted) history.replaceState(null, null, "/");
+    if (isCurrentPageDeleted) {
+      history.replaceState(null, null, "/");
+      console.log("delete");
+      fetchDocumentByUrl();
+    }
   };
   const onSelecte = (id) => {
     history.pushState(null, null, id);
@@ -70,7 +76,10 @@ export default function App({ $target }) {
   //URL path에 적힌 id를 이용해서 editorPage 로딩하는 함수
   const fetchDocumentByUrl = async () => {
     const id = window.location.pathname.substr(1);
-    if (!id) return;
+    if (!id) {
+      editorPage.setState();
+      return;
+    }
     const result = await getDocumentById(id);
     if (!result) history.replaceState(null, null, "/");
     editorPage.setState(result);
@@ -83,7 +92,6 @@ export default function App({ $target }) {
 
   const updateNav = async () => {
     const documents = await getDocuments();
-    console.log(documents);
     nav.setState(documents);
   };
 

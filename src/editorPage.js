@@ -4,6 +4,7 @@ export default function EditorPage({
   onSave,
   onRemove,
   onSelecte,
+  onMove,
 }) {
   const $editorPage = document.createElement("div");
   $editorPage.className = "editorPage";
@@ -23,7 +24,7 @@ export default function EditorPage({
     }
     $editorPage.innerHTML = `
         <button class ="delete">삭제</button>
-        <div>문서번호${this.state.id}</div>
+        <div class ="content-id"contenteditable="true">${this.state.id}</div>
         <textarea class= "editor-title">${this.state.title}</textarea>
         <textarea class= "editor-content">${this.state.content}</textarea>
         <div class="child-documents-container"></div>

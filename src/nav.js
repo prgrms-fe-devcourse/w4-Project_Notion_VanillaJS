@@ -14,6 +14,15 @@ export default function Nav({
     });
   };
 
+  const initializeToggle = (id) => {
+    const documents = document.getElementById(id);
+    documents.childNodes.forEach((node) => {
+      if (node.tagName !== "UL") return;
+      node.classList.remove("hide");
+      window.localStorage.removeItem(node.id, node.className);
+    });
+  };
+
   const giveAttribute = (child, ul, addButton, deleteButton) => {
     deleteButton.className = "delete-document";
     deleteButton.textContent = "x";
@@ -42,7 +51,6 @@ export default function Nav({
     $nav.appendChild($documentContainer);
 
     this.makeChildDocuments = (
-      // 문서목록, 부모문서를 입력받아 ul태그로 트리구조로 입력하는 재귀함수
       documents = this.state,
       $parent = $documentContainer
     ) => {
@@ -56,6 +64,7 @@ export default function Nav({
           this.makeChildDocuments(child.documents, ul);
       }
     };
+
     const makeNewDocumentButton = () => {
       const addDocument = document.createElement("button");
       addDocument.className = "new-document";
@@ -68,15 +77,17 @@ export default function Nav({
   };
 
   $nav.addEventListener("click", (e) => {
-    const targetDocumentId = e.target.id; // 문서를 클릭했을때 해당 문서의 아이디를 저장
-    const clickedButton = e.target.className; //버튼의 클래스를 통해 어떤 기능을 하는 버튼인지 확인
-    const targetList = parseInt(e.target.closest("ul").id); // 문서 옆에 버튼을 눌렀을때 해당 문서의 아이디
+    if (e.target.tagName === "NAV") return;
+    const targetDocumentId = e.target.id;
+    const clickedButton = e.target.className;
+    const targetList = parseInt(e.target.closest("ul").id);
     switch (clickedButton) {
       case "delete-document":
         onRemove(targetList);
         break;
       case "new-child-document":
         onCreate(targetList);
+        initializeToggle(targetList);
         break;
       case "new-document":
         onCreate();
