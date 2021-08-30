@@ -1,10 +1,11 @@
-export default function Editor({ $target, initialState, onChange }) {
+export default function Editor({ $target, initialState, onUpdateDocument }) {
   let isInit = false;
   // DOM Create
   const $editor = document.createElement("div");
   $editor.className = "content-page__editor";
 
   // State , setState
+  // state : selectedDocument
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -35,7 +36,7 @@ export default function Editor({ $target, initialState, onChange }) {
       const key = $text.getAttribute("name");
       this.setState({ ...this.state, [key]: value });
       const { id, title, content } = this.state;
-      onChange({ id, title, content });
+      onUpdateDocument([{ id, title, content }, e.target]);
     }
   });
 }

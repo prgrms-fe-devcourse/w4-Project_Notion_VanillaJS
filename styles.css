@@ -118,15 +118,12 @@
     opacity: 1;
 }
 .selected  {
-    font-weight: 800;
+    font-weight: 700;
     background-color: rgb(252, 248, 235);
     border-radius: 10px;
 
 }
-.selected >*{
-    color:initial;
-    font-weight: 700;
-}
+
 
 
 

@@ -76,5 +76,6 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [x] Document를 클릭했을때, DocumentsList가 새로 렌더링되며 토글 된 Tree가 사라지는 현상. - 토글을 시켰을때, 토글된 id를 state에서 기억한다. - tree 렌더링을 실행하고, 토글된 id에 한해서 내부 Tree를 렌더링한다.
   - [x] 상위 Document를 삭제했을때, 하위 Document가 삭제 되지 않고 root Document로 이동되는 문제
     - [x] 삭제 진행시, 해당하위 document들을 순회하며 삭제요청
-  - [ ] 새로고침시, 선택된 Document 표시 안되는 문제
+  - [x] 새로고침시, 선택된 Document 표시 안되는 문제
   - [ ] 커서 올릴때, 하위 문서의 버튼도 보이게 되는 문제 (CSS)
+  - [x] State관리를 모두 App.js의 state에서 모아 관리하는 방식으로 변경
