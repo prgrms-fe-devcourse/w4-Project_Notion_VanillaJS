@@ -95,7 +95,8 @@ export default function Navigation({ $target,
     const $docPlusButton=e.target.closest('.doc-plusButton')
     const $addPageButton=e.target.closest('.add-page')
     if($docCarot){
-      const _id=$docRow.id
+      const _id=$docRow.id.substr(3)
+
       const $subDocs=document.querySelector(`#sub${_id}`)
       if($docCarot.classList.contains('open')){
         $docCarot.innerHTML=`<i class="fas fa-caret-down"></i>`
@@ -106,7 +107,7 @@ export default function Navigation({ $target,
 
       }
     } else if($docTitle){
-      const _id=$docRow.id
+      const _id=$docTitle.id
       onClickTitle($docTitle,_id)
     }else if($docPlusButton){
       onClickPlus($docPlusButton)
@@ -124,10 +125,10 @@ function openDocumentTree(documents) {
   if (documents.length === 0)
     return NO_PAGE
   return `
-      <ul class="doc-ul">
+      <ul class="doc-ul" >
         ${documents.map(doc => `
-           <div class="doc-row" id="${doc.id}">
-            <span class="doc-carot"><i class="fas fa-caret-right"></i></span>
+          <div class="doc-row" id="row${doc.id}">
+            <span class="doc-carot" id="${doc.id}"><i class="fas fa-caret-right"></i></span>
             <span class="doc-title" id="${doc.id}">${doc.title}</span>
             <span class="doc-plusButton" id="plusBtn${doc.id}">+</span>
           </div>
