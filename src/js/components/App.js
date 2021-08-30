@@ -12,9 +12,6 @@ import PostEditPage from './PostMain/PostEditPage.js'
 export default function App({ $target }) {
   const postPage = new PostPage({
     $target,
-    onClick: (id) => {
-      alert(id)
-    },
   })
 
   const postEditPage = new PostEditPage({
@@ -46,13 +43,11 @@ export default function App({ $target }) {
   this.route()
 
   window.addEventListener('route-change', (e) => {
-    const { id, name } = e.detail
+    const { id } = e.detail
 
     if (id) {
       // history.pushState(null, null, nextUrl);
       this.route(id)
-    } else if (name) {
-      postEditPage.setState({ postId: 'new' })
     }
   })
 }

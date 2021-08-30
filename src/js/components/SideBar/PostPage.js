@@ -2,14 +2,29 @@ import { request } from '../api.js'
 import PostList from './PostList.js'
 
 // 사이드바를  담당하는 페이지
-export default function PostPage({ $target, onClick }) {
+export default function PostPage({ $target }) {
   const $page = document.createElement('div')
 
   const postList = new PostList({
     $target: $page,
     initialState: [],
-    onPostClick: (id) => {
-      onClick(id)
+    onAttach: async (id) => {
+      const post = await request('/documents', {
+        method: 'POST',
+        title: 'hello',
+        parent: id,
+      })
+
+      console.log(post)
+
+      await fetchPosts()
+    },
+    onDelete: async (id) => {
+      await request(`/documents/${id}`, {
+        method: 'DELETE',
+      })
+
+      await fetchPosts()
     },
   })
 

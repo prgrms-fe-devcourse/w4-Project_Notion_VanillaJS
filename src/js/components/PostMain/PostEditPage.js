@@ -32,7 +32,9 @@ export default function PostEditPage({ $target, initialState }) {
           ...post,
           tempSaveDate: new Date(),
         })
+
         const isNew = this.state.postId === 'new'
+
         if (isNew) {
           const createdPost = await request('/documents', {
             method: 'POST',

@@ -1,4 +1,4 @@
-export default function PostList({ $target, initialState, onPostClick }) {
+export default function PostList({ $target, initialState, onAttach, onDelete }) {
   const $postList = document.createElement('div')
 
   $target.appendChild($postList)
@@ -22,7 +22,10 @@ export default function PostList({ $target, initialState, onPostClick }) {
           data[key].documents,
         )}</ul></li>`
       } else {
-        str += `<li data-id="${data[key].id}">${data[key].title}</li>`
+        str += `<li data-id="${data[key].id}">
+                  ${data[key].title}
+                  <button>+</button>
+                </li>`
       }
     }
 
@@ -35,9 +38,10 @@ export default function PostList({ $target, initialState, onPostClick }) {
         ${this.state
           .map(
             (post) => `
-            <li data-id="${post.id}">
+            <li class="dataList"data-id="${post.id}">
               ${post.title}
-              <button>+</button>
+              <button class="addBtn" data-id="${post.id}">+</button>
+              <button class="delBtn" data-id="${post.id}">x</button>
             </li>
             ${post.documents ? `<ul>${this.createTreeView(post.documents)}</ul>` : ''}
             `,
@@ -50,22 +54,33 @@ export default function PostList({ $target, initialState, onPostClick }) {
   this.render()
 
   $postList.addEventListener('click', (e) => {
-    const { target } = e
+    const { id } = e.target.dataset
+    const { className } = e.target
     const $li = e.target.closest('li')
-    // parent => 특정 아이디를 받아서 넘겨줘야한다.
-    const $btn = e.target.closest('button')
 
-    if ($li) {
-      const { id } = $li.dataset
+    switch (className) {
+      case 'addBtn':
+        onAttach(id)
+        break
 
-      window.dispatchEvent(
-        new CustomEvent('route-change', {
-          detail: {
-            // nextUrl: `/documents/${id}`,
-            id,
-          },
-        }),
-      )
+      case 'delBtn':
+        onDelete(id)
+        break
+
+      case 'dataList':
+        if ($li) {
+          const { id } = $li.dataset
+
+          window.dispatchEvent(
+            new CustomEvent('route-change', {
+              detail: {
+                // nextUrl: `/documents/${id}`,
+                id,
+              },
+            }),
+          )
+        }
+        break
     }
   })
 }
