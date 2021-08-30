@@ -135,7 +135,7 @@ button {
   margin-top: 10px;
   font-size: 24px;
   border-radius: 0;
-  border: 1px solid #93938c;
+  border: none;
   outline: none;
   resize: none;
 }
