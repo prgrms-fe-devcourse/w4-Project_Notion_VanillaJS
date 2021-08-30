@@ -11,8 +11,10 @@ export default function PostPage({ $target }) {
     onAttach: async (id) => {
       const post = await request('/documents', {
         method: 'POST',
-        title: 'hello',
-        parent: id,
+        body: JSON.stringify({
+          title: '',
+          parent: id,
+        }),
       })
 
       console.log(post)

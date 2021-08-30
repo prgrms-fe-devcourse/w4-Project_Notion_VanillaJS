@@ -36,6 +36,8 @@ export default function PostEditPage({ $target, initialState }) {
         const isNew = this.state.postId === 'new'
 
         if (isNew) {
+          // async는 Resolved Promise를 반환하는 역할 수행.
+          // Promise ( status, result ) 를 반환
           const createdPost = await request('/documents', {
             method: 'POST',
             body: JSON.stringify(post),
