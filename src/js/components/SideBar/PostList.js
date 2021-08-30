@@ -1,33 +1,33 @@
 export default function PostList({ $target, initialState, onPostClick }) {
-  const $postList = document.createElement("div");
+  const $postList = document.createElement('div')
 
-  $target.appendChild($postList);
+  $target.appendChild($postList)
 
   // 초기에는 [] 빈 값을 전달 받고,
-  this.state = initialState;
+  this.state = initialState
 
   // PostPage가 렌더 될 때, 데이터를 받아서 업데이트를 해준다.
   this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  };
+    this.state = nextState
+    this.render()
+  }
 
   this.createTreeView = (data) => {
-    let str = "";
+    let str = ''
 
     // 템플릿으로 빼서 사용하는게 좋지 않을까 생각 중.
     for (const key in data) {
       if (data[key].documents.length) {
-        str += `<li data-id="${data[key].id}">${
-          data[key].title
-        }<ul>${this.createTreeView(data[key].documents)}</ul></li>`;
+        str += `<li data-id="${data[key].id}">${data[key].title}<ul>${this.createTreeView(
+          data[key].documents,
+        )}</ul></li>`
       } else {
-        str += `<li data-id="${data[key].id}">${data[key].title}</li>`;
+        str += `<li data-id="${data[key].id}">${data[key].title}</li>`
       }
     }
 
-    return str;
-  };
+    return str
+  }
 
   this.render = () => {
     $postList.innerHTML = `
@@ -39,37 +39,33 @@ export default function PostList({ $target, initialState, onPostClick }) {
               ${post.title}
               <button>+</button>
             </li>
-            ${
-              post.documents
-                ? `<ul>${this.createTreeView(post.documents)}</ul>`
-                : ""
-            }
-            `
+            ${post.documents ? `<ul>${this.createTreeView(post.documents)}</ul>` : ''}
+            `,
           )
-          .join("")}
+          .join('')}
       </ul>
-    `;
-  };
+    `
+  }
 
-  this.render();
+  this.render()
 
-  $postList.addEventListener("click", (e) => {
-    const { target } = e;
-    const $li = e.target.closest("li");
+  $postList.addEventListener('click', (e) => {
+    const { target } = e
+    const $li = e.target.closest('li')
     // parent => 특정 아이디를 받아서 넘겨줘야한다.
-    const $btn = e.target.closest("button");
+    const $btn = e.target.closest('button')
 
     if ($li) {
-      const { id } = $li.dataset;
+      const { id } = $li.dataset
 
       window.dispatchEvent(
-        new CustomEvent("route-change", {
+        new CustomEvent('route-change', {
           detail: {
             // nextUrl: `/documents/${id}`,
             id,
           },
-        })
-      );
+        }),
+      )
     }
-  });
+  })
 }
