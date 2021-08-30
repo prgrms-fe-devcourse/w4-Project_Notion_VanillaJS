@@ -25,7 +25,7 @@ export const ERROR_MSG_INVALID_TYPE = '타입이 올바르지 않습니다. 현�
 export const ERROR_MSG_EXPECT_TYPE = '기대 타입 : ';
 export const ERROR_MSG_EMPTY_ARRAY = '빈 배열입니다.';
 export const ERROR_MSG_EMPTY_VALUE = 'state가 빈 값입니다.';
-export const ERROR_MSG_ERROR_OCCURRENCE = '에러가 발생했습니다. 😥 [에러내용] ';
+export const ERROR_MSG_ERROR_OCCURRENCE = '에러가 발생하였습니다. 새로고침 후 다시 이용해 주세요 😥';
 export const ERROR_MSG_EMPTY_INPUT_VALUE = '빈값은 입력할 수 없어요!';
 export const ERROR_MSG_API_ERROR = 'API 처리중 에러가 발생했습니다. 새로고침 후 다시 시도해주세요.';
 
