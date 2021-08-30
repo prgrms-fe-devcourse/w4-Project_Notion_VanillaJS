@@ -1,11 +1,11 @@
-import DocumentList from './DocumentList.js';
+import DocList from './DocList.js';
 
 import { request } from '../services/api.js';
 
-export default function DocumentsPage({ $target }) {
+export default function DocsPage({ $target }) {
   const $page = document.createElement('div');
 
-  const documentList = new DocumentList({
+  const documentList = new DocList({
     $target: $page,
     initialState: [],
   });

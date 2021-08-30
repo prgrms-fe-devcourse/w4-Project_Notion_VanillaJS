@@ -1,4 +1,4 @@
-export default function DocumentList({ $target, initialState }) {
+export default function DocList({ $target, initialState }) {
   const $list = document.createElement('div');
   $target.appendChild($list);
 

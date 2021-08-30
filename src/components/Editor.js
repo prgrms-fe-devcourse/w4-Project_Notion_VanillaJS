@@ -1,5 +1,11 @@
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div');
+
+  Object.assign($editor.style, {
+    display: 'flex',
+    'flex-direction': 'column',
+  });
+
   $target.appendChild($editor);
 
   this.state = initialState;

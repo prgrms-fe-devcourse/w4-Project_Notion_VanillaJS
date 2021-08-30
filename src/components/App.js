@@ -1,13 +1,22 @@
-import DocumentsPage from './DocumentsPage.js';
+import DocsPage from './DocsPage.js';
 import EditorPage from './EditorPage.js';
 
 export default function App({ $target }) {
-  const documentsPage = new DocumentsPage({
-    $target,
+  const $container = document.createElement('div');
+
+  Object.assign($container.style, {
+    display: 'flex',
+    'justify-content': 'space-around',
+  });
+
+  $target.appendChild($container);
+
+  const docsPage = new DocsPage({
+    $target: $container,
   });
 
   const editorPage = new EditorPage({
-    $target,
+    $target: $container,
     initialState: {
       id: 1,
     },
@@ -17,9 +26,9 @@ export default function App({ $target }) {
     documents: [],
   };
 
-  this.route = () => {
-    // documentsPage.render();
-    editorPage.render();
+  this.route = async () => {
+    await docsPage.render();
+    await editorPage.render();
   };
 
   this.route();
