@@ -35,7 +35,10 @@ export default function PostList({ $target, initialState, onPostClick }) {
         ${this.state
           .map(
             (post) => `
-            <li data-id="${post.id}">${post.title}</li>
+            <li data-id="${post.id}">
+              ${post.title}
+              <button>+</button>
+            </li>
             ${
               post.documents
                 ? `<ul>${this.createTreeView(post.documents)}</ul>`
@@ -51,7 +54,22 @@ export default function PostList({ $target, initialState, onPostClick }) {
   this.render();
 
   $postList.addEventListener("click", (e) => {
-    const { id } = e.target.dataset;
-    onPostClick(parseInt(id));
+    const { target } = e;
+    const $li = e.target.closest("li");
+    // parent => 특정 아이디를 받아서 넘겨줘야한다.
+    const $btn = e.target.closest("button");
+
+    if ($li) {
+      const { id } = $li.dataset;
+
+      window.dispatchEvent(
+        new CustomEvent("route-change", {
+          detail: {
+            // nextUrl: `/documents/${id}`,
+            id,
+          },
+        })
+      );
+    }
   });
 }

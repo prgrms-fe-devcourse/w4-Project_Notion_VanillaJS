@@ -21,19 +21,38 @@ export default function App({ $target }) {
     $target,
     initialState: {
       postId: "new",
+      post: {
+        title: "",
+        content: "",
+      },
     },
   });
 
-  this.route = () => {
+  this.route = (postId) => {
     const { pathname } = window.location;
 
     if (pathname === "/") {
-      postPage.render();
-    } else if (pathname.indexOf("/posts/") === 0) {
+      if (postId !== undefined) {
+        postEditPage.setState({ postId });
+      } else {
+        postPage.render();
+      }
+    } else if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
       postEditPage.setState({ postId });
     }
   };
 
   this.route();
+
+  window.addEventListener("route-change", (e) => {
+    const { id, name } = e.detail;
+
+    if (id) {
+      // history.pushState(null, null, nextUrl);
+      this.route(id);
+    } else if (name) {
+      postEditPage.setState({ postId: "new" });
+    }
+  });
 }

@@ -1,4 +1,4 @@
-import { getItem, setItem } from "../Storage.js";
+import { getItem, removeItem, setItem } from "../Storage.js";
 import { request } from "../api.js";
 import Editor from "./Editor.js";
 
@@ -27,17 +27,32 @@ export default function PostEditPage({ $target, initialState }) {
         clearTimeout(timer);
       }
 
-      timer = setTimeout(() => {
+      timer = setTimeout(async () => {
         setItem(postLocalSaveKey, {
           ...post,
           tempSaveDate: new Date(),
         });
-      }, 1000);
+        const isNew = this.state.postId === "new";
+        if (isNew) {
+          const createdPost = await request("/documents", {
+            method: "POST",
+            body: JSON.stringify(post),
+          });
 
-      // await request(`/documents/${post.id}`, {
-      //   method: "POST",
-      //   body: JSON.stringify(post),
-      // });
+          history.replaceState(null, null, `/documents/${createdPost.id}`);
+          removeItem(postLocalSaveKey);
+          this.setState({
+            postId: createdPost.id,
+          });
+        } else {
+          // 기존에 존재하는 포스트의 경우
+          await request(`/documents/${post.id}`, {
+            method: "PUT",
+            body: JSON.stringify(post),
+          });
+          removeItem(postLocalSaveKey);
+        }
+      }, 1000);
     },
   });
 
@@ -51,7 +66,12 @@ export default function PostEditPage({ $target, initialState }) {
 
     this.state = nextState;
     this.render();
-    editor.setState(this.state.post);
+    editor.setState(
+      this.state.post || {
+        title: "",
+        content: "",
+      }
+    );
   };
 
   this.render = () => {
@@ -62,7 +82,21 @@ export default function PostEditPage({ $target, initialState }) {
     const { postId } = this.state;
 
     if (postId !== "new") {
-      const post = await request(`/posts/${postId}`);
+      const post = await request(`/documents/${postId}`);
+      const tempPost = getItem(postLocalSaveKey, {
+        title: "",
+        content: "",
+      });
+
+      if (tempPost.tempSaveDate && post.created_at < tempPost.tempSaveDate) {
+        if (confirm("저장되지 않은 데이터가 있씁니다. 불러올까요?")) {
+          this.setState({
+            ...this.state,
+            post: tempPost,
+          });
+          return;
+        }
+      }
 
       this.setState({
         ...this.state,

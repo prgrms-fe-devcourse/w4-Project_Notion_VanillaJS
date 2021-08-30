@@ -15,7 +15,8 @@ export default function PostPage({ $target, onClick }) {
 
   const $newPostButton = document.createElement("button");
   $page.appendChild($newPostButton);
-  $newPostButton.textContent = "New Post";
+  $newPostButton.textContent = "+ 새로 만들기";
+  $newPostButton.className = "addNew";
 
   const fetchPosts = async () => {
     const posts = await request("/documents");
@@ -28,4 +29,17 @@ export default function PostPage({ $target, onClick }) {
   };
 
   fetchPosts();
+
+  $page.addEventListener("click", (e) => {
+    const { target } = e;
+    const name = target.className;
+
+    window.dispatchEvent(
+      new CustomEvent("route-change", {
+        detail: {
+          name,
+        },
+      })
+    );
+  });
 }
