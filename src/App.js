@@ -18,8 +18,6 @@ class App extends Component {
   render() {
     this.$target.innerHTML = this.template();
     new WorkSpace(qs(".notion-sidebar-container"));
-
-    this.mount();
   }
 }
 
