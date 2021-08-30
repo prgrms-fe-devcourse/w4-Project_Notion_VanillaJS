@@ -14,5 +14,7 @@ module.exports = {
     'import/extensions': ['off'],
     'no-new': ['off'],
     'no-bitwise': ['off'],
+    'import/prefer-default-export': ['off'],
+    'consistent-return': ['off'],
   },
 };
