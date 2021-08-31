@@ -1,6 +1,6 @@
 import { request } from "./api.js"
 import Editor from "./Editor.js"
-import { getItem, setItem } from "./storage.js"
+import { getItem, removeItem, setItem } from "./storage.js"
 
 
 export default function docEditPage({ $target, initialState }) {
@@ -8,10 +8,9 @@ export default function docEditPage({ $target, initialState }) {
 
   this.state = initialState
 
+  let docLocalSaveKey = `temp-doc-${this.state.documentId}`
 
-  const TEMP_DOC_SAVE_KEY = 'temp-documnet-${this.state.documentId}'
-
-  const doc = getItem(TEMP_DOC_SAVE_KEY, {
+  const doc = getItem(docLocalSaveKey, {
     title: '',
     content: '',
   })
@@ -20,22 +19,40 @@ export default function docEditPage({ $target, initialState }) {
   
   const editor = new Editor({ 
     $target: $page, 
-    initialState: doc, 
+    initialState: {
+      title: '',
+      content: ''
+    },
     onEditing: (document) => {
       if (timer !== null){
         clearTimeout(timer)
       }
-      timer = setTimeout(() => {
-        setItem(TEMP_DOC_SAVE_KEY, {
+      timer = setTimeout(async () => {
+        setItem(docLocalSaveKey, {
           ...document,
           tempSaveDate: new Date()
         })
+
+        const isNew = this.state.documentId === 'new'
+        if(isNew){
+          const createdDocumnet = await request('/posts', {
+            method: 'POST',
+            body: JSON.stringify(this.state)
+          })
+          history.replaceState(null, null, `/posts/${createdDocumnet.id}`)
+          removeItem(docLocalSaveKey)
+        } else {
+
+        }
+
       }, 1500);
     }
   })
 
   this.setState = async nextState => {
-    if (this.state.documentId !== nextState.documentId){    
+    if (this.state.documentId !== nextState.documentId){ 
+        docLocalSaveKey = `temp-doc-${nextState.documentId}`
+
       this.state = nextState
       await fetchDocument()
       return
@@ -44,7 +61,10 @@ export default function docEditPage({ $target, initialState }) {
     this.state = nextState
     this.render()
 
-    editor.setState(this.state.document)
+    editor.setState(this.state.document ?? {
+      title: '',
+      content: ''
+    })
   }
 
   this.render = () => {
@@ -55,11 +75,26 @@ export default function docEditPage({ $target, initialState }) {
     const { documentId } = this.state
 
     if(documentId !== 'new') {
-      const document = await request(`/documents/${documentId} - POST`)
+      const document = await request(`/posts/${documentId}`)
+
+      const tempDocument = getItem(docLocalSaveKey, {
+        title: '',
+        content: '',
+      })
+
+      if(tempDocument.tempSaveDate && tempDocument.tempSaveDate > document.updated_at) {
+        if(confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
+          this.setState({
+            ...this.state,
+            document: tempDocument
+          })
+          return
+        }
+      }
 
       this.setState({
         ...this.state,
-        post
+        document
       })
     }
   }

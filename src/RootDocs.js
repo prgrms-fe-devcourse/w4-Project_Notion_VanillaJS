@@ -1,4 +1,4 @@
-import { docsTreeToArray } from "./tool.js"
+// import { docsTreeToArray } from "./tool.js"
 export default function RootDocs({ $target, initialState, onDocsClick }) {
   const $rootDocs = document.createElement('div')
   $target.appendChild($rootDocs)
@@ -13,7 +13,7 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
   this.render = () => {
     $rootDocs.innerHTML = `
     <ul>
-      ${docsTreeToArray(this.state).map(doc => `
+      ${this.state.map(doc => `
         <li data-id="${doc.id}">${doc.title}</li>
       `).join('')}
     </ul>

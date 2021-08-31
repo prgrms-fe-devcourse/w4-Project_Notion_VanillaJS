@@ -16,7 +16,7 @@ export default function DocsPage({
   $page.appendChild($newDocumentButton)
 
   const fetchDocs = async () => {
-    const docs = await request('/documents')
+    const docs = await request('/posts')
   
     rootdocs.setState(docs)
   }
