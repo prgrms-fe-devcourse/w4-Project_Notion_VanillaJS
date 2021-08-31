@@ -16,5 +16,10 @@ module.exports = {
     'no-bitwise': ['off'],
     'import/prefer-default-export': ['off'],
     'consistent-return': ['off'],
+    'no-alert': ['off'],
+    'no-restricted-globals': [
+      'error', {
+        name: 'console',
+      }],
   },
 };

@@ -109,3 +109,22 @@
 5. 편집기에서 수정하면 DB에 업데이트하기
    1. `EditorPage`
       1. 편집 중임을 알고 있는 onEditing 함수에서 로컬 스토리지에 저장한 후 update API를 통해 DB에 업데이트한다. DB 업데이트가 끝나면 로컬 스토리지에 저장된 내용을 삭제한다.
+6. 편집기에 수정한 내용이 DB 내용보다 최신인 경우 사용자가 원하는 것으로 불러올 수 있도록 제안하기
+   1. `EditorPage`
+      1. 어떤 경우에 발생하는가?
+         1. 로컬스토리지에 저장하고 나서 DB에는 아직 저장을 안 했는데 사용자가 새로고침하는 상황에서 발생할 수 있다
+      2. 어떻게 처리하는가?
+         1. 맥락
+            1. App에 의해 doc.id가 전달되어서 EditorPage.setState 메서드가 실행되면
+            2. initialState.doc.id와 다르기 때문에 fetchDoc을 하게 된다
+         2. fetchDoc을 할 때 로컬 스토리지에 저장된 tempDoc.tempSavedDate과 DB의 doc.updatedAt을 비교해서 로컬이 더 최신일 경우 사용자에게 confirm 메시지를 질문해서 원하는 대로 처리하게 한다
+
+## 트러블슈팅
+
+- Q. 텍스트 편집기에 타이핑을 계속 하려는데 포커싱이 해제되고 자꾸 멈춘다면 무엇 때문일까?
+  - 텍스트 편집 요소의 innerHTML을 지웠다가 그렸다가 하면 자꾸 멈추는 현상이 발생한다
+  - innerHTML은 한 번만 그려야 타이핑을 계속 할 수 있다
+- Q. DOM 스타일링을 JS 오브젝트로 하는 방법?
+  - Object.assign(arg1, arg2): Object.assign은 arg1에 arg2를 합친다 - [stackoverflow](https://stackoverflow.com/questions/32933985/apply-object-of-style-to-dom-element) 
+* Q. 로컬스토리지에 저장한 데이터가 DB에 저장한 데이터보다 더 최신인 경우는 어떤 상황에서 발생하는가?
+  * 로컬스토리지에 저장하고 나서 DB에는 아직 저장을 안 했는데 사용자가 새로고침하는 상황에서 발생할 수 있다

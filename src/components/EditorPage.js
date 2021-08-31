@@ -12,28 +12,24 @@ export default function EditorPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  let docLocalSaveKey = `temp-document-${this.state.id}`;
-
-  const tempDoc = getItem(docLocalSaveKey, {
-    id: null,
-    title: '',
-    content: '',
-  });
+  const docTempSaveKey = (id) => `temp-doc-${id}`;
 
   let timer = null;
 
   const editor = new Editor({
     $target: $page,
-    initialState: tempDoc,
+    initialState: {
+      id: null,
+      title: '',
+      content: '',
+    },
     onEditing: (doc) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
 
       timer = setTimeout(async () => {
-        docLocalSaveKey = `temp-document-${doc.id}`;
-
-        setItem(docLocalSaveKey, {
+        setItem(docTempSaveKey(doc.id), {
           ...doc,
           tempSaveDate: new Date(),
         });
@@ -43,7 +39,7 @@ export default function EditorPage({ $target, initialState }) {
           body: JSON.stringify(doc),
         });
 
-        removeItem(docLocalSaveKey);
+        removeItem(docTempSaveKey(doc.id));
       }, 1000);
     },
   });
@@ -52,6 +48,18 @@ export default function EditorPage({ $target, initialState }) {
     const { id } = this.state;
 
     const doc = await request(`/documents/${id}`);
+
+    const tempSavedDoc = getItem(docTempSaveKey(id) || {});
+
+    if (tempSavedDoc && tempSavedDoc.tempSaveDate > doc.updatedAt) {
+      if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요?')) {
+        this.setState({
+          ...this.state,
+          ...tempSavedDoc,
+        });
+        return;
+      }
+    }
 
     this.setState({
       ...this.state,
