@@ -1,18 +1,18 @@
-import { initRouter } from '../services/router.js';
-import DocsPage from './DocsPage.js';
+import Sidebar from './Sidebar.js';
 import EditorPage from './EditorPage.js';
+
+import { initRouter } from '../services/router.js';
 
 export default function App({ $target }) {
   const $container = document.createElement('div');
 
   Object.assign($container.style, {
     display: 'flex',
-    'justify-content': 'space-around',
   });
 
   $target.appendChild($container);
 
-  const docsPage = new DocsPage({
+  const sidebar = new Sidebar({
     $target: $container,
   });
 
@@ -35,7 +35,8 @@ export default function App({ $target }) {
   };
 
   this.render = async () => {
-    await docsPage.render();
+    await sidebar.render();
+    // await docsPage.render();
     await editorPage.render();
   };
 

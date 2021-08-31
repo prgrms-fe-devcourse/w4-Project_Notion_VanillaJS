@@ -11,8 +11,8 @@
   * [x] Root Document를 클릭하면 오른쪽 편집기 영역에 해당 Document의 Content를 렌더링합니다.
   * [x] 해당 Root Document에 하위 Document가 있는 경우, 해당 Document 아래에 트리 형태로 렌더링 합니다.
   * [x] Document Tree에서 각 Document 우측에는 + 버튼이 있습니다. 해당 버튼을 클릭하면, 클릭한 Document의 하위 Document로 새 Document를 생성하고 편집화면으로 넘깁니다.
-  * [ ] 루트 문서를 추가하는 버튼. 클릭하면 새 루트 문서를 추가하고 편집화면으로 넘긴다.
-* [ ] 편집기에는 기본적으로 저장 버튼이 없습니다. Document Save API를 이용해 지속적으로 서버에 저장되도록 합니다.
+  * [x] 루트 문서를 추가하는 버튼. 클릭하면 새 루트 문서를 추가하고 편집화면으로 넘긴다.
+* [x] 편집기에는 기본적으로 저장 버튼이 없습니다. Document Save API를 이용해 지속적으로 서버에 저장되도록 합니다.
 * History API를 이용해 SPA 형태로 만듭니다.
   * [x] 루트 URL 접속 시엔 별다른 편집기 선택이 안 된 상태입니다.
   * [x] `/documents/{documentId}` 로 접속시, 해당 Document 의 content를 불러와 편집기에 로딩합니다.
@@ -197,7 +197,30 @@
           4. `refreshSubDocList`
              1. 추가(+) 버튼이 클릭되었을 때 새 하위 문서를 문서 트리에 렌더링하는 함수이다.
                 1. 실제 로직: 클릭된 targetDoc이 접혀 있으면 하위 문서를 렌더링하고, 펼쳐 있으면 이미 렌더링된 하위 문서 목록을 지우고, 새롭게 불러온 하위 문서 목록으로 다시 렌더링한다
-
+ 10. 새 루트 문서 추가하기 버튼
+     1. 레이아웃
+        1. 노션을 보면 루트 문서 추가 버튼은 문서 목록 트리와 별개로 존재한다. 이는 루트 문서가 엄청 많더라도 루트 문서 추가 버튼을 항상 눈에 보여야 하기 때문이다.
+        2. 따라서 `DocsPage`의 영역과 루트 문서 추가기 버튼인 `AddRootDocButton`은 서로 별개의 영역으로 두기 위해 `Sidebar` 컴포넌트를 추가한다.
+     2. `Sidebar`
+        1. 하위 컴포넌트를 관리한다
+           1. `DocsPage`
+           2. `AddRootDocButton`
+     3. `AddRootDocButton`
+        1. 역할
+           1. UI 렌더링
+           2. UI에 대한 이벤트 바인딩
+              1. 이벤트 콜백으로 `onClickAddButton` 함수를 받는다
+     4. `onClickAddButton`
+        1. 실행 주체
+           1. Sidebar에서 실행한다. 왜냐하면 새로운 루트 문서가 추가 되면 `DocsPage`를 새로 렌더링 해야 한다. 이 두 가지를 모두 알고 있는 컴포넌트가 Sidebar이기 때문에 Sidebar에서 실행한다.
+        2. 로직
+           1. 새로운 문서를 생성하는 API를 호출한다.
+           2. API 응답이 오면 응답 받은 문서의 id로 URL 라우팅처리를 하여 편집기에 새로 생성된 문서의 내용이 나오도록 한다
+           3. 새 루트 문서가 추가되었으므로 `DocsPage`가 다시 렌더링되도록 `Sidebar.render()`를 실행한다
+     5. `$target.appendChild($sidebar)`
+        1. 시점
+           1. 특정 시점이 아니라 사이드바가 항상 나온다는 전제 하에 render 함수 바깥에서 바로 append 한다
+           2. 참고로 렌더 함수 안에서 append 하면 `Sidebar.render` 함수를 실행할 때마다 새롭게 마크업을 그리기 때문에 편집기보다 더 뒤에 렌더링되는 부작용이 발생한다
 
 ## 트러블슈팅
 
