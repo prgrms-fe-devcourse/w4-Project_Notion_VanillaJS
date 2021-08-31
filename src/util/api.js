@@ -1,13 +1,15 @@
-import { NOTION_API } from "./constant.js";
+import { NOTION_API, HTTP_METHOD, API_HEADER } from "./constant.js";
 
-export const getAllData = async (documentId = "", method = "GET") => {
+export const request = async (documentId = null, method = HTTP_METHOD.GET, data = {}) => {
+  let options = {};
+  options.headers = API_HEADER;
+  options.method = method;
+  if (method === HTTP_METHOD.POST || method === HTTP_METHOD.PUT) {
+    options.body = JSON.stringify(data);
+    console.log(options.body);
+  }
   try {
-    const res = await fetch(`${NOTION_API}/${documentId}`, {
-      headers: {
-        "x-username": "jinn2u",
-        method,
-      },
-    });
+    const res = await fetch(`${NOTION_API}/${documentId ? documentId : ""}`, options);
     if (!res.ok) {
       return console.error("API is not ok");
     }

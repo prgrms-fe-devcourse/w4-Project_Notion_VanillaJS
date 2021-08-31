@@ -41,8 +41,11 @@ svg {
 .notion-sidebar-block {
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
-
+.notion-sidebar-block:hover {
+  background-color: darkgray;
+}
 .notion-sidebar-block span {
   display: block;
   overflow: hidden;
@@ -55,6 +58,7 @@ button.add {
   transition: all 200ms ease-in 0s;
   border: lightgray;
   margin-right: 5%;
+  cursor: pointer;
 }
 button:hover {
   background-color: darkgray;

@@ -10,8 +10,7 @@ class App extends Component {
 
   template() {
     return `
-    <div class ="notion-sidebar-container">
-
+    <div class="notion-sidebar-container">
     </div>
     `;
   }
