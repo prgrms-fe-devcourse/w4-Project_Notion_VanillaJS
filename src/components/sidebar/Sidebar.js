@@ -6,7 +6,8 @@ import SidebarBody from './SidebarBody.js';
 import SidebarFooter from './SidebarFooter.js';
 
 export default function Sidebar({ $target, initialState }) {
-	const $sidebar = $createElement('div', '.col');
+	const $sidebar = $createElement('div');
+	addClassAll($sidebar, 'col', 'sidebar-container');
 	$target.appendChild($sidebar);
 
 	const $sidebarHeader = $createElement('div', '.sidebar-header');

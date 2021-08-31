@@ -33,6 +33,17 @@ ul {
 	display: none;
 }
 
+.sidebar-container {
+	flex-grow: 0;
+	flex-shrink: 0;
+	pointer-events: none;
+	position: relative;
+	z-index: 99;
+	background: rgb(247, 246, 243);
+	transition: box-shadow 300ms ease-in 0s;
+	width: 240px;
+}
+
 .sidebar-header {
 	display: flex;
 }
@@ -42,4 +53,23 @@ ul {
 }
 .nav-list > .tree {
 	padding: 0;
+}
+
+.row {
+	display: flex;
+}
+
+.page-container {
+	flex-grow: 0;
+	flex-shrink: 1;
+	display: flex;
+	flex-direction: column;
+	background: white;
+	z-index: 1;
+	height: 100vh;
+	max-height: 100%;
+	width: 1200px;
+}
+.page-container .page-header {
+	display: flex;
 }

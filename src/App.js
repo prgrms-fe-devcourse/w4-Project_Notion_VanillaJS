@@ -1,6 +1,7 @@
 import { initEmitter } from './utils/emitter.js';
 import { getDocuments } from './api/notion.js';
 import Sidebar from './components/sidebar/Sidebar.js';
+import Page from './components/page/Page.js';
 
 export default function App({ $target, initialState }) {
 	const $row = $createElement('div', '.row');
@@ -21,8 +22,10 @@ export default function App({ $target, initialState }) {
 	this.setState = nextState => {
 		this.state = nextState;
 		sideBar.setState(this.state);
+		page.setState(this.state);
 	};
 
 	const sideBar = new Sidebar({ $target: $row, initialState });
+	const page = new Page({ $target: $row, initialState });
 	initEmitter(nextDocumentId => getDocument(nextDocumentId));
 }
