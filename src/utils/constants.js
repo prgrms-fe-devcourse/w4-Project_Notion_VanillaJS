@@ -14,7 +14,7 @@ export const MSG_PLACEHOLDER_MODAL_TITLE = '문서 제목을 입력하고  👉E
 // 일반 상수
 export const ROUTE_CHANGE_EVENT_NAME = 'route-change';
 export const EDITOR_DATA_CHANGED = 'editor-data-changed';
-export const DEBOUNCE_DELAY = 1000;
+export const DEBOUNCE_DELAY = 300;
 export const KEY_ENTER = 'Enter';
 export const KEY_ESCAPE = 'Escape';
 
