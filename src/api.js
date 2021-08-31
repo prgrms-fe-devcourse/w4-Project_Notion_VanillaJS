@@ -28,12 +28,12 @@ export async function getDocumentById(id) {
 
 export async function updateDocumentById({ id, title, content }) {
   try {
-    const result = await fetch(`${API_END_POINT}/documents/${id}`, {
+    await fetch(`${API_END_POINT}/documents/${id}`, {
       headers: { "x-username": userName, "Content-Type": "application/json" },
       method: "PUT",
       body: JSON.stringify({
         title: title,
-        content: content,
+        content: JSON.stringify(content),
       }),
     });
   } catch (e) {
@@ -45,7 +45,7 @@ export async function createDocument(parent = null) {
   try {
     let title = "새로운파일";
     if (parent) title = `${parent.title}의 하위 문서`;
-    const result = await fetch(`${API_END_POINT}/documents`, {
+    await fetch(`${API_END_POINT}/documents`, {
       method: "POST",
       headers: { "x-username": userName, "Content-Type": "application/json" },
       body: JSON.stringify({

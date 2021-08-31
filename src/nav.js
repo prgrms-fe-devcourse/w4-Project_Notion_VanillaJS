@@ -44,6 +44,7 @@ export default function Nav({
     this.state = nextState || null;
     this.render();
   };
+
   this.render = () => {
     $nav.innerHTML = "";
     const $documentContainer = document.createElement("ul");

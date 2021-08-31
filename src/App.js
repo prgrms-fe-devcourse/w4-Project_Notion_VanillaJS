@@ -7,8 +7,10 @@ import {
   deleteDocument,
 } from "./api.js";
 import EditorPage from "./EditorPage.js";
+import { getIdFromUrl, pushStateUrl } from "./router.js";
 
 export default function App({ $target }) {
+  // 하위 문서를 가지고 있는 문서가 삭제될 경우 스토리지에 정보가 남아서 안보이는 것을 해결하기 위하서
   const removeStorage = async (id) => {
     const targetDocument = await getDocumentById(id);
     const childDocuemnts = targetDocument.documents;
@@ -16,30 +18,28 @@ export default function App({ $target }) {
       window.localStorage.removeItem(document.id);
     });
   };
-  //문서를 지우는 함수
 
   const onRemove = async (id) => {
     const intenedRemoveDocument = document.getElementById(id);
-    const currentPage = window.location.pathname.substr(1);
-    const isCurrentPageDeleted = parseInt(currentPage) === id;
-    console.log(intenedRemoveDocument.lastChild.tagName);
+    const currentPageDocument = getIdFromUrl();
+    console.log(intenedRemoveDocument);
+    const isCurrentPageDeleted = parseInt(currentPageDocument) === id;
     const hasDocumentChild = intenedRemoveDocument.lastChild.tagName === "UL";
     if (hasDocumentChild) {
       if (!confirm("하위 문서가 존재하는 문서입니다. 삭제하시겠습니까?"))
         return;
     }
     removeStorage(id);
-    intenedRemoveDocument.remove();
+    intenedRemoveDocument.remove(); // 낙관적 업데이트
     await deleteDocument(id);
     updateNav();
     if (isCurrentPageDeleted) {
       history.replaceState(null, null, "/");
-      console.log("delete");
       fetchDocumentByUrl();
     }
   };
   const onSelecte = (id) => {
-    history.pushState(null, null, id);
+    pushStateUrl(id);
     fetchDocumentByUrl();
   };
 
@@ -48,7 +48,7 @@ export default function App({ $target }) {
     await createDocument();
     const documents = await getDocuments();
     const newDocument = documents[documents.length - 1];
-    history.pushState(null, null, newDocument.id);
+    pushStateUrl(newDocument.id);
   };
 
   // 특정 문서의 하위문서로 추가
@@ -58,14 +58,14 @@ export default function App({ $target }) {
     const newParentDocument = await getDocumentById(id);
     const newDocument =
       newParentDocument.documents[newParentDocument.documents.length - 1];
-    history.pushState(null, null, newDocument.id);
+    pushStateUrl(newDocument.id);
   };
 
   const onCreate = async (id = null) => {
-    // 상위문서가 있는 경우
+    // 상위문서에 하위문서로 추가할 경우
     if (id) {
       await createInDocument(id);
-      //상위문서가 없는경우
+      // 루트에 문서를 추가할 경우
     } else {
       await createInRoot();
     }
@@ -75,7 +75,7 @@ export default function App({ $target }) {
 
   //URL path에 적힌 id를 이용해서 editorPage 로딩하는 함수
   const fetchDocumentByUrl = async () => {
-    const id = window.location.pathname.substr(1);
+    const id = getIdFromUrl();
     if (!id) {
       editorPage.setState();
       return;
@@ -85,6 +85,7 @@ export default function App({ $target }) {
     editorPage.setState(result);
   };
 
+  //
   const onSave = async ({ title, content, id }) => {
     await updateDocumentById({ title, content, id });
     updateNav();
@@ -110,7 +111,6 @@ export default function App({ $target }) {
     initialState: null,
     onSave,
     onSelecte,
-    onRemove,
   });
 
   window.addEventListener("popstate", () => {
