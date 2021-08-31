@@ -1,7 +1,8 @@
 import { request } from '../services/api.js';
+import { push } from '../services/router.js';
 import SubDocList from './SubDocList.js';
 
-export default function DocList({ $target, initialState, onClickDoc }) {
+export default function DocList({ $target, initialState }) {
   const $list = document.createElement('div');
   $target.appendChild($list);
 
@@ -41,7 +42,7 @@ export default function DocList({ $target, initialState, onClickDoc }) {
 
     const id = Number($li.dataset.id);
 
-    onClickDoc(id);
+    push(`/documents/${id}`);
 
     const { className } = e.target;
 

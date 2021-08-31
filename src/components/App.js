@@ -1,3 +1,4 @@
+import { initRouter } from '../services/router.js';
 import DocsPage from './DocsPage.js';
 import EditorPage from './EditorPage.js';
 
@@ -13,14 +14,6 @@ export default function App({ $target }) {
 
   const docsPage = new DocsPage({
     $target: $container,
-    onClickDoc: (id) => {
-      this.setState({
-        ...this.state,
-        selectedDoc: {
-          id,
-        },
-      });
-    },
   });
 
   const editorPage = new EditorPage({
@@ -41,10 +34,29 @@ export default function App({ $target }) {
     editorPage.setState(this.state.selectedDoc);
   };
 
-  this.route = async () => {
+  this.render = async () => {
     await docsPage.render();
     await editorPage.render();
   };
 
+  this.render();
+
+  this.route = async () => {
+    const { pathname } = window.location;
+
+    if (pathname.indexOf('/documents') === 0) {
+      const [, , id] = pathname.split('/');
+
+      this.setState({
+        ...this.setState,
+        selectedDoc: {
+          id,
+        },
+      });
+    }
+  };
+
   this.route();
+
+  initRouter(() => this.route());
 }
