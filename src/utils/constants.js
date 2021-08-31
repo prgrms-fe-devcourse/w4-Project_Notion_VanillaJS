@@ -10,6 +10,7 @@ export const MSG_ADD_DOCUMENT = '새 문서';
 export const MSG_PLACEHOLDER_EDITOR = '내용을 여기에 작성해주세요';
 export const MSG_PLACEHOLDER_TITLE = '제목을 여기에 작성해주세요';
 export const MSG_PLACEHOLDER_MODAL_TITLE = '문서 제목을 입력하고  👉Enter👈';
+export const MSG_EMPTY_EDIT_PAGE = '문서를 작성하거나 선택해 주세요 🙏🏻';
 
 // 일반 상수
 export const ROUTE_CHANGE_EVENT_NAME = 'route-change';
@@ -58,3 +59,4 @@ export const CLASS_NAME_FADE_OUT = 'fade-out';
 export const CLASS_NAME_FAS = 'fas';
 export const CLASS_NAME_FA_ANGLE_DOUBLE_LEFT = 'fa-angle-double-left';
 export const CLASS_NAME_FA_ANGLE_DOUBLE_RIGHT = 'fa-angle-double-right';
+export const CLASS_NAME_DISPLAY_NONE = 'display-none';

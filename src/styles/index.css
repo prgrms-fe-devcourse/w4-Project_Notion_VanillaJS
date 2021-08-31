@@ -118,6 +118,11 @@ button {
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
+}
+
+.edit-page p {
+  font-size: 56px;
 }
 
 .document-title {
@@ -231,4 +236,8 @@ button {
 
 .display-flex {
   display: flex;
+}
+
+.display-none {
+  display: none;
 }

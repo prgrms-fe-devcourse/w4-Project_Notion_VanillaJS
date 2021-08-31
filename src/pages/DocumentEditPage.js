@@ -33,10 +33,13 @@ export default function DocumentEditPage({ $target, initialState }) {
   };
 
   this.clear = () => {
-    $page.remove();
+    documentEditor.setState({});
+    childDocumentLink.setState([]);
   };
 
   this.render = () => {
     $target.appendChild($page);
   };
+
+  this.render();
 }
