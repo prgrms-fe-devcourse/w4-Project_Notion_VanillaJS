@@ -31,6 +31,7 @@ export default function App({ $target, initialState }) {
 		const currentDocument = await putDocument(id, { title, content });
 		const allDocuments = await getDocuments();
 
+		console.log(id);
 		const nextState = {
 			allDocuments,
 			currentDocument,

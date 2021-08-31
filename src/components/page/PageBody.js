@@ -18,17 +18,17 @@ export default function PageBody({ $target, initialState, onEdit }) {
 		$pageContent.innerHTML = `
 			<textarea class="page-content-textarea">${content}</textarea>
 		`;
+
+		$pageTitle.querySelector('input').addEventListener('keyup', e => {
+			onEdit.editTitle(e.target.value);
+		});
+
+		$pageContent.querySelector('textarea').addEventListener('keyup', e => {
+			onEdit.editContent(e.target.value);
+		});
 	};
 
 	this.render();
-
-	$pageTitle.querySelector('input').addEventListener('keyup', e => {
-		onEdit.editTitle(e.target.value);
-	});
-
-	$pageContent.querySelector('textarea').addEventListener('keyup', e => {
-		onEdit.editContent(e.target.value);
-	});
 
 	$target.appendChild($pageTitle);
 	$target.appendChild($pageContent);
