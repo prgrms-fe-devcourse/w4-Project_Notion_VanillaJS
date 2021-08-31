@@ -54,5 +54,40 @@ export default function DocumentList({ $target, inititalState, onClick }) {
     this.setState(documents);
   };
 
+  this.addDocument = async documentId => {
+    const res = await request('', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: '문서 제목을 입력해주세요.',
+        parent: documentId
+      })
+    });
+
+    const newDocument = { id: res.id, title: res.title, documents: [] };
+    const nextState = addChildDocument(newDocument, documentId);
+
+    this.setState(nextState);
+  };
+
+  const addChildDocument = (newDocument, documentId) => {
+    const nextState = this.state;
+
+    const dfs = node => {
+      if (node.id === documentId) {
+        node.documents.push(newDocument);
+        return;
+      }
+
+      if (node.documents.length > 0) {
+        node.documents.forEach(documents => {
+          dfs(documents);
+        });
+      }
+    };
+
+    nextState.map(document => dfs(document));
+    return nextState;
+  };
+
   fetchDocument();
 }
