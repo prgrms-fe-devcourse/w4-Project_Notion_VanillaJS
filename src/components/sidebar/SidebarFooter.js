@@ -1,6 +1,9 @@
-export default function SidebarFooter({ $target, initialState }) {
-	const $sidebarFooter = $createElement('div', '.sidebar-footer');
-	$sidebarFooter.textContent = 'sidebarFooter';
+export default function SidebarFooter({ $target }) {
+	const $divider = $createElement('hr', '.footer-divider');
+	const $createBtn = $createElement('span', '.create-btn');
+	$createBtn.setAttribute('data-target', 'page');
+	$createBtn.textContent = '+ 새 페이지';
 
-	$target.appendChild($sidebarFooter);
+	$target.appendChild($divider);
+	$target.appendChild($createBtn);
 }
