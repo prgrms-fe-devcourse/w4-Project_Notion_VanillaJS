@@ -1,29 +1,22 @@
 import App from "./App.js"
-import Editor from "./Editor.js"
+import DocEditPage from "./DocEditPage.js"
 import RootContents from "./RootContents.js"
-import { getItem, setItem } from "./storage.js"
 
 const $target = document.querySelector('#app')
 
 // new App({ $target })
 
-const TEMP_DOC_SAVE_KEY = 'temp-documnet'
-
-const doc = getItem(TEMP_DOC_SAVE_KEY, {
-  title: '',
-  content: '',
-})
-
-new Editor({ 
-  $target, 
-  initialState: doc, 
-  onEditing: (document) => {
-    setItem(TEMP_DOC_SAVE_KEY, {
-      ...document,
-      tempSaveDate: new Date()
-    })
+const docEditPage = new DocEditPage({
+  $target,
+  initialState: {
+    documentId: 'new'
   }
 })
+
+docEditPage.setState({
+  documentId : 1
+})
+
 
 const rootcontents = new RootContents({
   $target,

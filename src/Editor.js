@@ -14,15 +14,17 @@ export default function Editor ({ $target, initialState = {
 
   this.setState = (nextState) => {
     this.state = nextState
+    $editor.querySelector('[name=title]').value = this.state.title
+    $editor.querySelector('[name=content]').value = this.state.content
     this.render()
   }
-
   this.render = () => {
     if(!isinitialize) {
     $editor.innerHTML = `
     <input type="text" name="title" value=${this.state.title} >
     <textarea name="content">${this.state.content}</textarea>
     ` 
+    isinitialize = true
     }
   }
   this.render()
@@ -32,13 +34,13 @@ export default function Editor ({ $target, initialState = {
 
     const name = target.getAttribute('name')
 
-    if (this.state[name]) {
-      const  nextState = { 
+    if (this.state[name] !== undefined){
+      const nextState = { 
         ...this.state,
       [name] : target.value
       }
 
-      // this.setState(nextState)
+      this.setState(nextState)
       onEditing(this.state)
     }
   })
