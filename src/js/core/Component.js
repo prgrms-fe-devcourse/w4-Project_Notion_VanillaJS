@@ -5,9 +5,10 @@ const Component = class {
   constructor($target, props) {
     this.$target = $target;
     this.props = props;
+    this.init()
   }
 
-  async init() {
+  init() {
 
     this.render();
   }
