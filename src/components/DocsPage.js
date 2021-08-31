@@ -4,6 +4,11 @@ import { request } from '../services/api.js';
 
 export default function DocsPage({ $target }) {
   const $page = document.createElement('div');
+  $page.setAttribute('class', 'docspage');
+
+  Object.assign($page.style, {
+    overflow: 'auto',
+  });
 
   const docsTree = new DocsTree({
     $target: $page,

@@ -9,6 +9,7 @@ import {
 
 export default function EditorPage({ $target, initialState }) {
   const $page = document.createElement('div');
+  $page.setAttribute('class', 'editorpage-container');
 
   this.state = initialState;
 

@@ -5,9 +5,11 @@ import { initRouter } from '../services/router.js';
 
 export default function App({ $target }) {
   const $container = document.createElement('div');
+  $container.setAttribute('class', 'app-inner');
 
   Object.assign($container.style, {
     display: 'flex',
+    height: '100vh',
   });
 
   $target.appendChild($container);

@@ -5,13 +5,27 @@ import { request } from '../services/api.js';
 import { push } from '../services/router.js';
 
 export default function Sidebar({ $target }) {
+  const $sidebarContainer = document.createElement('div');
+  $sidebarContainer.setAttribute('class', 'sidebar-container');
+  $target.appendChild($sidebarContainer);
+
+  Object.assign($sidebarContainer.style, {
+    position: 'relative',
+    width: '240px',
+    'background-color': 'rgb(247 246 243)',
+  });
+
   const $sidebar = document.createElement('aside');
-  $target.appendChild($sidebar);
+  $sidebar.setAttribute('class', 'sidebar');
+  $sidebarContainer.appendChild($sidebar);
 
   Object.assign($sidebar.style, {
-    width: '300px',
+    display: 'flex',
+    'flex-direction': 'column',
+    'justify-content': 'space-between',
+    position: 'absolute',
     height: '100%',
-    'background-color': '#f7f6f3',
+    width: '100%',
   });
 
   const docsPage = new DocsPage({

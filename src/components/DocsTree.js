@@ -104,4 +104,25 @@ export default function DocsTree({ $target, initialState }) {
       refreshSubDocList(targetDoc);
     }
   });
+
+  $tree.addEventListener('mouseover', (e) => {
+    const targetDoc = e.target.closest('li');
+
+    if (!targetDoc) {
+      return;
+    }
+
+    e.stopPropagation();
+    targetDoc.classList.add('current-hover');
+  });
+
+  $tree.addEventListener('mouseout', (e) => {
+    const targetDoc = e.target.closest('li');
+
+    if (!targetDoc) {
+      return;
+    }
+
+    targetDoc.classList.remove('current-hover');
+  });
 }

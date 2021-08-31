@@ -235,3 +235,8 @@
   * `const $li = e.target.closest('li');`
   * `console.log($li === e.target);`
     * true
+* Q. 루트 문서 추가할 때 깜빡임 없애려면?
+  * innerHTML을 새로 만들면 깜빡인다
+  * 따라서 루트 문서를 렌더링하는 DOM 노드가 parent라고 할 때 parent는 가만히 두고 parent에서 appendChild하면 깜빡임이 없다
+  * 그런데 이거는 루트 문서에서 +버튼으로 하위 다큐멘트를 추가하면 `refreshSubDocList`를 하는데 여기서도 removeChild를 하고 다시 렌더링을 하므로 깜빡임이 있다.
+  * 즉 루트 문서 추가할 때 깜빡임을 없애는 것은 위 `refreshSubDocList`에서도 동일하게 발생하는 현상을 없애는 것과 궤를 같이 한다.

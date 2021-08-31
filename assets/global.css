@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 0.8rem;
+  word-break: keep-all;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.current-hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+li.current-hover ul {
+  background: rgb(247 246 243);
+}
+
+button:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+button.add {
+  display: none;
+}
+
+.current-hover button.add {
+  display: inline;
+}
+
+li.current-hover ul button.add {
+  display: none;
+}
