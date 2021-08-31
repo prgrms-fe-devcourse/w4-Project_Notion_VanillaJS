@@ -34,7 +34,7 @@ export default function PostEditPage({ $target, initialState }) {
         })
 
         const isNew = this.state.postId === 'new'
-
+        console.log(post)
         if (isNew) {
           // async는 Resolved Promise를 반환하는 역할 수행.
           // Promise ( status, result ) 를 반환
@@ -62,6 +62,7 @@ export default function PostEditPage({ $target, initialState }) {
 
   this.setState = async (nextState) => {
     if (this.state.postId !== nextState.postId) {
+      console.log(this.state, nextState)
       this.state = nextState
       postLocalSaveKey = `temp-post-${this.state.postId}`
       await fetchPost()
@@ -70,6 +71,7 @@ export default function PostEditPage({ $target, initialState }) {
 
     this.state = nextState
     this.render()
+    console.log(this.state)
     editor.setState(
       this.state.post || {
         title: '',

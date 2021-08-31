@@ -44,6 +44,7 @@ export default function Editor({
       }
 
       this.setState(nextState)
+
       onEditing(this.state)
     }
   })

@@ -51,12 +51,12 @@ export default function PostPage({ $target }) {
     const { target } = e
     const name = target.className
 
-    window.dispatchEvent(
-      new CustomEvent('route-change', {
-        detail: {
-          name,
-        },
-      }),
-    )
+    // window.dispatchEvent(
+    //   new CustomEvent('route-change', {
+    //     detail: {
+    //       nextUrl: 'documents/new',
+    //     },
+    //   }),
+    // )
   })
 }
