@@ -50,3 +50,4 @@ export const CLASS_NAME_MESSAGE_CONTAINER = 'message-container';
 export const CLASS_NAME_DIMMED = 'dimmed';
 export const CLASS_NAME_MODAL = 'modal';
 export const CLASS_NAME_DISPLAY_FLEX = 'display-flex';
+export const CLASS_NAME_FA_BOOK_OPEN = 'fas';

@@ -9,7 +9,6 @@ import {
   CLASS_NAME_DOCUMENT_TREE,
   CLASS_NAME_BUTTON_GROUP,
   CLASS_NAME_MESSAGE_CONTAINER,
-  CLASS_NAME_LOGO_CONTAINER,
   MSG_DOCUMENTS_DOES_NOT_EXIST,
   CLASS_NAME_LOGO_IMAGE,
   CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON,
@@ -72,17 +71,18 @@ export const makeChildDocumentLinkTemplate = list => {
 };
 
 export const makeDocumentList = state => {
+  return `${
+    isEmptyArray(state)
+      ? `<div class="${CLASS_NAME_MESSAGE_CONTAINER}">${MSG_DOCUMENTS_DOES_NOT_EXIST}</div>`
+      : `${makeDocumentTreeTemplate(state)}`
+  }`;
+};
+
+export const makeLogoContainer = () => {
   return `
-    <div class="${CLASS_NAME_LOGO_CONTAINER}">
       <img class="${CLASS_NAME_LOGO_IMAGE}" src="/src/images/logo.png" alt="logo image" />
       <button class="${CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON}">
         <i class="fas fa-book-open fa-md"></i> ${MSG_ADD_DOCUMENT}
       </button>
-    </div>
-    ${
-      isEmptyArray(state)
-        ? `<div class="${CLASS_NAME_MESSAGE_CONTAINER}">${MSG_DOCUMENTS_DOES_NOT_EXIST}</div>`
-        : `<ul class="${CLASS_NAME_DOCUMENT_TREE}">${makeDocumentTreeTemplate(state)}</ul>`
-    }
   `;
 };

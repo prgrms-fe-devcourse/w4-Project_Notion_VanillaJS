@@ -1,13 +1,11 @@
-import { makeDocumentTreeTemplate, makeDocumentList } from '../utils/template.js';
-import { checkCorrectTypeThrowError, checkIsArrayThrowError, isEmptyArray } from '../utils/validator.js';
+import { makeDocumentList, makeLogoContainer } from '../utils/template.js';
+import { checkCorrectTypeThrowError, checkIsArrayThrowError } from '../utils/validator.js';
 import { fetchDeleteDocument } from '../utils/api.js';
 import { movePage } from '../utils/eventListeners.js';
 import { checkUseConstructorFunction } from '../utils/validator.js';
 import { createElement } from '../utils/dom.js';
 import {
-  MSG_DOCUMENTS_DOES_NOT_EXIST,
   MSG_CONFIRM_DELETE,
-  MSG_ADD_DOCUMENT,
   CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON,
   CLASS_NAME_DOCUMENT_TREE,
   CLASS_NAME_DOCUMENT_ITEM,
@@ -16,7 +14,7 @@ import {
   CLASS_NAME_DOCUMENT_LIST,
   CLASS_NAME_LOGO_CONTAINER,
   CLASS_NAME_LOGO_IMAGE,
-  CLASS_NAME_MESSAGE_CONTAINER,
+  CLASS_NAME_FA_BOOK_OPEN,
 } from '../utils/constants.js';
 
 export default function DocumentList({ $target, initialState, onOpenModal }) {
@@ -30,8 +28,15 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
   this.state = initialState;
 
   const $documentList = createElement('div');
+  const $logoContainer = createElement('div');
+  const $documentTree = createElement('ul');
 
   $documentList.className = CLASS_NAME_DOCUMENT_LIST;
+  $logoContainer.className = CLASS_NAME_LOGO_CONTAINER;
+  $documentTree.className = CLASS_NAME_DOCUMENT_TREE;
+
+  $documentList.appendChild($logoContainer);
+  $documentList.appendChild($documentTree);
   $target.appendChild($documentList);
 
   this.setState = nextState => {
@@ -41,18 +46,37 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
   };
 
   this.render = () => {
-    $documentList.innerHTML = makeDocumentList(this.state);
+    $logoContainer.innerHTML = makeLogoContainer();
+    $documentTree.innerHTML = makeDocumentList(this.state);
   };
 
   let isInit = false;
   this.init = () => {
-    $documentList.addEventListener('click', async e => {
+    $logoContainer.addEventListener('click', e => {
+      const { classList } = e.target;
+      const mainClassName = classList[0];
+
+      switch (mainClassName) {
+        case CLASS_NAME_FA_BOOK_OPEN:
+        case CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON:
+          onOpenModal();
+          break;
+
+        case CLASS_NAME_LOGO_IMAGE:
+          movePage(`/`);
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    $documentTree.addEventListener('click', async e => {
       const {
         target,
-        target: { classList, className },
+        target: { classList },
       } = e;
-
-      const $rootDocumentAddButton = target.closest('button');
+      const mainClassName = classList[0];
       const $documentItem = target.closest(`.${CLASS_NAME_DOCUMENT_ITEM}`);
 
       let documentId = '';
@@ -60,19 +84,24 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
         documentId = $documentItem.dataset.id;
       }
 
-      if (classList.contains(CLASS_NAME_DOCUMENT_ADD_BUTTON)) {
-        onOpenModal(documentId);
-      } else if (classList.contains(CLASS_NAME_DOCUMENT_DELETE_BUTTON)) {
-        if (confirm(MSG_CONFIRM_DELETE)) {
-          await fetchDeleteDocument(documentId);
-          movePage(`/`);
-        }
-      } else if (className === CLASS_NAME_ROOT_DOCUMENT_ADD_BUTTON || $rootDocumentAddButton) {
-        onOpenModal();
-      } else if (className === CLASS_NAME_DOCUMENT_ITEM) {
-        movePage(`/document/${documentId}`);
-      } else if (className === CLASS_NAME_LOGO_IMAGE) {
-        movePage(`/`);
+      switch (mainClassName) {
+        case CLASS_NAME_DOCUMENT_ADD_BUTTON:
+          onOpenModal(documentId);
+          break;
+
+        case CLASS_NAME_DOCUMENT_DELETE_BUTTON:
+          if (confirm(MSG_CONFIRM_DELETE)) {
+            await fetchDeleteDocument(documentId);
+            movePage(`/`);
+          }
+          break;
+
+        case CLASS_NAME_DOCUMENT_ITEM:
+          movePage(`/document/${documentId}`);
+          break;
+
+        default:
+          break;
       }
     });
 
