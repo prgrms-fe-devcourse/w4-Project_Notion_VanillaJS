@@ -1,17 +1,23 @@
+import { request } from "./api.js"
+
 export default function RootList({
   $target,
   initialState
 }) {
   const $rootList = document.createElement('div')
-
   $target.appendChild($rootList)
 
   this.state = initialState
 
+  this.setState = (nextState) => {
+    this.state = nextState
+    console.log(this.state)
+    this.render()
+  }
+
   this.render = () => {
 
-    const createLi = (nextState) => {`<li>${nextState}</li>`}
-
+    console.log(this.state)
     $rootList.innerHTML = `
       <ul>
         ${this.state.map(root => 
@@ -24,6 +30,7 @@ export default function RootList({
       <button>새로운 root 추가</button>
       </ul>
     `
+    console.log(2222)
   }
   
   this.render()

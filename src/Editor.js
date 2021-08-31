@@ -15,6 +15,7 @@ export default function Editor({
     this.state = nextState
     this.render()
   }
+  
   this.render = () => {
     if (!isInitialize){
       $editor.innerHTML = `
