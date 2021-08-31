@@ -59,7 +59,7 @@ export default function App({ $target }) {
     documentsPage.setState();
     initRouter(this.route);
     initBrowserRouter(this.route);
-    initEditorDataChangedListener(() => documentsPage.setState());
+    initEditorDataChangedListener(documentsPage.setState);
   };
 
   this.init();
