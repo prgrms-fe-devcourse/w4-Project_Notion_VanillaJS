@@ -20,6 +20,9 @@ export default function Page({ $target, initialState }) {
 		$target: $pageHeader,
 		initialState,
 	});
+
+	let pageBodyEditTimer = null;
+
 	const pageBody = new PageBody({
 		$target: $pageBody,
 		initialState,
@@ -31,10 +34,15 @@ export default function Page({ $target, initialState }) {
 				editCurrentDocument(nextDocument);
 			},
 			editContent: content => {
-				const nextDocument = Object.assign({}, this.state.currentDocument);
-				nextDocument.content = content;
+				if (pageBodyEditTimer) {
+					clearTimeout(pageBodyEditTimer);
+				}
+				pageBodyEditTimer = setTimeout(() => {
+					const nextDocument = Object.assign({}, this.state.currentDocument);
+					nextDocument.content = content;
 
-				editCurrentDocument(nextDocument);
+					editCurrentDocument(nextDocument);
+				}, 1000);
 			},
 		},
 	});
