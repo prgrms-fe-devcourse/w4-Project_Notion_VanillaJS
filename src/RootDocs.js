@@ -1,5 +1,6 @@
 // import { docsTreeToArray } from "./tool.js"
-export default function RootDocs({ $target, initialState, onDocsClick }) {
+import { push } from "./router.js"
+export default function RootDocs({ $target, initialState, }) {
   const $rootDocs = document.createElement('div')
   $target.appendChild($rootDocs)
 
@@ -27,10 +28,7 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
 
     if ($li) {
       const { id } = $li.dataset
-
-      onDocsClick(id)
+      push(`/posts/${id}`)
     }
-
   })
-
 }

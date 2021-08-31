@@ -1,6 +1,7 @@
 import { request } from "./api.js"
 import Editor from "./Editor.js"
 import { getItem, removeItem, setItem } from "./storage.js"
+import LinkButton from "./LinkButton.js"
 
 
 export default function docEditPage({ $target, initialState }) {
@@ -35,12 +36,16 @@ export default function docEditPage({ $target, initialState }) {
 
         const isNew = this.state.documentId === 'new'
         if(isNew){
-          const createdDocumnet = await request('/posts', {
+          const createdDocument = await request('/posts', {
             method: 'POST',
             body: JSON.stringify(document)
           })
-          history.replaceState(null, null, `/posts/${createdDocumnet.id}`)
+          history.replaceState(null, null, `/posts/${createdDocument.id}`)
           removeItem(docLocalSaveKey)
+
+          this.setState({
+            documentId: createdDocument.id,
+          })
         } else {
           await request(`/posts/${document.id}`, {
             method: 'PUT',
@@ -55,10 +60,19 @@ export default function docEditPage({ $target, initialState }) {
 
   this.setState = async nextState => {
     if (this.state.documentId !== nextState.documentId){ 
-        docLocalSaveKey = `temp-doc-${nextState.documentId}`
-
+      docLocalSaveKey = `temp-doc-${nextState.documentId}`
       this.state = nextState
-      await fetchDocument()
+
+      if (this.state.documentId === 'new'){
+        const doc = getItem(docLocalSaveKey, {
+          title: '',
+          content: '',
+        })
+        this.render()
+        editor.setState(document)
+      } else{
+        await fetchDocument()
+      }
       return
     }
     
@@ -102,4 +116,12 @@ export default function docEditPage({ $target, initialState }) {
       })
     }
   }
+
+  new LinkButton({
+    $target: $page,
+    initialState: {
+      text: '목록으로 이동',
+      link: '/'
+    }
+  })
 }

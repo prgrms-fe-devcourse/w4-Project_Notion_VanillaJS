@@ -1,5 +1,6 @@
 import DocsPage from "./DocsPage.js"
 import DocEditPage from "./DocEditPage.js"
+import { initRouter } from "./router.js"
 
 
 // url 규칙
@@ -11,10 +12,7 @@ import DocEditPage from "./DocEditPage.js"
 export default function App ({ $target }) {
   const docsPage = new DocsPage({ 
     $target,
-    onDocsClick: (id) => {
-      history.pushState(null, null, `/posts/${id}`)
-      this.route()
-    }
+
    })
   const docsEditPage = new DocEditPage({ 
     $target, 
@@ -32,7 +30,7 @@ export default function App ({ $target }) {
     const { pathname } = window.location
 
     if (pathname === '/') {
-      docsPage.render()
+      docsPage.setState()
     } else if (pathname.indexOf('/posts/') === 0) {
       const [, , documentId ] = pathname.split('/')
       docsEditPage.setState({ documentId })
@@ -42,4 +40,6 @@ export default function App ({ $target }) {
   }
 
   this.route()
+
+  initRouter(() => this.route())
 }
