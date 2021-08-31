@@ -1,3 +1,11 @@
+button {
+	border: none;
+	background-color: #1fe0;
+}
+ul {
+	list-style: none;
+}
+
 #app {
 	display: flex;
 }
@@ -6,7 +14,7 @@
 	font-weight: bold;
 }
 
-.editor-modal {
+.page-modal {
 	position: absolute;
 	top: 72px;
 	left: 72px;
@@ -23,4 +31,15 @@
 }
 .editor-modal.hide {
 	display: none;
+}
+
+.sidebar-header {
+	display: flex;
+}
+
+.nav-list {
+	padding: 0;
+}
+.nav-list > .tree {
+	padding: 0;
 }
