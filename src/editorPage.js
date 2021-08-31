@@ -1,5 +1,5 @@
 export default function EditorPage({
-  $target,
+  targetElement,
   ininialState,
   onSave,
   onSelecte,
@@ -13,9 +13,9 @@ export default function EditorPage({
     emoji: "",
   };
 
-  const $editorPage = document.createElement("div");
-  $editorPage.className = "editor-page";
-  $target.appendChild($editorPage);
+  const editorPageElement = document.createElement("div");
+  editorPageElement.className = "editor-page";
+  targetElement.appendChild(editorPageElement);
 
   this.state = ininialState;
   this.image = defaultImage;
@@ -26,6 +26,7 @@ export default function EditorPage({
       this.render();
       return;
     }
+    // 삼항식을 쓸경우 가독성이 더 안좋아질것같아서 if문으로 대체
     if (nextState.content !== null) {
       const state = { ...nextState, content: JSON.parse(nextState.content) };
       this.state = state;
@@ -60,18 +61,18 @@ export default function EditorPage({
 
   this.render = () => {
     if (!this.state) {
-      $editorPage.innerHTML = `<div calss="editor-empty-page">왼쪽에서 문서를 선택해주세요.</div>`;
+      editorPageElement.innerHTML = `<div calss="editor-empty-page">왼쪽에서 문서를 선택해주세요.</div>`;
       return;
     }
-    $editorPage.innerHTML = `
+    editorPageElement.innerHTML = `
         <header>
         <div class="header-emoji">${this.state.content.emoji}</div>
         <div class="sub-title">${this.state.title}</div>
         </header>
         <div class ="background-container">
-        <img class="background" src ="${
-          this.state.content.image || defaultImage
-        }">
+        <img class="background" src ="${this.state.content.image}" alt ="${
+      this.state.title
+    }문서의 배경화면">
         <div class = "background-select hide">배경 바꾸기</div>
         </div>
         <div  class = "emoji-container">
@@ -92,9 +93,11 @@ export default function EditorPage({
         }</div>
         <div class="child-documents-container"></div>
 `;
-    const childContainer = document.querySelector(".child-documents-container");
+    const childContainerElement = document.querySelector(
+      ".child-documents-container"
+    );
 
-    childContainer.innerHTML = `
+    childContainerElement.innerHTML = `
         
           ${this.state.documents
             .map((document) => {
@@ -115,7 +118,7 @@ export default function EditorPage({
       id: this.state.id,
     };
   };
-  $editorPage.addEventListener("keyup", (e) => {
+  editorPageElement.addEventListener("keyup", (e) => {
     if (!saveTimer !== null) clearTimeout(saveTimer);
     const isOnEditTitle = e.target.className === "editor-title";
     const title = document.querySelector(".editor-title").innerHTML;
@@ -124,8 +127,9 @@ export default function EditorPage({
       onSave(payLoadData());
     }, 500);
   });
+
   let init = false;
-  $editorPage.addEventListener("mouseover", (e) => {
+  editorPageElement.addEventListener("mouseover", (e) => {
     const background = document.querySelector(".background");
     const backgroundSelect = document.querySelector(".background-select");
     if (e.target.className !== "background") return;
@@ -143,7 +147,7 @@ export default function EditorPage({
     }
   });
 
-  $editorPage.addEventListener("click", (e) => {
+  editorPageElement.addEventListener("click", (e) => {
     if (e.target.classList[1] === "emoji") {
       e.target.parentNode.classList.toggle("hide");
       this.setEmoji(e.target.textContent);

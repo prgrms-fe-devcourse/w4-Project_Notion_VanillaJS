@@ -1,6 +1,6 @@
 const API_END_POINT = `https://Kdt.roto.codes`;
 const userName = "alajillo";
-export async function getDocuments() {
+export async function getDocumentsList() {
   try {
     const result = await fetch(`${API_END_POINT}/documents`, {
       headers: { "x-username": userName },
