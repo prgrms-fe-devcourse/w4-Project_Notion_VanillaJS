@@ -29,6 +29,7 @@ export default function ListPage({
   const favoriteList = new FavoriteDocumentsList({
     $target: $page,
     initialState: this.state.favoriteDocuments,
+    onGetDocument,
   });
   const documentsList = new DocumentsList({
     $target: $page,

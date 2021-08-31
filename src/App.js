@@ -33,9 +33,6 @@ export default function App({ $target, initialState }) {
       });
       if ($newDocument) {
         const { id } = $newDocument;
-        if (parent) {
-          toggleDocument(parent, false);
-        }
         getRootDocument(false);
         await getDocument(id);
       }
@@ -65,10 +62,12 @@ export default function App({ $target, initialState }) {
       }, 500);
     },
     onDeleteDocument: async (documentId, isLast) => {
-      const { favoriteDocuments } = this.state;
+      const { favoriteDocuments, toggledDocuments } = this.state;
       if (favoriteDocuments[documentId]) {
-        console.log("deleting favorite");
         toggleFavorite(documentId, false);
+      }
+      if (toggledDocuments[documentId]) {
+        toggleDocument(documentId, true, false);
       }
       await api.deleteDocumentById(documentId);
       if (isLast) {
@@ -115,9 +114,9 @@ export default function App({ $target, initialState }) {
     setItem(LOCAL_STORAGE_KEY.FAVORITE_DOCUMENTS, favoriteDocuments);
   };
 
-  const toggleDocument = (id, sendState = true) => {
+  const toggleDocument = (id, forceErase = false, sendState = true) => {
     const { toggledDocuments } = this.state;
-    toggledDocuments[id] && sendState
+    toggledDocuments[id] || forceErase
       ? delete toggledDocuments[id]
       : (toggledDocuments[id] = true);
     this.setState({ ...this.state, toggledDocuments }, sendState);

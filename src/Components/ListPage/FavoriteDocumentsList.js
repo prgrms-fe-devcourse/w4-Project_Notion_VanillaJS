@@ -1,4 +1,8 @@
-export default function FavoriteDocumentsList({ $target, initialState }) {
+export default function FavoriteDocumentsList({
+  $target,
+  initialState,
+  onGetDocument,
+}) {
   // DOM Create
   const $favList = document.createElement("div");
   $favList.className = "favorite-list";
@@ -31,4 +35,15 @@ export default function FavoriteDocumentsList({ $target, initialState }) {
     </div>
     `;
   };
+
+  // Event Listener
+  $favList.addEventListener("click", (e) => {
+    const { target } = e;
+    const $li = target.closest("li");
+
+    if ($li) {
+      const { id } = $li.dataset;
+      onGetDocument(id);
+    }
+  });
 }
