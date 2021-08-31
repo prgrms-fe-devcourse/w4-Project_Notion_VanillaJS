@@ -36,22 +36,26 @@ export default function EditorPage({
     this.render();
   };
   this.setImage = (nextState) => {
-    this.image = nextState || defaultImage;
     const backgroundImage = document.querySelector(".background");
-    console.log(backgroundImage);
+    this.image = nextState || defaultImage;
     backgroundImage.src = nextState;
+    onSave(payLoadData());
   };
+
   this.setTitle = (nextState) => {
     this.state = { ...this.state, title: nextState } || null;
     const subTitle = document.querySelector(".sub-title");
     subTitle.textContent = nextState;
+    onSave(payLoadData());
   };
+
   this.setEmoji = (nextState) => {
     this.emoji = nextState;
     const subEmoji = document.querySelector(".header-emoji");
     const emoji = document.querySelector(".select-emoji");
     emoji.textContent = this.emoji;
     subEmoji.textContent = this.emoji;
+    onSave(payLoadData());
   };
 
   this.render = () => {
@@ -64,9 +68,12 @@ export default function EditorPage({
         <div class="header-emoji">${this.state.content.emoji}</div>
         <div class="sub-title">${this.state.title}</div>
         </header>
+        <div class ="background-container">
         <img class="background" src ="${
           this.state.content.image || defaultImage
         }">
+        <div class = "background-select hide">배경 바꾸기</div>
+        </div>
         <div  class = "emoji-container">
         <div class="select-emoji">${this.state.content.emoji || "+"}</div>
         <ul class  ="emoji-list hide">
@@ -117,13 +124,29 @@ export default function EditorPage({
       onSave(payLoadData());
     }, 500);
   });
-  const background = document.querySelector(".backgound");
-  console.log(background);
+  let init = false;
+  $editorPage.addEventListener("mouseover", (e) => {
+    const background = document.querySelector(".background");
+    const backgroundSelect = document.querySelector(".background-select");
+    if (e.target.className !== "background") return;
+    backgroundSelect.classList.remove("hide");
+    if (!init) {
+      init = true;
+      background.addEventListener("mouseout", (e) => {
+        if (e.relatedTarget === backgroundSelect) return;
+        backgroundSelect.classList.add("hide");
+      });
+      backgroundSelect.addEventListener("click", (e) => {
+        const imageUrl = prompt("사진 URL을 입력해주세요");
+        this.setImage(imageUrl);
+      });
+    }
+  });
+
   $editorPage.addEventListener("click", (e) => {
     if (e.target.classList[1] === "emoji") {
       e.target.parentNode.classList.toggle("hide");
       this.setEmoji(e.target.textContent);
-      onSave(payLoadData());
 
       return;
     }

@@ -43,7 +43,7 @@ div.editor-title {
   height: 247px;
 }
 
-ul.hide {
+.hide {
   display: none;
 }
 ul.emoji-list {
@@ -65,4 +65,19 @@ li.emmoji {
   width: 50px;
   height: 50px;
   font-size: 30px;
+}
+
+.background-container {
+  position: relative;
+}
+
+.background-select {
+  border-radius: 4px;
+  color: aliceblue;
+  background-color: gray;
+  opacity: 50%;
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  font-weight: bold;
 }
