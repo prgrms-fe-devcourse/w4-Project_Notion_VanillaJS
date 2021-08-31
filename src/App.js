@@ -7,9 +7,14 @@ export default function App({ $target, initialState }) {
     $target,
     inititalState: initialState,
     onClick: e => {
-      if (e.target.nodeName === 'SPAN') {
-        const documentId = e.target.closest('li').dataset.id;
+      const target = e.target;
+      const documentId = target.closest('li').dataset.id;
+
+      if (target.nodeName === 'SPAN') {
         documentEditor.getDocument(documentId);
+      } else if (target.nodeName === 'BUTTON') {
+        documentList.addDocument(+documentId);
+        documentEditor.setState({ title: '', content: '', isLoad: true, documentId: documentId });
       }
     }
   });
@@ -19,7 +24,8 @@ export default function App({ $target, initialState }) {
     initialState: {
       title: '',
       content: '',
-      isLoad: true
+      isLoad: true,
+      documentId: ''
     }
   });
 }
