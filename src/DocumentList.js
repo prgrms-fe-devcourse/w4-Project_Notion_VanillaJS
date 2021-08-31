@@ -1,3 +1,5 @@
+import { request } from './api.js';
+
 export default function DocumentList({ $target, inititalState, onClick }) {
   this.state = inititalState;
 
@@ -5,8 +7,14 @@ export default function DocumentList({ $target, inititalState, onClick }) {
 
   $target.appendChild($document);
 
+  this.setState = nextState => {
+    this.state = nextState;
+
+    this.render();
+  };
+
   this.render = () => {
-    const documentsIndex = this.state.map(document => this.orderDocuments(document, 10));
+    const documentsIndex = this.state.map(document => orderDocuments(document, 10));
 
     $document.innerHTML = `
         <ul>
@@ -15,7 +23,7 @@ export default function DocumentList({ $target, inititalState, onClick }) {
       `;
   };
 
-  this.orderDocuments = document => {
+  const orderDocuments = document => {
     const documentsIndex = [];
 
     const dfs = (node, level) => {
@@ -40,5 +48,11 @@ export default function DocumentList({ $target, inititalState, onClick }) {
 
   $document.addEventListener('click', onClick);
 
-  this.render();
+  const fetchDocument = async () => {
+    const documents = await request();
+
+    this.setState(documents);
+  };
+
+  fetchDocument();
 }
