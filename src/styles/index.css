@@ -8,8 +8,8 @@ button {
 }
 
 #app {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
+  display: flex;
+  flex-direction: row;
   width: 100vw;
   height: 100vh;
 }
@@ -46,6 +46,7 @@ button {
   display: flex;
   flex-direction: column;
   color: gray;
+  overflow: hidden;
 }
 
 .document-list .message-container {
@@ -141,10 +142,61 @@ button {
 }
 
 .documents-page {
-  width: 100%;
+  position: relative;
+  width: 15%;
   height: 100%;
   background-color: #f7f6f3;
-  overflow-y: auto;
+}
+
+.fade-out {
+  animation-duration: 0.2s;
+  animation-name: fadeOut;
+  animation-fill-mode: forwards;
+}
+
+.fade-in {
+  animation-duration: 0.2s;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    width: 15%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 15%;
+  }
+}
+
+.child-document-container {
+  width: 70%;
+}
+
+.side-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  font-size: 24px;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
 }
 
 .logo-container {
