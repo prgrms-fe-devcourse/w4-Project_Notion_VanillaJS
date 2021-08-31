@@ -1,6 +1,6 @@
 @import 'reset.css';
-@import "sidebar.css";
-@import "postMain.css";
+@import 'sidebar.css';
+@import 'postMain.css';
 
 :root {
   --background: white;
@@ -16,5 +16,3 @@ body {
   display: flex;
   flex-direction: row;
 }
-
-.

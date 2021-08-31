@@ -17,7 +17,7 @@ export default function PostPage({ $target }) {
           parent: id,
         }),
       })
-
+      console.log(post)
       await fetchPosts()
     },
     onDelete: async (id) => {
@@ -46,16 +46,14 @@ export default function PostPage({ $target }) {
 
   fetchPosts()
 
-  $page.addEventListener('click', (e) => {
-    const { target } = e
-    const name = target.className
-
-    window.dispatchEvent(
-      new CustomEvent('route-change', {
-        detail: {
-          nextUrl: 'documents/new',
-        },
-      }),
-    )
-  })
+  // 이벤트 버블링인데, 특정 작업에 건게 아니라 페이지 전체에 걸었다.
+  // $page.addEventListener('click', () => {
+  //   window.dispatchEvent(
+  //     new CustomEvent('route-change', {
+  //       detail: {
+  //         nextUrl: '/documents/new',
+  //       },
+  //     }),
+  //   )
+  // })
 }
