@@ -9,8 +9,15 @@ export default function PageBody({ $target, initialState }) {
 	};
 
 	this.render = () => {
-		$pageTitle.textContent = '첫번째 문서';
-		$pageContent.textContent = '첫번째 문서 내용입니다.';
+		const { currentDocument } = this.state;
+		const { title, content } = currentDocument;
+
+		$pageTitle.innerHTML = `
+			<input type="text" class="page-title-input" value="${title}">
+		`;
+		$pageContent.innerHTML = `
+			<textarea class="page-content-textarea">${content}</textarea>
+		`;
 	};
 
 	this.render();

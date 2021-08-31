@@ -28,6 +28,6 @@ export default function App({ $target, initialState }) {
 
 	const sideBar = new Sidebar({ $target: $row, initialState });
 	const page = new Page({ $target: $row, initialState });
-	const modal = new Modal({ $target, initialState });
+	new Modal({ $target, initialState });
 	initCurrentDocumentEmitter(nextDocumentId => getDocument(nextDocumentId));
 }
