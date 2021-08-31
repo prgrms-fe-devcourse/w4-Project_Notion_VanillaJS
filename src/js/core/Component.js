@@ -7,7 +7,7 @@ const Component = class {
     this.props = props;
   }
 
-  async initialState() {
+  async init() {
 
     this.render();
   }
@@ -23,6 +23,7 @@ const Component = class {
 
   render() {
     this.$target.innerHTML = this.template();
+    this.mount()
   }
 
   mount() {}
