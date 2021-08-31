@@ -1,8 +1,6 @@
 export default function PageHeader({ $target, initialState }) {
 	const $breadCrumb = $createElement('div', '.header-breadcrumb');
 	const $external = $createElement('div', '.header-external');
-	$target.appendChild($breadCrumb);
-	$target.appendChild($external);
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -16,4 +14,6 @@ export default function PageHeader({ $target, initialState }) {
 	};
 
 	this.render();
+	$target.appendChild($breadCrumb);
+	$target.appendChild($external);
 }

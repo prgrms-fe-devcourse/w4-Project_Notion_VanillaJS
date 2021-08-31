@@ -13,10 +13,6 @@ export default function Sidebar({ $target, initialState }) {
 	const $sidebarHeader = $createElement('div', '.sidebar-header');
 	const $sidebarBody = $createElement('div', '.sidebar-body');
 	const $sidebarFooter = $createElement('div', '.sidebar-footer');
-	$target.appendChild($sidebar);
-	$sidebar.appendChild($sidebarHeader);
-	$sidebar.appendChild($sidebarBody);
-	$sidebar.appendChild($sidebarFooter);
 	addClassAll($sidebar, 'col', 'sidebar-container');
 
 	this.state = initialState;
@@ -43,6 +39,7 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarHeader,
 		initialState,
 	});
+
 	const sidbarBody = new SidebarBody({
 		$target: $sidebarBody,
 		initialState,
@@ -77,4 +74,9 @@ export default function Sidebar({ $target, initialState }) {
 			},
 		},
 	});
+
+	$target.appendChild($sidebar);
+	$sidebar.appendChild($sidebarHeader);
+	$sidebar.appendChild($sidebarBody);
+	$sidebar.appendChild($sidebarFooter);
 }

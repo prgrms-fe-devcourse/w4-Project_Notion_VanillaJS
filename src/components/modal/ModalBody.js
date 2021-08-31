@@ -1,8 +1,6 @@
 export default function ModalBody({ $target, initialState }) {
 	const $modalTitle = $createElement('p', 'modal-title');
 	const $modalContent = $createElement('p', 'modal-content');
-	$target.appendChild($modalTitle);
-	$target.appendChild($modalContent);
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -21,4 +19,6 @@ export default function ModalBody({ $target, initialState }) {
 	};
 
 	this.render();
+	$target.appendChild($modalTitle);
+	$target.appendChild($modalContent);
 }

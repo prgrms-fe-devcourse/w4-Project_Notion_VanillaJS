@@ -5,9 +5,6 @@ export default function Page({ $target, initialState }) {
 	const $page = $createElement('div');
 	const $pageHeader = $createElement('div', '.page-header');
 	const $pageBody = $createElement('div', '.page-body');
-	$target.appendChild($page);
-	$page.appendChild($pageHeader);
-	$page.appendChild($pageBody);
 	addClassAll($page, 'col', 'page-container');
 
 	this.state = initialState;
@@ -23,4 +20,8 @@ export default function Page({ $target, initialState }) {
 		$target: $pageBody,
 		initialState,
 	});
+
+	$target.appendChild($page);
+	$page.appendChild($pageHeader);
+	$page.appendChild($pageBody);
 }

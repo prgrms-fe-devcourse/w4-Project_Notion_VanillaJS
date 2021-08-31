@@ -7,9 +7,6 @@ export default function Modal({ $target, initialState }) {
 	const $modal = $createElement('div');
 	const $modalHeader = $createElement('div', '.modal-header');
 	const $modalBody = $createElement('div', '.modal-body');
-	$target.appendChild($modal);
-	$modal.appendChild($modalHeader);
-	$modal.appendChild($modalBody);
 	addClassAll($modal, 'modal-container', 'hide');
 
 	this.state = initialState;
@@ -37,7 +34,11 @@ export default function Modal({ $target, initialState }) {
 			},
 		},
 	});
-	const modalBody = new ModalBody({ $target: $modalBody, initialState });
 
+	const modalBody = new ModalBody({ $target: $modalBody, initialState });
 	initShowModalEmitter(() => toggleModal(true));
+
+	$target.appendChild($modal);
+	$modal.appendChild($modalHeader);
+	$modal.appendChild($modalBody);
 }

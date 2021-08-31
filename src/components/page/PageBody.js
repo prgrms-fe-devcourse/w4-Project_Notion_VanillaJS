@@ -1,8 +1,6 @@
 export default function PageBody({ $target, initialState }) {
 	const $pageTitle = $createElement('div', 'page-title');
 	const $pageContent = $createElement('div', 'page-content');
-	$target.appendChild($pageTitle);
-	$target.appendChild($pageContent);
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -16,4 +14,6 @@ export default function PageBody({ $target, initialState }) {
 	};
 
 	this.render();
+	$target.appendChild($pageTitle);
+	$target.appendChild($pageContent);
 }

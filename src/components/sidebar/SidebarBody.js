@@ -5,9 +5,6 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	const $createBtn = $createElement('div', '.create-btn');
 	$createBtn.innerHTML = `<span data-target="page">+ 페이지 추가</span>`;
 
-	$target.appendChild($navList);
-	$target.appendChild($createBtn);
-
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
@@ -63,4 +60,6 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	};
 
 	this.render();
+	$target.appendChild($navList);
+	$target.appendChild($createBtn);
 }
