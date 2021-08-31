@@ -71,4 +71,33 @@
   overflow: auto;
 }
 
+.notice {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: auto;
+  font-size: 18px;
+  text-align: center;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40px;
+  border-radius: 9px;
+  background-color: #f4f4f8;
+  opacity: 0;
+  transition: 1s all;
+}
+.notice.on {
+  opacity: 1;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 /*# sourceMappingURL=index.css.map */
