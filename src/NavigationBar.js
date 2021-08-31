@@ -1,59 +1,51 @@
 import DocumentList from './components/DocumentList.js';
 import { API_END_POINT, request } from './api.js';
+import { trigger } from './router.js';
 
-const dummyData = [
-  {
-    "id": 1, // Document id
-    "title": "노션을 만들자", // Document title
-    "documents": [
-      {
-        "id": 2,
-        "title": "블라블라",
-        "documents": [
-          {
-            "id": 3,
-            "title": "함냐함냐",
-            "documents": []
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "title": "hello!",
-    "documents": []
-  }
-]
-//await request('/documents', 'roto')
-
-export default function NavigationBar ({ $target, onClickList }) {
+export default function NavigationBar ({ $target }) {
   const $navigationBar = document.createElement('nav')
   $target.appendChild($navigationBar)
 
   const documentList = new DocumentList({
     $target: $navigationBar, 
-    initialState: dummyData,
+    initialState: [],
     
-    onClickList: (id) => {
-
-      window.dispatchEvent(new CustomEvent('route-change', {
-        detail: {
-          nextUrl : `/documents/${id}`
-        }
-      }))
+    onClickDoc: (id) => {
+      trigger(`/documents/${id}`)
     },
 
-    onAddList: (id) => {
-      
+    onAddDoc: async (id) => {
+      const createdDocument = await request('/documents', {
+        method: 'POST',
+        body: JSON.stringify({
+          "title": "문서 제목",
+          "parent": id
+        })
+      })
 
-      console.log(id)
+      // 새로 추가된 documentID URL로 이동
+      trigger(`/documents/${createdDocument.id}`)
+      
+      this.setState()
+    },
+
+    onDeleteDoc : async (id) => {
+      await request(`/documents/${id}`, {
+        method: 'DELETE'
+      })
+
+      // !!! 뒤로가기 기능 추가하기 
+      
+      this.setState()
     }
+
   })
 
 
   this.setState = async () => {
-    const documents = await request('/documents', 'roto')
+    // document들 새로 GET
+    const documents = await request('/documents')
+    // document들로 새로 setState
     documentList.setState(documents)
   }
 
