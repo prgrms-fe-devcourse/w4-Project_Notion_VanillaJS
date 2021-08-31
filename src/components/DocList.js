@@ -1,7 +1,3 @@
-import { request } from '../services/api.js';
-import { push } from '../services/router.js';
-import SubDocList from './SubDocList.js';
-
 export default function DocList({ $target, initialState }) {
   const $list = document.createElement('div');
   $target.appendChild($list);
@@ -32,40 +28,4 @@ export default function DocList({ $target, initialState }) {
   };
 
   this.render();
-
-  $list.addEventListener('click', async (e) => {
-    const $li = e.target.closest('li');
-
-    if (!$li) {
-      return;
-    }
-
-    const id = Number($li.dataset.id);
-
-    push(`/documents/${id}`);
-
-    const { className } = e.target;
-
-    if (className === 'unfold') {
-      // const { documents: subdocs } = this.state.find((rootDoc) => rootDoc.id === id) || {};
-      const { documents: subdocs } = await request(`/documents/${id}`);
-
-      if (!subdocs) {
-        return;
-      }
-
-      new SubDocList({
-        $target: $li,
-        initialState: subdocs,
-      });
-
-      e.target.textContent = '_';
-      e.target.className = 'fold';
-    } else if (className === 'fold') {
-      $li.removeChild($li.querySelector('div'));
-
-      e.target.textContent = '>';
-      e.target.className = 'unfold';
-    }
-  });
 }

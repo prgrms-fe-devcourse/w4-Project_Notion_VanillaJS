@@ -143,6 +143,31 @@
       1. Q. 해당 x-username으로 존재하지 않는 문서 id로 접근할 경우?
          1. 해당 문서 id가 어떤 x-username에 속하는지를 알 길이 없다. 애초에 노션 클로닝이기 때문에 다른 유저의 문서를 접근한다는 게 말이 안된다. 그러므로 존재하지 않는 문서 id라는 것을 사용자에게 알려주는 식으로 처리한다.
          2. 그런데 생각해보니 이게 존재하지 않는 id여서 api 오류가 발생하는 건지 아니면 서버 상의 시스템 오류로 api 오류나는 건지 프론트 측에서는 알 길이 없다. 따라서 그냥 일반적인 관점으로 API 호출 오류를 내뱉도록 한다.
+8. `DocList` 리팩터
+   1. 리팩터 이유?
+      1. 코드가 중복된다. DRY 규칙을 따르도록 리팩터한다.
+   2. 리팩터 아이디어
+      1. as-is
+         1. DocsPage
+            1. DocsList
+               1. SubDocList
+      2. to-be
+         1. DocsPage
+            1. DocsTree
+               1. RootDocList(DocList + event binding)
+                  1. DocList
+   3. 리팩터 액션 플랜
+      1. DocList 이름을 DocsTree로 변경한다
+      2. SubDocList 이름을 DocList로 변경한다
+      3. DocsTree에서 마크업 부분을 DocList에게 맡기고 이벤트 바인딩만 한다
+      4. DocsTree 내부에서 new DocList로 만든 인스턴스 변수를 rootDocList라고 명시적으로 표기한다.
+         1. 똑같은 DocList 컴포넌트로 만들어졌어도 rootDocList에는 이벤트가 바인딩되고 subDocList(rootDocList의 이벤트 바인딩 코드에서 실행하는 new DocList 지칭)에는 이벤트가 바인딩 되지 않는 차이점을 조금이라도 더 드러내기 위함이다.
+   4. 리팩터 후 동작 방식
+      1. DocsPage는 DocsTree를 렌더한다
+      2. DocsTree는 `new DocList`(UI component) 연산으로 rootDocList를 렌더한다
+      3. DocsTree는 이벤트 바인딩 되어 있고 콜백을 트리거한다.
+         1. 콜백은 라우터 push를 실행한다
+         2. 콜백은 `new DocList` 연산으로 subDocList를 렌더한다
 
 ## 트러블슈팅
 
