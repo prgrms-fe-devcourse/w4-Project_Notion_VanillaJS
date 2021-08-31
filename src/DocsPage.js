@@ -2,13 +2,16 @@ import { request } from "./api.js"
 import RootDocs from "./RootDocs.js"
 
 export default function DocsPage({
-  $target
+  $target,
+  onDocsClick
 }) {
   const $page = document.createElement('div')
 
   const rootdocs = new RootDocs({
-    $target,
-    initialState: []
+    $target: $page,
+    initialState: [],
+    onDocsClick
+
   })
 
   const $newDocumentButton = document.createElement('button')

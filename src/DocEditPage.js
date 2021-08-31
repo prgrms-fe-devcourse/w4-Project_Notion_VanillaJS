@@ -37,11 +37,15 @@ export default function docEditPage({ $target, initialState }) {
         if(isNew){
           const createdDocumnet = await request('/posts', {
             method: 'POST',
-            body: JSON.stringify(this.state)
+            body: JSON.stringify(document)
           })
           history.replaceState(null, null, `/posts/${createdDocumnet.id}`)
           removeItem(docLocalSaveKey)
         } else {
+          await request(`/posts/${document.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(document)
+          })
 
         }
 

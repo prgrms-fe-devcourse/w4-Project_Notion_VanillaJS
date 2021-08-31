@@ -21,4 +21,16 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
   }
 
   this.render()
+
+  $rootDocs.addEventListener('click', (e) => {
+    const $li = e.target.closest('li')
+
+    if ($li) {
+      const { id } = $li.dataset
+
+      onDocsClick(id)
+    }
+
+  })
+
 }

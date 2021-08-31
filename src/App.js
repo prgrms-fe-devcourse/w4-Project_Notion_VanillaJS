@@ -9,13 +9,26 @@ import DocEditPage from "./DocEditPage.js"
 // /docs/new - 새 post 생성
 
 export default function App ({ $target }) {
-  const docsPage = new DocsPage({ $target })
-  const docsEditPage = new DocEditPage({ $target, initialState: {
+  const docsPage = new DocsPage({ 
+    $target,
+    onDocsClick: (id) => {
+      history.pushState(null, null, `/posts/${id}`)
+      this.route()
+    }
+   })
+  const docsEditPage = new DocEditPage({ 
+    $target, 
+    initialState: {
     documentId: 'new',
+    document: {
+      title: '',
+      content: ''
+    }
   }})
 
 
   this.route = () => {
+    $target.innerHTML = ''
     const { pathname } = window.location
 
     if (pathname === '/') {
@@ -26,8 +39,6 @@ export default function App ({ $target }) {
     }
 
 
-
-    console.log(pathname);
   }
 
   this.route()
