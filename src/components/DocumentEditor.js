@@ -27,6 +27,7 @@ export default function DocumentEditor({ $target, initialState }) {
   $title.name = 'title';
   $title.className = CLASS_NAME_DOCUMENT_TITLE;
   $title.placeholder = MSG_PLACEHOLDER_TITLE;
+  $editor.name = 'content';
   $editor.className = CLASS_NAME_DOCUMENT_EDITOR;
   $editor.placeholder = MSG_PLACEHOLDER_EDITOR;
 
@@ -50,23 +51,15 @@ export default function DocumentEditor({ $target, initialState }) {
     $target.addEventListener(
       'keyup',
       debounce(async e => {
-        const { value, className } = e.target;
+        const { value, className, name } = e.target;
         const { id, title } = this.state;
+        const nextState = { ...this.state, [name]: value };
 
-        let body = {};
-        if (className === CLASS_NAME_DOCUMENT_TITLE) {
-          body = { title: value, content: $editor.value };
-        } else if (className === CLASS_NAME_DOCUMENT_EDITOR) {
-          body = { title: $title.value, content: value };
-        }
+        let body = { title: nextState.title, content: nextState.content };
 
         await fetchPutDocument(id, body);
 
-        this.setState({
-          ...this.state,
-          content: body.content,
-          title: body.title,
-        });
+        this.setState(nextState);
 
         if (title !== $title.value) {
           window.dispatchEvent(new CustomEvent(EDITOR_DATA_CHANGED));
