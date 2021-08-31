@@ -10,7 +10,8 @@
 * [x] 화면 좌측에 Root Documents를 불러오는 API를 통해 루트 Documents를 렌더링합니다.
   * [x] Root Document를 클릭하면 오른쪽 편집기 영역에 해당 Document의 Content를 렌더링합니다.
   * [x] 해당 Root Document에 하위 Document가 있는 경우, 해당 Document 아래에 트리 형태로 렌더링 합니다.
-  * [ ] Document Tree에서 각 Document 우측에는 + 버튼이 있습니다. 해당 버튼을 클릭하면, 클릭한 Document의 하위 Document로 새 Document를 생성하고 편집화면으로 넘깁니다.
+  * [x] Document Tree에서 각 Document 우측에는 + 버튼이 있습니다. 해당 버튼을 클릭하면, 클릭한 Document의 하위 Document로 새 Document를 생성하고 편집화면으로 넘깁니다.
+  * [ ] 루트 문서를 추가하는 버튼. 클릭하면 새 루트 문서를 추가하고 편집화면으로 넘긴다.
 * [ ] 편집기에는 기본적으로 저장 버튼이 없습니다. Document Save API를 이용해 지속적으로 서버에 저장되도록 합니다.
 * History API를 이용해 SPA 형태로 만듭니다.
   * [x] 루트 URL 접속 시엔 별다른 편집기 선택이 안 된 상태입니다.
@@ -168,6 +169,35 @@
       3. DocsTree는 이벤트 바인딩 되어 있고 콜백을 트리거한다.
          1. 콜백은 라우터 push를 실행한다
          2. 콜백은 `new DocList` 연산으로 subDocList를 렌더한다
+   5. 리팩터 효과
+      1. UI 컴포넌트가 완전히 분리되었다 => `DocList.js`
+      2. API 호출하여 트리 내에 새로운 문서 추가, 문서 트리 업데이트를 위한 이벤트 바인딩 같은 좀 더 비즈니스 로직에 가까운 것들은 모두 `DocsTree`로 분리되었다.
+      3. 즉 관심사 분리가 더 잘 되었다
+9. 하위 문서 추가하기
+   1. 리팩터 후 추가
+       1. 이벤트 로직 파악
+          1. 이벤트 타겟은 기본적으로 li로 태깅된 targetDoc을 먼저 찾는다
+          2. li로 태깅된 targetDoc이 없으면 콜백함수를 종료하도록 방어 코드를 넣는다
+          3. 이제 targetDoc이 클릭되면 push 메서드로 라우팅 처리하고 편집기에 해당 문서의 내용을 불러온다
+          4. fold 버튼이 클릭되면 subdocs를 불러오고 버튼을 토글한다
+       2. 네이밍 변경
+          1. `$li` to `targetDoc`
+             1. `$li = e.target.closest('li')`를 코드 읽을 때 가독성을 높이기 위해 **도메인 연관성을 더 높이는 방식으로 좀 더 추상화**하여 `targetDoc = e.target.closest('li')`로 한다. 이제 이 코드를 읽으면 클릭된 li 요소보다는 클릭된 "문서"라는 것을 바로 알 수 있다. 
+          2. Add `$eventTarget`
+             1. 클릭된 문서를 편집기로 푸시하는 로직은 끝났기 때문에 남은 로직은 버튼 로직 뿐이다. 따라서 어떤 버튼이 클릭되었는지 알아야 한다. 그러면 여기서는 버튼이라는 DOM node를 판별하는 로직이 필요하다. 따라서 도메인 로직보다 좀 더 추상화 레벨이 낮으므로 `$eventTarget`처럼 DOM element로 네이밍을 한다.
+       3. 선언형 코드
+          1. `toggleFoldButton`
+             1. 버튼의 클래스가 unfold, 즉 하위 문서를 펼쳐야 하는 unfold button이면 unfold 하도록 한다. (fold도 마찬가지)
+                1. 실제 구현 내용은 버튼의 textContent와 class명을 바꿔야 하는데 이를 함수 이름으로 추상화한다
+          2. `renderSubDocList`
+             1. 하위 문서 목록을 렌더링 하는 함수이다. 역시 함수 이름으로 추상화했다.
+                1. 실제 로직: 클릭 된 targetDoc에 대한 하위 문서를 불러와야 하므로 targetDoc의 id를 추출해서 해당 id의 하위 문서를 알 수 있는 API를 호출한다. 응답으로 받은 subdocs 목록을 문서 목록을 그려주는 UI 컴포넌트인 DocList의 initialState로 전달해서 하위 문서를 렌더링한다.
+          3. `unfoldSubDocList`
+             1. 하위 문서를 unfold 한다. unfold 버튼이 클릭되었을 때 버튼의 UI를 토글(`toggleFoldButton`)하고 하위 문서를 렌더링(`renderSubDocList`)를 함께 동작시키는 추상화 함수이다.
+          4. `refreshSubDocList`
+             1. 추가(+) 버튼이 클릭되었을 때 새 하위 문서를 문서 트리에 렌더링하는 함수이다.
+                1. 실제 로직: 클릭된 targetDoc이 접혀 있으면 하위 문서를 렌더링하고, 펼쳐 있으면 이미 렌더링된 하위 문서 목록을 지우고, 새롭게 불러온 하위 문서 목록으로 다시 렌더링한다
+
 
 ## 트러블슈팅
 
@@ -178,3 +208,7 @@
   - Object.assign(arg1, arg2): Object.assign은 arg1에 arg2를 합친다 - [stackoverflow](https://stackoverflow.com/questions/32933985/apply-object-of-style-to-dom-element) 
 * Q. 로컬스토리지에 저장한 데이터가 DB에 저장한 데이터보다 더 최신인 경우는 어떤 상황에서 발생하는가?
   * 로컬스토리지에 저장하고 나서 DB에는 아직 저장을 안 했는데 사용자가 새로고침하는 상황에서 발생할 수 있다
+* Q. 다음 코드 맥락을 보고 true/false 예측
+  * `const $li = e.target.closest('li');`
+  * `console.log($li === e.target);`
+    * true

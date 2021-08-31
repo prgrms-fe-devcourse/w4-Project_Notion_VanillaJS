@@ -19,38 +19,89 @@ export default function DocsTree({ $target, initialState }) {
     rootDocList.setState(this.state);
   };
 
-  $tree.addEventListener('click', async (e) => {
-    const $li = e.target.closest('li');
+  const renderSubDocList = async (parentDoc) => {
+    const { id } = parentDoc.dataset;
 
-    if (!$li) {
+    const { documents: subdocs } = await request(`/documents/${id}`);
+
+    if (!subdocs) {
       return;
     }
 
-    const id = Number($li.dataset.id);
+    new DocList({
+      $target: parentDoc,
+      initialState: subdocs,
+    });
+  };
 
-    push(`/documents/${id}`);
-
-    const { className } = e.target;
+  const toggleFoldButton = ($button) => {
+    const { className } = $button;
 
     if (className === 'unfold') {
-      const { documents: subdocs } = await request(`/documents/${id}`);
+      $button.textContent = '_';
+      $button.className = 'fold';
+    } else if (className === 'fold') {
+      $button.textContent = '>';
+      $button.className = 'unfold';
+    }
+  };
 
-      if (!subdocs) {
-        return;
-      }
+  const unfoldSubDocList = (parentDoc, $button) => {
+    renderSubDocList(parentDoc);
+    toggleFoldButton($button);
+  };
 
-      new DocList({
-        $target: $li,
-        initialState: subdocs,
+  const foldSubDocList = (parentDoc, $button) => {
+    parentDoc.removeChild(parentDoc.querySelector('div'));
+    toggleFoldButton($button);
+  };
+
+  const refreshSubDocList = (parentDoc) => {
+    if (parentDoc.querySelector('div')) {
+      parentDoc.removeChild(parentDoc.querySelector('div'));
+    }
+
+    renderSubDocList(parentDoc);
+  };
+
+  $tree.addEventListener('click', async (e) => {
+    const targetDoc = e.target.closest('li');
+
+    if (!targetDoc) {
+      return;
+    }
+
+    const $eventTarget = e.target;
+
+    const { id } = $eventTarget.dataset;
+
+    if ($eventTarget.nodeName.toLowerCase() === 'li') {
+      push(`/documents/${id}`);
+      return;
+    }
+
+    if ($eventTarget.nodeName.toLowerCase() !== 'button') {
+      return;
+    }
+
+    const { className } = $eventTarget;
+
+    if (className === 'unfold') {
+      unfoldSubDocList(targetDoc, $eventTarget);
+    } else if (className === 'fold') {
+      foldSubDocList(targetDoc, $eventTarget);
+    } else if (className === 'add') {
+      const createdDoc = await request('/documents', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: '문서 제목',
+          parent: id,
+        }),
       });
 
-      e.target.textContent = '_';
-      e.target.className = 'fold';
-    } else if (className === 'fold') {
-      $li.removeChild($li.querySelector('div'));
+      push(`/documents/${createdDoc.id}`);
 
-      e.target.textContent = '>';
-      e.target.className = 'unfold';
+      refreshSubDocList(targetDoc);
     }
   });
 }

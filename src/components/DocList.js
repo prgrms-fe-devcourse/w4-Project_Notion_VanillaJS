@@ -21,6 +21,7 @@ export default function DocList({ $target, initialState }) {
           <li data-id="${id}">
             <button data-id="${id}" class="unfold">></button>
             ${title}(${id})
+            <button data-id="${id}" class="add">+</button>
           </li>
         `).join('')}
       </ul>
