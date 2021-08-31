@@ -17,3 +17,10 @@ export const customCreateNode = (el, inner) => {
   tmp.innerHTML = inner;
   return tmp;
 };
+
+export function emit(target, eventName, detail) {
+  if (!target) throw "no target";
+  const event = new CustomEvent(eventName, { detail });
+
+  target.dispatchEvent(event);
+}

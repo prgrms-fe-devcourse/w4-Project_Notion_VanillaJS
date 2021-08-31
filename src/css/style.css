@@ -1,21 +1,23 @@
+@import url("./content.css");
+
 :root {
   --toggle: 90deg;
 }
+
 body {
   margin: 0;
   padding: 0;
 }
 .app {
-  height: 1339px;
+  height: 100vh;
   display: flex;
 }
 
 .notion-sidebar-container {
   padding-left: 10px;
   position: relative;
-  width: 218px;
+  width: 20vw;
   background-color: #f7f6f3;
-  height: 1339px;
 }
 .memo {
   position: relative;

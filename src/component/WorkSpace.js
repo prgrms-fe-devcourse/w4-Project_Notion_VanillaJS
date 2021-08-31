@@ -2,7 +2,7 @@ import { request } from "../util/api.js";
 
 import Component from "./Component.js";
 import { ToggleTriangle, SidebarEmpty } from "./util/utilComponent.js";
-import { customCreateNode, on, qs, qsAll } from "../util/util.js";
+import { customCreateNode, emit, on, qs, qsAll } from "../util/util.js";
 import { HTTP_METHOD, NODE_NAME } from "../util/constant.js";
 class WorkSpace extends Component {
   state;
@@ -68,7 +68,8 @@ class WorkSpace extends Component {
     } else if (e.target.closest("div").className === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
       const data = await request(id, HTTP_METHOD.GET);
-      console.log(data);
+      history.replaceState(data, "", `/documents/${id}`);
+      emit(qs(".notion-sidebar-container"), "@changeState", data);
     }
   }
 

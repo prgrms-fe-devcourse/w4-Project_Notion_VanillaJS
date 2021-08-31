@@ -1,0 +1,9 @@
+.notion-content-container {
+  background-color: red;
+  width: 80vw;
+  margin: 10% 0 0 10%;
+}
+
+.content-header {
+  outline: none;
+}
