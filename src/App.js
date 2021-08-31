@@ -33,7 +33,7 @@ export default function App({ $target, initialState }) {
       });
       if ($newDocument) {
         const { id } = $newDocument;
-        getRootDocument(false);
+        getRootDocument();
         await getDocument(id);
       }
     },
@@ -46,20 +46,22 @@ export default function App({ $target, initialState }) {
   const contentPage = new ContentPage({
     $target,
     initialState,
-    onUpdateDocument: async ([{ id, title, content }, target]) => {
+    onUpdateDocument: async (
+      [{ id, title, content }, target],
+      isRender = true
+    ) => {
+      // Update If Favorite
+      if (this.state.favoriteDocuments[id]) {
+        updateFavoriteTitle(id, title, false);
+      }
       // DeBounce
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        if (this.state.favoriteDocuments[id]) {
-          const { favoriteDocuments } = this.state;
-          favoriteDocuments[id] = title;
-          this.setState({ ...this.state, favoriteDocuments }, false);
-        }
-        updateDocument(id, title, content);
+        updateDocument(id, title, content, isRender);
         target.focus();
-      }, 500);
+      }, 1000);
     },
     onDeleteDocument: async (documentId, isLast) => {
       const { favoriteDocuments, toggledDocuments } = this.state;
@@ -103,7 +105,14 @@ export default function App({ $target, initialState }) {
   };
 
   // Functions
-
+  const updateFavoriteTitle = (id, title, sendState = true) => {
+    const { favoriteDocuments } = this.state;
+    if (favoriteDocuments[id]) {
+      favoriteDocuments[id] = title;
+    }
+    this.setState({ ...this.state, favoriteDocuments }, sendState);
+    setItem(LOCAL_STORAGE_KEY.FAVORITE_DOCUMENTS, favoriteDocuments);
+  };
   const toggleFavorite = (id, sendState = true) => {
     const { selectedDocument, favoriteDocuments } = this.state;
     const { title } = selectedDocument;

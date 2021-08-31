@@ -19,7 +19,6 @@ export default function FavoriteDocumentsList({
 
   // Render
   this.render = () => {
-    console.log("render favorites");
     const favoriteDocuments = Object.entries(this.state);
     $favList.innerHTML = `
     <div class="favorite-list__wrapper">

@@ -25,7 +25,7 @@ export default function DocumentsList({
 
   // Render
   this.render = () => {
-    console.log("render Document");
+    console.log("document rendering!");
     const { documents } = this.state;
     $documentsList.innerHTML = `
         <div class="documents-list__wrapper">

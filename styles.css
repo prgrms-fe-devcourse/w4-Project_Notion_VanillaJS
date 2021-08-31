@@ -172,7 +172,7 @@
 
 }
 
-.content-page__editor textarea{
+.content-page__editor div[name=content]{
     height: 100%;
     width: 100%;
     background-color: rgba(128, 128, 128, 0);
@@ -182,9 +182,14 @@
     resize:none;
     caret-color: rgb(177, 172, 128);
 }
-.content-page__editor textarea:focus{
+.content-page__editor div[name=content]:focus{
     outline: none;
 }
+
+.content-page__editor div[name=content] h1:empty:before {
+    content: attr(placeholder);
+    color: gray;
+  }
 
 .link{
     font-weight: 600;
