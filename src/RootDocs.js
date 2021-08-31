@@ -10,12 +10,10 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
     this.render()
   }
 
-  const treeToArrayState = docsTreeToArray(this.state)
-
   this.render = () => {
     $rootDocs.innerHTML = `
     <ul>
-      ${treeToArrayState.map(doc => `
+      ${docsTreeToArray(this.state).map(doc => `
         <li data-id="${doc.id}">${doc.title}</li>
       `).join('')}
     </ul>
