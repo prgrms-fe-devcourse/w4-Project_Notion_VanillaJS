@@ -1,6 +1,5 @@
 const $listItem = (id = 'new', title = '제목없음', currentState) => {
 	const select = currentState.id === id ? 'selected' : '';
-
 	const $li = $createElement('li');
 
 	$li.setAttribute('data-id', id);

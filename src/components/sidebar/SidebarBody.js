@@ -57,6 +57,7 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	this.render = () => {
 		$navList.innerHTML = '';
 		drawNavList($navList, this.state['allDocuments']);
+		console.log(this.state['allDocuments']);
 	};
 
 	this.render();
