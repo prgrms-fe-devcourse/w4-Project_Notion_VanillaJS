@@ -36,9 +36,7 @@ ul {
 .sidebar-container {
 	flex-grow: 0;
 	flex-shrink: 0;
-	pointer-events: none;
 	position: relative;
-	z-index: 99;
 	background: rgb(247, 246, 243);
 	transition: box-shadow 300ms ease-in 0s;
 	width: 240px;
@@ -65,7 +63,6 @@ ul {
 	display: flex;
 	flex-direction: column;
 	background: white;
-	z-index: 1;
 	height: 100vh;
 	max-height: 100%;
 	width: 1200px;
@@ -90,4 +87,8 @@ ul {
 	margin-right: auto;
 	height: calc(100% - 144px);
 	z-index: 9999;
+}
+
+.modal-container.hide {
+	display: none;
 }

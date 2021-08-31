@@ -1,4 +1,7 @@
-import { updateCurrentDocument } from '../../utils/emitter.js';
+import {
+	updateCurrentDocument,
+	showDisplayModal,
+} from '../../utils/emitter.js';
 import { $listItem } from '../../utils/templates.js';
 
 import SidebarHeader from './SidebarHeader.js';
@@ -54,14 +57,24 @@ export default function Sidebar({ $target, initialState }) {
 			externalBtn: $li => {
 				console.log('external', $li);
 			},
-			createDocument: $li => createDocument($li),
+			createDocument: $li => {
+				const useModal = $li ? true : false;
+
+				if (useModal) {
+					showDisplayModal();
+				}
+				createDocument($li);
+			},
 		},
 	});
 
 	new SidebarFooter({
 		$target: $sidebarFooter,
 		onClick: {
-			createDocument: () => createDocument(),
+			createDocument: () => {
+				showDisplayModal();
+				createDocument();
+			},
 		},
 	});
 }

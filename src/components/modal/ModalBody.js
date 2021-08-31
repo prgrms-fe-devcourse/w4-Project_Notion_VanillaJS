@@ -12,11 +12,11 @@ export default function ModalBody({ $target, initialState }) {
 
 	this.render = () => {
 		$modalTitle.innerHTML = `
-      <input type="text">
+      <input type="text" placeholder="제목 없음">
     `;
 
 		$modalContent.innerHTML = `
-      <textarea></textarea>
+      <textarea placeholder="페이지의 내용을 입력해보세요!"></textarea>
     `;
 	};
 

@@ -1,7 +1,8 @@
-const EVENT_NAME = 'update:currentDocument';
+const CURRENT_DOCUMENT_EVENT = 'update:currentDocument';
+const MODAL_EVENT = 'show:modal';
 
-const initEmitter = onUpdateState => {
-	window.addEventListener(EVENT_NAME, e => {
+const initCurrentDocumentEmitter = onUpdateState => {
+	window.addEventListener(CURRENT_DOCUMENT_EVENT, e => {
 		const { nextDocument } = e.detail;
 
 		if (nextDocument) {
@@ -9,10 +10,9 @@ const initEmitter = onUpdateState => {
 		}
 	});
 };
-
 const updateCurrentDocument = nextDocument => {
 	window.dispatchEvent(
-		new CustomEvent(EVENT_NAME, {
+		new CustomEvent(CURRENT_DOCUMENT_EVENT, {
 			detail: {
 				nextDocument,
 			},
@@ -20,4 +20,19 @@ const updateCurrentDocument = nextDocument => {
 	);
 };
 
-export { initEmitter, updateCurrentDocument };
+const initShowModalEmitter = onUpdateModal => {
+	window.addEventListener(MODAL_EVENT, e => {
+		onUpdateModal();
+	});
+};
+
+const showDisplayModal = () => {
+	window.dispatchEvent(new CustomEvent(MODAL_EVENT));
+};
+
+export {
+	initCurrentDocumentEmitter,
+	initShowModalEmitter,
+	updateCurrentDocument,
+	showDisplayModal,
+};
