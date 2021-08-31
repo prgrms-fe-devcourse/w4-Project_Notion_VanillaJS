@@ -23,7 +23,7 @@ export default function Editor({
   this.state = initialState
   const {documentTitle, documentContent} = this.state
   $editor.innerHTML = `
-      <textarea rows="1" cols="50" name="title">${documentTitle === undefined ? '' : documentTitle}</textarea>
+      <textarea name="title">${documentTitle === undefined ? '' : documentTitle}</textarea>
       <textarea cols="100" rows="100" name="content">${documentContent === null ? '' : documentContent}</textarea>
     `
   $target.appendChild($editor)
@@ -34,7 +34,7 @@ export default function Editor({
   }
   this.render = () => {
     const richContent=this.state.documentContent.split('\n').map(line=>{
-      
+
     })
     $editor.querySelector('[name=title]').value=this.state.documentTitle
     $editor.querySelector('[name=content]').value=this.state.documentContent

@@ -11,17 +11,28 @@
   list-style: none;
   padding: 3px 0 3px 0;
 }
+.doc-row .doc-delButton,
+.doc-row .doc-plusButton {
+  display: none;
+}
 .doc-row:hover {
   cursor: pointer;
   background-color: whitesmoke;
 }
+.doc-row:hover .doc-delButton,
+.doc-row:hover .doc-plusButton {
+  display: inline;
+}
 .doc-carot {
   padding: 5px;
+}
+.doc-title {
+  display: inline-block;
+  width: 70%;
 }
 .doc-plusButton, .doc-delButton {
   position: absolute;
   right: 5px;
-  padding: 5px;
   height: 20px;
   width: 20px;
   background-color: transparent;
@@ -44,11 +55,12 @@
 
 #page {
   display: flex;
+  height: 100vh;
 }
 
 #edit-page {
   border: 1px solid black;
-  height: 100%;
+  height: 100vh;
   flex-basis: 80%;
   flex-grow: 8;
   margin-left: 2px;
@@ -59,13 +71,14 @@
   flex-basis: 20%;
   flex-grow: 2;
   flex-shrink: 0;
-  height: 100%;
+  height: 100vh;
   margin-right: 2px;
 }
 
 #textarea-title {
   font-size: 30px;
   overflow: hidden;
+  width: 300px;
 }
 #textarea-content {
   overflow: auto;
@@ -78,9 +91,7 @@
   width: auto;
   font-size: 18px;
   text-align: center;
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px 20px 0 20px;
   height: 40px;
   border-radius: 9px;
   background-color: #f4f4f8;
