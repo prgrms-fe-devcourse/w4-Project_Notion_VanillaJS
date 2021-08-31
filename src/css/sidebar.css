@@ -1,0 +1,25 @@
+ul {
+  list-style-type: disc;
+}
+.listContainer {
+  width: 280px;
+  height: 1080px;
+  background-color: #f7f6f3;
+}
+.addNew {
+  background-color: #f7f6f3;
+  color: black;
+  border: none;
+  text-align: left;
+
+  margin: 10px;
+  font-size: 15px;
+  width: 270px;
+}
+
+.addBtn {
+  background-color: var(--background);
+  opacity: 0.4;
+  border-color: gray;
+  font-weight: bold;
+}

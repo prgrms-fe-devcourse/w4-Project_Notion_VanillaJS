@@ -71,7 +71,6 @@ export default function PostEditPage({ $target, initialState }) {
 
     this.state = nextState
     this.render()
-    console.log(this.state)
     editor.setState(
       this.state.post || {
         title: '',

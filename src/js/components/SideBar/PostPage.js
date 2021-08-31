@@ -4,6 +4,7 @@ import PostList from './PostList.js'
 // 사이드바를  담당하는 페이지
 export default function PostPage({ $target }) {
   const $page = document.createElement('div')
+  $page.className = 'documentList'
 
   const postList = new PostList({
     $target: $page,
@@ -12,12 +13,10 @@ export default function PostPage({ $target }) {
       const post = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
-          title: '',
+          title: 'untitled',
           parent: id,
         }),
       })
-
-      console.log(post)
 
       await fetchPosts()
     },
@@ -32,7 +31,7 @@ export default function PostPage({ $target }) {
 
   const $newPostButton = document.createElement('button')
   $page.appendChild($newPostButton)
-  $newPostButton.textContent = '+ 새로 만들기'
+  $newPostButton.textContent = '+ 새 페이지'
   $newPostButton.className = 'addNew'
 
   const fetchPosts = async () => {
@@ -51,12 +50,12 @@ export default function PostPage({ $target }) {
     const { target } = e
     const name = target.className
 
-    // window.dispatchEvent(
-    //   new CustomEvent('route-change', {
-    //     detail: {
-    //       nextUrl: 'documents/new',
-    //     },
-    //   }),
-    // )
+    window.dispatchEvent(
+      new CustomEvent('route-change', {
+        detail: {
+          nextUrl: 'documents/new',
+        },
+      }),
+    )
   })
 }

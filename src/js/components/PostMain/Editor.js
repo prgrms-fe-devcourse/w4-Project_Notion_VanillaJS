@@ -7,6 +7,7 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement('div')
+  $editor.className = 'editorDiv'
   $target.appendChild($editor)
 
   let isInitialized = false
@@ -22,8 +23,8 @@ export default function Editor({
   this.render = () => {
     if (!isInitialized) {
       $editor.innerHTML = `
-        <input type="text" name ="title" value="${this.state.title}" style="width:600px;"/>
-        <textarea name="content" style="width : 600px; height: 600px;">${this.state.content}</textarea>
+        <input type="text" name ="title" class="editorTitle"value="${this.state.title}" style="width:1000px;"/>
+        <textarea name="content" class="editorContent" style="width : 1000px; height: 600px;">${this.state.content}</textarea>
       `
 
       isInitialized = true
@@ -44,7 +45,7 @@ export default function Editor({
       }
 
       this.setState(nextState)
-
+      // 여기서 값을 넘겨줍니다.
       onEditing(this.state)
     }
   })

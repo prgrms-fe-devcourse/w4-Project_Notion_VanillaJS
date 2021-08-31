@@ -73,7 +73,7 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
       case 'dataList':
         if ($li) {
           const { id } = $li.dataset
-
+          console.log(id)
           window.dispatchEvent(
             new CustomEvent('route-change', {
               detail: {

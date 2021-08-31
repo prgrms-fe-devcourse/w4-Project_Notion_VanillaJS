@@ -1,0 +1,20 @@
+@import 'reset.css';
+@import "sidebar.css";
+@import "postMain.css";
+
+:root {
+  --background: white;
+  --text-color: black;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-color);
+}
+
+#app {
+  display: flex;
+  flex-direction: row;
+}
+
+.
