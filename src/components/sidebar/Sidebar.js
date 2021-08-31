@@ -7,15 +7,14 @@ import SidebarFooter from './SidebarFooter.js';
 
 export default function Sidebar({ $target, initialState }) {
 	const $sidebar = $createElement('div');
-	addClassAll($sidebar, 'col', 'sidebar-container');
-	$target.appendChild($sidebar);
-
 	const $sidebarHeader = $createElement('div', '.sidebar-header');
 	const $sidebarBody = $createElement('div', '.sidebar-body');
 	const $sidebarFooter = $createElement('div', '.sidebar-footer');
+	$target.appendChild($sidebar);
 	$sidebar.appendChild($sidebarHeader);
 	$sidebar.appendChild($sidebarBody);
 	$sidebar.appendChild($sidebarFooter);
+	addClassAll($sidebar, 'col', 'sidebar-container');
 
 	this.state = initialState;
 	this.setState = nextState => {

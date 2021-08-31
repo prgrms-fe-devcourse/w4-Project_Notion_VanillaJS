@@ -73,3 +73,21 @@ ul {
 .page-container .page-header {
 	display: flex;
 }
+
+.modal-container {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	margin-left: auto;
+	max-width: 960px;
+	border-radius: 3px;
+	background: white;
+	box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px,
+		rgb(15 15 15 / 10%) 0px 5px 10px, rgb(15 15 15 / 20%) 0px 15px 40px;
+	top: 72px;
+	left: 72px;
+	right: 72px;
+	margin-right: auto;
+	height: calc(100% - 144px);
+	z-index: 9999;
+}

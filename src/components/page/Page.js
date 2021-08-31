@@ -2,14 +2,13 @@ import PageHeader from './PageHeader.js';
 import PageBody from './PageBody.js';
 
 export default function Page({ $target, initialState }) {
-	const $sidebar = $createElement('div');
-	addClassAll($sidebar, 'col', 'page-container');
-	$target.appendChild($sidebar);
-
+	const $page = $createElement('div');
 	const $pageHeader = $createElement('div', '.page-header');
 	const $pageBody = $createElement('div', '.page-body');
-	$sidebar.appendChild($pageHeader);
-	$sidebar.appendChild($pageBody);
+	$target.appendChild($page);
+	$page.appendChild($pageHeader);
+	$page.appendChild($pageBody);
+	addClassAll($page, 'col', 'page-container');
 
 	this.state = initialState;
 	this.setState = nextState => {

@@ -2,6 +2,7 @@ import { initEmitter } from './utils/emitter.js';
 import { getDocuments } from './api/notion.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 import Page from './components/page/Page.js';
+import Modal from './components/modal/Modal.js';
 
 export default function App({ $target, initialState }) {
 	const $row = $createElement('div', '.row');
@@ -27,5 +28,6 @@ export default function App({ $target, initialState }) {
 
 	const sideBar = new Sidebar({ $target: $row, initialState });
 	const page = new Page({ $target: $row, initialState });
+	const modal = new Modal({ $target, initialState });
 	initEmitter(nextDocumentId => getDocument(nextDocumentId));
 }
