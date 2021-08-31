@@ -33,28 +33,28 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	};
 
 	$navList.addEventListener('click', e => {
-		const { toggler, external, create, title } = onClick;
+		const { togglerBtn, externalBtn, createDocument, getDocument } = onClick;
 		const { tagName, className, parentNode } = e.target;
 
 		if (tagName === 'UL' || tagName === 'LI') return;
 
 		switch (className) {
 			case 'nav-toggler-btn':
-				toggler(parentNode);
+				togglerBtn(parentNode);
 				break;
 			case 'nav-external-btn':
-				external(parentNode);
+				externalBtn(parentNode);
 				break;
 			case 'nav-crate-btn':
-				create(parentNode);
+				createDocument(parentNode);
 				break;
 			default:
-				title(parentNode);
+				getDocument(parentNode);
 		}
 	});
 
 	$createBtn.addEventListener('click', e => {
-		onClick.create(null);
+		onClick.createDocument(null);
 	});
 
 	this.render = () => {

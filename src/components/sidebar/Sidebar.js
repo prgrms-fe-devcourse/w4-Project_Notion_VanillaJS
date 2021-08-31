@@ -22,6 +22,20 @@ export default function Sidebar({ $target, initialState }) {
 		sidbarBody.setState(this.state);
 	};
 
+	const createDocument = $li => {
+		const $newLi = $listItem('new', '제목없음', this.state['currentDocument']);
+
+		if (!$li) {
+			$('.nav-list .tree').appendChild($newLi);
+			return;
+		}
+
+		const $ul = $createElement('ul', '.tree');
+		$ul.appendChild($newLi);
+		$li.appendChild($ul);
+		addClassAll($li, 'nav-header', 'tree-toggler');
+	};
+
 	new SidebarHeader({
 		$target: $sidebarHeader,
 		initialState,
@@ -30,37 +44,24 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarBody,
 		initialState,
 		onClick: {
-			toggler: $li => {
+			togglerBtn: $li => {
 				console.log('toggler', $li);
 			},
-			title: $li => {
+			getDocument: $li => {
 				const { id } = $li.dataset;
 				updateCurrentDocument(id);
 			},
-			external: $li => {
+			externalBtn: $li => {
 				console.log('external', $li);
 			},
-			create: $li => {
-				const $newLi = $listItem(
-					'new',
-					'제목없음',
-					this.state['currentDocument'],
-				);
-
-				if (!$li) {
-					$('.nav-list .tree').appendChild($newLi);
-					return;
-				}
-
-				const $ul = $createElement('ul', '.tree');
-				$ul.appendChild($newLi);
-				addClassAll($li, 'nav-header', 'tree-toggler');
-				$li.appendChild($ul);
-			},
+			createDocument: $li => createDocument($li),
 		},
 	});
 
 	new SidebarFooter({
 		$target: $sidebarFooter,
+		onClick: {
+			createDocument: () => createDocument(),
+		},
 	});
 }

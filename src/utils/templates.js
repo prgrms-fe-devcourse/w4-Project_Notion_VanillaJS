@@ -5,7 +5,7 @@ const $listItem = (id = 'new', title = '제목없음', currentState) => {
 
 	$li.setAttribute('data-id', id);
 	$li.innerHTML = `
-      <button class="nav-toggler-btn">🔻</button>
+      <button class="nav-toggler-btn">▼</button>
       <span class="nav-page-title ${select}">${title}</span>
       <button class="nav-external-btn">...</button>
       <button class="nav-crate-btn" data-target="modal">+</button>
