@@ -63,8 +63,17 @@ class WorkSpace extends Component {
       this.styleToggleBtn(e);
     } else if (targetNode === NODE_NAME.BUTTON) {
       const data = prompt("제목을 입력하세요");
-      data && (await request(null, HTTP_METHOD.POST, { parent: e.target.dataset.id, title: data }));
-      this.setState(await request());
+      if (data) {
+        try {
+          const result = await request(null, HTTP_METHOD.POST, { parent: e.target.dataset.id, title: data });
+          // positive 방식 생각해보기
+          this.setState(await request());
+          history.replaceState(result, "", `/documents/${result.id}`);
+          emit(qs(".notion-sidebar-container"), "@changeState", result);
+        } catch (e) {
+          alert(e);
+        }
+      }
     } else if (e.target.closest("div").className === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
       const data = await request(id, HTTP_METHOD.GET);

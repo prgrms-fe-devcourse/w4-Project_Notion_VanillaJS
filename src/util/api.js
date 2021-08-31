@@ -6,7 +6,6 @@ export const request = async (documentId = null, method = HTTP_METHOD.GET, data 
   options.method = method;
   if (method === HTTP_METHOD.POST || method === HTTP_METHOD.PUT) {
     options.body = JSON.stringify(data);
-    console.log(options.body);
   }
   try {
     const res = await fetch(`${NOTION_API}/${documentId ? documentId : ""}`, options);
