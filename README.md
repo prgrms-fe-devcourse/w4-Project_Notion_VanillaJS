@@ -7,7 +7,7 @@
 기본적인 레이아웃은 노션과 같으며, 스타일링, 컬러값 등은 원하는대로 커스텀합니다.
 
 * 글 단위를 Document라고 합니다. Document는 Document 여러개를 포함할 수 있습니다
-* [ ] 화면 좌측에 Root Documents를 불러오는 API를 통해 루트 Documents를 렌더링합니다.
+* [x] 화면 좌측에 Root Documents를 불러오는 API를 통해 루트 Documents를 렌더링합니다.
   * [x] Root Document를 클릭하면 오른쪽 편집기 영역에 해당 Document의 Content를 렌더링합니다.
   * [x] 해당 Root Document에 하위 Document가 있는 경우, 해당 Document 아래에 트리 형태로 렌더링 합니다.
   * [ ] Document Tree에서 각 Document 우측에는 + 버튼이 있습니다. 해당 버튼을 클릭하면, 클릭한 Document의 하위 Document로 새 Document를 생성하고 편집화면으로 넘깁니다.
@@ -106,3 +106,6 @@
          3. `EditorPage.setState`:
             1. 다시 setState로 왔는데 이제 nextState.id와 this.statet.id 값의 일치 여부를 판단하는 분기문에서 값이 일치하는 분기문으로 빠진다. 왜냐하면 fetchDoc을 실행하기 전에 `this.state = nextState`로 업데이트 되었기 때문이다.
             2. 이제 분기문에 의해 `Editor.setState` 를 실행해서 편집기 화면을 업데이트한다.
+5. 편집기에서 수정하면 DB에 업데이트하기
+   1. `EditorPage`
+      1. 편집 중임을 알고 있는 onEditing 함수에서 로컬 스토리지에 저장한 후 update API를 통해 DB에 업데이트한다. DB 업데이트가 끝나면 로컬 스토리지에 저장된 내용을 삭제한다.

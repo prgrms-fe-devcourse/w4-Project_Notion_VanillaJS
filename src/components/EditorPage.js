@@ -1,6 +1,11 @@
-import { request } from '../services/api.js';
-import { getItem, setItem } from '../services/storage.js';
 import Editor from './Editor.js';
+
+import { request } from '../services/api.js';
+import {
+  getItem,
+  removeItem,
+  setItem,
+} from '../services/storage.js';
 
 export default function EditorPage({ $target, initialState }) {
   const $page = document.createElement('div');
@@ -25,13 +30,20 @@ export default function EditorPage({ $target, initialState }) {
         clearTimeout(timer);
       }
 
-      timer = setTimeout(() => {
+      timer = setTimeout(async () => {
         docLocalSaveKey = `temp-document-${doc.id}`;
 
         setItem(docLocalSaveKey, {
           ...doc,
           tempSaveDate: new Date(),
         });
+
+        await request(`/documents/${doc.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(doc),
+        });
+
+        removeItem(docLocalSaveKey);
       }, 1000);
     },
   });
