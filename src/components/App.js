@@ -54,7 +54,7 @@ export default function App({ $target }) {
       this.setState({
         ...this.setState,
         selectedDoc: {
-          id,
+          id: id === '' ? null : id,
         },
       });
     }

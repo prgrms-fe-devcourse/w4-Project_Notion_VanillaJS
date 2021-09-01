@@ -64,6 +64,10 @@ export default function EditorPage({ $target, initialState }) {
   const fetchDoc = async () => {
     const { id } = this.state;
 
+    if (!id) {
+      return;
+    }
+
     const doc = await request(`/documents/${id}`);
 
     const tempSavedDoc = getItem(docTempSaveKey(id) || {});
