@@ -13,11 +13,18 @@ export default function DocumentListHeader({ $target, text = "", onCreate }) {
 
   $header.addEventListener("click", (e) => {
     const { className } = e.target;
+    console.log(className);
     if (className === "document-item__button rootAddDocument") {
       onCreate();
     } else if (className === "document-list-container__title") {
-      const $root_ul = $target.querySelector(".root");
-      $root_ul.classList.toggle("fold");
+      if (text === "개인") {
+        const $root_ul = $target.querySelector(".document");
+        console.log($root_ul);
+        $root_ul.classList.toggle("fold");
+      } else if (text === "즐겨찾기") {
+        const $bookmark_ul = $target.querySelector(".bookmark");
+        $bookmark_ul.classList.toggle("fold");
+      }
     }
   });
 }
