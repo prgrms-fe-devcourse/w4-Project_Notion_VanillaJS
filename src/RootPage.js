@@ -21,7 +21,7 @@ export default function RootPage({ $target, onPostClick }) {
     onAddChild: async (id) => {
       alert('하위 페이지를 생성합니다.')
       const bodys = {
-        title: `${id}의 새로운 child`,
+        title: `${id}child의 new Page`,
         parent: id,
         content: ''
       }

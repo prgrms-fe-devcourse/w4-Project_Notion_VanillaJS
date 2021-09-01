@@ -49,10 +49,8 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
       await fetchPost()
       return
      } 
-    console.log(this.state, nextState)
     this.state = nextState
     this.render()
-    console.log(this.state, nextState)
     editor.setState(this.state.post)
   }
 

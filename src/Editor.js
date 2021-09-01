@@ -12,14 +12,16 @@ export default function Editor({
   this.state = initialState
   $target.appendChild($editor)
   this.setState = nextState => {
-    if (this.state.id !== nextState.id) {
-      isInitialize = false
-      console.log('아이디가 바뀜')
+    if (nextState) {
+      if (this.state.id !== nextState.id) {
+        isInitialize = false
+      }
+      this.state = nextState
+      $editor.getElementsByClassName('title').value = this.state.title
+      $editor.getElementsByClassName('content').value = this.state.content 
+      this.render()
     }
-    this.state = nextState
-    $editor.getElementsByClassName('title').value = this.state.title
-    $editor.getElementsByClassName('content').value = this.state.content 
-    this.render()
+    
   }
   
   this.render = () => {
