@@ -22,12 +22,21 @@ export default function RootList({
   this.render = () => {
     // documents가 []가 아니면 애기들도 소환해줘야 함
     
-    const makeList = root => { 
-        `<ul>
-        <li data-id=${root.id} class="root-list">${root.title}</li>
-        <button class="add-child">add page</button>
-        <button class="delete">X</button>}
-        </ul>`}
+    const makeList = roots => {
+      const root = roots.documents
+      console.log(root)
+      return `<ul>
+      ${root.map(na => `
+      <li data-id=${na.id} class="root-list">${na.title}
+      <button class="add-child">add page</button>
+      <button class="delete">X</button></li>
+      ${na.documents.length > 0 ? makeList(na) : ''}
+      `).join('')}
+      </ul>`
+    }
+      
+
+
     // if (this.state.documents.length > 0) {
     //   makeList(state)
     // }
@@ -39,15 +48,19 @@ export default function RootList({
     //     return
     //   }
     // }
-    
+
+    const state = this.state
+    console.log(state)
     $rootList.innerHTML = `
       <ul>
-        ${this.state.map(roots => 
+        ${this.state.map(roots =>
         `<li data-id="${roots.id}" class="root-list">
         ${roots.title}  
         <button class="add-child">add page</button>
         <button class="delete">X</button>
-        </li>`).join('')}  
+        </li>
+        ${(roots.documents.length > 0 ? makeList(roots) : '' )}
+        `).join('')}  
         <br><br><br><br>
         <li>여기에는 루트 페이지들이 나타나야한다.</li>
         <input  placeholder='새로운 root 추가' class='new-root'></input>

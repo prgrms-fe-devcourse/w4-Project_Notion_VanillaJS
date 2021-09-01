@@ -14,7 +14,9 @@ export default function App({ $target }) {
   const rootPage = new RootPage({
     $target: $rootListContainer,
     onPostClick: (id) => {
+      $mainListContainer.innerHTML= ``
       history.pushState(null, null, `/documents/${id}`)
+      
       this.route()
     }
   })
@@ -33,6 +35,7 @@ export default function App({ $target }) {
 
 
     this.route = () => {
+      
       const { pathname } = window.location
       console.log(pathname)
       if (pathname === '/') {
@@ -40,7 +43,6 @@ export default function App({ $target }) {
       } else if (pathname.indexOf('/documents/') === 0) {
         const[,, id] = pathname.split('/')
         console.log(id)
-        rootPage.setState()
         postEditPage.setState({ id })
       }
       
