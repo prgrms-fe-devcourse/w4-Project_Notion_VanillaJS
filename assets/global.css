@@ -31,6 +31,7 @@ ul {
 .current-hover {
   background: rgba(55, 53, 47, 0.08);
   color: black;
+  position: relative;
 }
 
 li.current-hover ul {
@@ -49,6 +50,7 @@ button.add {
   display: inline;
   position: absolute;
   right: 10px;
+  top: 0;
 }
 
 li.current-hover ul button.add {

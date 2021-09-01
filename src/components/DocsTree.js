@@ -37,12 +37,12 @@ export default function DocsTree({ $target, initialState }) {
   const toggleFoldButton = ($button) => {
     const { className } = $button;
 
-    if (className === 'unfold') {
+    if (className === 'folded') {
       $button.textContent = '_';
-      $button.className = 'fold';
-    } else if (className === 'fold') {
+      $button.className = 'unfolded';
+    } else if (className === 'unfolded') {
       $button.textContent = '>';
-      $button.className = 'unfold';
+      $button.className = 'folded';
     }
   };
 
@@ -62,6 +62,9 @@ export default function DocsTree({ $target, initialState }) {
     }
 
     renderSubDocList(parentDoc);
+    if (parentDoc.querySelector('.folded')) {
+      toggleFoldButton(parentDoc.querySelector('.folded'));
+    }
   };
 
   $tree.addEventListener('click', async (e) => {
@@ -86,9 +89,9 @@ export default function DocsTree({ $target, initialState }) {
 
     const { className } = $eventTarget;
 
-    if (className === 'unfold') {
+    if (className === 'folded') {
       unfoldSubDocList(targetDoc, $eventTarget);
-    } else if (className === 'fold') {
+    } else if (className === 'unfolded') {
       foldSubDocList(targetDoc, $eventTarget);
     } else if (className === 'add') {
       const createdDoc = await request('/documents', {
@@ -101,7 +104,7 @@ export default function DocsTree({ $target, initialState }) {
 
       push(`/documents/${createdDoc.id}`);
 
-      refreshSubDocList(targetDoc);
+      refreshSubDocList(targetDoc, $eventTarget);
     }
   });
 

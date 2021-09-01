@@ -19,7 +19,7 @@ export default function DocList({ $target, initialState }) {
       <ul>
         ${this.state.map(({ id, title }) => `
           <li data-id="${id}">
-            <button data-id="${id}" class="unfold">></button>
+            <button data-id="${id}" name="fold" class="folded">></button>
             ${title}(${id})
             <button data-id="${id}" class="add">+</button>
           </li>
