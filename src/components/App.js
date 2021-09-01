@@ -39,7 +39,6 @@ export default function App({ $target }) {
 
   this.render = async () => {
     await sidebar.render();
-    // await docsPage.render();
     await editorPage.render();
   };
 
