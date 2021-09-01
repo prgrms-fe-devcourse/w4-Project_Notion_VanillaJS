@@ -22,11 +22,10 @@ export async function getDocumentById(id) {
     const result = await fetch(`${API_END_POINT}/documents/${id}`, {
       headers: { "x-username": userName },
     });
-    if (result.ok) {
-      return result.json();
-    }
+    if (!result.ok) throw new Error("존재하지 않는 문서입니다.");
+    return result.json();
   } catch (e) {
-    alert("서버와 통신 원할하지않습니다.");
+    console.log(e.message);
   }
 }
 

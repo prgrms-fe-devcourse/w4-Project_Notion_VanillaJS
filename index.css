@@ -18,3 +18,8 @@
 .document-list ul.wrap::before {
   content: "📫";
 }
+
+div.icon-container {
+  width: 100px;
+  height: 100px;
+}

@@ -1,5 +1,5 @@
 export default function UserProfile({ targetElement, initialState }) {
-  const userNameElement = document.createElement("div");
+  const userNameElement = document.createElement("h3");
   targetElement.appendChild(userNameElement);
   this.state = initialState || "Unknown";
 

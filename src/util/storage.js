@@ -1,4 +1,5 @@
 import { getDocumentById } from "./api.js";
+
 const storage = window.localStorage;
 
 export const setItem = (key, value) => {

@@ -1,6 +1,6 @@
 import ADDInDocumentButton from "./AddInDocumentButton.js";
 import DeleteButton from "./DeleteButton.js";
-import { getItem } from "./storage.js";
+import { getItem } from "/src/util/storage.js";
 export default function Document({
   targetElement,
   initialState,

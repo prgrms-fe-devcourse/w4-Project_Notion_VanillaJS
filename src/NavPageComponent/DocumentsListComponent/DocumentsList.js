@@ -1,4 +1,4 @@
-import Document from "./Document.js";
+import Document from "./DocumentComponent/Document.js";
 export default function DocumentsList({
   targetElement,
   initialState,
@@ -12,8 +12,7 @@ export default function DocumentsList({
   targetElement.appendChild(documentsList);
 
   this.setState = (nextState) => {
-    if (!nextState) return;
-    this.state = nextState;
+    this.state = nextState || [];
     documentsList.innerHTML = "";
     buildTreeViewWithDocuments();
   };
