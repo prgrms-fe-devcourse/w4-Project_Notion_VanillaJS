@@ -1,4 +1,4 @@
-import { initShowModalEmitter } from '../../utils/emitter.js';
+import { initShowModalEmitter, createDocument } from '../../utils/emitter.js';
 
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
@@ -35,7 +35,23 @@ export default function Modal({ $target, initialState }) {
 		},
 	});
 
-	const modalBody = new ModalBody({ $target: $modalBody, initialState });
+	const modalBody = new ModalBody({
+		$target: $modalBody,
+		initialState,
+		onCreate: {
+			createDocument: document => {
+				createDocument(document);
+			},
+		},
+		onEdit: {
+			editTitle: title => {
+				console.log('edit:', title);
+			},
+			editContent: content => {
+				console.log('edit:', content);
+			},
+		},
+	});
 	initShowModalEmitter(() => toggleModal(true));
 
 	$target.appendChild($modal);

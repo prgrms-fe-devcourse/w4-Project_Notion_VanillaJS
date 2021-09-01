@@ -1,3 +1,4 @@
+import { setDocumentToStroage } from '../../utils/storage.js';
 import { showDisplayModal } from '../../utils/emitter.js';
 import { push } from '../../routes/router.js';
 
@@ -20,7 +21,7 @@ export default function Sidebar({ $target, initialState }) {
 		sidbarBody.setState(this.state);
 	};
 
-	const createDocument = $li => {
+	const createDocumentLi = $li => {
 		const $newLi = $listItem('new', '제목없음', this.state['currentDocument']);
 
 		if (!$li) {
@@ -59,7 +60,8 @@ export default function Sidebar({ $target, initialState }) {
 				if (useModal) {
 					showDisplayModal();
 				}
-				createDocument($li);
+				createDocumentLi($li);
+				setDocumentToStroage(this.state.currentDocument);
 				push(`/posts/new`);
 			},
 		},

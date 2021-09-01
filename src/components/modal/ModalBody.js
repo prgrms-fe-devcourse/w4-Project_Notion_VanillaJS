@@ -1,4 +1,4 @@
-export default function ModalBody({ $target, initialState }) {
+export default function ModalBody({ $target, initialState, onCreate, onEdit }) {
 	const $modalTitle = $createElement('p', 'modal-title');
 	const $modalContent = $createElement('p', 'modal-content');
 
@@ -19,6 +19,34 @@ export default function ModalBody({ $target, initialState }) {
 	};
 
 	this.render();
+
+	$modalTitle.querySelector('input').addEventListener('keyup', e => {
+		const content = $modalContent.querySelector('textarea').value;
+		const documnet = {
+			title: e.target.value,
+			content,
+		};
+		const { pathname } = window.location;
+		if (pathname.includes('new')) {
+			onCreate.createDocument(documnet);
+		} else {
+			onEdit.editTitlte(e.target.value);
+		}
+	});
+
+	$modalContent.querySelector('textarea').addEventListener('keyup', e => {
+		// const title = $modalTitle.querySelector('input').value;
+		// const document = {
+		// 	title,
+		// 	content: e.target.value,
+		// };
+		// const { pathname } = window.location;
+		// if (pathname.includes('new')) {
+		// 	onCreate.createDocument(document);
+		// } else {
+		// 	onEdit.editContent(e.target.value);
+		// }
+	});
 	$target.appendChild($modalTitle);
 	$target.appendChild($modalContent);
 }

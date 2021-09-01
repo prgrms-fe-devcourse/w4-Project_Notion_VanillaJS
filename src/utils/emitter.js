@@ -1,4 +1,5 @@
 const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
+const CREATE_DOCUMENT_EVENT = 'create:document';
 const MODAL_EVENT = 'show:modal';
 
 const initShowModalEmitter = onUpdateModal => {
@@ -31,9 +32,31 @@ const editCurrentDocument = nextDocument => {
 	);
 };
 
+const initCreateDocumnetEmitter = onCreate => {
+	window.addEventListener(CREATE_DOCUMENT_EVENT, e => {
+		const { newDocument } = e.detail;
+
+		if (newDocument) {
+			onCreate(newDocument);
+		}
+	});
+};
+
+const createDocument = newDocument => {
+	window.dispatchEvent(
+		new CustomEvent(CREATE_DOCUMENT_EVENT, {
+			detail: {
+				newDocument,
+			},
+		}),
+	);
+};
+
 export {
 	initEditDoumentEmitter,
+	initCreateDocumnetEmitter,
 	initShowModalEmitter,
 	editCurrentDocument,
+	createDocument,
 	showDisplayModal,
 };

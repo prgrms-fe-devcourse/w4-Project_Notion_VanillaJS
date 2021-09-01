@@ -1,7 +1,10 @@
-import { initEditDoumentEmitter } from './utils/emitter.js';
-import { initRouter } from './routes/router.js';
+import {
+	initEditDoumentEmitter,
+	initCreateDocumnetEmitter,
+} from './utils/emitter.js';
+import { initRouter, push } from './routes/router.js';
 
-import { getDocuments, putDocument } from './api/notion.js';
+import { getDocuments, putDocument, postDocument } from './api/notion.js';
 
 import Sidebar from './components/sidebar/Sidebar.js';
 import Page from './components/page/Page.js';
@@ -15,10 +18,12 @@ export default function App({ $target, initialState }) {
 
 	const getDocument = async id => {
 		const currentDocument = await getDocuments(id);
+		const allDocuments = await getDocuments();
 		const nextState = {
-			allDocuments: [...this.state.allDocuments],
+			allDocuments,
 			currentDocument,
 		};
+
 		this.setState(nextState);
 		page.setState(this.state);
 	};
@@ -36,6 +41,20 @@ export default function App({ $target, initialState }) {
 		this.setState(nextState);
 	};
 
+	const createDocument = async newDocument => {
+		if (newDocument) {
+			console.log(newDocument);
+		} else {
+			const document = {
+				title: '제목 없음',
+				parent: null,
+			};
+
+			const res = await postDocument(document);
+			push(`/posts/${res.id}`);
+		}
+	};
+
 	this.setState = nextState => {
 		this.state = nextState;
 		sideBar.setState(this.state);
@@ -51,6 +70,8 @@ export default function App({ $target, initialState }) {
 			if (post !== 'new') {
 				postId = post;
 				await getDocument(postId);
+			} else {
+				createDocument();
 			}
 			return;
 		}
@@ -64,5 +85,6 @@ export default function App({ $target, initialState }) {
 
 	this.route();
 	initEditDoumentEmitter(nextDocument => editDocument(nextDocument));
+	initCreateDocumnetEmitter(newDocument => createDocument(newDocument));
 	initRouter(() => this.route());
 }
