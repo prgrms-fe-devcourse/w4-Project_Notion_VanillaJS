@@ -3,6 +3,7 @@ export default function EditorTitle({ $target, init }) {
   $target.appendChild($titleContainer);
   this.state = init;
   this.setState = (nextState) => {
+    $target.appendChild($titleContainer);
     this.state = nextState;
     this.render();
   };
