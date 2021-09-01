@@ -56,17 +56,17 @@ export const makeDocumentTreeTemplate = list => {
 
 export const makeChildDocumentLinkTemplate = list => {
   return `
-    <ul class="${CLASS_NAME_DOCUMENT_TREE}">
+    
       ${list
         .map(
           ({ id, title }) => `
-        <li class="${CLASS_NAME_CHILD_DOCUMENT_LINK}" data-id="${id}">
-          <label class="${CLASS_NAME_NODE_LABEL} ${CLASS_NAME_LAST_NODE}" for="node-${id}"></label>${title}
-        </li>
+        <div class="${CLASS_NAME_CHILD_DOCUMENT_LINK}" data-id="${id}">
+          ${title}
+        </div>
       `
         )
         .join('')}
-    </ul>
+    
   `;
 };
 

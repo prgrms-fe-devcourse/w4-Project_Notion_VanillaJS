@@ -131,11 +131,11 @@ button {
   font-size: 48px;
   border: 0;
   outline: none;
+  flex-basis: 20%;
 }
 
 .document-editor {
-  display: flex;
-  flex-direction: row;
+  overflow: auto;
   width: 70%;
   height: 60%;
   margin-top: 10px;
@@ -144,6 +144,7 @@ button {
   border: none;
   outline: none;
   resize: none;
+  flex-basis: 60%;
 }
 
 .documents-page {
@@ -186,7 +187,27 @@ button {
 }
 
 .child-document-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 35px;
   width: 70%;
+  flex-basis: 20%;
+  overflow: auto;
+}
+
+.child-document-link {
+  display: flex;
+  align-items: center;
+  color: gray;
+  cursor: pointer;
+}
+
+.child-document-link:hover {
+  color: black;
+}
+
+.child-document-link::before {
+  content: '📄  ';
 }
 
 .side-button {
