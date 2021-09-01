@@ -13,6 +13,8 @@ export default function PageHeader({ $target, initialState }) {
 		$external.textContent = '...';
 	};
 
+	this.render();
+
 	$target.appendChild($breadCrumb);
 	$target.appendChild($external);
 }

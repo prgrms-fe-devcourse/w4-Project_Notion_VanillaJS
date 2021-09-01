@@ -11,13 +11,14 @@ export default function ModalBody({ $target, initialState, onEdit }) {
 
 	this.render = () => {
 		const { title, content } = this.state.modalDocument;
+		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
 
 		$modalTitle.innerHTML = `
       <input type="text" placeholder="제목 없음" value="${title}">
     `;
 
 		$modalContent.innerHTML = `
-      <textarea placeholder="페이지의 내용을 입력해보세요!">${content}</textarea>
+      <textarea>${convertedContent}</textarea>
     `;
 
 		$modalTitle.querySelector('input').addEventListener('keyup', e => {

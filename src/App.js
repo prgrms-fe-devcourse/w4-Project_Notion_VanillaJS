@@ -1,6 +1,7 @@
 import notionAPI from './api/notion.js';
 import { on, emit } from './utils/emitter.js';
 
+import NotFoundPage from './components/NotFoundPage.js';
 import Sidebar from './components/sidebar/Sidebar.js';
 import Page from './components/page/Page.js';
 import Modal from './components/modal/Modal.js';
@@ -13,6 +14,13 @@ export default function App({ $target, initialState }) {
 		this.state = nextState;
 		sideBar.setState(this.state);
 	};
+
+	if (!initialState.currentDocument) {
+		new NotFoundPage({
+			$target,
+		});
+		return;
+	}
 
 	const sideBar = new Sidebar({
 		$target: $row,

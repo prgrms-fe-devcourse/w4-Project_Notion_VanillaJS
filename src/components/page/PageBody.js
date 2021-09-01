@@ -11,8 +11,7 @@ export default function PageBody({ $target, initialState, onEdit }) {
 	this.render = () => {
 		const { currentDocument } = this.state;
 		const { title, content } = currentDocument;
-		const convertedContent =
-			content === 'null' ? '문서의 내용을 입력해보세요!' : content;
+		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
 
 		$pageTitle.innerHTML = `
 			<input type="text" class="page-title-input" value="${title}">
