@@ -1,7 +1,5 @@
-import {
-	initCurrentDocumentEmitter,
-	initEditDoumentEmitter,
-} from './utils/emitter.js';
+import { initEditDoumentEmitter } from './utils/emitter.js';
+import { initRouter } from './routes/router.js';
 
 import { getDocuments, putDocument } from './api/notion.js';
 
@@ -21,7 +19,6 @@ export default function App({ $target, initialState }) {
 			allDocuments: [...this.state.allDocuments],
 			currentDocument,
 		};
-
 		this.setState(nextState);
 		page.setState(this.state);
 	};
@@ -31,7 +28,6 @@ export default function App({ $target, initialState }) {
 		const currentDocument = await putDocument(id, { title, content });
 		const allDocuments = await getDocuments();
 
-		console.log(id);
 		const nextState = {
 			allDocuments,
 			currentDocument,
@@ -45,9 +41,28 @@ export default function App({ $target, initialState }) {
 		sideBar.setState(this.state);
 	};
 
+	this.route = async () => {
+		let postId = this.state.allDocuments[0].id;
+		const { pathname } = window.location;
+
+		if (pathname.indexOf('/posts/') === 0) {
+			const [, , post] = pathname.split('/');
+
+			if (post !== 'new') {
+				postId = post;
+				await getDocument(postId);
+			}
+			return;
+		}
+
+		await getDocument(postId);
+	};
+
 	const sideBar = new Sidebar({ $target: $row, initialState });
 	const page = new Page({ $target: $row, initialState });
 	new Modal({ $target, initialState });
-	initCurrentDocumentEmitter(nextDocumentId => getDocument(nextDocumentId));
+
+	this.route();
 	initEditDoumentEmitter(nextDocument => editDocument(nextDocument));
+	initRouter(() => this.route());
 }

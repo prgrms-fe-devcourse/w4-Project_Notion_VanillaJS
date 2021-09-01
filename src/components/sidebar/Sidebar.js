@@ -1,7 +1,6 @@
-import {
-	updateCurrentDocument,
-	showDisplayModal,
-} from '../../utils/emitter.js';
+import { showDisplayModal } from '../../utils/emitter.js';
+import { push } from '../../routes/router.js';
+
 import { $listItem } from '../../utils/templates.js';
 
 import SidebarHeader from './SidebarHeader.js';
@@ -49,7 +48,7 @@ export default function Sidebar({ $target, initialState }) {
 			},
 			getDocument: $li => {
 				const { id } = $li.dataset;
-				updateCurrentDocument(id);
+				push(`/posts/${id}`);
 			},
 			externalBtn: $li => {
 				console.log('external', $li);
@@ -61,6 +60,7 @@ export default function Sidebar({ $target, initialState }) {
 					showDisplayModal();
 				}
 				createDocument($li);
+				push(`/posts/new`);
 			},
 		},
 	});

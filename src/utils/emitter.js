@@ -1,25 +1,5 @@
-const CURRENT_DOCUMENT_EVENT = 'update:currentDocument';
 const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
 const MODAL_EVENT = 'show:modal';
-
-const initCurrentDocumentEmitter = onUpdateState => {
-	window.addEventListener(CURRENT_DOCUMENT_EVENT, e => {
-		const { nextDocument } = e.detail;
-
-		if (nextDocument) {
-			onUpdateState(nextDocument);
-		}
-	});
-};
-const updateCurrentDocument = nextDocument => {
-	window.dispatchEvent(
-		new CustomEvent(CURRENT_DOCUMENT_EVENT, {
-			detail: {
-				nextDocument,
-			},
-		}),
-	);
-};
 
 const initShowModalEmitter = onUpdateModal => {
 	window.addEventListener(MODAL_EVENT, e => {
@@ -52,10 +32,8 @@ const editCurrentDocument = nextDocument => {
 };
 
 export {
-	initCurrentDocumentEmitter,
 	initEditDoumentEmitter,
 	initShowModalEmitter,
 	editCurrentDocument,
-	updateCurrentDocument,
 	showDisplayModal,
 };
