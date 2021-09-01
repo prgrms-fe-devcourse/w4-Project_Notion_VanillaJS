@@ -72,6 +72,7 @@ body {
 }
 .add-page:hover {
   background-color: #e8e7e4;
+  color: black;
 }
 
 .editor-title {
@@ -83,12 +84,15 @@ body {
   border-top: 1px solid #a8a7a7;
 }
 .editor-content {
-  margin-top: 10px;
+  margin-top: 1px;
   font-size: large;
   width: 99.5%;
   height: 100%;
   border: none;
   border-top: 1px solid #a8a7a7;
+}
+.editor-content:focus {
+  outline: none;
 }
 
 #page {
@@ -97,9 +101,7 @@ body {
 }
 
 #edit-page {
-  border: 1px solid #a8a7a7;
-  border-left: none;
-  border-top: none;
+  border: none;
   background-color: white;
   height: 100vh;
   flex-basis: 80%;
@@ -134,6 +136,14 @@ body {
   opacity: 1;
 }
 
+#preview-content {
+  width: auto;
+  height: 600px;
+  padding-top: 3px;
+  border: none;
+  border-top: 1px solid #a8a7a7;
+}
+
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -141,6 +151,21 @@ body {
   to {
     opacity: 0;
   }
+}
+#btn-raw,
+#btn-preview {
+  font-size: 20px;
+  border: 1px solid #a8a7a7;
+  background-color: white;
+  border-radius: 4px;
+}
+
+#btn-raw {
+  margin-right: -4px;
+}
+
+#btn-preview {
+  margin-left: -3px;
 }
 
 /*# sourceMappingURL=index.css.map */

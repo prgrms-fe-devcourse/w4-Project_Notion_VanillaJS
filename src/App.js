@@ -22,7 +22,7 @@ export default function App({$target, initialState}) {
   const $page = document.createElement("div");
   $page.setAttribute("id", "page");
   $target.appendChild($page);
-  $target.appendChild($page);
+  // $target.appendChild($page);
   this.state = initialState
 
 
@@ -112,6 +112,12 @@ export default function App({$target, initialState}) {
     let title
     $input.setAttribute('type', 'text')
     $input.setAttribute('placeholder', 'input title')
+    $input.style.height='30px'
+    $input.style.width='200px'
+    $input.style.fontSize='20px'
+    // $input.setAttribute('width','100px')
+    // $input.setAttribute('height','50px')
+    // $input.setAttribute('font-size','50px')
     $input.onkeydown = async (e) => {
       if (e.code === 'Enter') {
         title = $input.value
