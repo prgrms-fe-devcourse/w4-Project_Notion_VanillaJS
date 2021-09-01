@@ -1,11 +1,11 @@
-export default function DocumentListHeader({ $target, onCreate }) {
+export default function DocumentListHeader({ $target, text = "", onCreate }) {
   const $header = document.createElement("div");
   $header.className = "document-list-container__header";
   $target.appendChild($header);
 
   this.render = () => {
     $header.innerHTML = `
-      <h2 class="document-list-container__title">문서 페이지 목록</h2>
+      <h2 class="document-list-container__title">${text} 페이지</h2>
       <button class="document-item__button rootAddDocument">+</button>
     `;
   };
