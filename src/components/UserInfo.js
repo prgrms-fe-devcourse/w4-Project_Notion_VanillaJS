@@ -20,9 +20,9 @@ export default function UserInfo({ $target, initialState }) {
 
   this.render = () => {
     $info.innerHTML = `
-      <span>
+      <div style="padding-left: 10px">
         ${this.state}의 Notion
-      </span>
+      </div>
     `;
   };
 
