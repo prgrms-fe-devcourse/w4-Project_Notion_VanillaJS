@@ -1,6 +1,7 @@
 import DocumentList from './components/DocumentList.js';
-import { API_END_POINT, request } from './api.js';
-import { trigger } from './router.js';
+import { request } from './utils/api.js';
+import { RouterUtils } from './utils/router.js'
+import { EventUtils } from './utils/event.js'
 
 export default function NavigationBar ({ $target }) {
   const $navigationBar = document.createElement('nav')
@@ -11,7 +12,7 @@ export default function NavigationBar ({ $target }) {
     initialState: [],
     
     onClickDoc: (id) => {
-      trigger(`/documents/${id}`)
+      RouterUtils.routerDispatcher(`/documents/${id}`)
     },
 
     onAddDoc: async (id) => {
@@ -24,7 +25,7 @@ export default function NavigationBar ({ $target }) {
       })
 
       // 새로 추가된 documentID URL로 이동
-      trigger(`/documents/${createdDocument.id}`)
+      RouterUtils.routerDispatcher(`/documents/${createdDocument.id}`)
       
       this.setState()
     },
@@ -47,7 +48,10 @@ export default function NavigationBar ({ $target }) {
     const documents = await request('/documents')
     // document들로 새로 setState
     documentList.setState(documents)
+    console.log('documentList.setState!')
   }
 
   this.setState()
+
+  EventUtils.titleEventListener(() => this.setState())
 }

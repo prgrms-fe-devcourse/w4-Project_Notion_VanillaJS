@@ -1,6 +1,6 @@
 const ROUTER_CHANGE_EVENT_NAME = 'route-change'
 
-export const trigger = (nextUrl) => {
+const routerDispatcher = (nextUrl) => {
   window.dispatchEvent(new CustomEvent(ROUTER_CHANGE_EVENT_NAME, {
     detail: {
       nextUrl
@@ -8,7 +8,7 @@ export const trigger = (nextUrl) => {
   }))
 }
 
-export const initRouter = (onRoute) => {
+const initRouter = (onRoute) => {
   window.addEventListener(ROUTER_CHANGE_EVENT_NAME, (event) => {
     const { nextUrl } = event.detail
 
@@ -17,5 +17,10 @@ export const initRouter = (onRoute) => {
       onRoute()
     }
   })
+}
+
+export const RouterUtils = {
+  routerDispatcher,
+  initRouter
 }
 

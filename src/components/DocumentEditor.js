@@ -1,4 +1,5 @@
-import { setItem, getItem } from '../storage.js'
+import { EventUtils } from '../utils/event.js'
+
 export default function DocumentEditor ({ $target, initialState, onEditing }) {
   const $documentEditor = document.createElement('div')
   $documentEditor.classList.add('document-edit')
@@ -19,7 +20,6 @@ export default function DocumentEditor ({ $target, initialState, onEditing }) {
 
   this.render = () => {
     $documentEditor.querySelector('[name=title]').value = this.state.title
-    console.log(this.state.content)
     // innerHTML 아니고 value임!! ㅠㅠㅠ
     $documentEditor.querySelector('[name=content]').value = this.state.content
     
@@ -28,36 +28,26 @@ export default function DocumentEditor ({ $target, initialState, onEditing }) {
 
   this.render()
 
-  $documentEditor.querySelector('[name=title]').addEventListener('keyup', (event) => {
+  $documentEditor.querySelector('[name=title]').addEventListener('input', (event) => {
     const nextState = {
       ...this.state,
       title: event.target.value
     }
     this.setState(nextState)
-    console.log('keyup!!',this.state)
-
+    
     onEditing(this.state)
+
+
+    //console.log('keyup!!',this.state)
   })
 
-  $documentEditor.querySelector('[name=content]').addEventListener('input', (event) => {
+  $documentEditor.querySelector('[name=content]').addEventListener('keyup', (event) => {
     const nextState = {
       ...this.state,
       content: event.target.value
     }
     this.setState(nextState)
-    /*
-    const KeyLocalDocument = `temp-document`
-
-    const localSavedDocument = getItem(KeyLocalDocument, {
-      ...this.state
-    })
-    
-    setItem(KeyLocalDocument, {
-      ...localSavedDocument,
-      tempSaveDate: new Date()
-     })
-     */
     onEditing(this.state)
-    console.log('keyup!!',this.state)
+    //console.log('keyup!!',this.state)
   })
 }

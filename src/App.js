@@ -1,6 +1,6 @@
 import NavigationBar from './NavigationBar.js'
 import EditPage from './EditPage.js'
-import { initRouter } from './router.js'
+import { RouterUtils } from './utils/router.js'
 
 export default function App ({ $target }) {
 
@@ -11,7 +11,7 @@ export default function App ({ $target }) {
   const editPage = new EditPage({
     $target,
     initialState: {
-      documentId: 'new',
+      documentId: '',
       title: '',
       content: ''
     }
@@ -31,5 +31,5 @@ export default function App ({ $target }) {
 
   this.route()
 
-  initRouter(() => this.route())
+  RouterUtils.initRouter(() => this.route())
 }

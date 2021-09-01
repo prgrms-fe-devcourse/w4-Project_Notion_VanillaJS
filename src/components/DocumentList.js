@@ -1,3 +1,4 @@
+
 export default function DocumentList({ $target, initialState, onClickDoc, onAddDoc, onDeleteDoc }) {
   const $documentList = document.createElement('div')
   $documentList.classList.add('document-list')
@@ -12,9 +13,10 @@ export default function DocumentList({ $target, initialState, onClickDoc, onAddD
 
   this.render = () => {
     const rootDocuments = this.state
-
+    console.log(rootDocuments)
     function makeDocumentTree(documents) {
       const documentTreeString = []
+
       documents.map((document) => {
         documentTreeString.push(`
         <ul>
@@ -43,17 +45,19 @@ export default function DocumentList({ $target, initialState, onClickDoc, onAddD
 
     if (className) {
       switch (className) {
-        case "document-list__item" :
+        case 'document-list__item' :
           onClickDoc(id)
           break
-        case "add-btn" :
+        case 'add-btn' :
           onAddDoc(id)
           break
-        case "delete-btn" :
+        case 'delete-btn' :
           onDeleteDoc(id)
-  
+        
       }
     }
   })
+
+  
 
 }
