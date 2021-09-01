@@ -27,6 +27,9 @@ export default function App({ $target }) {
         title: '',
         content: ''
       }
+    },
+    refreshing: () => {
+      rootPage.setState()
     }
     })
     

@@ -1,15 +1,13 @@
 import { request } from "./api.js"
 import Editor from "./Editor.js"
+import RootPage from "./RootPage.js"
 import { setItem, getItem, removeItem } from "./storage.js"
 
-export default function PostEditPage({ $target, initialState }) {
+export default function PostEditPage({ $target, initialState, refreshing }) {
   const $page = document.createElement('div')
-  
   this.state = initialState
 
   let postLocalSaveKey = `temp-post-${this.state.id}`
-
-
   let timer = null
   
   const editor = new Editor({
@@ -19,25 +17,26 @@ export default function PostEditPage({ $target, initialState }) {
       content: ''
     }, 
     onEditing: (post) => {
+      
+      // 시간 다르게 만들기 저장과 로컬 값 / 서버 api.
       if (timer !== null) {
         clearTimeout(timer)
       }
-      console.log(timer)
-      timer = setTimeout(async() => {
-        console.log(post)
+      timer = setTimeout(() => {
         setItem(postLocalSaveKey, {
           ...post,
-          saveTempDate: new Date()
+          tempSavedDate: new Date()
         })
-
-        // 시간 다르게 만들기 저장과 로컬 값.
+      }, 2000)
+      timer = setTimeout(async() => {
         await request(`/documents/${post.id}`, {
           method: 'PUT',
           body: JSON.stringify(post)
         })
+        console.log(post)
         removeItem(postLocalSaveKey)
-        
-      }, 2000)
+        refreshing()
+      },5000)
     }
   })
 
@@ -70,8 +69,7 @@ export default function PostEditPage({ $target, initialState }) {
       content: ''
     })
 
-    if (tempPost.saveTempDate && tempPost.saveTempDate > post.updatedAt)  {
-      console.log('왜안대~')
+    if (tempPost.tempSavedDate && tempPost.tempSavedDate > post.updatedAt)  {
       if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요? ')) {
         this.setState({
           ...this.state,
@@ -85,4 +83,12 @@ export default function PostEditPage({ $target, initialState }) {
       post
     })
   }
+
+
+  const $moveListButton = document.createElement('button')
+  $moveListButton.innerHTML = '목록으로'
+  $page.appendChild($moveListButton)
+  $moveListButton.addEventListener('click', (e) => {
+    console.log(e)
+  })
 }
