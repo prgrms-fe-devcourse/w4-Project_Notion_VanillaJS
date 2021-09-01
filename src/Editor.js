@@ -24,7 +24,7 @@ export default function Editor({
   const {documentTitle, documentContent} = this.state
   $editor.innerHTML = `
       <div contenteditable="true" name="title" class="editor-title">${documentTitle === undefined ? '' : documentTitle}</div>
-      <textarea name="content" class="editor-content">${documentContent === null ? '' : documentContent}</textarea>
+      <div contenteditable="true" name="content" class="editor-content">${documentContent === null ? '' : documentContent}</div>
     `
   $target.appendChild($editor)
 
@@ -35,8 +35,15 @@ export default function Editor({
   this.render = () => {
 
     // const richTitle=this.state.documentTitle=`<h1>${this.state.documentTitle}</h1>`
+    const richContent=this.state.documentContent.split('\n').map(line=>{
+      if(line.indexOf('# ')===0){
+        return `<h1>${line}</h1>`
+      }else{
+        return `${line}`
+      }
+    })
     $editor.querySelector('[name=title]').innerHTML = this.state.documentTitle
-    $editor.querySelector('[name=content]').value = this.state.documentContent
+    $editor.querySelector('[name=content]').innerHTML = richContent
   }
   this.render()
 
@@ -60,16 +67,20 @@ export default function Editor({
   $editor.querySelector('[name=content]').addEventListener('input', e => {
     const nextState = {
       ...this.state,
-      documentContent: e.target.value
+      documentContent: e.target.innerText
     }
     this.setState(nextState)
-    //
-    // let offset=e.target.innerText.length
-    // let range=document.createRange()
-    // let sel=window.getSelection()
-    // range.setStart(e.target.childNodes[0],offset)
-    // sel.removeAllRanges()
-    // sel.addRange(range)
+
+    const $editorContent=document.querySelector('.editor-content')
+    let i=0;
+    let offset=$editorContent.innerText.length
+    console.log(offset)
+    let range=document.createRange()
+    let sel=window.getSelection()
+    // console.log($editorContent.childNodes[0])
+    range.setStart($editorContent.childNodes[0],offset)
+    sel.removeAllRanges()
+    sel.addRange(range)
 
     onEditing(this.state)
   })
