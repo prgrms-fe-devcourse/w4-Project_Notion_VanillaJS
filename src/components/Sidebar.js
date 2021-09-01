@@ -11,7 +11,7 @@ export default function Sidebar({ $target }) {
 
   Object.assign($sidebarContainer.style, {
     position: 'relative',
-    width: '240px',
+    width: '320px',
     'background-color': 'rgb(247 246 243)',
   });
 
