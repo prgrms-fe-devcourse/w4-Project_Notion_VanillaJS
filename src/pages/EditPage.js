@@ -1,5 +1,5 @@
-import DocumentEditor from '../components/DocumentEditor.js';
-import LinkButton from '../components/LinkButton.js'
+import Editor from '../components/Editor.js';
+import EditorBottomBar from '../components/EditorBottomBar.js'
 import { request } from '../utils/api.js';
 import { StorageUtils } from '../utils/storage.js';
 import { EventUtils } from '../utils/event.js'
@@ -18,7 +18,7 @@ export default function EditPage({ $target, initialState }) {
   
   let timer = null
   
-  const documentEditor = new DocumentEditor({
+  const editor = new Editor({
     $target: $editPage,
     initialState: localSavedDocument,
 
@@ -60,8 +60,11 @@ export default function EditPage({ $target, initialState }) {
     //await request(`/documents/${document.id}`)
   });
   
-  
 
+  const editorBottomBar = new EditorBottomBar({
+    $target: $editPage
+  })
+  
 
   this.setState = async (nextState) => {
     /*
@@ -70,7 +73,7 @@ export default function EditPage({ $target, initialState }) {
         title: '',
         content: ''
       })
-      documentEditor.setState()
+      editor.setState()
     }*/
 
     this.state = nextState
@@ -86,15 +89,16 @@ export default function EditPage({ $target, initialState }) {
     const { documentId } = this.state
     if (documentId !== 'new') {
 
-      const documents = await request(`/documents/${documentId}`)
-      // 현재 도큐먼트 차일드 수만큼 버튼 렌더!
-      console.log('documents:',documents)
-      documentEditor.setState(documents)
+      const document = await request(`/documents/${documentId}`)
+      console.log('document:',document)
+      editor.setState(document)
+      // 현재 document 하위 document 수 만큼 버튼 렌더
+      editorBottomBar.makeSubButtons(document)
 
       this.render()
     }
-    
   }
+  
   
   this.render = () => {
     $target.appendChild($editPage)

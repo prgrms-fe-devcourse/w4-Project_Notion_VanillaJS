@@ -1,7 +1,7 @@
 import { RouterUtils } from '../utils/router.js'
 
 export default function LinkButton({ 
-  target, 
+  $target, 
   initialState
 }) {
   const $linkBtn = document.createElement('button')
@@ -16,6 +16,6 @@ export default function LinkButton({
   this.render()
 
   $linkBtn.addEventListener('click', () => {
-    RouterUtils.routerDispatcher(`/document/${this.state.id}`)
+    RouterUtils.routerDispatcher(`/documents/${this.state.id}`)
   })
 }
