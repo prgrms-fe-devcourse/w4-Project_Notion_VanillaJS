@@ -14,6 +14,7 @@ export default function EditPage({ $target, initialState }) {
 	$target.appendChild($editPage);
 
 
+
 	const $modal=document.createElement('div')
 	$modal.setAttribute('class','notice')
 	// $modal.style.opacity='0'
@@ -75,19 +76,7 @@ export default function EditPage({ $target, initialState }) {
 	};
 	this.render = () => {
     const {documentTitle,documentContent}=this.state
-    // console.log(documentTitle);
-    // $editTitle.innerHTML=`
-    // <textarea name="title" rows='1' cols="50" id="textarea-title" placeholder="제목 없음">${documentTitle===undefined?'':documentTitle}</textarea>
-    // `
-		// $editContent.innerHTML = /* html */`
-		//
-    // <textarea name='content' rows="100" cols="100" id="textarea-content" placeholder="content">
-    //   ${documentContent===null?'':documentContent}
-    //
-    // </textarea>
-    //
-    //
-    // `;
+
 	};
 	this.render();
 

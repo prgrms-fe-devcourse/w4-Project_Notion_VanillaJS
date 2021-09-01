@@ -59,9 +59,23 @@
     left: 15px;
   }
 
-
-
 }
+
+
+.editor{
+  &-title {
+    font-size: xxx-large;
+    height: 60px;
+    width: 100%;
+  }
+  &-content{
+    margin-top: 10px;
+    font-size: medium;
+    width: 99.5%;
+    height: 500px;
+  }
+}
+
 #page {
   display: flex;
   height: 100vh;
