@@ -25,7 +25,14 @@ ul {
   list-style-type: none;
   padding-left: 20px;
   white-space: nowrap;
-  color: dimgray;
+  color: rgba(25, 23, 17, 0.6);
+}
+
+ul li {
+  padding-top: 2px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  cursor: pointer;
 }
 
 .current-hover {
@@ -42,14 +49,37 @@ button:hover {
   background: #b8b8b8;
 }
 
-button.add {
+button[name="fold"] {
+  background: transparent;
+  border: none;
+  font-size: 10px;
+  color: rgba(55, 53, 47, 0.4);
+  margin: 2px;
+
+  transform: rotate(0deg);
+  transition: 0.5s;
+}
+
+button[name="fold"].unfolded {
+  transform: rotate(90deg);
+  transition: 0.5s;
+}
+
+button[name="fold"]:hover {
+  color: black;
+}
+
+button[name="add"] {
   display: none;
 }
 
-.current-hover button.add {
+.current-hover button[name="add"] {
+  border: none;
+  font-size: 15px;
+  color: rgba(55, 53, 47, 0.4);
   display: inline;
   position: absolute;
-  right: 10px;
+  right: 0;
   top: 0;
 }
 

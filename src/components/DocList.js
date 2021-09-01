@@ -19,9 +19,9 @@ export default function DocList({ $target, initialState }) {
       <ul>
         ${this.state.map(({ id, title }) => `
           <li data-id="${id}">
-            <button data-id="${id}" name="fold" class="folded">></button>
+            <button data-id="${id}" name="fold" class="folded">▶</button>
             ${title}(${id})
-            <button data-id="${id}" class="add">+</button>
+            <button data-id="${id}" name="add" class="add">+</button>
           </li>
         `).join('')}
       </ul>

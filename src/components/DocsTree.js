@@ -24,7 +24,10 @@ export default function DocsTree({ $target, initialState }) {
 
     const { documents: subdocs } = await request(`/documents/${id}`);
 
-    if (!subdocs) {
+    if (!Array.isArray(subdocs) || subdocs.length === 0) {
+      const $noPagesInsideMessage = document.createElement('div');
+      $noPagesInsideMessage.textContent = 'No pages inside';
+      parentDoc.appendChild($noPagesInsideMessage);
       return;
     }
 
@@ -38,10 +41,8 @@ export default function DocsTree({ $target, initialState }) {
     const { className } = $button;
 
     if (className === 'folded') {
-      $button.textContent = '_';
       $button.className = 'unfolded';
     } else if (className === 'unfolded') {
-      $button.textContent = '>';
       $button.className = 'folded';
     }
   };
