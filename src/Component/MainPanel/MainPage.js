@@ -1,7 +1,9 @@
 import { request } from "../api.js";
 import { push } from "../router.js";
+import { getItem } from "../storage.js";
 import Editor from "./Editor.js";
 import EditorTitle from "./EditorTitle.js";
+import GuidePage from "./GuidePage.js";
 import SubDocumentList from "./SubDocumentList.js";
 
 export default function MainPage({ $target }) {
@@ -9,23 +11,25 @@ export default function MainPage({ $target }) {
   $mainPageContainer.className = "main-page-container";
   $target.appendChild($mainPageContainer);
 
+  const guidePage = new GuidePage({ $target: $mainPageContainer });
+
   this.state = {
     id: null,
     title: "",
     content: "",
     documents: [],
   };
-  this.setState = async (nextState) => {
-    if (nextState.id === null) {
-      // guide.render();
+  this.setState = async (nextState = null) => {
+    if (nextState === null) {
+      guidePage.render();
     } else if (this.state.id !== nextState.id) {
+      guidePage.remove();
       const contentList = await request(`/documents/${nextState.id}`);
       this.state = contentList;
       editorTitle.setState(this.state);
       editor.setState(this.state);
+      editor.appendChild();
       subDocumentList.setState(this.state);
-
-      console.log(this.state);
       this.render();
     }
   };
