@@ -18,8 +18,8 @@ const App = class extends Component{
 
   mount() {
     const $listContainer = this.$target.querySelector('#list-container');
+    const $contentContainer = this.$target.querySelector('#content-container')
 
-    console.log(this.state)
     new ListContainer(
       $listContainer,
       {

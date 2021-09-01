@@ -8,7 +8,7 @@ const Header = class extends Component{
           <i class="bx bx-notepad"></i>
         </div>
         <div class="notion-title">
-          <h1>Dorr's  Notion</h1>
+          <h1>Dorr의  Notion</h1>
         </div>  
       <div>  
     `

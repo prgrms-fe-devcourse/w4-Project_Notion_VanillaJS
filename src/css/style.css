@@ -47,7 +47,20 @@ body {
   font-size: 17px;
 }
 
+.doc-info {
+  display: flex;
+  flex-direction: column;
+}
+
 .notion-title {
   display: flex;
   align-items: center;
+}
+
+.sub-docs {
+  display: none;
+}
+
+.active {
+  display: block;
 }

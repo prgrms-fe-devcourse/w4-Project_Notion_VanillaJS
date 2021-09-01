@@ -7,6 +7,7 @@ const ListContainer = class extends Component{
     return `
       <header id="title" class="title"></header>
       <nav id="documents-list"></nav>
+      <button type="button">페이지 추가</button>
     `
   }
 

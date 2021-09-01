@@ -12,6 +12,7 @@ const Component = class {
     const { state } = this.props
     this.state = state
     this.render();
+    this.setEvent()  
   }
 
   setState(newState) {
