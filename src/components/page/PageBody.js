@@ -20,11 +20,23 @@ export default function PageBody({ $target, initialState, onEdit }) {
 		`;
 
 		$pageTitle.querySelector('input').addEventListener('keyup', e => {
-			onEdit.editTitle(e.target.value);
+			const content = $pageContent.querySelector('textarea').value;
+
+			const nextDocument = {
+				title: e.target.value,
+				content,
+			};
+			onEdit.editTitle(nextDocument);
 		});
 
 		$pageContent.querySelector('textarea').addEventListener('keyup', e => {
-			onEdit.editContent(e.target.value);
+			const title = $pageTitle.querySelector('input').value;
+
+			const nextDocument = {
+				title,
+				content: e.target.value,
+			};
+			onEdit.editContent(nextDocument);
 		});
 	};
 

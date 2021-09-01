@@ -27,21 +27,18 @@ export default function Page({ $target, initialState }) {
 		$target: $pageBody,
 		initialState,
 		onEdit: {
-			editTitle: title => {
-				const nextDocument = Object.assign({}, this.state.currentDocument);
-				nextDocument.title = title;
-
-				editCurrentDocument(nextDocument);
+			editTitle: nextDocument => {
+				const { id } = this.state.currentDocument;
+				editCurrentDocument(id, nextDocument);
 			},
-			editContent: content => {
+			editContent: nextDocument => {
+				const { id } = this.state.currentDocument;
+
 				if (pageBodyEditTimer) {
 					clearTimeout(pageBodyEditTimer);
 				}
 				pageBodyEditTimer = setTimeout(() => {
-					const nextDocument = Object.assign({}, this.state.currentDocument);
-					nextDocument.content = content;
-
-					editCurrentDocument(nextDocument);
+					editCurrentDocument(id, nextDocument);
 				}, 1000);
 			},
 		},

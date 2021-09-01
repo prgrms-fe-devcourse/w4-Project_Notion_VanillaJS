@@ -28,9 +28,8 @@ export default function App({ $target, initialState }) {
 		page.setState(this.state);
 	};
 
-	const editDocument = async nextDocument => {
-		const { id, title, content } = nextDocument;
-		const currentDocument = await putDocument(id, { title, content });
+	const editDocument = async (id, nextDocument) => {
+		const currentDocument = await putDocument(id, nextDocument);
 		const allDocuments = await getDocuments();
 
 		const nextState = {
@@ -84,7 +83,7 @@ export default function App({ $target, initialState }) {
 	new Modal({ $target, initialState });
 
 	this.route();
-	initEditDoumentEmitter(nextDocument => editDocument(nextDocument));
+	initEditDoumentEmitter((id, nextDocument) => editDocument(id, nextDocument));
 	initCreateDocumnetEmitter(newDocument => createDocument(newDocument));
 	initRouter(() => this.route());
 }

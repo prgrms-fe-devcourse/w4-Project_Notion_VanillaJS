@@ -14,18 +14,19 @@ const showDisplayModal = () => {
 
 const initEditDoumentEmitter = onEditState => {
 	window.addEventListener(EDIT_DOCUMENT_EVENT, e => {
-		const { nextDocument } = e.detail;
+		const { id, nextDocument } = e.detail;
 
-		if (nextDocument) {
-			onEditState(nextDocument);
+		if (id && nextDocument) {
+			onEditState(id, nextDocument);
 		}
 	});
 };
 
-const editCurrentDocument = nextDocument => {
+const editCurrentDocument = (id, nextDocument) => {
 	window.dispatchEvent(
 		new CustomEvent(EDIT_DOCUMENT_EVENT, {
 			detail: {
+				id,
 				nextDocument,
 			},
 		}),
