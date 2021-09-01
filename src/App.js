@@ -1,16 +1,22 @@
 import Sidebar from "./component/Sidebar.js";
 import Frame from "./component/Frame.js";
+import { getDocument } from "./api/api.js";
 
-export default function App({ $target, initialState }) {
-  try {
-    new Sidebar({
-      $target,
-      initialState,
-    });
+export default function App({ $target }) {
+  this.state = [];
 
-    // new Frame({ $target });
-  
-  } catch (e) {
-    console.log(e);
-  }
+  const sidebar = new Sidebar({
+    $target,
+    initialState: this.state,
+  });
+
+  // new Frame({ $target });
+
+  this.render = async () => {
+    const documents = await getDocument();
+    this.state = documents;
+    sidebar.setState(this.state);
+  };
+
+  this.render();
 }
