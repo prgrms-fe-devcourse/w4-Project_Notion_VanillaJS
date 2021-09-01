@@ -8,7 +8,7 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = location;
     if (pathname === "/") {
-      mainPage.setState({ id: null });
+      mainPage.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
       mainPage.setState({ id: documentId });
