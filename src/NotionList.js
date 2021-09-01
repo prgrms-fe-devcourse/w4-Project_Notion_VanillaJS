@@ -1,12 +1,13 @@
 import { push } from "./router.js";
 
-export default function NotionList({ $target, initialState, newDoument }) {
+export default function NotionList({ $target, initialState, newDocument }) {
   const $notion = document.createElement("div");
   $target.appendChild($notion);
 
   this.state = initialState;
 
   this.setState = (nextState) => {
+    console.log(nextState);
     this.state = nextState;
     this.render();
   };
@@ -43,10 +44,10 @@ export default function NotionList({ $target, initialState, newDoument }) {
 
   $notion.addEventListener("click", (e) => {
     const $li = e.target.closest(".document-item");
+    const { tagName } = e.target;
     if ($li) {
-      const documentId = $li.dataset.id;
-      // push(`/document/${id}`);
-      newDoument(documentId);
+      const { id } = $li.dataset;
+      newDocument(id, tagName);
     }
   });
 }
