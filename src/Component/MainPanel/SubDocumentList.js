@@ -6,6 +6,7 @@ export default function SubDocumentList({ $target, init, onClick }) {
   console.log(init);
   this.state = init;
   this.setState = (nextState) => {
+    $target.appendChild($subDocumentList);
     this.state = nextState;
     this.render();
   };
