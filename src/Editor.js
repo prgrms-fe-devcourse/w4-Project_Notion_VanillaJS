@@ -1,5 +1,4 @@
-export default function Editor({ $target, initialState, onEditing }) {
-  console.log(initialState);
+export default function Editor({ $target, initialState = "", onEditing }) {
   const $editor = document.createElement("div");
   let isinitialize = false;
 

@@ -1,31 +1,29 @@
 import Editor from "./Editor.js";
 
 export default function NotionEditPage({ $target, initialState }) {
+  console.log(initialState);
   const $notion = document.createElement("div");
-
-  const post = {
-    content: "",
-  };
-
-  const editor = new Editor({
-    $target: $notion,
-    initialState: post,
-    onEditing: (post) => {
-      console.log(post);
-    },
-  });
 
   this.state = initialState;
 
+  let timer = null;
+
+  if (!!this.state) {
+    const editor = new Editor({
+      $target: $notion,
+      initialState,
+      onEditing: (post) => {
+        if (timer !== null) clearTimeout(timer);
+        timer = setTimeout(() => {
+          console.log(post);
+        }, 1000);
+      },
+    });
+  }
+
   this.setState = (nextState) => {
-    console.log(this.state);
-    const { documentId } = this.state;
-    if (!!documentId && documentId !== nextState.documentId) {
-      this.state = nextState;
-    }
-    // console.log(this.state.documentId);
-    // console.log(nextState);
-    editor.setState(post);
+    this.state = nextState;
+
     this.render();
   };
 
