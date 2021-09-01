@@ -1,12 +1,14 @@
 import Document from "./Document.js";
-export default function DocumentsListTemp({
+export default function DocumentsList({
   targetElement,
   initialState,
   onCreate,
   onDelete,
+  onSelect,
 }) {
   this.state = initialState || null;
   const documentsList = document.createElement("ul");
+  documentsList.className = "document-list";
   targetElement.appendChild(documentsList);
 
   this.setState = (nextState) => {
@@ -27,6 +29,7 @@ export default function DocumentsListTemp({
         initialState: childDocument,
         onCreate,
         onDelete,
+        onSelect,
       });
       recuriveBulidTreeViewWithDocuments(childDocument);
     }

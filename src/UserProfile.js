@@ -9,7 +9,7 @@ export default function UserProfile({ targetElement, initialState }) {
     this.render();
   };
   this.render = () => {
-    userNameElement.textContent = `${this.state}님의 노션페이지`;
+    userNameElement.textContent = `${this.state}'s Notion`;
   };
   this.render();
 }
