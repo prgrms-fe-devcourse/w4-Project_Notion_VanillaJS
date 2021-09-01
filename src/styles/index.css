@@ -121,7 +121,8 @@ button {
   height: 100%;
 }
 
-.edit-page p {
+.edit-page-empty-message {
+  position: absolute;
   font-size: 56px;
 }
 

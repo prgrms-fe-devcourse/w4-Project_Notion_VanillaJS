@@ -1,8 +1,12 @@
 import { createElement } from '../utils/dom.js';
-import { checkIsEmptyThrowError, checkUseConstructorFunction } from '../utils/validator.js';
+import { checkIsEmptyThrowError, checkUseConstructorFunction, isEmptyArray } from '../utils/validator.js';
 import { makeChildDocumentLinkTemplate } from '../utils/template.js';
 import { movePage } from '../utils/eventListeners.js';
-import { CLASS_NAME_CHILD_DOCUMENT_LINK, CLASS_NAME_CHILD_DOCUMENT_CONTAINER } from '../utils/constants.js';
+import {
+  CLASS_NAME_CHILD_DOCUMENT_LINK,
+  CLASS_NAME_CHILD_DOCUMENT_CONTAINER,
+  CLASS_NAME_DISPLAY_NONE,
+} from '../utils/constants.js';
 
 export default function ChildDocumentLink({ $target, initialState }) {
   const validate = state => {

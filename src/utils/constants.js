@@ -60,3 +60,4 @@ export const CLASS_NAME_FAS = 'fas';
 export const CLASS_NAME_FA_ANGLE_DOUBLE_LEFT = 'fa-angle-double-left';
 export const CLASS_NAME_FA_ANGLE_DOUBLE_RIGHT = 'fa-angle-double-right';
 export const CLASS_NAME_DISPLAY_NONE = 'display-none';
+export const CLASS_NAME_EMPTY_EDIT_PAGE_MESSAGE = 'edit-page-empty-message';
