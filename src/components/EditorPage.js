@@ -8,8 +8,24 @@ import {
 } from '../services/storage.js';
 
 export default function EditorPage({ $target, initialState }) {
+  const $pageContainer = document.createElement('div');
+  $pageContainer.setAttribute('class', 'editorpage-container');
+  $target.appendChild($pageContainer);
+
+  Object.assign($pageContainer.style, {
+    position: 'relative',
+    width: '100%',
+    margin: '0 auto',
+  });
+
   const $page = document.createElement('div');
-  $page.setAttribute('class', 'editorpage-container');
+  $page.setAttribute('class', 'editorpage');
+  $pageContainer.appendChild($page);
+
+  Object.assign($page.style, {
+    margin: '10px 20px',
+    height: '93.5%',
+  });
 
   this.state = initialState;
 
@@ -85,6 +101,6 @@ export default function EditorPage({ $target, initialState }) {
   };
 
   this.render = () => {
-    $target.appendChild($page);
+    $target.appendChild($pageContainer);
   };
 }

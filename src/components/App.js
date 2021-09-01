@@ -10,6 +10,7 @@ export default function App({ $target }) {
   Object.assign($container.style, {
     display: 'flex',
     height: '100vh',
+    overflow: 'hidden',
   });
 
   $target.appendChild($container);

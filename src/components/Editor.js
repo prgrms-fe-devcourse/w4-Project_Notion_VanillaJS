@@ -4,6 +4,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   Object.assign($editor.style, {
     display: 'flex',
     'flex-direction': 'column',
+    height: '100%',
   });
 
   $target.appendChild($editor);
@@ -41,14 +42,14 @@ export default function Editor({ $target, initialState, onEditing }) {
         <input
           name="title"
           type="text"
-          style="width:300px"
+          style="width:100%; padding: 10px"
           value="${title}"
           ${id === null ? 'disabled' : ''}
           placeholder="${id === null ? '문서를 선택해주세요' : ''}"
         />
         <textarea
           name="content"
-          style="width:300px; height: 400px"
+          style="width:100%; height:100%; padding: 10px"
           ${id === null ? 'disabled' : ''}
           placeholder="${id === null ? '문서를 선택해주세요' : ''}"
         >${content}</textarea>
