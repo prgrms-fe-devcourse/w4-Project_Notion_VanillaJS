@@ -1,4 +1,3 @@
-import { setDocumentToStroage } from './utils/storage.js';
 import notionAPI from './api/notion.js';
 import { on, emit } from './utils/emitter.js';
 
@@ -29,7 +28,6 @@ export default function App({ $target, initialState }) {
 	});
 
 	$target.appendChild($row);
-	console.log(this.state.allDocuments);
 
 	const createDocument = async (id, onModal) => {
 		const { getDocuments, createDocument } = notionAPI;
@@ -41,18 +39,22 @@ export default function App({ $target, initialState }) {
 		};
 
 		const newDocument = await createDocument(document);
+
 		nextState.allDocuments = await getDocuments();
 		nextState.currentDocument = this.state.currentDocument;
 		nextState.modalDocument = await getDocuments(newDocument.id);
 
 		if (!onModal) {
 			nextState.currentDocument = await getDocuments(newDocument.id);
-			history.pushState(null, null, `/posts/${newDocument.id}`);
+
 			this.setState(nextState);
 			page.setState(this.state);
+
+			history.pushState(null, null, `/posts/${newDocument.id}`);
 		} else {
 			this.setState(nextState);
 			modal.setState(this.state);
+
 			emit.showModal();
 		}
 	};
@@ -69,31 +71,48 @@ export default function App({ $target, initialState }) {
 	};
 
 	const editDocument = async (id, nextDocument, onModal) => {
+		const { updateDocument, getDocuments } = notionAPI;
 		const nextState = {};
 
-		console.log(onModal);
 		if (onModal) {
-			// console.log(nextState.currentDocument.id, nextState.modalDocument.id);
 			nextState.currentDocument = this.state.currentDocument;
-			nextState.modalDocument = await notionAPI.updateDocument(
-				id,
-				nextDocument,
-			);
+			nextState.modalDocument = await updateDocument(id, nextDocument);
 		} else {
-			nextState.currentDocument = await notionAPI.updateDocument(
-				id,
-				nextDocument,
-			);
+			nextState.currentDocument = await updateDocument(id, nextDocument);
 			nextState.modalDocument = Object.assign({}, nextState.currentDocument);
 		}
-		nextState.allDocuments = await notionAPI.getDocuments();
+		nextState.allDocuments = await getDocuments();
 
 		this.setState(nextState);
 	};
 
+	const removeDocument = async id => {
+		const { getDocuments, deleteDocument } = notionAPI;
+
+		if (confirm('문서를 삭제하시겠습니까?')) {
+			const { modalDocument, currentDocument } = this.state;
+			await deleteDocument(id);
+
+			const nextState = {};
+			nextState.allDocuments = await getDocuments();
+			nextState.modalDocument = Object.assign({}, modalDocument);
+
+			if (Number(id) === this.state['currentDocument'].id) {
+				const postId = nextState.allDocuments[0].id;
+				nextState.currentDocument = await getDocuments(postId);
+				this.setState(nextState);
+				page.setState(this.state);
+			} else {
+				nextState.currentDocument = Object.assign({}, currentDocument);
+				this.setState(nextState);
+			}
+		}
+	};
+
 	on.updateUrl(id => updatePage(id));
+	on.createDocument((id, modal) => createDocument(id, modal));
 	on.editDocument((id, nextDocument, onModal) =>
 		editDocument(id, nextDocument, onModal),
 	);
-	on.createDocument((id, modal) => createDocument(id, modal));
+	on.deleteDocument(id => removeDocument(id));
 }

@@ -48,11 +48,13 @@ export default function Sidebar({ $target, initialState }) {
 				const { id } = $li.dataset;
 				emit.updateUrl(`/posts/${id}`);
 			},
-			externalBtn: $li => {
-				console.log('삭제', $li);
+			deleteBtn: $li => {
+				const { id } = $li.dataset;
+				emit.deleteDocument(id);
 			},
 			createDocument: (id, $li) => {
 				const modal = !!id;
+
 				emit.createDocument(id, modal);
 				createDocumentLi($li);
 			},

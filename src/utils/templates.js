@@ -6,7 +6,7 @@ const $listItem = (id = 'new', title = '제목없음', currentState) => {
 	$li.innerHTML = `
       <button class="nav-toggler-btn">▼</button>
       <span class="nav-page-title ${select}">${title}</span>
-      <button class="nav-external-btn">...</button>
+      <button class="nav-delete-btn">🗑</button>
       <button class="nav-crate-btn" data-target="modal">+</button>
     `;
 	return $li;

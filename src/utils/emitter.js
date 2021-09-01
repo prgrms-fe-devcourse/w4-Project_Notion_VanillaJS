@@ -1,5 +1,6 @@
-const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
 const CREATE_DOCUMENT_EVENT = 'create:document';
+const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
+const DELETE_DOCUMENT_EVENT = 'delete:document';
 const SHOW_MODAL_EVENT = 'show:modal';
 const ROUTE_EVENT_NAME = 'route-change';
 
@@ -9,19 +10,28 @@ const on = {
 			showModal();
 		});
 	},
-	editDocument: onEdit => {
-		window.addEventListener(EDIT_DOCUMENT_EVENT, e => {
-			const { id, nextDocument, onModal } = e.detail;
-
-			if (id && nextDocument && onModal) {
-				onEdit(id, nextDocument, onModal);
-			}
-		});
-	},
 	createDocument: onCreate => {
 		window.addEventListener(CREATE_DOCUMENT_EVENT, e => {
 			const { id, onModal } = e.detail;
 			onCreate(id, onModal);
+		});
+	},
+	editDocument: onEdit => {
+		window.addEventListener(EDIT_DOCUMENT_EVENT, e => {
+			const { id, nextDocument, onModal } = e.detail;
+
+			if (id && nextDocument) {
+				onEdit(id, nextDocument, onModal);
+			}
+		});
+	},
+	deleteDocument: onDelete => {
+		window.addEventListener(DELETE_DOCUMENT_EVENT, e => {
+			const { id } = e.detail;
+
+			if (id) {
+				onDelete(id);
+			}
 		});
 	},
 	updateUrl: onUpdate => {
@@ -51,6 +61,16 @@ const emit = {
 	showModal: () => {
 		window.dispatchEvent(new CustomEvent(SHOW_MODAL_EVENT));
 	},
+	createDocument: (id, onModal) => {
+		window.dispatchEvent(
+			new CustomEvent(CREATE_DOCUMENT_EVENT, {
+				detail: {
+					id,
+					onModal,
+				},
+			}),
+		);
+	},
 	editDocument: (id, nextDocument, onModal) => {
 		window.dispatchEvent(
 			new CustomEvent(EDIT_DOCUMENT_EVENT, {
@@ -62,12 +82,11 @@ const emit = {
 			}),
 		);
 	},
-	createDocument: (id, onModal) => {
+	deleteDocument: id => {
 		window.dispatchEvent(
-			new CustomEvent(CREATE_DOCUMENT_EVENT, {
+			new CustomEvent(DELETE_DOCUMENT_EVENT, {
 				detail: {
 					id,
-					onModal,
 				},
 			}),
 		);

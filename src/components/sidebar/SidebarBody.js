@@ -30,7 +30,7 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	};
 
 	$navList.addEventListener('click', e => {
-		const { togglerBtn, externalBtn, createDocument, getDocument } = onClick;
+		const { togglerBtn, deleteBtn, createDocument, getDocument } = onClick;
 		const { tagName, className, parentNode } = e.target;
 
 		if (tagName === 'UL' || tagName === 'LI') return;
@@ -39,8 +39,8 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 			case 'nav-toggler-btn':
 				togglerBtn(parentNode);
 				break;
-			case 'nav-external-btn':
-				externalBtn(parentNode);
+			case 'nav-delete-btn':
+				deleteBtn(parentNode);
 				break;
 			case 'nav-crate-btn':
 				const { id } = parentNode.dataset;
