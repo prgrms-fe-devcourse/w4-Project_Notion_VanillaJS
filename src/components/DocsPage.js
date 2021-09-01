@@ -8,6 +8,7 @@ export default function DocsPage({ $target }) {
 
   Object.assign($page.style, {
     overflow: 'auto',
+    'flex-grow': 1,
   });
 
   const docsTree = new DocsTree({

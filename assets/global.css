@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
 * {
+  font-family: "Noto Sans KR", sans-serif;
   box-sizing: border-box;
 }
 
@@ -21,10 +24,13 @@ button {
 ul {
   list-style-type: none;
   padding-left: 20px;
+  white-space: nowrap;
+  color: dimgray;
 }
 
 .current-hover {
   background: rgba(55, 53, 47, 0.08);
+  color: black;
 }
 
 li.current-hover ul {
@@ -41,6 +47,8 @@ button.add {
 
 .current-hover button.add {
   display: inline;
+  position: absolute;
+  right: 10px;
 }
 
 li.current-hover ul button.add {

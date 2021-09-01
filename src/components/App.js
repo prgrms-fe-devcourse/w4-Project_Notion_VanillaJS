@@ -15,8 +15,16 @@ export default function App({ $target }) {
 
   $target.appendChild($container);
 
+  this.state = {
+    username: 'datalater',
+    selectedDoc: {
+      id: '',
+    },
+  };
+
   const sidebar = new Sidebar({
     $target: $container,
+    initialState: this.state,
   });
 
   const editorPage = new EditorPage({
@@ -25,12 +33,6 @@ export default function App({ $target }) {
       id: '',
     },
   });
-
-  this.state = {
-    selectedDoc: {
-      id: '',
-    },
-  };
 
   this.setState = (nextState) => {
     this.state = nextState;
