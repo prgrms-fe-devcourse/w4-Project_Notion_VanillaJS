@@ -15,16 +15,19 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
   this.render = () => {
     $rootDocs.innerHTML = `
     <ul>
+    <button class="newBtn">📒</button>
       ${this.state.map(doc => `
-        <li data-id="${doc.id}">${doc.title}</li>
+        <li data-id="${doc.id}">${doc.title}<button class="newBtn">📕</button><button class="removeBtn">❌</button></li>
       `).join('')}
     </ul>
     `
   }
 
   this.render()
+
   $rootDocs.addEventListener('click', (e) => {
     const $li = e.target.closest('li')
+    
     if ($li) {
       const { id } = $li.dataset
       onDocsClick = id
@@ -34,7 +37,10 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
         $rootDocs.innerHTML = `
         <ul class="sideBar">
           ${this.state.map(doc => `
-            <li data-id="${doc.id}">${doc.title}${id == doc.id ? `<ul>${doc.documents.map(onSelectDoc=>`<li data-id="${onSelectDoc.id}">${onSelectDoc.title}`)}</ul>` : ''}</li>
+            <li data-id="${doc.id}">${doc.title}${id == doc.id && doc.documents.length 
+              ? `<ul>${doc.documents.map(onSelectDoc=>`<li data-id="${onSelectDoc.id}">${onSelectDoc.title}<button class="newBtn">📕</button><button class="removeBtn">❌</button>`).join('')}</li>` 
+              : '<button class="newBtn">📕</button><button class="removeBtn">❌</button>'}
+            </ul>
           `).join('')}
         </ul>
         `
@@ -47,15 +53,38 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
       onDocsClick: ''
     })
 
-    const fetchDocument = async (click) => {
-      const document = await request(`/documents/${click}`,{
+    const fetchDocument = async (clickId) => {
+      const document = await request(`/documents/${clickId}`,{
         method: 'GET',
       })
       editor.setState(document)
     }
+
+    const newDocument = async (clickId) => {
+      const document = await request(`/documents`,{
+        method: 'POST',
+        body: JSON.stringify({
+          'title':'제목테스트',
+          'parent': Number(clickId)
+        })
+      })
+    }
+
+    const deleteDocument = async (clickId) => {
+      const document = await request(`/documents/${clickId}`,{
+        method: 'DELETE',
+      })
+    }
     
-    fetchDocument(onDocsClick)
-//
+    
+    const { className } = e.target
+    if(className === 'newBtn'){
+      newDocument(onDocsClick)
+    } else if (className === 'removeBtn'){
+      deleteDocument(onDocsClick)
+    } else {
+      fetchDocument(onDocsClick)
+    }
 
   this.render()
   })
