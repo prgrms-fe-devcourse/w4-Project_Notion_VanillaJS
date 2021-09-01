@@ -1,6 +1,5 @@
 import { request } from "./api.js"
 import Editor from "./Editor.js"
-import RootPage from "./RootPage.js"
 import { setItem, getItem, removeItem } from "./storage.js"
 
 export default function PostEditPage({ $target, initialState, refreshing }) {
