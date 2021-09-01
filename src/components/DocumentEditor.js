@@ -19,7 +19,9 @@ export default function DocumentEditor ({ $target, initialState, onEditing }) {
 
   this.render = () => {
     $documentEditor.querySelector('[name=title]').value = this.state.title
-    $documentEditor.querySelector('[name=content]').innerHTML = this.state.content
+    console.log(this.state.content)
+    // innerHTML 아니고 value임!! ㅠㅠㅠ
+    $documentEditor.querySelector('[name=content]').value = this.state.content
     
     // appendChild
   }

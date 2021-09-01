@@ -6,7 +6,7 @@ export default function EditPage({ $target, initialState }) {
   
   this.state = initialState
   
-  const KeyLocalDocument = `temp-document-${this.state.documentId}`
+  let KeyLocalDocument = `temp-document-${this.state.documentId}`
 
   
   
@@ -23,8 +23,15 @@ export default function EditPage({ $target, initialState }) {
     $target,
     initialState: localSavedDocument,
     
-    onEditing : (document) => {
+    onEditing : async (document) => {
         
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+
+      timer = setTimeout(async () => {
+
+      }, 1000)
         /*if (isNew) {
           const createdDocument = await request('/documents', {
             method: 'POST',
@@ -42,14 +49,22 @@ export default function EditPage({ $target, initialState }) {
           
   
           // !!! 리스트 업데이트 해주기
-  
-         /*
-          console.log(localSavedDocument.id)
-          await request(`/documents/${localSavedDocument.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(localSavedDocument)
+          console.log(this.state)
+          // 로컬 KEY ID 업데이트 
+          let KeyLocalDocument = `temp-document-${this.state.documentId}`
+          
+          setItem(KeyLocalDocument, {
+            ...document,
+            tempSaveDate: new Date()
           })
-          */
+
+
+          //console.log(localSavedDocument.id)
+          const putDocument = await request(`/documents/${document.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(document)
+          })
+          console.log('putDocument', putDocument)
         
         
         }
@@ -59,15 +74,17 @@ export default function EditPage({ $target, initialState }) {
   })
   
   this.setState = async (nextState) => {
+    /*
     if (this.state.documentId === 'new') {
       const localSavedDocument = getItem(KeyLocalDocument, {
         title: '',
         content: ''
       })
       documentEditor.setState()
-    }
+    }*/
 
     this.state = nextState
+    console.log('documentEditor', this.state)
     fetchDocument()
   }
 
@@ -81,8 +98,8 @@ export default function EditPage({ $target, initialState }) {
 
       const documents = await request(`/documents/${documentId}`)
       
-      documentEditor.setState(documents)
       console.log('documents:',documents)
+      documentEditor.setState(documents)
     }
     
   }
