@@ -1,4 +1,5 @@
 const ROUTE_CHANGE_EVENT_NAME = 'route-change'
+const POPSTATE_EVENT_NAME = 'popstate'
 
 export const initRouter = (onRoute) => {
   window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {
@@ -19,4 +20,10 @@ export const pushUrl = (nextUrl) => {
       },
     }),
   )
+}
+
+export const popUrl = (onRoute) => {
+  window.addEventListener(POPSTATE_EVENT_NAME, () => {
+    onRoute()
+  })
 }

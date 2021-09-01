@@ -61,15 +61,26 @@ export default function PostEditPage({ $target, initialState }) {
   })
 
   this.setState = async (nextState) => {
+    // 데이터가 올바르게 넘어 오지 않을 때
+    if (nextState === undefined) {
+      return
+    }
+
+    // 클릭된 Document가 현재와 다를 때는 데이터를 API를 통해 받아온다.
     if (this.state.postId !== nextState.postId) {
-      console.log(this.state, nextState)
       this.state = nextState
       postLocalSaveKey = `temp-post-${this.state.postId}`
       await fetchPost()
       return
     }
 
-    this.state = nextState
+    // 같은 게시물을 여러번 눌렀을 때는 데이터를 받아 오지 않아서, post가 undefined 이다.
+    const isOverLap = nextState.post === undefined ? true : false
+
+    if (!isOverLap) {
+      this.state = nextState
+    }
+
     this.render()
     editor.setState(
       this.state.post || {
@@ -94,7 +105,7 @@ export default function PostEditPage({ $target, initialState }) {
       })
 
       if (tempPost.tempSaveDate && post.created_at < tempPost.tempSaveDate) {
-        if (confirm('저장되지 않은 데이터가 있씁니다. 불러올까요?')) {
+        if (confirm('저장되지 않은 데이터가 있습니다. 불러올까요?')) {
           this.setState({
             ...this.state,
             post: tempPost,

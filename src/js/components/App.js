@@ -26,29 +26,30 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location
-
+    console.log(pathname)
     if (pathname === '/') {
       postPage.render()
-      // documents/id가 있다는 케이스
     } else if (pathname.indexOf('/documents/') === 0) {
-      // id만 추출
       const [, , postId] = pathname.split('/')
       postPage.render()
-      console.log(postId)
-      // postEdit
       postEditPage.setState({ postId })
     }
   }
 
-  // 아아아아아앍!
   this.route()
 
+  // 아이디 넘어오면 해당 URL을 Push State
   window.addEventListener('route-change', (e) => {
     const { nextUrl } = e.detail
-    console.log(nextUrl)
+
     if (nextUrl) {
       history.pushState(null, null, nextUrl)
       this.route()
     }
+  })
+
+  // 뒤로 가기.
+  window.addEventListener('popstate', () => {
+    this.route()
   })
 }

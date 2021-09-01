@@ -15,7 +15,7 @@ export const request = async (url, options = {}) => {
       // resolved Promise
       return await res.json()
     }
-
+    // rejected된 에러는 여기서 throw
     throw new Error('API 처리 중 문제가 발생했습니다')
   } catch (e) {
     alert(e.message)
