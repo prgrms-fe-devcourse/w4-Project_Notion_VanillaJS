@@ -1,13 +1,17 @@
 import { push } from "./router.js";
 
-export default function NotionList({ $target, initialState, newDocument }) {
+export default function NotionList({
+  $target,
+  initialState,
+  newDocument,
+  onRemove,
+}) {
   const $notion = document.createElement("div");
   $target.appendChild($notion);
 
   this.state = initialState;
 
   this.setState = (nextState) => {
-    console.log(nextState);
     this.state = nextState;
     this.render();
   };
@@ -29,6 +33,7 @@ export default function NotionList({ $target, initialState, newDocument }) {
             id,
           }) => `<li data-id="${id}" class="document-item">${title}
           <button class="plus">+</button>
+          <button class="minus">-</button>
           </li>
             ${documents
               .map((document) => documentRecursive([document], text))
@@ -44,10 +49,14 @@ export default function NotionList({ $target, initialState, newDocument }) {
 
   $notion.addEventListener("click", (e) => {
     const $li = e.target.closest(".document-item");
-    const { tagName } = e.target;
-    if ($li) {
-      const { id } = $li.dataset;
-      newDocument(id, tagName);
+    const { className } = e.target;
+
+    const { id } = $li.dataset;
+
+    if (className === "minus") {
+      onRemove(id);
+    } else {
+      newDocument(id, className);
     }
   });
 }
