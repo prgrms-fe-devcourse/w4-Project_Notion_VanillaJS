@@ -1,0 +1,50 @@
+/* #username {
+    list-style: none;
+} */
+
+/* For Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    background-color: antiquewhite;
+}
+
+.sidebar #username {
+    text-align: center;
+    font-weight: bold;
+}
+
+.sidebar li {
+    cursor: pointer;
+}
+
+/* For Document Page */
+
+.path_header {
+    margin-left: 250px;
+    height: 80px;
+    background-color: aqua;
+}
+
+.document_page {
+    margin-left: 250px;
+    padding: 0px 10px;
+}
+
+/* For Editor */
+.title {
+    width: 600px;
+}
+
+.content {
+    width: 600px;
+    height: 400px;
+    border: 1px solid black;
+    margin-top: 8px;
+}
