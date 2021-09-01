@@ -1,7 +1,8 @@
+import api from '../api/index.js';
 import Component from '../core/Component.js';
 
 const DocumentList = class extends Component {
-  init() {
+  async init() { 
     const { state } = this.props
     this.state = state
     this.render()
@@ -16,6 +17,7 @@ const DocumentList = class extends Component {
               <div style="display: flex;">
                 <i class="bx bxs-right-arrow js-toggle-sub-docs active" role="button"></i>
                 <div class="doc-title js-select-doc">${title}</div>
+                <button>+</button>
               </div>  
               <div class="sub-docs"></div> 
           </li>`).join('')}
@@ -28,13 +30,13 @@ const DocumentList = class extends Component {
 
     $liList.forEach($li => {
         const parentId = Number($li.dataset.id);
-        const $subList = $li.lastElementChild
+        const $subDocList = $li.lastElementChild
         const subDocuments = this.state.find(({id}) => id === parentId).documents
         
         if(!subDocuments) return;
 
         new DocumentList(
-          $subList,
+          $subDocList,
           {
             state: subDocuments
           }

@@ -64,3 +64,16 @@ body {
 .active {
   display: block;
 }
+
+.test[placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #b7b6b3;
+}
+
+.header-block {
+  font-size: 20px;
+}
+
+[contenteditable]:focus {
+  outline: 0px solid transparent;
+}

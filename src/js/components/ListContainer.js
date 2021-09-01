@@ -1,8 +1,15 @@
+import api from '../api/index.js';
 import Component from '../core/Component.js';
 import DocumentList from './DocumentList.js';
 import Header from './Header.js';
 
 const ListContainer = class extends Component{
+
+  async init() {
+    this.state = await api.getAllDocs();
+    this.render()
+  }
+
   template() {
     return `
       <header id="title" class="title"></header>
