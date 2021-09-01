@@ -1,17 +1,31 @@
+import api from '../api/index.js';
 import Component from '../core/Component.js'
+import ListContainer from './ListContainer.js';
 
 const App = class extends Component{
+
+  async init() {
+    this.state = await api.getAllDocs()
+    this.render()
+  }
+
   template() {
     return `
-      <div id="doc-list"></div>
-      <div id="doc-edit"></div>
+      <section id="list-container" class="sidebar"></section>
+      <main id="content-container"></main>
     `     
   }
 
   mount() {
-    const $docList = $target.querySelector('#doc-list');
+    const $listContainer = this.$target.querySelector('#list-container');
 
-    // new DocListContainer($docList)
+    console.log(this.state)
+    new ListContainer(
+      $listContainer,
+      {
+        state: this.state
+      }
+    )
   }
 }
 

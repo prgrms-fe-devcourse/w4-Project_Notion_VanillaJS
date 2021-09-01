@@ -1,28 +1,30 @@
 import App from './components/App.js'
 import api from './api/index.js';
-import DocList from './components/DocList.js';
+import DocList from './components/DocumentList.js';
 
 const $app = document.querySelector('#app');
 
 const docs = await api.getAllDocs()
 
-new DocList(
-  $app,
-  {
-    state: docs 
-  }
-)
-//new App($app)
+new App($app)
 
-  const childDoc = {
-    title: "두번째 문서의 네번째 자식 문서",
-    content: "이 문서는 세번째 문서입니다.",
-    parent: 4269
-  }
+// new DocList(
+//   $app,
+//   {
+//     state: docs 
+//   }
+// )
+// //new App($app)
 
-  const test = async () => {
-    const docs = await api.getAllDocs();
-    console.log(docs);
-  }
+//   const childDoc = {
+//     title: "두번째 문서의 네번째 자식 문서",
+//     content: "이 문서는 세번째 문서입니다.",
+//     parent: 4269
+//   }
 
-  test();
+//   const test = async () => {
+//     const docs = await api.getAllDocs();
+//     console.log(docs);
+//   }
+
+//   test();

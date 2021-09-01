@@ -1,6 +1,6 @@
 import Component from '../core/Component.js';
 
-const DocList = class extends Component {
+const DocumentList = class extends Component {
   init() {
     const { state } = this.props
     this.state = state
@@ -15,7 +15,7 @@ const DocList = class extends Component {
       </ul>
     `
   }
-
+/*
   mount() {
     const $liList = this.$target.querySelectorAll('li');
 
@@ -25,7 +25,7 @@ const DocList = class extends Component {
         const children = this.state.find(({id}) => id === parentId).documents
         const $licontainer = $li.lastElementChild
         
-        new DocList(
+        new DocumentList(
           $licontainer,
           {
             state: children
@@ -35,7 +35,7 @@ const DocList = class extends Component {
       }
     });
   }
-
+*/
   setEvent() {
     this.$target.addEventListener('click', e => {
 
@@ -43,4 +43,4 @@ const DocList = class extends Component {
   }
 }
 
-export default DocList
+export default DocumentList

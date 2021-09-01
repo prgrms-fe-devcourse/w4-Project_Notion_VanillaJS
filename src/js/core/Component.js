@@ -2,14 +2,15 @@ const Component = class {
   $target;
   props;
   state;
-  constructor($target, props) {
+  constructor($target, props = {state: null}) {
     this.$target = $target;
     this.props = props;
     this.init()
   }
 
   init() {
-
+    const { state } = this.props
+    this.state = state
     this.render();
   }
 

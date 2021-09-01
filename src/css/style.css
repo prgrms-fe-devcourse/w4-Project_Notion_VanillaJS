@@ -1,1 +1,53 @@
-/*@import url("./reset.css");*/
+@import url("./reset.css");
+html,
+body {
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 20vw;
+  min-width: 200px;
+  background-color: #f7f6f3;
+}
+
+.title {
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+.header-container {
+  min-height: 25px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 2px 14px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.notion-icon {
+  height: 20px;
+  width: 20px;
+  margin: 0px 8px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bx-notepad {
+  height: 17.5px;
+  width: 17.5px;
+  font-size: 17px;
+}
+
+.notion-title {
+  display: flex;
+  align-items: center;
+}
