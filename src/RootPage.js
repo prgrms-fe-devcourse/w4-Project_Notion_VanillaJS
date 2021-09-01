@@ -21,8 +21,9 @@ export default function RootPage({ $target, onPostClick }) {
     onAddChild: async (id) => {
       alert('하위 페이지를 생성합니다.')
       const bodys = {
-        title: `${id}의 child 추가`,
-        parent: id
+        title: `${id}의 새로운 child`,
+        parent: id,
+        content: ''
       }
       await request(`/documents`, {
         method: "POST",
@@ -33,14 +34,29 @@ export default function RootPage({ $target, onPostClick }) {
       })
     },
     onDelete: async (id) => {
-      const confirmDelete = confirm('지우시겠습니까?')
-      if (confirmDelete === true) {
-        await request(`/documents/${id}`, {
-          method: "DELETE"
-        }) 
-        this.setState({
-          ...this.state
-        })
+      if (confirm('지우시겠습니까?')) {
+        const selectedDocument = await request(`/documents/${id}`)
+
+        if (selectedDocument.documents.length > 0 ) {
+          const { documents, id } = selectedDocument
+          
+          // 끌어올리기 기능을 구현하려고 했지만, api때문에 불가
+          await request(`/documents/${id}`, {
+            method: "DELETE"
+          }) 
+          this.setState({
+            ...this.state,
+            ...documents
+          })
+        } else {
+          await request(`/documents/${id}`, {
+            method: "DELETE"
+          }) 
+          this.setState({
+            ...this.state
+          })
+        }
+        
       }
     },
     onAddRoot: async (val) => {

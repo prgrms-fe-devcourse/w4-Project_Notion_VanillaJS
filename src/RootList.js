@@ -15,7 +15,6 @@ export default function RootList({
 
   this.setState = (nextState) => {
     this.state = nextState
-    console.log(this.state)
     this.render()
   }
 
@@ -34,23 +33,7 @@ export default function RootList({
       `).join('')}
       </ul>`
     }
-      
 
-
-    // if (this.state.documents.length > 0) {
-    //   makeList(state)
-    // }
-    // const recur = (childState) => {
-    //   const state = this.state
-    //   makeList(state)
-    //   const {document} = this.state
-    //   if (document.length > 0 ) {
-    //     return
-    //   }
-    // }
-
-    const state = this.state
-    console.log(state)
     $rootList.innerHTML = `
       <ul>
         ${this.state.map(roots =>
@@ -104,13 +87,3 @@ export default function RootList({
   })
 
 }
-
-
-// ${this.state.map(roots =>
-//   `<li data-id="${roots.id}" class="root-list">
-//   ${roots.title}  
-//   <button class="add-child">add page</button>
-//   <button class="delete">X</button>
-//   </li>
-//   ${(roots.documents.length > 0 ? makeList(roots) : '' )}
-//   `).join('')}  

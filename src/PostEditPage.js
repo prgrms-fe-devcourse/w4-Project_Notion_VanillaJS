@@ -6,14 +6,9 @@ export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement('div')
   
   this.state = initialState
-  console.log(this.state)
 
   let postLocalSaveKey = `temp-post-${this.state.id}`
 
-  const post = getItem(postLocalSaveKey, {
-    title: '',
-    content: ''
-  })
 
   let timer = null
   
@@ -27,6 +22,7 @@ export default function PostEditPage({ $target, initialState }) {
       if (timer !== null) {
         clearTimeout(timer)
       }
+      console.log(timer)
       timer = setTimeout(async() => {
         console.log(post)
         setItem(postLocalSaveKey, {
@@ -50,22 +46,16 @@ export default function PostEditPage({ $target, initialState }) {
 
     if (this.state.id !== nextState.id) {
       postLocalSaveKey = `temp-post-${nextState.id}`
-      
       this.state = nextState
       await fetchPost()
       return
      } 
-    // else {
-    //   this.setState({
-    //     ...this.state
-    //   })
-    // }
-    
     this.state = nextState
     this.render()
     console.log(this.state)
     editor.setState(this.state.post)
   }
+
   this.render = () => {
     $target.appendChild($page)
   }

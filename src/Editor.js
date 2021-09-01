@@ -24,19 +24,13 @@ export default function Editor({
   
   this.render = () => {
     if (!isInitialize){
-      
       $editor.innerHTML = `
-      <input type='text' class="title" style="width: 300px;" value="${this.state.title}"/><br>
-      <textarea class="content" style="width: 300px; height: 300px;">${this.state.content}</textarea>
-    `
+      <input type='text' class="title" style="width: 400px;" value="${this.state.title}"/><br>
+      <textarea class="content" style="width: 400px; height: 600px;">${this.state.content}</textarea>
+      `
     isInitialize = true
     console.log('editor 생성한다!')
     }
-    // $editor.innerHTML = `
-    //   <input type='text' class="title" style="width: 300px;" value="${this.state.title}"/><br>
-    //   <textarea class="content" style="width: 300px; height: 300px;">${this.state.content === 'null' ? '입력대기중' : this.state.content}</textarea>
-    // `
-    // console.log('editor 생성한다!')
   }
 
   

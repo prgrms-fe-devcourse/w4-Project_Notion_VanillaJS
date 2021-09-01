@@ -38,9 +38,10 @@ export default function App({ $target }) {
       if (pathname === '/') {
         rootPage.setState()
       } else if (pathname.indexOf('/documents/') === 0) {
-        $mainListContainer.innerHTML = `새 페이지에서 보기`
+        $mainListContainer.innerHTML = `새 페이지에서 보기도 추가하면 좋겠다. <br><br>`
         const[,, id] = pathname.split('/')
         console.log(id)
+        rootPage.setState()
         postEditPage.setState({ id })
       }
     }
