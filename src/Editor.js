@@ -1,4 +1,11 @@
-export default function Editor({ $target, initialState = "", onEditing }) {
+export default function Editor({
+  $target,
+  initialState = {
+    title: "",
+    content: "",
+  },
+  onEditing,
+}) {
   const $editor = document.createElement("div");
   let isinitialize = false;
 
@@ -8,15 +15,17 @@ export default function Editor({ $target, initialState = "", onEditing }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    $editor.querySelector("[name=content]").value = this.state.content;
     this.render();
+    $editor.querySelector("[name=title]").value = this.state.title;
+    $editor.querySelector("[name=content]").value = this.state.content;
   };
 
   this.render = () => {
-    if (!isinitialize) {
+    if (!isinitialize && this.state.title.length > 1) {
       $editor.innerHTML = `
-        <textarea name="content" style="width:600px; height:400px;">${this.state.content}
-        </textarea>
+      <input type="text" name="title" style="width:500px;"  value="${this.state.title}"/>
+      <textarea name="content" style="width:500px; height:400px;">${this.state.content}
+      </textarea>
       `;
       isinitialize = true;
     }
