@@ -9,9 +9,11 @@ import {
   CLASS_NAME_DOCUMENT_TITLE,
   CLASS_NAME_DOCUMENT_EDITOR,
   CLASS_NAME_DISPLAY_NONE,
-  MSG_PLACEHOLDER_TITLE,
-  MSG_EMPTY_EDIT_PAGE,
   CLASS_NAME_EMPTY_EDIT_PAGE_MESSAGE,
+  CLASS_NAME_EDITOR_CONTAINER,
+  MSG_PLACEHOLDER_TITLE,
+  MSG_PLACEHOLDER_EDITOR,
+  MSG_EMPTY_EDIT_PAGE,
 } from '../utils/constants.js';
 
 export default function DocumentEditor({ $target, initialState }) {
@@ -24,7 +26,9 @@ export default function DocumentEditor({ $target, initialState }) {
   this.state = initialState;
 
   const $title = createElement('input');
-  const $editor = createElement('div');
+  const $editorContainer = createElement('div');
+  const $editor = createElement('textarea');
+  const $editorPreview = createElement('div');
   const $emptyPageMessage = createElement('p');
 
   $emptyPageMessage.textContent = MSG_EMPTY_EDIT_PAGE;
@@ -33,12 +37,19 @@ export default function DocumentEditor({ $target, initialState }) {
   $title.name = 'title';
   $title.className = CLASS_NAME_DOCUMENT_TITLE;
   $title.placeholder = MSG_PLACEHOLDER_TITLE;
+  $editorContainer.classList = CLASS_NAME_EDITOR_CONTAINER;
   $editor.name = 'content';
-  $editor.contentEditable = 'true';
   $editor.className = CLASS_NAME_DOCUMENT_EDITOR;
+  $editor.classList.add(CLASS_NAME_DISPLAY_NONE);
+  $editor.placeholder = MSG_PLACEHOLDER_EDITOR;
+  $editorPreview.contentEditable = 'false';
+  $editorPreview.className = CLASS_NAME_DOCUMENT_EDITOR;
+
+  $editorContainer.appendChild($editor);
+  $editorContainer.appendChild($editorPreview);
 
   $target.appendChild($title);
-  $target.appendChild($editor);
+  $target.appendChild($editorContainer);
 
   this.setState = nextState => {
     validate(nextState);
@@ -48,25 +59,28 @@ export default function DocumentEditor({ $target, initialState }) {
 
   this.render = () => {
     if (isEmptyObject(this.state)) {
-      $editor.classList.add(CLASS_NAME_DISPLAY_NONE);
       $title.classList.add(CLASS_NAME_DISPLAY_NONE);
+      $editor.classList.add(CLASS_NAME_DISPLAY_NONE);
+      $editorPreview.classList.add(CLASS_NAME_DISPLAY_NONE);
 
       $target.appendChild($emptyPageMessage);
       return;
     }
 
     $emptyPageMessage.remove();
-    $editor.classList.remove(CLASS_NAME_DISPLAY_NONE);
     $title.classList.remove(CLASS_NAME_DISPLAY_NONE);
+    $editor.classList.remove(CLASS_NAME_DISPLAY_NONE);
+    $editorPreview.classList.remove(CLASS_NAME_DISPLAY_NONE);
 
     const { content, title } = this.state;
 
     $title.value = title;
-    $editor.innerHTML = content;
+    $editor.value = content;
+    $editorPreview.innerHTML = parseMarkDown(this.state.content);
   };
 
   this.init = () => {
-    $title.addEventListener(
+    $target.addEventListener(
       'keyup',
       debounce(async e => {
         const { value, name } = e.target;
@@ -82,21 +96,6 @@ export default function DocumentEditor({ $target, initialState }) {
         if (title !== $title.value) {
           window.dispatchEvent(new CustomEvent(EDITOR_DATA_CHANGED));
         }
-      }, DEBOUNCE_DELAY)
-    );
-
-    $editor.addEventListener(
-      'input',
-      debounce(async e => {
-        const { innerHTML, name } = e.target;
-        const { id } = this.state;
-        const nextState = { ...this.state, [name]: parseMarkDown(innerHTML) };
-
-        let body = { title: nextState.title, content: nextState.content };
-
-        await fetchPutDocument(id, body);
-
-        this.setState(nextState);
       }, DEBOUNCE_DELAY)
     );
   };

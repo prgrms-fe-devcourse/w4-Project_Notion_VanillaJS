@@ -127,7 +127,7 @@ button {
 }
 
 .document-title {
-  width: 70%;
+  width: 85%;
   height: 70px;
   font-size: 48px;
   border: 0;
@@ -137,8 +137,8 @@ button {
 
 .document-editor {
   overflow: auto;
-  width: 70%;
-  height: 60%;
+  width: 100%;
+  height: 100%;
   margin-top: 10px;
   font-size: 24px;
   border-radius: 0;
@@ -146,6 +146,7 @@ button {
   outline: none;
   resize: none;
   flex-basis: 60%;
+  padding: 10px;
 }
 
 .documents-page {
@@ -191,7 +192,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: 35px;
-  width: 70%;
+  width: 85%;
   flex-basis: 20%;
   overflow: auto;
 }
@@ -258,6 +259,12 @@ button {
 .root-document-add-button:hover {
   color: white;
   background-color: gray;
+}
+
+.editor-container {
+  display: flex;
+  width: 85%;
+  height: 60%;
 }
 
 .display-flex {
