@@ -4,6 +4,7 @@ export default function DocumentList({
   onSelect,
   onCreate,
   onRemove,
+  onBookmark,
 }) {
   const $documentList = document.createElement("div");
   $documentList.className = "document-list-container";
@@ -19,6 +20,7 @@ export default function DocumentList({
           ${title}
           <button class="document-item__button add fold">+</button>
           <button class="document-item__button remove fold">-</button>
+          <button class="document-item__button bookmark">⭐️</button>
           ${
             documents.length > 0
               ? `<ul class='sub-document fold'>${renderDocuments(
@@ -71,12 +73,14 @@ export default function DocumentList({
     const $li = e.target.closest(".document-item");
     const { id } = $li.dataset;
     const { className } = e.target;
+
     if (className === "document-item") {
       onSelect(id);
     } else if (className === "document-item__button add") {
       onCreate(id);
     } else if (className === "document-item__button folder") {
       const $ul = $li.querySelector(".sub-document");
+
       if ($ul) {
         e.target.style.transform = $ul.classList.contains("fold")
           ? "rotate(90deg)"
@@ -85,6 +89,8 @@ export default function DocumentList({
       }
     } else if (className === "document-item__button remove") {
       onRemove(id);
+    } else if (className === "document-item__button bookmark") {
+      onBookmark(id);
     }
   });
 
