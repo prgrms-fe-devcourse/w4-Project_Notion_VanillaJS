@@ -41,6 +41,10 @@ export const isLessThanGivenLength = (value, length) => {
   return true;
 };
 
+export const isEmptyObject = obj => {
+  return Object.keys(obj).length === 0;
+};
+
 export const checkUseConstructorFunction = (newTarget, constructorFunction) => {
   if (newTarget !== constructorFunction || !isCorrectType(constructorFunction, 'function')) {
     throw new Error(ERROR_MSG_IS_CONSTRUCTOR_FUNCTION);
