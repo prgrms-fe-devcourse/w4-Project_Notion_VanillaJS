@@ -204,6 +204,10 @@ button {
   transform: translateY(-50%);
 }
 
+.side-button:hover {
+  color: black;
+}
+
 .logo-container {
   display: flex;
   justify-content: space-around;
