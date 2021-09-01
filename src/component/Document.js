@@ -1,13 +1,13 @@
-export default function Document(doc) {
+export default function getDocument(doc) {
   const { id, title, documents } = doc;
 
   return /*html*/ `
-  <ul data-id=${id}>
-    <li><button>열기</button>${title}<button>추가</button></li>
-    <li>${
+  <ul id = 'document-${id}'>
+    <div><button class="openClose-btn">열기</button>${title}<button class="add-btn">추가</button></div>
+    <li style="display: none">${
       documents.length === 0
         ? "Add a Page"
-        : documents.map((document) => Document(document)).join("")
+        : documents.map((document) => getDocument(document)).join("")
     }</li>
   </ul>`;
 }
