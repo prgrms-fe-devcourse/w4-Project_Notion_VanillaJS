@@ -1,7 +1,8 @@
-import DocumentEditor from './components/DocumentEditor.js';
-import { request } from './utils/api.js';
-import { StorageUtils } from './utils/storage.js';
-import { EventUtils } from './utils/event.js'
+import DocumentEditor from '../components/DocumentEditor.js';
+import LinkButton from '../components/LinkButton.js'
+import { request } from '../utils/api.js';
+import { StorageUtils } from '../utils/storage.js';
+import { EventUtils } from '../utils/event.js'
 
 export default function EditPage({ $target, initialState }) {
   const $editPage = document.createElement('div')
@@ -52,12 +53,13 @@ export default function EditPage({ $target, initialState }) {
         // cutomEvent dispatcher
         EventUtils.titleDispatcher()
 
-      }, 0);
+      }, 200);
       
     },
 
     //await request(`/documents/${document.id}`)
   });
+  
   
 
 
@@ -72,7 +74,7 @@ export default function EditPage({ $target, initialState }) {
     }*/
 
     this.state = nextState
-    //console.log('documentEditor', this.state)
+    // console.log('editpage', this.state)
     fetchDocument()
   }
 
@@ -85,8 +87,8 @@ export default function EditPage({ $target, initialState }) {
     if (documentId !== 'new') {
 
       const documents = await request(`/documents/${documentId}`)
-      
-      //console.log('documents:',documents)
+      // 현재 도큐먼트 차일드 수만큼 버튼 렌더!
+      console.log('documents:',documents)
       documentEditor.setState(documents)
 
       this.render()

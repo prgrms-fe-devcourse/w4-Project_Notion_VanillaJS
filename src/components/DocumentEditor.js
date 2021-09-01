@@ -4,14 +4,14 @@ export default function DocumentEditor ({ $target, initialState, onEditing }) {
   const $documentEditor = document.createElement('div')
   $documentEditor.classList.add('document-edit')
   
-  
-  $documentEditor.innerHTML=`
-  <input type="text" name="title" style="width:600px;"/>
+  this.template = `
+  <input type="text" name="title" maxlength="30" style="width:600px;"/>
   <textarea name="content" style="width:600px; height:400px"></textarea>
   `
-  this.state = initialState
-  
   $target.appendChild($documentEditor)
+  $documentEditor.innerHTML = this.template
+
+  this.state = initialState
   
   this.setState = (nextState) => {
     this.state = nextState
@@ -22,8 +22,6 @@ export default function DocumentEditor ({ $target, initialState, onEditing }) {
     $documentEditor.querySelector('[name=title]').value = this.state.title
     // innerHTML 아니고 value임!! ㅠㅠㅠ
     $documentEditor.querySelector('[name=content]').value = this.state.content
-    
-    // appendChild
   }
 
   this.render()

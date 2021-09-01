@@ -35,8 +35,14 @@ export default function NavigationBar ({ $target }) {
         method: 'DELETE'
       })
 
-      // !!! 뒤로가기 기능 추가하기 
-      
+      // 현재 edit중인 문서 삭제 시 메인으로 가기
+      const { pathname } = window.location
+      const [, , documentId] = pathname.split('/')
+      if (id === documentId) {
+        // onDelete시 isReplace : true 값을 추가하여 뒤로가기 시 오류방지
+        RouterUtils.routerDispatcher('/', true)
+      }
+
       this.setState()
     }
 
@@ -48,7 +54,7 @@ export default function NavigationBar ({ $target }) {
     const documents = await request('/documents')
     // document들로 새로 setState
     documentList.setState(documents)
-    console.log('documentList.setState!')
+    console.log('documentList.setState!', documents)
   }
 
   this.setState()

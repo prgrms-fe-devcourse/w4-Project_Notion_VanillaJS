@@ -11,29 +11,30 @@ export default function DocumentList({ $target, initialState, onClickDoc, onAddD
     this.render()
   }
 
-  this.render = () => {
-    const rootDocuments = this.state
-    console.log(rootDocuments)
-    function makeDocumentTree(documents) {
-      const documentTreeString = []
+  this.makeTreeTemplate = (documents) => {
+    const documentTreeString = []
 
       documents.map((document) => {
         documentTreeString.push(`
         <ul>
           <li data-id="${document.id}" class="document-list__item">
-            -${document.title}
+            ${document.title}
             <button class="add-btn">+</button>
             <button class="delete-btn">-</button>
           </li>
-          ${document.documents.length > 0 ? makeDocumentTree(document.documents) : ''}
+
+          ${document.documents.length > 0 ? this.makeTreeTemplate(document.documents) : ''}
+
         </ul>
         `)
       })
 
       return documentTreeString.join('')
-    }
+  }
 
-    $documentList.innerHTML = makeDocumentTree(rootDocuments)
+  this.render = () => {
+    const rootDocuments = this.state
+    $documentList.innerHTML = this.makeTreeTemplate(rootDocuments)
   }
 
   this.render()
@@ -57,7 +58,5 @@ export default function DocumentList({ $target, initialState, onClickDoc, onAddD
       }
     }
   })
-
-  
 
 }
