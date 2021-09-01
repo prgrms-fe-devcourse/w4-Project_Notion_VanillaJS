@@ -16,6 +16,9 @@ export default function App({ $target }) {
     onPostClick: (id) => {
       history.pushState(null, null, `/documents/${id}`)
       this.route()
+    },
+    renderNewEditPage: (id) => {
+      postEditPage.setState({ id })
     }
   })
 

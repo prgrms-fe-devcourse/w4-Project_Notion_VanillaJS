@@ -8,7 +8,7 @@ export default function Header({
   this.state = initialState
 
   this.render = () => {
-    $h2.innerHTML = `${this.state.name} 의 노션페이G`
+    $h2.innerHTML = `${this.state.name}의 Simple Notion`
   }
 
   this.render()

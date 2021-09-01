@@ -4,7 +4,7 @@ import RootList from "./RootList.js";
 
 
 
-export default function RootPage({ $target, onPostClick }) {
+export default function RootPage({ $target, onPostClick,renderNewEditPage }) {
   const $page = document.createElement('div')
 
   new Header({
@@ -25,13 +25,14 @@ export default function RootPage({ $target, onPostClick }) {
         parent: id,
         content: ''
       }
-      await request(`/documents`, {
+      const newDocument = await request(`/documents`, {
         method: "POST",
         body: JSON.stringify(bodys)
       })
       this.setState({
         ...this.state
       })
+      renderNewEditPage(newDocument.id)
     },
     onDelete: async (id) => {
       if (confirm('지우시겠습니까?')) {
