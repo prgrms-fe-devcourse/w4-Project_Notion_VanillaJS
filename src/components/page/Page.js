@@ -29,7 +29,7 @@ export default function Page({ $target, initialState }) {
 		onEdit: {
 			editTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
-				emit.editDocument(id, nextDocument);
+				emit.editDocument(id, nextDocument, false);
 			},
 			editContent: nextDocument => {
 				const { id } = this.state.currentDocument;
@@ -38,7 +38,7 @@ export default function Page({ $target, initialState }) {
 					clearTimeout(pageBodyEditTimer);
 				}
 				pageBodyEditTimer = setTimeout(() => {
-					emit.editDocument(id, nextDocument);
+					emit.editDocument(id, nextDocument, false);
 				}, 1000);
 			},
 		},

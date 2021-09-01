@@ -11,17 +11,17 @@ const on = {
 	},
 	editDocument: onEdit => {
 		window.addEventListener(EDIT_DOCUMENT_EVENT, e => {
-			const { id, nextDocument } = e.detail;
+			const { id, nextDocument, onModal } = e.detail;
 
-			if (id && nextDocument) {
-				onEdit(id, nextDocument);
+			if (id && nextDocument && onModal) {
+				onEdit(id, nextDocument, onModal);
 			}
 		});
 	},
 	createDocument: onCreate => {
 		window.addEventListener(CREATE_DOCUMENT_EVENT, e => {
-			const { id } = e.detail;
-			onCreate(id);
+			const { id, onModal } = e.detail;
+			onCreate(id, onModal);
 		});
 	},
 	updateUrl: onUpdate => {
@@ -51,21 +51,23 @@ const emit = {
 	showModal: () => {
 		window.dispatchEvent(new CustomEvent(SHOW_MODAL_EVENT));
 	},
-	editDocument: (id, nextDocument) => {
+	editDocument: (id, nextDocument, onModal) => {
 		window.dispatchEvent(
 			new CustomEvent(EDIT_DOCUMENT_EVENT, {
 				detail: {
 					id,
 					nextDocument,
+					onModal,
 				},
 			}),
 		);
 	},
-	createDocument: id => {
+	createDocument: (id, onModal) => {
 		window.dispatchEvent(
 			new CustomEvent(CREATE_DOCUMENT_EVENT, {
 				detail: {
 					id,
+					onModal,
 				},
 			}),
 		);

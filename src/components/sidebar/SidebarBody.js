@@ -60,6 +60,8 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		drawNavList($navList, this.state['allDocuments']);
 	};
 
+	this.render();
+
 	$target.appendChild($navList);
 	$target.appendChild($createBtn);
 }

@@ -52,12 +52,9 @@ export default function Sidebar({ $target, initialState }) {
 				console.log('삭제', $li);
 			},
 			createDocument: (id, $li) => {
-				// if (id) {
-				// 	emit.showModal();
-				// }
-				emit.createDocument(id);
+				const modal = !!id;
+				emit.createDocument(id, modal);
 				createDocumentLi($li);
-				// emit.updateUrl(`/posts/new`);
 			},
 		},
 	});
@@ -66,7 +63,7 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				emit.ShowModal();
+				emit.createDocument(null, true);
 				createDocumentLi();
 			},
 		},

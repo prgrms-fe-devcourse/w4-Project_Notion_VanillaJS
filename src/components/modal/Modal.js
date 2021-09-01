@@ -12,7 +12,7 @@ export default function Modal({ $target, initialState }) {
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
-		modalBody.setState();
+		modalBody.setState(this.state);
 	};
 
 	const toggleModal = isShow => {
@@ -37,23 +37,17 @@ export default function Modal({ $target, initialState }) {
 
 	const modalBody = new ModalBody({
 		$target: $modalBody,
-		initialState,
-		onCreate: {
-			createDocument: document => {
-				emit.createDocument(document);
-			},
-		},
-		onEdit: {
-			editTitle: title => {
-				console.log('edit:', title);
-			},
-			editContent: content => {
-				console.log('edit:', content);
-			},
+		initialState: this.state,
+		onEdit: document => {
+			const { id } = this.state.modalDocument;
+			console.log(document);
+			emit.editDocument(id, document, true);
 		},
 	});
 
-	on.showModal(() => toggleModal(true));
+	on.showModal(() => {
+		toggleModal(true);
+	});
 
 	$target.appendChild($modal);
 	$modal.appendChild($modalHeader);
