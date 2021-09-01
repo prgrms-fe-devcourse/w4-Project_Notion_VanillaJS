@@ -23,8 +23,8 @@ export default function Editor({
   this.render = () => {
     if (!isInitialized) {
       $editor.innerHTML = `
-        <input type="text" name ="title" class="editorTitle"value="${this.state.title}" style="width:1000px;"/>
-        <textarea name="content" class="editorContent" style="width : 1000px; height: 600px;">${this.state.content}</textarea>
+        <input type="text" name ="title" class="editorTitle" value="${this.state.title}" placeholder="제목 없음" />
+        <textarea name="content" class="editorContent" placeholder="내용을 입력하세요">${this.state.content} </textarea>
       `
 
       isInitialized = true

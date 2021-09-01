@@ -18,13 +18,13 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
     // 템플릿으로 빼서 사용하는게 좋지 않을까 생각 중.
     for (const key in data) {
       if (data[key].documents.length) {
-        str += `<li data-id="${data[key].id}">${data[key].title}
+        str += `<li class="dataList" data-id="${data[key].id}">${data[key].title}
                    <button class="addBtn" data-id="${data[key].id}">+</button>
                   <button class="delBtn" data-id="${data[key].id}">x</button>
                   <ul>${this.createTreeView(data[key].documents)}</ul>
                 </li>`
       } else {
-        str += `<li data-id="${data[key].id}">
+        str += `<li class="dataList" data-id="${data[key].id}">
                   ${data[key].title}
                  <button class="addBtn" data-id="${data[key].id}">+</button>
                  <button class="delBtn" data-id="${data[key].id}">x</button>
