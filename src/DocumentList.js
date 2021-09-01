@@ -6,12 +6,20 @@ export default function DocumentsList({
   onRemove,
 }) {
   const toggleHideClass = (id) => {
-    const documents = document.getElementById(id);
-    documents.childNodes.forEach((node) => {
+    const targetDocument = document.getElementById(id);
+    toggleWrap(targetDocument, id);
+    targetDocument.childNodes.forEach((node) => {
       if (node.tagName !== "UL") return;
       node.classList.toggle("hide");
-      window.localStorage.setItem(node.id, node.className);
+      window.localStorage.setItem(node.id, node.classList);
     });
+  };
+  const toggleWrap = (targetDocument, id) => {
+    targetDocument.classList.toggle("wrap");
+    if (targetDocument.lastElementChild.tagName !== "UL") {
+      targetDocument.classList.remove("wrap");
+    }
+    window.localStorage.setItem(id, targetDocument.classList);
   };
 
   const initializeToggle = (id) => {
@@ -25,14 +33,14 @@ export default function DocumentsList({
 
   const giveAttribute = (child, ulElement, addButton, deleteButton) => {
     deleteButton.className = "delete-document";
-    deleteButton.textContent = "x";
     addButton.className = "new-child-document";
     addButton.textContent = "+";
+    deleteButton.textContent = "🗑";
     ulElement.textContent = child.title;
     ulElement.id = child.id;
     ulElement.className = window.localStorage.getItem(child.id) || "";
-    ulElement.append(addButton);
-    ulElement.prepend(deleteButton);
+    ulElement.appendChild(deleteButton);
+    ulElement.appendChild(addButton);
   };
 
   const navElement = document.createElement("nav");
@@ -68,13 +76,19 @@ export default function DocumentsList({
     };
 
     const makeNewDocumentButton = () => {
+      const addButtonContainer = document.createElement("div");
+      addButtonContainer.className = "addButton-container";
       const addButton = document.createElement("button");
+      const addButtonText = document.createElement("div");
+      addButtonText.textContent = "Add a Page";
       addButton.className = "new-document";
-      addButton.textContent = "새문서 추가하기";
-      documentContainerElement.appendChild(addButton);
+      addButton.textContent = "+";
+      addButtonContainer.appendChild(addButton);
+      addButtonContainer.appendChild(addButtonText);
+      documentContainerElement.appendChild(addButtonContainer);
     };
-    makeNewDocumentButton();
     this.buildTreeViewWithDocuments();
+    makeNewDocumentButton();
   };
   navElement.addEventListener("click", (e) => {
     if (e.target.tagName === "NAV") return;

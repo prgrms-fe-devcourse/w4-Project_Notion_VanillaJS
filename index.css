@@ -81,3 +81,35 @@ li.emmoji {
   left: 100px;
   font-weight: bold;
 }
+.document-container {
+  padding-inline-start: 0px;
+}
+.document-container ul {
+  color: rgb(136, 134, 130);
+  padding-inline-start: 15px;
+}
+
+.document-container > div {
+  color: rgb(136, 134, 130);
+  padding-inline-start: 10px;
+}
+
+.addButton-container {
+  display: flex;
+}
+
+.document-container ul::before {
+  content: "📬";
+  margin-right: 5px;
+}
+
+.document-container ul.wrap::before {
+  content: "📫";
+}
+button {
+  padding: 0px;
+  margin: 0px 5px;
+  color: rgb(136, 134, 130);
+  border: none;
+  background-color: rgb(247, 246, 243);
+}
