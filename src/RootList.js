@@ -26,7 +26,7 @@ export default function RootList({
       
       return `<ul>
       ${root.map(na => `
-      <li data-id=${na.id} class="root-list">${na.title}
+      <li data-id=${na.id} class="document-list">${na.title}
       <button class="add-child">+</button>
       <button class="delete">X</button></li>
       ${na.documents.length > 0 ? makeList(na) : ''}
@@ -37,7 +37,7 @@ export default function RootList({
     $rootList.innerHTML = `
       <ul>
         ${this.state.map(roots =>
-        `<li data-id="${roots.id}" class="root-list">
+        `<li data-id="${roots.id}" class="document-list">
         ${roots.title}  
         <button class="add-child">+</button>
         <button class="delete">X</button>
@@ -59,20 +59,20 @@ export default function RootList({
   $rootList.addEventListener('click', (e) => {
 
     // 위에 리스트 값을 신경쓰는 부분
-    const $li = e.target.closest('.root-list')
+    const $li = e.target.closest('.document-list')
     if ($li) {
       const {id} = $li.dataset
       const { className } = e.target
-
+      // console.log(className)
+      // console.log(className === 'document-list root-item')  // true
+      // console.log(className === 'document-list') // false
       if (className === 'add-child') {
         onAddChild(id)
       } else if (className === 'delete') {
         onDelete(id)
-      } else {
-        
+      } else if (className === 'document-list'){
         onPostClick(id)
-
-      }
+      } 
     }
 
     // 새로운 root doc을 추가하는 부분

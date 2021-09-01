@@ -39,6 +39,7 @@ export default function App({ $target }) {
       const { pathname } = window.location
       console.log(pathname)
       if (pathname === '/') {
+        $mainListContainer.innerHTML = ``
         rootPage.setState()
       } else if (pathname.indexOf('/documents/') === 0) {
         $mainListContainer.innerHTML = `새 페이지에서 보기도 추가하면 좋겠다. <br><br>`
@@ -50,5 +51,9 @@ export default function App({ $target }) {
     }
 
     this.route()
+
+    window.addEventListener('popstate', () => {
+      this.route()
+    })
   
 }
