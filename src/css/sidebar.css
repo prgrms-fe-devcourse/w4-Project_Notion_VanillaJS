@@ -1,20 +1,24 @@
 ul {
   list-style-type: disc;
 }
+
 .listContainer {
   width: 280px;
   height: 1080px;
   background-color: #f7f6f3;
+  overflow: auto;
+  resize: horizontal;
 }
+
 .addNew {
   background-color: #f7f6f3;
-  color: black;
+  color: #808080;
   border: none;
   text-align: left;
 
   margin: 10px;
-  font-size: 15px;
-  width: 270px;
+  font-size: 16.5px;
+  width: 100%;
 }
 
 .addBtn {
