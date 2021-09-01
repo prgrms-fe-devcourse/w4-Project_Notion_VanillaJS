@@ -16,7 +16,7 @@ const initialState = [
               {
                 id: 4,
                 title: "deps 4단계",
-                documents: [{ id: 5, title: "deps 5단계", documents: [] }],
+                documents: [{ id: 9, title: "deps 5단계", documents: [] }],
               },
             ],
           },
@@ -28,17 +28,17 @@ const initialState = [
         documents: [],
       },
       {
-        id: 2,
+        id: 6,
         title: "deps 2단계",
         documents: [
           {
-            id: 3,
+            id: 7,
             title: "deps 3단계",
             documents: [
               {
-                id: 4,
+                id: 8,
                 title: "deps 4단계",
-                documents: [{ id: 5, title: "deps 5단계", documents: [] }],
+                documents: [{ id: 10, title: "deps 5단계", documents: [] }],
               },
             ],
           },
@@ -47,7 +47,7 @@ const initialState = [
     ],
   },
   {
-    id: 4,
+    id: 11,
     title: "deps 1단계",
     documents: [],
   },
