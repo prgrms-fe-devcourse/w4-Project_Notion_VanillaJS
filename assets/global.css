@@ -38,7 +38,7 @@ li.current-hover ul {
 }
 
 button:hover {
-  background: rgba(55, 53, 47, 0.08);
+  background: #b8b8b8;
 }
 
 button.add {
