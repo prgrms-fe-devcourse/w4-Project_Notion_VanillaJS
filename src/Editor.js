@@ -35,33 +35,32 @@ export default function Editor({
   this.render = () => {
 
     // const richTitle=this.state.documentTitle=`<h1>${this.state.documentTitle}</h1>`
-    $editor.querySelector('[name=title]').innerHTML=this.state.documentTitle
-    $editor.querySelector('[name=content]').value=this.state.documentContent
+    $editor.querySelector('[name=title]').innerHTML = this.state.documentTitle
+    $editor.querySelector('[name=content]').value = this.state.documentContent
   }
   this.render()
 
 
+  $editor.querySelector('[name=title]').addEventListener('input', e => {
 
-  $editor.querySelector('[name=title]').addEventListener('input',e=>{
-
-    const nextState={
+    const nextState = {
       ...this.state,
-      documentTitle:e.target.innerText
+      documentTitle: e.target.innerText
     }
     this.setState(nextState)
     console.log(e.target.innerText)
-    let offset=e.target.innerText.length
-    let range=document.createRange()
-    let sel=window.getSelection()
-    range.setStart(e.target.childNodes[0],offset)
+    let offset = e.target.innerText.length
+    let range = document.createRange()
+    let sel = window.getSelection()
+    range.setStart(e.target.childNodes[0], offset)
     sel.removeAllRanges()
     sel.addRange(range)
     onEditing(this.state)
   })
-  $editor.querySelector('[name=content]').addEventListener('input',e=>{
-    const nextState={
+  $editor.querySelector('[name=content]').addEventListener('input', e => {
+    const nextState = {
       ...this.state,
-      documentContent:e.target.value
+      documentContent: e.target.value
     }
     this.setState(nextState)
     //

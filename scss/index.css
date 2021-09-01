@@ -1,4 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .doc-ul {
+  color: #a1a09c;
   padding: 0;
   list-style: none;
   position: relative;
@@ -16,8 +22,9 @@
   display: none;
 }
 .doc-row:hover {
-  cursor: pointer;
-  background-color: whitesmoke;
+  color: black;
+  cursor: default;
+  background-color: #e8e7e4;
 }
 .doc-row:hover .doc-delButton,
 .doc-row:hover .doc-plusButton {
@@ -25,6 +32,7 @@
 }
 .doc-carot {
   padding: 5px;
+  color: #a1a09c;
 }
 .doc-title {
   display: inline-block;
@@ -41,28 +49,46 @@
   font-weight: bolder;
 }
 .doc-plusButton:hover, .doc-delButton:hover {
-  background-color: #bab7b7;
+  background-color: #e8e7e4;
   color: black;
   border-radius: 5px;
 }
 .doc-delButton {
   right: 27px;
 }
-.doc .add-page {
+
+.add-page {
   position: relative;
-  left: 15px;
+  padding-left: 15px;
+  color: #a1a09c;
+  width: 100%;
+  background-color: #f7f6f3;
+  border: none;
+  border-top: 0.2px solid #a8a7a7;
+  font-size: medium;
+  height: 40px;
+  text-align: left;
+  bottom: 0;
+}
+.add-page:hover {
+  background-color: #e8e7e4;
 }
 
 .editor-title {
   font-size: xxx-large;
-  height: 60px;
+  font-weight: bolder;
+  height: 50px;
   width: 100%;
+  border: none;
+  border-top: 1px solid #a8a7a7;
 }
 .editor-content {
   margin-top: 10px;
-  font-size: medium;
+  font-size: large;
   width: 99.5%;
-  height: 500px;
+  height: 100%;
+  border: none;
+  border-top: 1px solid #a8a7a7;
 }
 
 #page {
@@ -71,29 +97,23 @@
 }
 
 #edit-page {
-  border: 1px solid black;
+  border: 1px solid #a8a7a7;
+  border-left: none;
+  border-top: none;
+  background-color: white;
   height: 100vh;
   flex-basis: 80%;
   flex-grow: 8;
-  margin-left: 2px;
+  margin-left: 10px;
 }
 
 #nav-page {
-  border: 1px solid black;
+  border-right: none;
+  background-color: #f7f6f3;
   flex-basis: 20%;
   flex-grow: 2;
   flex-shrink: 0;
-  height: 100vh;
-  margin-right: 2px;
-}
-
-#textarea-title {
-  font-size: 30px;
-  overflow: hidden;
-  width: 300px;
-}
-#textarea-content {
-  overflow: auto;
+  height: 100%;
 }
 
 .notice {
