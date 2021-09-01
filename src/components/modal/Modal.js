@@ -1,4 +1,4 @@
-import { initShowModalEmitter, createDocument } from '../../utils/emitter.js';
+import { on, emit } from '../../utils/emitter.js';
 
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
@@ -40,7 +40,7 @@ export default function Modal({ $target, initialState }) {
 		initialState,
 		onCreate: {
 			createDocument: document => {
-				createDocument(document);
+				emit.createDocument(document);
 			},
 		},
 		onEdit: {
@@ -52,7 +52,8 @@ export default function Modal({ $target, initialState }) {
 			},
 		},
 	});
-	initShowModalEmitter(() => toggleModal(true));
+
+	on.showModal(() => toggleModal(true));
 
 	$target.appendChild($modal);
 	$modal.appendChild($modalHeader);

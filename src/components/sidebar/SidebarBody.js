@@ -43,7 +43,8 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 				externalBtn(parentNode);
 				break;
 			case 'nav-crate-btn':
-				createDocument(parentNode);
+				const { id } = parentNode.dataset;
+				createDocument(id, parentNode);
 				break;
 			default:
 				getDocument(parentNode);
@@ -51,7 +52,7 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	});
 
 	$createBtn.addEventListener('click', e => {
-		onClick.createDocument(null);
+		onClick.createDocument(null, null);
 	});
 
 	this.render = () => {
@@ -59,7 +60,6 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		drawNavList($navList, this.state['allDocuments']);
 	};
 
-	this.render();
 	$target.appendChild($navList);
 	$target.appendChild($createBtn);
 }

@@ -1,4 +1,4 @@
-import { editCurrentDocument } from '../../utils/emitter.js';
+import { emit } from '../../utils/emitter.js';
 
 import PageHeader from './PageHeader.js';
 import PageBody from './PageBody.js';
@@ -29,7 +29,7 @@ export default function Page({ $target, initialState }) {
 		onEdit: {
 			editTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
-				editCurrentDocument(id, nextDocument);
+				emit.editDocument(id, nextDocument);
 			},
 			editContent: nextDocument => {
 				const { id } = this.state.currentDocument;
@@ -38,7 +38,7 @@ export default function Page({ $target, initialState }) {
 					clearTimeout(pageBodyEditTimer);
 				}
 				pageBodyEditTimer = setTimeout(() => {
-					editCurrentDocument(id, nextDocument);
+					emit.editDocument(id, nextDocument);
 				}, 1000);
 			},
 		},

@@ -1,7 +1,4 @@
-import { setDocumentToStroage } from '../../utils/storage.js';
-import { showDisplayModal } from '../../utils/emitter.js';
-import { push } from '../../routes/router.js';
-
+import { emit } from '../../utils/emitter.js';
 import { $listItem } from '../../utils/templates.js';
 
 import SidebarHeader from './SidebarHeader.js';
@@ -49,20 +46,18 @@ export default function Sidebar({ $target, initialState }) {
 			},
 			getDocument: $li => {
 				const { id } = $li.dataset;
-				push(`/posts/${id}`);
+				emit.updateUrl(`/posts/${id}`);
 			},
 			externalBtn: $li => {
-				console.log('external', $li);
+				console.log('삭제', $li);
 			},
-			createDocument: $li => {
-				const useModal = $li ? true : false;
-
-				if (useModal) {
-					showDisplayModal();
-				}
+			createDocument: (id, $li) => {
+				// if (id) {
+				// 	emit.showModal();
+				// }
+				emit.createDocument(id);
 				createDocumentLi($li);
-				setDocumentToStroage(this.state.currentDocument);
-				push(`/posts/new`);
+				// emit.updateUrl(`/posts/new`);
 			},
 		},
 	});
@@ -71,8 +66,8 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				showDisplayModal();
-				createDocument();
+				emit.ShowModal();
+				createDocumentLi();
 			},
 		},
 	});

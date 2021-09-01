@@ -1,89 +1,87 @@
-import {
-	initEditDoumentEmitter,
-	initCreateDocumnetEmitter,
-} from './utils/emitter.js';
-import { initRouter, push } from './routes/router.js';
-
-import { getDocuments, putDocument, postDocument } from './api/notion.js';
+import notionAPI from './api/notion.js';
+import { on, emit } from './utils/emitter.js';
 
 import Sidebar from './components/sidebar/Sidebar.js';
 import Page from './components/page/Page.js';
 import Modal from './components/modal/Modal.js';
 
-export default function App({ $target, initialState }) {
+export default function App({ $target }) {
 	const $row = $createElement('div', '.row');
-	$target.appendChild($row);
-
-	this.state = initialState;
-
-	const getDocument = async id => {
-		const currentDocument = await getDocuments(id);
-		const allDocuments = await getDocuments();
-		const nextState = {
-			allDocuments,
-			currentDocument,
-		};
-
-		this.setState(nextState);
-		page.setState(this.state);
-	};
-
-	const editDocument = async (id, nextDocument) => {
-		const currentDocument = await putDocument(id, nextDocument);
-		const allDocuments = await getDocuments();
-
-		const nextState = {
-			allDocuments,
-			currentDocument,
-		};
-
-		this.setState(nextState);
-	};
-
-	const createDocument = async newDocument => {
-		if (newDocument) {
-			console.log(newDocument);
-		} else {
-			const document = {
-				title: '제목 없음',
-				parent: null,
-			};
-
-			const res = await postDocument(document);
-			push(`/posts/${res.id}`);
-		}
-	};
 
 	this.setState = nextState => {
 		this.state = nextState;
 		sideBar.setState(this.state);
 	};
 
-	this.route = async () => {
-		let postId = this.state.allDocuments[0].id;
-		const { pathname } = window.location;
+	const sideBar = new Sidebar({
+		$target: $row,
+		initialState: this.state,
+	});
+	const page = new Page({
+		$target: $row,
+		initialState: this.state,
+	});
+	new Modal({
+		$target,
+		initialState: this.state,
+	});
 
-		if (pathname.indexOf('/posts/') === 0) {
-			const [, , post] = pathname.split('/');
+	$target.appendChild($row);
 
-			if (post !== 'new') {
-				postId = post;
-				await getDocument(postId);
-			} else {
-				createDocument();
-			}
-			return;
-		}
+	const initState = async id => {
+		const { getDocuments } = notionAPI;
 
-		await getDocument(postId);
+		const allDocuments = await getDocuments();
+		const postId = id ? id : allDocuments[0].id;
+		const currentDocument = await getDocuments(postId);
+
+		this.setState({ allDocuments, currentDocument });
+		page.setState(this.state);
 	};
 
-	const sideBar = new Sidebar({ $target: $row, initialState });
-	const page = new Page({ $target: $row, initialState });
-	new Modal({ $target, initialState });
+	const createDocument = async id => {
+		const { getDocuments, createDocument } = notionAPI;
+
+		const document = {
+			title: '제목 없음',
+			parent: id,
+		};
+
+		const newDocument = await createDocument(document);
+		this.state.allDocuments = await getDocuments();
+
+		if (!id) {
+			emit.updateUrl(`/posts/${newDocument.id}`);
+		}
+	};
+
+	const updatePage = async id => {
+		const { getDocuments } = notionAPI;
+
+		const allDocuments = this.state.allDocuments;
+		const currentDocument = await getDocuments(id);
+
+		this.setState({ allDocuments, currentDocument });
+		page.setState(this.state);
+	};
+
+	const editDocument = async (id, nextDocument) => {
+		const currentDocument = await notionAPI.updateDocument(id, nextDocument);
+		const allDocuments = await notionAPI.getDocuments();
+
+		this.setState({ allDocuments, currentDocument });
+	};
+
+	this.route = () => {
+		const { pathname } = window.location;
+		const [, , id] = pathname.split('/');
+
+		initState(id);
+	};
 
 	this.route();
-	initEditDoumentEmitter((id, nextDocument) => editDocument(id, nextDocument));
-	initCreateDocumnetEmitter(newDocument => createDocument(newDocument));
-	initRouter(() => this.route());
+
+	on.updateUrl(id => updatePage(id));
+	on.editDocument((id, nextDocument) => editDocument(id, nextDocument));
+	on.createDocument(id => createDocument(id));
 }
