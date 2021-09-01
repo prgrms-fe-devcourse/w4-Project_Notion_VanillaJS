@@ -32,7 +32,7 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
 
       this.render = () => {
         $rootDocs.innerHTML = `
-        <ul>
+        <ul class="sideBar">
           ${this.state.map(doc => `
             <li data-id="${doc.id}">${doc.title}${id == doc.id ? `<ul>${doc.documents.map(onSelectDoc=>`<li data-id="${onSelectDoc.id}">${onSelectDoc.title}`)}</ul>` : ''}</li>
           `).join('')}
@@ -47,14 +47,14 @@ export default function RootDocs({ $target, initialState, onDocsClick }) {
       onDocsClick: ''
     })
 
-    const fetchDocument = async () => {
-      const document = await request(`/documents/${onDocsClick}`,{
+    const fetchDocument = async (click) => {
+      const document = await request(`/documents/${click}`,{
         method: 'GET',
       })
       editor.setState(document)
     }
     
-    fetchDocument()
+    fetchDocument(onDocsClick)
 //
 
   this.render()

@@ -26,7 +26,7 @@ export function ISOStringToDate(iso) {
   const minute = iso.slice(14,16);
   const dayString = `${year}-${month}-${day}`
   const minuteString = `${year}-${month}-${day} ${hour}:${minute}`
-  return {day:dayString, minute:minuteString}
+  return  dayString
 }
 
 // const today = new Date().toISOString()
