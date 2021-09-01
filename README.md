@@ -42,34 +42,39 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [x] 특정 Document 수정하기
   - [x] 특정 Document 삭제하기
 - [x] route.js 작성
+
   - [x] rootPage
   - [x] documentPage
-- [ ] Component 작성
 
-  - [ ] App
-    - [ ] ListPage
-      - (Favorites)
-      - [ ] Documents
-    - [ ] ContentPage
-      - [x] Editor
-        - [x] Title
-        - [x] Content
-      - [ ] 하위 Documents
+- Component
+
+- App
+- ListPage
+- Favorites
+- Documents
+
+- ContentPage
+- Editor
+  - Title
+  - Content
+- 하위 Documents
 
 - 기능 구현
 
   - [x] Document List에서 Document 클릭시 Content 렌더링
-  - [ ] 선택한 Document 하위 Document 있을경우 트리 형태로 아래 목록 렌더링
+  - [x] 선택한 Document 하위 Document 있을경우 트리 형태로 아래 목록 렌더링
     - [x] 모든 하위 Document 렌더링
     - [x] 선택했을때만 Document 렌더링
   - [x] Document 생성하고 편집화면으로 넘김
   - [x] 기록할때마다 자동 저장
   - [x] 제목 수정시 ListPage도 state변경, 반영
-  - [ ] div , contentEditable을 통해 다양한 기능의 에디터 만들기
+  - [x] div , contentEditable을 통해 다양한 기능의 에디터 만들기
+    - [x] h1, h2, h3 태그 만들기
+    - [x] / 로 페이지 탐색
   - [x] 편집기 내에서 하위 Document 링크 렌더링
   - [ ] 편집기 내에서 다른 Document name을 적을 시 자동으로 해당 Document의 편집 페이지로 이동하는 링크 기능 추가
   - [x] document 삭제기능
-  - [ ] XSS 공격 방지
+  - [x] XSS 공격 방지
   - [ ] 하위 Document 옮기기 기능
   - [x] Favorite Documents
   - [ ] Login 기능
@@ -83,3 +88,6 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [x] State관리를 모두 App.js의 state에서 모아 관리하는 방식으로 변경
   - [x] Toggled된 Documents 삭제시 LocalStorage에 dummy-data 쌓이는 문제
   - [x] Favorite 된 Documents 삭제시 localStorage에 dummy-data 쌓이는 문제
+  - [ ] Favorite에서도 하위 디렉토리 토글기능
+  - [x] / 입력시 다른 Document Title 조회하여, 링크를 걸수 있는기능
+  - [ ] 하위 디렉토리가 Div 컨텐츠 내에 생성되고, 지울시에 해당 디렉토리가 삭제되는 기능

@@ -1,4 +1,6 @@
+import { push } from "../../router.js";
 import { filterTag } from "../../scriptFilter.js";
+import DocumentSearch from "./DocumentSearch.js";
 
 export default function Editor({ $target, initialState, onUpdateDocument }) {
   let isInit = false;
@@ -8,7 +10,7 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
   $target.appendChild($editor);
 
   // State , setState
-  // state : selectedDocument
+  // state : {selectedDocument,flattedDocuments}
   this.state = initialState;
 
   this.setState = (nextState, isRender = true) => {
@@ -17,9 +19,12 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
       this.render();
     }
   };
+  // Components
 
+  // Render
   this.render = () => {
-    const { content, createdAt, id, title, documents, updatedAt } = this.state;
+    const { content, createdAt, id, title, documents, updatedAt } =
+      this.state.selectedDocument;
     if (!isInit) {
       $editor.innerHTML = `
           <input type="text" name="title" placeholder="Untitled" value="${title}" />
@@ -32,28 +37,49 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
     loadSelectionOffsets();
   };
 
-  // Event
+  // Event Handler
+
+  // Key up
   $editor.addEventListener("keyup", (e) => {
     const $text = e.target.closest("[name]");
     selectionOffsets = null;
     const { anchorNode, anchorOffset } = window.getSelection();
+    const { selectedDocument } = this.state;
     if ($text) {
       const key = $text.getAttribute("name");
       if (key === "title") {
         const { value } = $text;
-        this.setState({ ...this.state, [key]: filterTag(value) }, false);
-        const { id, title, content } = this.state;
-        onUpdateDocument([{ id, title, content }, e.target]);
+        selectedDocument[key] = filterTag(value);
+        this.setState({ ...this.state, selectedDocument }, false);
+        onUpdateDocument(selectedDocument, e.target);
       } else if (key === "content") {
         saveSelectionOffsets(anchorNode, anchorOffset);
         if (e.key === " ") {
           makeHeader(anchorNode.parentNode, anchorNode.textContent);
         }
+        if (e.key === "/") {
+          searchDocument(anchorNode.parentNode);
+          return;
+        }
         const { innerHTML } = $text;
-        this.setState({ ...this.state, [key]: innerHTML }, false);
-        const { id, title, content } = this.state;
-        onUpdateDocument([{ id, title, content }, e.target], false);
+        selectedDocument[key] = innerHTML;
+        this.setState({ ...this.state, selectedDocument }, false);
+        const { id, title, content } = selectedDocument;
+        onUpdateDocument(selectedDocument, null, false);
       }
+    }
+  });
+
+  // Click
+  $editor.addEventListener("click", (e) => {
+    const { target } = e;
+    const { className } = target;
+
+    switch (className) {
+      case "document-link":
+        const { id } = target.dataset;
+        push(`/document/${id}`);
+        break;
     }
   });
 
@@ -102,5 +128,38 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
       }
       loadSelectionOffsets();
     }, 0);
+  };
+
+  const searchDocument = (node) => {
+    if (node.getAttribute("name") === "content") {
+      const $newNode = document.createElement("div");
+      node.textContent = "";
+      node.appendChild($newNode);
+      node = $newNode;
+    }
+    node.textContent = "";
+    const { flattedDocuments, selectedDocument } = this.state;
+    new DocumentSearch({
+      $target: node,
+      initialState: { flattedDocuments, selectedDocument },
+      onMakeDocumentLink: (id, title) => {
+        node.innerHTML = `
+        <div><br></div>
+        <button data-id="${id}" class="document-link" contenteditable="false">   
+          ${title}<br>
+        </button>
+        <div><br></div>
+        `;
+        const $nextLine = document.createElement("div");
+        $nextLine.textContent = "";
+        node.parentNode.insertBefore($nextLine, node.nextSibling);
+        const { selectedDocument } = this.state;
+        selectedDocument.content =
+          $editor.querySelector("[name='content']").innerHTML;
+        this.setState({ ...this.state, selectedDocument }, false);
+        onUpdateDocument(selectedDocument, null, false);
+        window.getSelection().collapse($nextLine, 0);
+      },
+    });
   };
 }

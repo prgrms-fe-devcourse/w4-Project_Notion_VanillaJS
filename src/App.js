@@ -7,7 +7,7 @@ import { getItem, setItem } from "./storage.js";
 
 export default function App({ $target, initialState }) {
   // State , setState
-  //  State : {documents:Array, selectedDocument:{...}, toggledDocuments:{} , favoriteDocuments:{} }
+  //  State : {documents:Array, flattedDocuments:Array, selectedDocument:{...}, toggledDocuments:{} , favoriteDocuments:{} }
   this.state = initialState;
 
   this.setState = (nextState, sendState = true) => {
@@ -27,15 +27,7 @@ export default function App({ $target, initialState }) {
       await getDocument(id);
     },
     onCreateDocument: async (parent = null) => {
-      const $newDocument = await api.createDocument({
-        title: "새로운 Document",
-        parent,
-      });
-      if ($newDocument) {
-        const { id } = $newDocument;
-        getRootDocument();
-        await getDocument(id);
-      }
+      await createDocument(parent);
     },
     onToggleDocument: (id) => {
       toggleDocument(id);
@@ -47,7 +39,8 @@ export default function App({ $target, initialState }) {
     $target,
     initialState,
     onUpdateDocument: async (
-      [{ id, title, content }, target],
+      { id, title, content },
+      target,
       isRender = true
     ) => {
       // Update If Favorite
@@ -60,7 +53,9 @@ export default function App({ $target, initialState }) {
       }
       timer = setTimeout(async () => {
         updateDocument(id, title, content, isRender);
-        target.focus();
+        if (target) {
+          // target.focus();
+        }
       }, 1000);
     },
     onDeleteDocument: async (documentId, isLast) => {
@@ -71,7 +66,7 @@ export default function App({ $target, initialState }) {
       if (toggledDocuments[documentId]) {
         toggleDocument(documentId, true, false);
       }
-      await api.deleteDocumentById(documentId);
+      deleteDocument(documentId, false);
       if (isLast) {
         getRootDocument();
         push("/");
@@ -94,7 +89,8 @@ export default function App({ $target, initialState }) {
         break;
       case routeName.document:
         const [, , documentId] = pathname.split("/");
-        if (!this.state.selectedDocument["id"]) {
+        if (this.state.selectedDocument["id"] !== parseInt(documentId)) {
+          console.log(this.state.selectedDocument["id"], parseInt(documentId));
           getDocument(documentId);
           break;
         }
@@ -135,6 +131,9 @@ export default function App({ $target, initialState }) {
   const updateDocument = async (id, title, content, sendState = true) => {
     await api.updateDocumentContentById(id, { title, content });
     const documents = await api.getRootDocuments();
+    const { flattedDocuments } = this.state;
+    delete flattedDocuments[id];
+    flattedDocuments[id] = title;
     this.setState(
       {
         ...this.state,
@@ -144,6 +143,7 @@ export default function App({ $target, initialState }) {
           title,
           content,
         },
+        flattedDocuments,
       },
       sendState
     );
@@ -164,10 +164,54 @@ export default function App({ $target, initialState }) {
     push(`/${routeName.document}/${id}`);
   };
 
+  const createDocument = async (parent, sendState = true) => {
+    try {
+      const $newDocument = await api.createDocument({
+        title: "새로운 Document",
+        parent,
+      });
+      const { id } = $newDocument;
+      this.setState({
+        ...this.state,
+        flattedDocuments: {
+          ...this.state.flattedDocuments,
+          [id]: "새로운 Document",
+        },
+      });
+      await getRootDocument(false);
+      await getDocument(id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const deleteDocument = async (documentId, sendState = true) => {
+    try {
+      await api.deleteDocumentById(documentId);
+      const { flattedDocuments } = this.state;
+      delete flattedDocuments[documentId];
+      this.setState({ ...this.state, flattedDocuments }, sendState);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const flatDocuments = (documents, sendState = true) => {
+    const flattedDocuments = {};
+    recursive(documents);
+
+    function recursive(documents) {
+      documents.forEach(({ title, id, documents: underDocuments }) => {
+        flattedDocuments[id] = title;
+        if (documents.length > 0) recursive(underDocuments);
+      });
+    }
+    this.setState({ ...this.state, flattedDocuments }, sendState);
+  };
+
   // Init
   this.init = async () => {
-    const documents = await api.getRootDocuments();
-    this.setState({ ...this.state, documents });
+    await getRootDocument(false);
+    flatDocuments(this.state.documents);
     this.route();
     makeRouter(() => this.route());
   };

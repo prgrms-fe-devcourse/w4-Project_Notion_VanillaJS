@@ -15,14 +15,15 @@ export default function ContentPage({
   const $page = document.createElement("div");
   $page.className = "content-page";
   // State , setState
-  //  State : {documents:Array, selectedDocument:{...}, toggledDocuments:{} , favoriteDocuments:{} }
+  //  State : {documents:Array,flattedDocuments:Array, selectedDocument:{...}, toggledDocuments:{} , favoriteDocuments:{} }
   this.state = initialState;
 
   this.setState = (nextState) => {
     this.state = nextState;
-    const { selectedDocument, favoriteDocuments } = this.state;
+    const { selectedDocument, favoriteDocuments, flattedDocuments } =
+      this.state;
     contentNav.setState(selectedDocument);
-    editor.setState(selectedDocument);
+    editor.setState({ selectedDocument, flattedDocuments });
     settings.setState({ selectedDocument, favoriteDocuments });
   };
 
