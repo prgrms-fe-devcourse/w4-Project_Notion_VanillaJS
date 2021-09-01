@@ -2,14 +2,18 @@ export default function Editor({ $target, init, onEdit }) {
   const $editor = document.createElement("div");
   $editor.className = "main-page-container__editor";
   this.state = init;
-  let isInit = false;
   $target.appendChild($editor);
+  let isInit = false;
+
+  this.appendChild = () => {
+    $target.appendChild($editor);
+  };
+
   this.setState = (nextState) => {
     this.state = nextState;
     console.log(this.state);
     this.render();
   };
-
   this.render = () => {
     if (!isInit) {
       $editor.innerHTML = `
