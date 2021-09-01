@@ -1,4 +1,5 @@
 import Editor from './Editor.js';
+import SubDocLinks from './SubDocLinks.js';
 
 import { request } from '../services/api.js';
 import {
@@ -24,7 +25,7 @@ export default function EditorPage({ $target, initialState }) {
 
   Object.assign($page.style, {
     margin: '10px 20px',
-    height: '93.5%',
+    height: '100%',
   });
 
   this.state = initialState;
@@ -59,6 +60,11 @@ export default function EditorPage({ $target, initialState }) {
         removeItem(docTempSaveKey(doc.id));
       }, 1000);
     },
+  });
+
+  const subdocLinks = new SubDocLinks({
+    $target: $page,
+    initialState: [],
   });
 
   const fetchDoc = async () => {
@@ -101,6 +107,9 @@ export default function EditorPage({ $target, initialState }) {
       ...editor.state,
       ...this.state,
     });
+
+    subdocLinks.setState(this.state.documents);
+
     this.render();
   };
 

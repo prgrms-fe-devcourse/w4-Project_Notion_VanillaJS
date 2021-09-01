@@ -4,7 +4,7 @@ export default function Editor({ $target, initialState, onEditing }) {
   Object.assign($editor.style, {
     display: 'flex',
     'flex-direction': 'column',
-    height: '100%',
+    height: '80%',
   });
 
   $target.appendChild($editor);
