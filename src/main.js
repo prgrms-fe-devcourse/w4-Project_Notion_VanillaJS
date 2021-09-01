@@ -1,38 +1,31 @@
-import App from "./App.js"
-import DocEditPage from "./DocEditPage.js"
-import RootContents from "./RootContents.js"
+import { request } from "./api.js"
+import RootDocs from "./RootDocs.js"
+import Editor from "./Editor.js"
 
 const $target = document.querySelector('#app')
 
-new App({ $target })
-
-// const docEditPage = new DocEditPage({
+// const editor = new Editor({
 //   $target,
-//   initialState: {
-//     documentId: 'new'
-//   }
+//   initialState: {},
+//   onDocsClick: ''
 // })
 
-// docEditPage.setState({
-//   documentId : 1
-// })
+const rootdocs = new RootDocs({
+  $target,
+  initialState: []
+})
 
+const fetchDocs = async () => {
+  const docs = await request('/documents')
+  rootdocs.setState(docs)
+}
 
-// const rootcontents = new RootContents({
-//   $target,
-//   initialState: {
-//     "id": 1,
-//     "title": "노션을 만들자",
-//     "content": "즐거운 자바스크립트의 세계!",
-//     "documents": [
-//       {
-//         "id": 2,
-//         "title": "",
-//         "createdAt": "",
-//         "updatedAt": ""
-//       }
-//     ],
-//     "createdAt": "",
-//     "updatedAt": ""
-//   }
-// })
+fetchDocs()
+// const fetchDocument = async () => {
+//   const document = await request('/documents/3',{
+//     method: 'GET',
+//   })
+//   editor.setState(document)
+// }
+
+// fetchDocument()

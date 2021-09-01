@@ -1,47 +1,33 @@
-export default function Editor ({ $target, initialState = {
-  title: '',
-  content: ''
-}, onEditing
-}) {
+import { request } from "./api.js"
 
+
+export default function Editor ({ $target, initialState, onDocsClick }) {
+  
   const $editor = document.createElement('div')
-
-  let isinitialize = false
-
-  this.state = initialState
-
   $target.appendChild($editor)
+  
+  this.state = initialState
+  
 
+  
   this.setState = (nextState) => {
     this.state = nextState
-    $editor.querySelector('[name=title]').value = this.state.title
-    $editor.querySelector('[name=content]').value = this.state.content
     this.render()
   }
+  
   this.render = () => {
-    if(!isinitialize) {
-    $editor.innerHTML = `
-    <input type="text" name="title" style="width:300px" value=${this.state.title} >
-    <textarea name="content" style="width:300px; height:300px;" >${this.state.content}</textarea>
-    ` 
-    isinitialize = true
+    
+    if(document.querySelector('article')) {
+      document.querySelector('article').remove()
     }
+
+    $editor.innerHTML = `
+      <article data-id="${this.state.id}">
+        <h3>제목: ${this.state.title}</h3>
+        <div>${this.state.content}</div>
+        <div>작성일: ${this.state.createdAt} 수정: ${this.state.createdAt}</div>
+      </article>
+    ` 
   }
   this.render()
-
-  $editor.addEventListener('keyup', e => {
-    const { target } = e
-
-    const name = target.getAttribute('name')
-
-    if (this.state[name] !== undefined){
-      const nextState = { 
-        ...this.state,
-      [name] : target.value
-      }
-
-      this.setState(nextState)
-      onEditing(this.state)
-    }
-  })
 }
