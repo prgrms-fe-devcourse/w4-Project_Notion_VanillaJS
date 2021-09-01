@@ -3,9 +3,7 @@ import PostEditPage from "./PostEditPage.js"
 import { setItem, getItem } from "./storage.js"
 
 
-export default function App({
-  $target
-}) {
+export default function App({ $target }) {
 
   const $rootListContainer = document.createElement('div')
   const $mainListContainer = document.createElement('div')
@@ -14,24 +12,37 @@ export default function App({
   $target.appendChild($mainListContainer)
 
   const rootPage = new RootPage({
-    $target: $rootListContainer
+    $target: $rootListContainer,
+    onPostClick: (id) => {
+      history.pushState(null, null, `/documents/${id}`)
+      this.route()
+    }
   })
 
-  new PostEditPage({
+  const postEditPage = new PostEditPage({
     $target: $mainListContainer,
-    initialState: {
-      title: '',
-      content: ''
+    initialState : {
+      id: '',
+      post: {
+        title: '',
+        content: ''
+      }
     }
     })
+    
+
 
     this.route = () => {
-      
       const { pathname } = window.location
       console.log(pathname)
       if (pathname === '/') {
         rootPage.setState()
-      } 
+      } else if (pathname.indexOf('/documents/') === 0) {
+        const[,, id] = pathname.split('/')
+        console.log(id)
+        rootPage.setState()
+        postEditPage.setState({ id })
+      }
       
     }
     this.route()

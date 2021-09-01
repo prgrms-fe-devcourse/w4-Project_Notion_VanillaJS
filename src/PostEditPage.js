@@ -1,44 +1,92 @@
+import { request } from "./api.js"
 import Editor from "./Editor.js"
-import { setItem, getItem } from "./storage.js"
+import { setItem, getItem, removeItem } from "./storage.js"
 
-export default function PostEditPage({
-  $target,
-  initialState
-}) {
+export default function PostEditPage({ $target, initialState }) {
   const $page = document.createElement('div')
-
+  
   this.state = initialState
+  console.log(this.state)
 
-  const TEMP_POST_SAVE_KEY = 'temp-post'
-  const post = getItem(TEMP_POST_SAVE_KEY, {
+  let postLocalSaveKey = `temp-post-${this.state.id}`
+
+  const post = getItem(postLocalSaveKey, {
     title: '',
     content: ''
   })
 
   let timer = null
-
-  new Editor({
-    $target,
-    initialState: post, 
+  
+  const editor = new Editor({
+    $target :$page,
+    initialState: {
+      title: '',
+      content: ''
+    }, 
     onEditing: (post) => {
       if (timer !== null) {
         clearTimeout(timer)
       }
-      timer = setTimeout(() => {
+      timer = setTimeout(async() => {
         console.log(post)
-        setItem(TEMP_POST_SAVE_KEY, {
+        setItem(postLocalSaveKey, {
           ...post,
-          tempSaveDate: new Date()
+          saveTempDate: new Date()
         })
+
+        // 시간 다르게 만들기 저장과 로컬 값.
+        await request(`/documents/${post.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(post)
+        })
+        removeItem(postLocalSaveKey)
+
       }, 2000)
+      
     }
   })
+  this.setState = async nextState => {
+    if (this.state.id !== nextState.id) {
+      postLocalSaveKey = `temp-post-${nextState.id}`
+      this.state = nextState
+      await fetchPost()
+      return
+    }
+    this.state = nextState
+    this.render()
 
+    editor.setState(this.state.post || {
+      title: '',
+      content: ''
+    })
+  }
   this.render = () => {
     $target.appendChild($page)
   }
+  
 
-  if (this.state !== 'new') {
+  const fetchPost = async () => {
+    const { id } = this.state
+    const post = await request(`/documents/${id}`)
+    const tempPost = getItem(postLocalSaveKey, {
+      title: '',
+      content: ''
+    })
 
+    console.log(tempPost)
+    if (tempPost.saveTempDate && tempPost.saveTempDate > post.updatedAt)  {
+      console.log('왜안대~')
+      if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요? ')) {
+        this.setState({
+          ...this.state,
+          post: tempPost
+        })
+        return
+      }
+    }
+    this.setState({
+      ...this.state,
+      post
+    })
   }
 }

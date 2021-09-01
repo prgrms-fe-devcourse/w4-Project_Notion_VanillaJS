@@ -8,32 +8,32 @@ export default function Editor({
 }) {
   const $editor = document.createElement('div')
   let isInitialize = false
-  $target.appendChild($editor)
+  
   this.state = initialState
-
+  $target.appendChild($editor)
   this.setState = nextState => {
     this.state = nextState
+    console.log(this.state)
+    $editor.getElementsByClassName('title').value = this.state.title
+    $editor.getElementsByClassName('content').value = this.state.content
     this.render()
   }
   
   this.render = () => {
     if (!isInitialize){
       $editor.innerHTML = `
-      이곳은 메인페이지 입니다.<br>
-      바뀌어야 할 필요가 있는 곳이고
-      바뀌어야 하는 페이지 입니다.<br>
-      <input type='text' name="title" style="width: 300px;" value="${this.state.title}"/><br>
-      <textarea name="content" style="width: 300px; height: 300px;">${this.state.content}</textarea>
+      <input type='text' class="title" style="width: 300px;" value="${this.state.title}"/><br>
+      <textarea class="content" style="width: 300px; height: 300px;">${this.state.content}</textarea>
     `
     isInitialize = true
     }
-    
   }
 
-  this.render()
+  
   $editor.addEventListener('keyup', (e) => {
     const { target } = e
-    const name = target.getAttribute('name')
+    
+    const name = target.getAttribute('class')
     if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,
@@ -41,6 +41,7 @@ export default function Editor({
       }
       
       this.setState(nextState)
+      
       onEditing(this.state)
     }
   })
