@@ -1,30 +1,42 @@
 import Editor from "./Editor.js";
+import { request } from "./Api.js";
 
-export default function NotionEditPage({ $target, initialState }) {
-  console.log(initialState);
+export default function NotionEditPage({ $target, selectedId, update }) {
   const $notion = document.createElement("div");
 
-  this.state = initialState;
+  this.state = selectedId;
 
   let timer = null;
 
-  if (!!this.state) {
-    const editor = new Editor({
-      $target: $notion,
-      initialState,
-      onEditing: (post) => {
-        if (timer !== null) clearTimeout(timer);
-        timer = setTimeout(() => {
-          console.log(post);
-        }, 1000);
-      },
-    });
-  }
+  const editor = new Editor({
+    $target: $notion,
+    initialState: { title: "", content: "" },
+    onEditing: (post) => {
+      if (timer !== null) clearTimeout(timer);
+      timer = setTimeout(() => {
+        fetchDocument(post);
+      }, 2000);
+    },
+  });
 
-  this.setState = (nextState) => {
+  this.setState = async (nextState) => {
     this.state = nextState;
-
+    await selectedDocument();
     this.render();
+  };
+
+  const selectedDocument = async () => {
+    const post = await request(`/documents/${this.state.id}`);
+    await editor.setState(post);
+  };
+
+  const fetchDocument = async (post) => {
+    await request(`/documents/${this.state.id}`, {
+      method: "PUT",
+      body: JSON.stringify(post),
+    });
+    await update();
+    await this.render();
   };
 
   this.render = () => {
