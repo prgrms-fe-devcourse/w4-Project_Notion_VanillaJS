@@ -24,11 +24,11 @@ export default function RootList({
     
     const makeList = roots => {
       const root = roots.documents
-      console.log(root)
+      
       return `<ul>
       ${root.map(na => `
       <li data-id=${na.id} class="root-list">${na.title}
-      <button class="add-child">add page</button>
+      <button class="add-child">+</button>
       <button class="delete">X</button></li>
       ${na.documents.length > 0 ? makeList(na) : ''}
       `).join('')}
@@ -56,12 +56,13 @@ export default function RootList({
         ${this.state.map(roots =>
         `<li data-id="${roots.id}" class="root-list">
         ${roots.title}  
-        <button class="add-child">add page</button>
+        <button class="add-child">+</button>
         <button class="delete">X</button>
         </li>
         ${(roots.documents.length > 0 ? makeList(roots) : '' )}
         `).join('')}  
         <br><br><br><br>
+        루트 li는 컨텐츠를 로딩해야함
         <li>여기에는 루트 페이지들이 나타나야한다.</li>
         <input  placeholder='새로운 root 추가' class='new-root'></input>
         <button class='add-root'>추가하기</button>
@@ -85,7 +86,7 @@ export default function RootList({
       } else if (className === 'delete') {
         onDelete(id)
       } else {
-        console.log('시간이 된다면 토글 기능 구현')
+        
         onPostClick(id)
 
       }
@@ -105,3 +106,11 @@ export default function RootList({
 }
 
 
+// ${this.state.map(roots =>
+//   `<li data-id="${roots.id}" class="root-list">
+//   ${roots.title}  
+//   <button class="add-child">add page</button>
+//   <button class="delete">X</button>
+//   </li>
+//   ${(roots.documents.length > 0 ? makeList(roots) : '' )}
+//   `).join('')}  

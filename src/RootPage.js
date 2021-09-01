@@ -21,7 +21,7 @@ export default function RootPage({ $target, onPostClick }) {
     onAddChild: async (id) => {
       alert('하위 페이지를 생성합니다.')
       const bodys = {
-        title: 'child 추가',
+        title: `${id}의 child 추가`,
         parent: id
       }
       await request(`/documents`, {

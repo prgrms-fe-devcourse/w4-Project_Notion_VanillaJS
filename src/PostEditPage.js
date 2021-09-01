@@ -40,25 +40,31 @@ export default function PostEditPage({ $target, initialState }) {
           body: JSON.stringify(post)
         })
         removeItem(postLocalSaveKey)
-
+        
       }, 2000)
-      
     }
   })
+
   this.setState = async nextState => {
+    console.log(this.state, nextState)
+
     if (this.state.id !== nextState.id) {
       postLocalSaveKey = `temp-post-${nextState.id}`
+      
       this.state = nextState
       await fetchPost()
       return
-    }
+     } 
+    // else {
+    //   this.setState({
+    //     ...this.state
+    //   })
+    // }
+    
     this.state = nextState
     this.render()
-
-    editor.setState(this.state.post || {
-      title: '',
-      content: ''
-    })
+    console.log(this.state)
+    editor.setState(this.state.post)
   }
   this.render = () => {
     $target.appendChild($page)
@@ -66,6 +72,7 @@ export default function PostEditPage({ $target, initialState }) {
   
 
   const fetchPost = async () => {
+    
     const { id } = this.state
     const post = await request(`/documents/${id}`)
     const tempPost = getItem(postLocalSaveKey, {
@@ -73,7 +80,6 @@ export default function PostEditPage({ $target, initialState }) {
       content: ''
     })
 
-    console.log(tempPost)
     if (tempPost.saveTempDate && tempPost.saveTempDate > post.updatedAt)  {
       console.log('왜안대~')
       if (confirm('저장되지 않은 임시 데이터가 있습니다. 불러올까요? ')) {
