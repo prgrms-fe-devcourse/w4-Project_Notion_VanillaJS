@@ -1,9 +1,10 @@
-import { request } from "../util/api.js";
-import Component from "./Component.js";
-import { ToggleTriangle, SidebarEmpty, Trash } from "./util/utilComponent.js";
-import { customCreateNode, emit, on, qs, qsAll } from "../util/util.js";
-import { HTTP_METHOD, NODE_NAME } from "../util/constant.js";
-class WorkSpace extends Component {
+import { request } from "../../util/api.js";
+import { HTTP_METHOD, NODE_NAME } from "../../util/constant.js";
+import { customCreateNode, on, qs, qsAll } from "../../util/util.js";
+import Component from "../Component.js";
+import { SidebarEmpty, ToggleTriangle, Trash } from "../util/utilComponent.js";
+
+class SidebarBlock extends Component {
   state;
   constructor(...rest) {
     super(...rest);
@@ -25,7 +26,7 @@ class WorkSpace extends Component {
 
   mount() {
     qsAll(".notion-sidebar-block").forEach((el) => {
-      on(el, "mouseover", (e) => this.styleHoverAddBtn(e, 1)), on(el, "mouseout", (e) => this.styleHoverAddBtn(e, 0));
+      on(el, "mouseover", (e) => this.styleHover(e, 1)), on(el, "mouseout", (e) => this.styleHover(e, 0));
     });
     on(this.$target, "click", (e) => this.handleSideBarClick(e));
   }
@@ -56,21 +57,28 @@ class WorkSpace extends Component {
   }
 
   async handleSideBarClick(e) {
-    const { createNewContent, changeContent } = this.props;
+    const { createNewContent, changeContent, updateSidebar } = this.props;
     const { nodeName: targetNode } = e.target;
-    if (targetNode === NODE_NAME.POLYGON || targetNode === NODE_NAME.SVG) {
+
+    if (e.target.classList[0] === "toggle") {
       this.styleToggleBtn(e);
     } else if (targetNode === NODE_NAME.BUTTON) {
       const data = prompt("제목을 입력하세요");
       if (data) {
         try {
           const result = await request(null, HTTP_METHOD.POST, { parent: e.target.dataset.id, title: data });
-          // positive 방식 생각해보기
           history.pushState(result, "", `/documents/${result.id}`);
           createNewContent(result);
         } catch (e) {
           alert(e);
         }
+      }
+    } else if (e.target.classList[0] === "trash") {
+      const data = confirm("이 문서를 삭제하시겠습니까?");
+      if (data) {
+        await request(e.target.closest("div").dataset.id, HTTP_METHOD.DELETE);
+        history.pushState(null, "", `/`);
+        updateSidebar();
       }
     } else if (e.target.closest("div").className === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
@@ -90,14 +98,14 @@ class WorkSpace extends Component {
       svgNode.style.setProperty("--toggle", "90deg");
     }
   };
-  styleHoverAddBtn = ({ currentTarget }, opacity) => {
+  styleHover = ({ currentTarget }, opacity) => {
     if (currentTarget.classList.value === "notion-sidebar-block") {
       const btn = qs("button", currentTarget);
-      const trashBtn = qs(".trash", currentTarget);
+      const trashBtn = qs("svg.trash", currentTarget);
       trashBtn.style.opacity = opacity;
       btn.style.opacity = opacity;
     }
   };
 }
 
-export default WorkSpace;
+export default SidebarBlock;

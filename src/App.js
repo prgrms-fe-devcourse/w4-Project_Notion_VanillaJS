@@ -1,6 +1,7 @@
 import Component from "./component/Component.js";
 import ContentContainer from "./component/content/ContentContainer.js";
-import WorkSpace from "./component/WorkSpace.js";
+import WorkSpace from "./component/sidebar/SidebarBlock.js";
+import SidebarContainer from "./component/sidebar/SidebarContainer.js";
 import { request } from "./util/api.js";
 import { HTTP_METHOD } from "./util/constant.js";
 import { on, qs, qsAll } from "./util/util.js";
@@ -36,7 +37,7 @@ class App extends Component {
 
   render() {
     this.$target.innerHTML = this.template();
-    const updateSidebar = async (data) => {
+    const updateSidebar = async (data = null) => {
       const sidebar = await request();
       this.setState({ content: data, sidebar });
     };
@@ -47,7 +48,7 @@ class App extends Component {
     const changeContent = async (data) => {
       this.setState({ content: data });
     };
-    new WorkSpace(qs(".notion-sidebar-container"), { state: this.state.sidebar, createNewContent, changeContent });
+    new SidebarContainer(qs(".notion-sidebar-container"), { state: this.state.sidebar, createNewContent, changeContent, updateSidebar });
     new ContentContainer(qs(".notion-content-container"), { state: this.state.content, updateSidebar });
 
     this.mount();

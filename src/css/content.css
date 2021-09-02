@@ -1,5 +1,5 @@
 .notion-content-container {
-  background-color: red;
+  /* background-color: red; */
   width: 80vw;
   margin: 10% 0 0 10%;
 }
@@ -13,7 +13,7 @@
 .notion-content-container section {
   width: 100%;
   height: 100%;
-  background-color: lightblue;
+  /* background-color: lightblue; */
 }
 .content {
   height: px;
