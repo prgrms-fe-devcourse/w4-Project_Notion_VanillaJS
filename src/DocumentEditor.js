@@ -36,13 +36,35 @@ export default function DocumentEditor({ $target, initialState }) {
     };
 
     this.setState(nextState);
+    onEditing();
   });
 
   this.getDocument = async documentId => {
     const nextState = await request(`/${documentId}`);
 
-    this.setState({ title: nextState.title, content: nextState.content, isLoad: true });
+    this.setState({
+      title: nextState.title,
+      content: nextState.content,
+      isLoad: true,
+      documentId: documentId
+    });
   };
 
-  this.render();
+  let timer = null;
+
+  const onEditing = () => {
+    if (!this.state.documentId) return;
+    if (timer !== null) clearTimeout(timer);
+    timer = setTimeout(() => {
+      request(`/${this.state.documentId}`, {
+        body: JSON.stringify({
+          title: this.state.title,
+          content: this.state.content
+        }),
+        method: 'PUT'
+      });
+    }, 1000);
+  };
+
+  // this.render();
 }
