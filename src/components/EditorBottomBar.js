@@ -14,6 +14,7 @@ import LinkButton from './LinkButton.js';
     $target
   }) {
     const $editorBottomBar = document.createElement('nav')
+    $editorBottomBar.classList.add('edit-page__bottom-bar')
     $target.appendChild($editorBottomBar)
 
     //setState, render()

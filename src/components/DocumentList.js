@@ -11,24 +11,53 @@ export default function DocumentList({ $target, initialState, onClickDoc, onAddD
     this.render()
   }
 
-  this.makeTreeTemplate = (documents) => {
+  this.makeTreeTemplate = (_documents) => {
     const documentTreeString = []
-
-      documents.map((document) => {
-        documentTreeString.push(`
-        <ul>
+    
+    documentTreeString.push(
+      `<ul class="tree">
+        <li>
+          <ul>
+        `
+    )
+      const makeTreeTem = (documents) => {
+        const string = []
+        documents.map((document, i) => {
+          /*
+          documentTreeString.push(`
+          
+            <li data-id="${document.id}" class="document-list__item">
+              <input type="checkbox">
+              <label class="document-list__item__label${document.documents.length === 0 ?  ` lastTree` : ''}">${document.title}</label>
+              <button class="add-btn">+</button>
+              <button class="delete-btn">-</button>
+            </li>
+  
+            ${document.documents.length > 0 ? this.makeTreeTemplate(document.documents) : ''}
+          `)*/
+          const len = document.documents.length
+          string.push(`
           <li data-id="${document.id}" class="document-list__item">
-            ${document.title}
+          
+            <input type="checkbox" id="${document.id}">
+            <label class="${len === 0 ? `lastTree` : ''}" for="${document.id}"></label>
+            <p class="document-list__item__text">${document.title}</p>
             <button class="add-btn">+</button>
             <button class="delete-btn">-</button>
+          
+          ${len > 0 ? '<ul>' : ''}
+          ${len > 0 ? makeTreeTem(document.documents) : ''}
+          ${len > 0 ? '</ul>' : ''}
           </li>
+          
+          `)
+        })
+        return string.join('')
+      }
 
-          ${document.documents.length > 0 ? this.makeTreeTemplate(document.documents) : ''}
-
-        </ul>
-        `)
-      })
-
+      const str = makeTreeTem(_documents)
+      documentTreeString.push(str)
+      documentTreeString.push('</ul></li></ul>')
       return documentTreeString.join('')
   }
 
@@ -40,13 +69,16 @@ export default function DocumentList({ $target, initialState, onClickDoc, onAddD
   this.render()
 
   $documentList.addEventListener('click', (event) => {
+    console.log(event.target)
     const $li = event.target.closest('li')
+    console.log($li)
     const { id } = $li.dataset
-    const { className } = event.target
-
+    const [className, ] = event.target.classList
+    console.log(className)
     if (className) {
       switch (className) {
-        case 'document-list__item' :
+        case 'document-list__item__text' :
+          console.log()
           onClickDoc(id)
           break
         case 'add-btn' :

@@ -1,0 +1,175 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+body {
+	line-height: 1;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body{
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+
+
+.nav-bar {
+  height: 100%;
+  width: 380px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #f7f6f3;
+  padding-top: 20px;
+  
+}
+.nav-bar .header {
+  color: #666666;
+  font-weight: 200;
+  font-size: 16px;
+}
+.nav-bar .header .header-notion{
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+}
+.nav-bar .header .header-notion__profile{
+  display: inline;
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+.nav-bar .header .header-notion__text{
+  font-weight: 300;
+  color: #191919;
+}
+.nav-bar .header .header-notion__text strong{
+  font-weight: 400;
+  color: #191919;
+}
+.nav-bar .header .header-list{
+  margin-top: 12px;
+  padding-left: 0px;
+}
+.nav-bar .header .header-list__item{
+  display: flex;
+  align-items: center;
+  color: #666666;
+  padding: 6px;
+  box-sizing: border-box;
+}
+.nav-bar .header .header-list__item:hover{
+  width:100%;
+  background-color: #e8e7e4;
+}
+.nav-bar .header .header-list__item span{
+  color: #999999;
+  font-size: 20px;
+  margin-left: 18px;
+  margin-right: 20px;
+}
+
+
+
+
+.nav-bar .document-list {
+  padding-top: 4px;
+}
+.nav-bar .document-list__item__text{
+  display: inline-block;
+  position: relative;
+  color: #666666;
+  font-weight: 400;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.nav-bar .document-list__item__text::before{
+  content: '';
+  left: -300px;
+  position: absolute;
+  z-index: -1;
+  width: 700px;
+  height: 36px;
+  top: -1px;
+  overflow: hidden;
+}
+.nav-bar .document-list__item__text:hover::before{
+  background-color: #e8e7e4;
+}
+.page {
+  z-index: 1;
+  position: absolute;
+  background-color: #ffffff;
+  margin-left: 390px;
+  height: 1600px;
+}
+
+
+
+.tree{
+  margin-top: 5px;
+}
+.tree, .tree ul{
+  list-style: none; /* 기본 리스트 스타일 제거 */
+  padding-left:10px;
+}
+.tree *:before{
+  width:15px;
+  height:15px;
+  display:inline-block;
+}
+.tree label{
+  cursor: pointer;
+  font-family: NotoSansKrMedium, sans-serif !important;
+  font-size: 14px;
+  color: #aaa9a5;
+}
+.tree label:hover{
+  color: #979690;
+}
+.tree input[type="checkbox"] {
+  display: none;
+}
+.tree input[type="checkbox"]:checked~ul {
+  display: none;
+}
+.tree input[type="checkbox"]+label:before{
+  content: '▼';
+}
+.tree input[type="checkbox"]:checked+label:before{
+  content: '▶'
+}
+.tree input[type="checkbox"]+label.lastTree:before{
+  content: 'ㆍ';
+}

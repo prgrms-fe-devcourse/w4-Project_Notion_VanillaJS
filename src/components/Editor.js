@@ -2,7 +2,7 @@ import { EventUtils } from '../utils/event.js'
 
 export default function Editor ({ $target, initialState, onEditing }) {
   const $editor = document.createElement('div')
-  $editor.classList.add('document-edit')
+  $editor.classList.add('edit-page__editor')
   
   this.template = `
   <input type="text" name="title" maxlength="30" style="width:600px;"/>

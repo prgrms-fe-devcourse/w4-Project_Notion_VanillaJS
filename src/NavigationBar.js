@@ -1,11 +1,15 @@
 import DocumentList from './components/DocumentList.js';
+import Header from './components/header.js';
 import { request } from './utils/api.js';
 import { RouterUtils } from './utils/router.js'
 import { EventUtils } from './utils/event.js'
 
 export default function NavigationBar ({ $target , onDeleteDoc }) {
   const $navigationBar = document.createElement('nav')
+  $navigationBar.classList.add('nav-bar')
   $target.appendChild($navigationBar)
+
+  new Header({ $target: $navigationBar })
 
   const documentList = new DocumentList({
     $target: $navigationBar, 

@@ -3,9 +3,11 @@ import EditorBottomBar from '../components/EditorBottomBar.js'
 import { request } from '../utils/api.js';
 import { StorageUtils } from '../utils/storage.js';
 import { EventUtils } from '../utils/event.js'
+import { RouterUtils } from '../utils/router.js';
 
 export default function EditPage({ $target, initialState }) {
   const $editPage = document.createElement('div')
+  $editPage.classList.add('edit-page')
   
   this.state = initialState
   
@@ -69,7 +71,8 @@ export default function EditPage({ $target, initialState }) {
 
     const { documentId } = this.state
     if (!!documentId) {
-      const document = await request(`/documents/${documentId}`)
+      console.log(documentId)
+      const document = await request(`/documents/${documentId}`).catch(() => RouterUtils.routerDispatcher('/'))
       editor.setState(document)
       // 현재 document 하위 document 수 만큼 버튼 렌더
       editorBottomBar.makeSubButtons(document)
