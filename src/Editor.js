@@ -29,10 +29,9 @@ export default function Editor({
     if (!isInitialize){
       $editor.innerHTML = `
       <input type='text' class="title" style="width: 500px;" value="${title}"/><br>
-      <textarea class="content" style="width: 500px; height: 600px;">${content ? content : ''}</textarea>
+      <textarea class="content" style="width: 500px; height: 600px;" placeholder="내용을 입력하세요.">${content ? content : ''}</textarea>
       `
     isInitialize = true
-    console.log('editor 생성한다!')
     }
   }
 

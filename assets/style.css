@@ -1,12 +1,22 @@
 h2 {
   text-align: center;
 }
-
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
 .main-documentPage{
   background-color: #F7F6F3;
   padding: 10px;
 }
+button{
+  
+  border-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
 
+}
+button:hover{
+  background-color: peachpuff;
+}
 .main-editPage{
   padding: 10px;
 }
@@ -14,9 +24,10 @@ h2 {
 div > ul{
   padding-left: 0px;
 }
-div > ul > ul {
-  padding-left: 0px;
-}
 li{
   list-style: none;
+}
+
+li:hover {
+  background-color: silver;
 }

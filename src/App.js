@@ -1,5 +1,6 @@
 import RootPage from "./RootPage.js"
 import PostEditPage from "./PostEditPage.js"
+import Location from "./Location.js"
 import { setItem, getItem } from "./storage.js"
 
 
@@ -24,7 +25,9 @@ export default function App({ $target }) {
       postEditPage.setState({ id })
     }
   })
-
+  new Location({
+    
+  })
   const postEditPage = new PostEditPage({
     $target: $mainListContainer,
     initialState : {

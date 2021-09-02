@@ -21,21 +21,25 @@ export default function RootList({ // Root가 아니라 Document로 변경
   
   this.render = () => {
     
-    const makeList = (documents) => {
-      return `
-      ${documents.map(document => `
-      <ul class="${document.id}" id=${document.id} style="display:''">
-      <li data-id=${document.id} class="documents-list">
-        <span class="ontoggle">숨김</span>
-        <span class="document-list">${document.title}</span>
-        <button class="add-child">+</button>
-        <button class="delete">X</button></li>
-        ${document.documents.length > 0 ? makeList(document.documents) : ''}
-        </ul>`).join('')}
-      `
-    }
+    const makeList = (documents) => `
+      ${documents.map(document => {
+        const {id, title, documents} = document
+        return `<li data-id=${id} class="documents-list">
+          <span class="ontoggle">${documents.length > 0 ? '&#129094;' : '&#5125;'}</span>   
+          <span class="document-list">${title}</span>
+          <button class="add-child">&#43;</button>
+          <button class="delete">&#10006;</button></li>
+          ${documents.length > 0 ? childrenMakeList(documents) : ''}
+      `}).join('')}`
     
-    $rootList.innerHTML = `<ul>
+
+    const childrenMakeList = (documents) =>`
+        <ul class="child" style="display: none ">
+        ${makeList(documents)}
+      </ul>`
+    
+    
+    $rootList.innerHTML = `<ul class="root-document">
         ${makeList(this.state)}
         <br><li><span class="add-rootDocument">+ 페이지 추가</span></li>
         </ul>
@@ -51,7 +55,6 @@ export default function RootList({ // Root가 아니라 Document로 변경
       const {id} = $li.dataset
       const { className } = e.target
       
-      
       if (className === 'add-child') {
         onAddChild(id)
         
@@ -61,25 +64,26 @@ export default function RootList({ // Root가 아니라 Document로 변경
         onPostClick(id)
       } 
       
-    const $ul = e.target.closest('ul')
-    if ($ul) {
       if (className === 'ontoggle') {
-
-        const selectedul = $ul.children
-        for (let i = 1; i < selectedul.length; i++) {
-          const dd = selectedul[i].style.display
-          if (selectedul[i].style.display === '' ) {
-            selectedul[i].style.display = 'none'
-            const c = $li.getElementsByClassName('ontoggle')[0]
-            c.innerHTML = '숨겨짐'
-          } else {
-            selectedul[i].style.display = ''
-            const c = $li.getElementsByClassName('ontoggle')[0]
-            c.innerHTML = '숨김'
+        
+        const $ul = $li.nextElementSibling
+        if ($ul){
+          if ($ul.className === 'child') {
+            if ($ul.style.display === 'none') {
+              $ul.style.display = ''
+              const textee = $li.getElementsByClassName('ontoggle')[0]
+              textee.innerHTML = ' &#9660'
+            } else {
+              $ul.style.display = 'none'
+              const textee = $li.getElementsByClassName('ontoggle')[0]
+              textee.innerHTML = '&#129094'
+            }
           }
         }
+        
+        
       }
-    }
+    
     }
     const { className } = e.target
     
