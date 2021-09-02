@@ -1,6 +1,7 @@
 import {request} from './api.js';
 import DocumentMenu from './DocumentMenu.js';
 import DocumentPage from './DocumentPage.js';
+import {parse} from './querystring.js';
 
 export default function App({
   $target
@@ -16,6 +17,7 @@ export default function App({
     initialState : this.state,
     menuClick: async (node) => {
       const {id} = node.dataset
+      await history.pushState(null, null, `/?selectedDocId=${id}`)
       await fetchDocPage(id)
     }
   })
@@ -63,17 +65,39 @@ export default function App({
     })
   }
 
-  this.init = async() => {
-    await fetchDocList()
-    await fetchDocPage(this.state.docList[0].id)
+  const init = async() => {
+    const res = await request(`/documents`)
+    await fetchDocPage(res[0].id)
+    this.setState({
+      ...this.state,
+      docList : res
+    })
   }
 
-  this.init()
+  const docPopstate = () => {
+    //url에 특정사용자를 나타내는 값이 있을 때
+    const { search } = location
+
+    if (search.length > 0) {
+      const {selectedDocId} = parse(search.substring(1))
+      console.log('selected :>> ', selectedDocId);
+
+      if (selectedDocId) {
+       fetchDocPage(selectedDocId)
+      }
+    }
+  }
+
+  init()
+  docPopstate()
 
   // this.route = () => {
   //   documentMenu.setState()
   // }
 
   // this.route()
-  
+  window.addEventListener('popstate', () => {
+    docPopstate()
+  })
+
 };
