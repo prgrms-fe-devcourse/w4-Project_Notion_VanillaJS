@@ -1,8 +1,7 @@
-import DocsListPage from './DocsListPage.js';
-import DocEditPage from './DocEditPage.js';
-import { initRouter } from './router.js';
-import { request } from './api.js';
-
+import DocsListPage from './component_sidebar/DocsListPage.js';
+import EditorPage from './component_editor/EditorPage.js';
+import { initRouter } from './utils/Router.js';
+import { htmlReset } from './utils/DOM.js';
 
 export default function App({ $target }) {
     const docsListPage = new DocsListPage({
@@ -11,16 +10,15 @@ export default function App({ $target }) {
 
     docsListPage.setState();
     
-    const docEditPage = new DocEditPage({
+    const docEditPage = new EditorPage({
         $target,
     });
-
 
     this.route = async () => {
         const { pathname } = window.location;
 
         if (pathname.indexOf('/documents/') === 0) {
-            docEditPage.innerHTML = ``;
+            htmlReset(docEditPage);
             const [, , id] = pathname.split('/');
             docEditPage.setState({id})
         }

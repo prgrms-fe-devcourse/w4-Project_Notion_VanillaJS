@@ -1,0 +1,1 @@
+export const keyBy = (id) => `current-doc-${id}`;
