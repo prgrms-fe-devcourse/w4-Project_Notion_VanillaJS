@@ -18,6 +18,9 @@ export const EDITOR_DATA_CHANGED = 'editor-data-changed';
 export const DEBOUNCE_DELAY = 300;
 export const KEY_ENTER = 'Enter';
 export const KEY_ESCAPE = 'Escape';
+export const STORAGE_KEY_NOTION_THEME = 'notion-theme';
+export const DARK = 'dark';
+export const LIGHT = 'light';
 
 // 에러 메세지
 export const ERROR_MSG_IS_CONSTRUCTOR_FUNCTION = 'new 키워드를 사용해 주세요';
@@ -57,8 +60,12 @@ export const CLASS_NAME_SIDE_BUTTON = 'side-button';
 export const CLASS_NAME_FADE_IN = 'fade-in';
 export const CLASS_NAME_FADE_OUT = 'fade-out';
 export const CLASS_NAME_FAS = 'fas';
+export const CLASS_NAME_FAR = 'far';
+export const CLASS_NAME_MOON_ICON = 'fa-moon';
+export const CLASS_NAME_BULB_ICON = 'fa-lightbulb';
 export const CLASS_NAME_FA_ANGLE_DOUBLE_LEFT = 'fa-angle-double-left';
 export const CLASS_NAME_FA_ANGLE_DOUBLE_RIGHT = 'fa-angle-double-right';
 export const CLASS_NAME_DISPLAY_NONE = 'display-none';
 export const CLASS_NAME_EMPTY_EDIT_PAGE_MESSAGE = 'edit-page-empty-message';
 export const CLASS_NAME_EDITOR_CONTAINER = 'editor-container';
+export const CLASS_NAME_DARK_MODE_TOGGLE_BUTTON = 'dark-mode-toggle-button';

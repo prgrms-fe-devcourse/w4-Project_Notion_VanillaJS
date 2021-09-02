@@ -1,6 +1,7 @@
 import DocumentEditPage from '../pages/DocumentEditPage.js';
 import DocumentsPage from '../pages/DocumentsPage.js';
 import CreateDocumentModal from './CreateDocumentModal.js';
+import DarkModeToggle from './DarkModeToggle.js';
 import { initRouter, initBrowserRouter, initEditorDataChangedListener } from '../utils/eventListeners.js';
 import { checkUseConstructorFunction } from '../utils/validator.js';
 import { fetchAddDocuments } from '../utils/api.js';
@@ -12,6 +13,8 @@ export default function App({ $target }) {
   };
 
   validate();
+
+  new DarkModeToggle({ $target });
 
   const documentsPage = new DocumentsPage({
     $target,

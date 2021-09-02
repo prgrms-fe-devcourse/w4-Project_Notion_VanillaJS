@@ -1,5 +1,29 @@
 @import url('normalize.css');
 
+:root[notion-theme='light'] {
+  --backgroundColor: #ffffff;
+  --fontColor: #808080;
+  --documentsBackgroundColor: #f7f6f3;
+  --documentsButtonHoverColor: #353535;
+  --sideButtonColor: #808080;
+  --sideButtonHoverColor: #353535;
+  --darkModeToggleButtonColor: #000000;
+}
+
+:root[notion-theme='dark'] {
+  --backgroundColor: #353535;
+  --fontColor: #ffffff;
+  --documentsBackgroundColor: #6e6e6e;
+  --documentsButtonHoverColor: #ffffff;
+  --sideButtonColor: #6e6e6e;
+  --sideButtonHoverColor: #ffffff;
+  --darkModeToggleButtonColor: #ff8200;
+}
+
+html {
+  background: var(--backgroundColor);
+}
+
 button {
   cursor: pointer;
   border: none;
@@ -30,7 +54,6 @@ button {
   width: 50%;
   height: 60px;
   z-index: 10;
-  background-color: white;
 }
 
 .modal input {
@@ -40,6 +63,7 @@ button {
   outline: none;
   border: none;
   padding: 5px 10px;
+  background-color: var(--backgroundColor);
 }
 
 .document-list {
@@ -53,6 +77,10 @@ button {
   position: absolute;
   top: 50%;
   align-self: center;
+}
+
+.document-tree {
+  color: var(--fontColor);
 }
 
 .document-tree,
@@ -85,7 +113,7 @@ button {
 }
 
 .document-tree .button-group i:hover {
-  color: gray;
+  color: var(--documentsButtonHoverColor);
 }
 
 .document-tree label::before {
@@ -124,6 +152,7 @@ button {
 .edit-page-empty-message {
   position: absolute;
   font-size: 56px;
+  color: var(--fontColor);
 }
 
 .document-title {
@@ -133,6 +162,8 @@ button {
   border: 0;
   outline: none;
   flex-basis: 20%;
+  background: var(--backgroundColor);
+  color: var(--fontColor);
 }
 
 .document-editor {
@@ -146,13 +177,15 @@ button {
   resize: none;
   flex-basis: 60%;
   padding: 10px;
+  background: var(--backgroundColor);
+  color: var(--fontColor);
 }
 
 .documents-page {
   position: relative;
   width: 25%;
   height: 100%;
-  background-color: #f7f6f3;
+  background: var(--documentsBackgroundColor);
 }
 
 .fade-out {
@@ -200,12 +233,12 @@ button {
 .child-document-link {
   display: flex;
   align-items: center;
-  color: gray;
+  color: var(--fontColor);
   cursor: pointer;
 }
 
 .child-document-link:hover {
-  color: black;
+  color: var(--fontColor);
 }
 
 .child-document-link::before {
@@ -216,7 +249,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: gray;
+  color: var(--sideButtonColor);
   font-size: 24px;
   cursor: pointer;
   width: 50px;
@@ -228,7 +261,7 @@ button {
 }
 
 .side-button:hover {
-  color: black;
+  color: var(--sideButtonHoverColor);
 }
 
 .logo-container {
@@ -252,8 +285,8 @@ button {
   height: 38px;
   font-size: 14px;
   margin-left: 20px;
-  color: gray;
-  border: 1px solid gray;
+  color: var(--fontColor);
+  border: 1px solid var(--fontColor);
 }
 
 .root-document-add-button:hover {
@@ -273,4 +306,13 @@ button {
 
 .display-none {
   display: none;
+}
+
+.dark-mode-toggle-button {
+  cursor: pointer;
+  position: absolute;
+  font-size: 32px;
+  top: 30px;
+  right: 30px;
+  color: var(--darkModeToggleButtonColor);
 }
