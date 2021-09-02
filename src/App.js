@@ -17,10 +17,7 @@ export default function App({ $target, initialState }) {
 	this.state = initialState;
 	this.setState = (nextState, needRenderItems) => {
 		this.state = nextState;
-
-		if (needRenderItems) {
-			this.render(needRenderItems);
-		}
+		this.render(needRenderItems);
 	};
 
 	this.render = needRenderItems => {
@@ -50,10 +47,7 @@ export default function App({ $target, initialState }) {
 		$target: $row,
 		initialState: this.state,
 	});
-	const modal = new Modal({
-		$target,
-		initialState: this.state,
-	});
+	const modal = new Modal({ $target });
 
 	$target.appendChild($row);
 

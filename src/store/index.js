@@ -97,6 +97,7 @@ export default function Store(initialState) {
 			if (isCurrent) {
 				const postId = this.state.allDocuments[0].id;
 
+				history.replaceState(null, null, `/posts/${postId}`);
 				updateCurrentPage(postId);
 				this.UPDATE_APP_STATE(['sideBar', 'page']);
 				return;
@@ -137,6 +138,8 @@ export default function Store(initialState) {
 	const updateCurrentPage = async id => {
 		await this.updateState({ currentDocument: id });
 		this.UPDATE_APP_STATE(['sideBar', 'page']);
+
+		history.pushState(null, null, `/posts/${id}`);
 	};
 
 	on.updateUrl(id => updateCurrentPage(id));
