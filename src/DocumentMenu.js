@@ -8,10 +8,9 @@ export default function DocumentMenu({$target, initialState, menuClick}) {
 
   this.state = initialState
 
-  this.setState = async() => {
-    const documentList = await request('/documents')
-    this.state = documentList
-    console.log('this.state :>> ', this.state);
+  this.setState = nextState => {
+    console.log('nextState :>> ', nextState);
+    this.state = nextState
     this.render()
   }
 
@@ -39,7 +38,8 @@ export default function DocumentMenu({$target, initialState, menuClick}) {
     })
   }
   this.render = () => {
-    menuTree(this.state)
+    $menu.innerHTML = ''
+    menuTree(this.state.docList)
     
   }
   $menu.addEventListener('click', (e) => {

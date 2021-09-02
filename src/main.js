@@ -5,8 +5,11 @@ const $target = document.querySelector('#app')
 
 new App({$target})
 
+// console.log('initialState :>> ', initialState);
 
-const fetchDocumentList = async () => {
+
+
+// const fetchDocumentList = async () => {
   // await request(`/documents/4021`, {
   //   method: 'PUT',
   //   body: JSON.stringify(
@@ -16,9 +19,9 @@ const fetchDocumentList = async () => {
   //     }
   //   )
   // })
-  const documentList = await request('/documents/4021')
-  console.log('documentList :>> ', documentList);
-}
+  // const res = await request('/documents')
+//   console.log('documentList :>> ', documentList);
+// }
 
-fetchDocumentList()
+// fetchDocumentList()
 
