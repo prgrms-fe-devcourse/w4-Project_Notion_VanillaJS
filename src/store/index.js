@@ -2,18 +2,29 @@ import { on, emit } from '../utils/emitter.js';
 import notionAPI from '../api/notion.js';
 
 export default function Store(initialState) {
-	this.state = initialState;
-
-	this.UPDATE_APP_STATE = needRenderItems => {
-		const nextState = this.state;
-		emit.updateState(nextState, needRenderItems);
+	const defaultState = {
+		allDocuments: [],
+		currentDocument: {},
+		modalDocument: {},
 	};
 
-	this.setState = nextState => {
-		this.state = nextState;
+	this.state = initialState || defaultState;
+
+	this.mutations = {
+		SET_APP_STATE: needRenderItems => {
+			const nextState = this.state;
+			emit.updateState(nextState, needRenderItems);
+		},
+		SET_STORE_STATE: nextState => {
+			this.state = nextState;
+		},
 	};
 
-	this.disconnectState = () => {
+	const commit = (mutation, option) => {
+		this.mutations[mutation](option);
+	};
+
+	const disconnectedOrignState = () => {
 		const state = this.state;
 		const allDocuments = [...state.allDocuments];
 
@@ -38,10 +49,10 @@ export default function Store(initialState) {
 		return disconnectedState;
 	};
 
-	this.updateState = async (...needUpdateStates) => {
+	const updateState = async (...needUpdateStates) => {
 		const { getDocuments } = notionAPI;
 
-		const oldState = this.disconnectState();
+		const oldState = disconnectedOrignState();
 		const nextState = Object.assign({}, oldState);
 
 		const processUpdate = needUpdateStates.map(async state => {
@@ -61,7 +72,7 @@ export default function Store(initialState) {
 		});
 
 		await Promise.all(processUpdate).then(() => {
-			this.setState(nextState);
+			commit('SET_STORE_STATE', nextState);
 		});
 	};
 
@@ -73,17 +84,17 @@ export default function Store(initialState) {
 		});
 
 		if (!onModal) {
-			await this.updateState({ allDocuments: null });
+			await updateState({ allDocuments: null });
 			updateCurrentPage(newDocument.id);
 			return;
 		}
 
-		await this.updateState(
+		await updateState(
 			{ allDocuments: null },
 			{ modalDocument: newDocument.id },
 		);
 
-		this.UPDATE_APP_STATE(['modal']);
+		commit('SET_APP_STATE', ['modal']);
 	};
 
 	const removeDocument = async id => {
@@ -92,27 +103,26 @@ export default function Store(initialState) {
 
 		if (confirm('문서를 삭제하시겠습니까?')) {
 			await deleteDocument(id);
-			await this.updateState({ allDocuments: null });
+			await updateState({ allDocuments: null });
 
 			if (isCurrent) {
 				const postId = this.state.allDocuments[0].id;
 
-				history.replaceState(null, null, `/posts/${postId}`);
 				updateCurrentPage(postId);
-				this.UPDATE_APP_STATE(['sideBar', 'page']);
+				commit('SET_APP_STATE', ['sideBar', 'page']);
 				return;
 			}
 
-			this.UPDATE_APP_STATE(['sideBar']);
+			commit('SET_APP_STATE', ['sideBar']);
 		}
 	};
 
 	const removeEmptyDocument = async id => {
 		const { deleteDocument } = notionAPI;
 		await deleteDocument(id);
-		await this.updateState({ allDocuments: null });
+		await updateState({ allDocuments: null });
 
-		this.UPDATE_APP_STATE(['sideBar']);
+		commit('SET_APP_STATE', ['sideBar']);
 	};
 
 	const editDocument = async (id, nextDocument, onModal) => {
@@ -121,23 +131,23 @@ export default function Store(initialState) {
 		const updatedDocument = await updateDocument(id, nextDocument);
 
 		if (!onModal) {
-			await this.updateState(
+			await updateState(
 				{ allDocuments: null },
 				{ currentDocument: updatedDocument },
 			);
 		} else {
-			await this.updateState(
+			await updateState(
 				{ allDocuments: null },
 				{ modalDocument: updatedDocument },
 			);
 		}
 
-		this.UPDATE_APP_STATE(['sideBar']);
+		commit('SET_APP_STATE', ['sideBar']);
 	};
 
 	const updateCurrentPage = async id => {
-		await this.updateState({ currentDocument: id });
-		this.UPDATE_APP_STATE(['sideBar', 'page']);
+		await updateState({ currentDocument: id });
+		commit('SET_APP_STATE', ['sideBar', 'page']);
 
 		history.pushState(null, null, `/posts/${id}`);
 	};

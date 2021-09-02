@@ -15,9 +15,9 @@ export default function App({ $target, initialState }) {
 	}
 
 	this.state = initialState;
-	this.setState = (nextState, needRenderItems) => {
+	this.setState = (nextState, needUpdateItems) => {
 		this.state = nextState;
-		this.render(needRenderItems);
+		this.render(needUpdateItems);
 	};
 
 	this.render = needRenderItems => {
@@ -51,8 +51,8 @@ export default function App({ $target, initialState }) {
 
 	$target.appendChild($row);
 
-	on.updateState((nextState, needRenderItems) =>
-		this.setState(nextState, needRenderItems),
+	on.updateState((nextState, needUpdateItems) =>
+		this.setState(nextState, needUpdateItems),
 	);
 	window.addEventListener('click', e => {
 		const { className } = e.target;
