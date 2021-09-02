@@ -3,7 +3,7 @@ import { request } from "./Api.js";
 
 export default function NotionEditPage({ $target, selectedId, update }) {
   const $notion = document.createElement("div");
-
+  $notion.className = "notionEditPage";
   this.state = selectedId;
 
   let timer = null;
