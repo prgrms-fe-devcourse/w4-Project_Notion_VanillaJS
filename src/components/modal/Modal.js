@@ -27,7 +27,10 @@ export default function Modal({ $target, initialState }) {
 		$target: $modalHeader,
 		onClick: {
 			openPage: () => {
-				console.log('페이지로 열기');
+				const { id } = this.state.modalDocument;
+
+				emit.updateUrl(`/posts/${id}`);
+				toggleModal(false);
 			},
 			closeModal: () => {
 				toggleModal(false);
