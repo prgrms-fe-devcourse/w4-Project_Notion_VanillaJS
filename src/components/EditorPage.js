@@ -7,6 +7,7 @@ import {
   removeItem,
   setItem,
 } from '../services/storage.js';
+import Toaster from './Toaster.js';
 
 export default function EditorPage({ $target, initialState }) {
   const $pageContainer = document.createElement('div');
@@ -55,6 +56,11 @@ export default function EditorPage({ $target, initialState }) {
         await request(`/documents/${doc.id}`, {
           method: 'PUT',
           body: JSON.stringify(doc),
+        });
+
+        new Toaster({
+          $target: $page,
+          message: 'Changes saved',
         });
 
         removeItem(docTempSaveKey(doc.id));
