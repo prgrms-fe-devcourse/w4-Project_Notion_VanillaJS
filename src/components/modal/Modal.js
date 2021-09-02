@@ -3,13 +3,18 @@ import { on, emit } from '../../utils/emitter.js';
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
 
-export default function Modal({ $target, initialState }) {
+export default function Modal({ $target }) {
 	const $modal = $createElement('div');
 	const $modalHeader = $createElement('div', '.modal-header');
 	const $modalBody = $createElement('div', '.modal-body');
 	addClassAll($modal, 'modal-container', 'hide');
 
-	this.state = initialState;
+	this.state = {
+		id: null,
+		title: '제목없음',
+		content: '문서의 내용을 입력하세요!',
+	};
+
 	this.setState = nextState => {
 		this.state = nextState;
 		modalBody.setState(this.state);
@@ -27,7 +32,7 @@ export default function Modal({ $target, initialState }) {
 		$target: $modalHeader,
 		onClick: {
 			openPage: () => {
-				const { id } = this.state.modalDocument;
+				const { id } = this.state;
 
 				emit.updateUrl(`/posts/${id}`);
 				toggleModal(false);
@@ -42,7 +47,7 @@ export default function Modal({ $target, initialState }) {
 		$target: $modalBody,
 		initialState: this.state,
 		onEdit: document => {
-			const { id } = this.state.modalDocument;
+			const { id } = this.state;
 			emit.editDocument(id, document, true);
 		},
 	});
