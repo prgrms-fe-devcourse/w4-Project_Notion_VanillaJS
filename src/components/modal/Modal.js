@@ -61,14 +61,19 @@ export default function Modal({ $target }) {
 	});
 
 	window.addEventListener('click', e => {
-		const isVisibleModal = window.getComputedStyle($modal).display !== 'none';
 		const noData = $('li[data-id="new"]');
-		const needRemoveDocument =
-			isVisibleModal && noData && !e.target.className.includes('modal');
+		const isVisibleModal = window.getComputedStyle($modal).display !== 'none';
+		const insideModal = e.target.className.includes('modal');
 
+		if (insideModal) {
+			return;
+		}
+
+		const needRemoveDocument = isVisibleModal && noData && !insideModal;
 		if (needRemoveDocument) {
 			emit.deleteEmptyDocument(this.state.id);
 		}
+
 		toggleModal(false);
 	});
 
