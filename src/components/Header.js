@@ -31,4 +31,5 @@ export default function Header ({ $target}) {
     $header.innerHTML = this.template
   }
   this.render()
+
 }

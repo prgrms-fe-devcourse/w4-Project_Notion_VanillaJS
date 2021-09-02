@@ -5,11 +5,11 @@ export default function HomePage({ $target }) {
   <div>
     <h1>문서를 선택해 주세요.</h1>
   </div>
-  
   `
 
   this.render = () => {
     $homepage.innerHTML = this.template
     $target.appendChild($homepage)
   }
+
 }

@@ -1,57 +1,26 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-body {
-	line-height: 1;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-
 body{
   list-style: none;
   text-decoration: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 16px;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 300;
+  line-height: 1.2;
 }
-
 
 .nav-bar {
   height: 100%;
   width: 380px;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   top: 0;
   left: 0;
   background-color: #f7f6f3;
   padding-top: 20px;
-  
 }
+
 .nav-bar .header {
   color: #666666;
   font-weight: 200;
@@ -87,6 +56,8 @@ body{
   color: #666666;
   padding: 6px;
   box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.2s;
 }
 .nav-bar .header .header-list__item:hover{
   width:100%;
@@ -103,8 +74,107 @@ body{
 
 
 .nav-bar .document-list {
-  padding-top: 4px;
+  padding-left: 0px;
+  padding-top: 16px;
+  background-color: #f7f6f3;
+  height: 100%;
+  overflow: auto;
 }
+
+.nav-bar .document-list .caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+.nav-bar .document-list .caret p{
+  margin-left: 12px;
+}
+.nav-bar .document-list .caret-down {
+  padding-left: 34px;
+}
+.nav-bar .document-list .caret-down p{
+  margin-left: 6px;
+}
+
+.nav-bar .document-list .caret::before {
+  content: "▶";
+  height: 6px;
+  width: 6px;
+  color: #999999;
+  display: inline-block;
+}
+
+.nav-bar .document-list .caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */
+  transform: rotate(90deg);
+}
+
+.nav-bar .document-list .nested {
+  display: none;
+}
+
+.nav-bar .document-list .active {
+  display: block;
+}
+.nav-bar .document-list .last {
+  
+}
+
+.nav-bar .document-list .last::before {
+  content: "ㆍ";
+}
+.nav-bar .document-list__item{
+  cursor: pointer;
+}
+.nav-bar .document-list__item__container{
+  padding: 2px 0 2px 0;
+}
+.nav-bar .document-list__item__container:hover{
+  background-color: #e8e7e4;
+  transition: 0.2s;
+}
+.nav-bar .document-list__item__container span{
+  font-size: 12px;
+  padding-left: 28px;
+}
+
+.nav-bar .document-list__item__container p{
+  padding-right: 100px
+}
+.nav-bar .document-list__item__container button{
+  color: #666666;
+  display: none;
+  margin: 4px 8px 0 0;
+  background-color:transparent;
+  float: right;
+  padding: 0.2rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  border: solid 1px #CCCC;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.nav-bar .document-list__item__container:hover button{
+  display: inline;
+}
+.nav-bar .document-list__item__container button:hover{
+  background-color: #DEDEDE;
+}
+
+.nav-bar .document-list__item__container button.add-btn{
+    margin-right: 12px;
+}
+.nav-bar .document-list__item__container button.delete-btn{
+    padding: 0.2rem 0.6rem;
+}
+
 .nav-bar .document-list__item__text{
   display: inline-block;
   position: relative;
@@ -114,62 +184,10 @@ body{
   font-size: 16px;
 }
 
-.nav-bar .document-list__item__text::before{
-  content: '';
-  left: -300px;
-  position: absolute;
-  z-index: -1;
-  width: 700px;
-  height: 36px;
-  top: -1px;
-  overflow: hidden;
-}
-.nav-bar .document-list__item__text:hover::before{
-  background-color: #e8e7e4;
-}
 .page {
   z-index: 1;
   position: absolute;
   background-color: #ffffff;
   margin-left: 390px;
-  height: 1600px;
-}
-
-
-
-.tree{
-  margin-top: 5px;
-}
-.tree, .tree ul{
-  list-style: none; /* 기본 리스트 스타일 제거 */
-  padding-left:10px;
-}
-.tree *:before{
-  width:15px;
-  height:15px;
-  display:inline-block;
-}
-.tree label{
-  cursor: pointer;
-  font-family: NotoSansKrMedium, sans-serif !important;
-  font-size: 14px;
-  color: #aaa9a5;
-}
-.tree label:hover{
-  color: #979690;
-}
-.tree input[type="checkbox"] {
-  display: none;
-}
-.tree input[type="checkbox"]:checked~ul {
-  display: none;
-}
-.tree input[type="checkbox"]+label:before{
-  content: '▼';
-}
-.tree input[type="checkbox"]:checked+label:before{
-  content: '▶'
-}
-.tree input[type="checkbox"]+label.lastTree:before{
-  content: 'ㆍ';
+  height: 600px;
 }

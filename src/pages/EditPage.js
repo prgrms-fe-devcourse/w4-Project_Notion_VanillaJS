@@ -71,7 +71,7 @@ export default function EditPage({ $target, initialState }) {
 
     const { documentId } = this.state
     if (!!documentId) {
-      console.log(documentId)
+      //console.log(documentId)
       const document = await request(`/documents/${documentId}`).catch(() => RouterUtils.routerDispatcher('/'))
       editor.setState(document)
       // 현재 document 하위 document 수 만큼 버튼 렌더
