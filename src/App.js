@@ -7,14 +7,15 @@ export default function App({ $target, initialState }) {
     $target,
     inititalState: initialState,
     onClick: e => {
-      const target = e.target;
+      const { target } = e;
+      const { className } = target;
       const documentId = target.closest('li').dataset.id;
 
-      if (target.nodeName === 'SPAN') {
-        documentEditor.getDocument(documentId);
-      } else if (target.nodeName === 'BUTTON') {
+      if (className === 'add-document') {
         documentList.addDocument(+documentId);
         documentEditor.setState({ title: '', content: '', isLoad: true, documentId: documentId });
+      } else if (className === 'delete-document') {
+        documentList.deleteDocument(+documentId);
       }
     }
   });
@@ -28,4 +29,29 @@ export default function App({ $target, initialState }) {
       documentId: ''
     }
   });
+
+  this.render = () => {
+    const { pathname } = location;
+
+    if (pathname === '/') {
+      documentList.fetchDocument();
+      documentEditor.render();
+    } else if (pathname.indexOf('/documents/') === 0) {
+      const documentId = pathname.split('/')[2];
+      documentEditor.getDocument(documentId);
+    }
+  };
+
+  window.addEventListener('click', e => {
+    if (e.target.className === 'document') {
+      const href = e.target.closest('li').dataset.id;
+      history.pushState(null, null, `/documents/${href}`);
+
+      e.preventDefault();
+
+      this.render();
+    }
+  });
+
+  this.render();
 }
