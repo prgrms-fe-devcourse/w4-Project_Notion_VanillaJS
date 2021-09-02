@@ -6,14 +6,19 @@ export default function App({ $target, initialState }) {
   const documentList = new DocumentList({
     $target,
     inititalState: initialState,
-    onClick: e => {
+    onClick: async e => {
       const { target } = e;
       const { className } = target;
       const documentId = target.closest('li').dataset.id;
 
       if (className === 'add-document') {
-        documentList.addDocument(+documentId);
-        documentEditor.setState({ title: '', content: '', isLoad: true, documentId: documentId });
+        const newDoucmentId = await documentList.addDocument(+documentId);
+        documentEditor.setState({
+          title: '',
+          content: '',
+          isLoad: true,
+          documentId: newDoucmentId
+        });
       } else if (className === 'delete-document') {
         documentList.deleteDocument(+documentId);
       }

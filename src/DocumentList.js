@@ -68,6 +68,8 @@ export default function DocumentList({ $target, inititalState, onClick }) {
     const nextState = addChildDocument(newDocument, documentId);
 
     this.setState(nextState);
+
+    return await res.id;
   };
 
   const addChildDocument = (newDocument, documentId) => {
