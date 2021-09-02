@@ -2,7 +2,7 @@ import EditPageIconSelector from "./EditPageIconSelector.js";
 export default function EditPageIcon({
   targetElement,
   initialState,
-  changeHeaderIcon,
+  changeHeader,
 }) {
   const iconContainerElement = document.createElement("div");
   const editPageIconElement = document.createElement("div");
@@ -10,17 +10,22 @@ export default function EditPageIcon({
   editPageIconElement.className = "editor-icon";
   iconContainerElement.appendChild(editPageIconElement);
 
-  const iconList = ["❤️", "🦈", "⛱"];
-  this.state = initialState || { icon: "" };
+  const iconList = ["❤️", "🦈", "⛱", "삭제"];
+  this.state = initialState || { icon: "✚" };
 
   this.setState = (nextState) => {
-    this.state = nextState || { icon: "" };
+    this.state = nextState || { icon: "✚" };
     this.render();
   };
   const selectIcon = (icon) => {
     editPageIconSelector.toggleHideClass();
+    if (icon === "삭제") {
+      editPageIconElement.textContent = "✚";
+      changeHeader({ icon: "✚" });
+      return;
+    }
     editPageIconElement.textContent = icon;
-    changeHeaderIcon(icon);
+    changeHeader(icon);
   };
 
   this.render = () => {

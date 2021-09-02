@@ -1,4 +1,4 @@
-import EditPageHeader from "/src/EditPageComponent/EditPageHeaderComponent/EditpageHeader.js";
+import EditPageHeader from "./EditPageHeaderComponent/EditpageHeader.js";
 import EditPageImage from "../EditPageImageComponent/EditPageImage.js";
 import EditPageIcon from "../EditpageIconComponent/EditPageIcon.js";
 import EditPageTitle from "./EditPageTitle.js";
@@ -11,22 +11,18 @@ export default function EditPage({
   onSelect,
 }) {
   const editPageElement = document.createElement("div");
+  editPageElement.className = "edit-page";
   targetElement.appendChild(editPageElement);
   this.state = initialState;
   this.render = () => {
-    if (!this.state.title) {
-      editPageElement.textContent = "빈문서입니다.";
+    if (this.state) {
+      editPageElement.textContent = "";
       return;
     }
-    editPageElement.textContent = "";
+    editPageElement.textContent = "Empty Page";
   };
   this.setState = (nextState) => {
-    this.state = nextState || {
-      title: null,
-      content: "",
-      content: "",
-      documents: [],
-    };
+    this.state = nextState;
 
     this.render();
     editPageHeader.setState(this.state);
@@ -36,10 +32,12 @@ export default function EditPage({
     editPagetext.setState(this.state.content);
     childDocuemnts.setState(this.state.documents);
   };
-  const changeHeaderIcon = (icon) => {
+  const changeHeader = ({
+    icon = document.querySelector(".editor-icon").textContent,
+    title = document.querySelector(".editor-title").textContent,
+  }) => {
     const { content } = this.state;
-    const nextState = { ...this.state, content: { ...content, icon } };
-    console.log(nextState);
+    const nextState = { ...this.state, content: { ...content, icon }, title };
     editPageHeader.setState(nextState);
     onSave(this.state.id);
   };
@@ -49,18 +47,19 @@ export default function EditPage({
   });
   const editPageImage = new EditPageImage({
     targetElement: editPageElement,
-    onSave,
+    onSaveImage: () => {
+      const { id } = this.state;
+      onSave(id);
+    },
   });
   const editPageIcon = new EditPageIcon({
     targetElement: editPageElement,
-    changeHeaderIcon,
+    changeHeader,
   });
   const editPageTitle = new EditPageTitle({
     targetElement: editPageElement,
     onSave,
-    changeHeader: (id) => {
-      editPageHeader.changetext(id);
-    },
+    changeHeader,
   });
   const editPagetext = new EditPageText({
     targetElement: editPageElement,

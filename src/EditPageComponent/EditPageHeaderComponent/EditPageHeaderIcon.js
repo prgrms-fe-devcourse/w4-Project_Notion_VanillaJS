@@ -10,7 +10,7 @@ export default function EditPageHeaderIcon({ targetElement, initialState }) {
   };
   this.render = () => {
     const { icon } = this.state;
-    editPageHeaderIconElement.textContent = icon;
+    editPageHeaderIconElement.textContent = icon === "✚" ? "" : icon;
     targetElement.prepend(editPageHeaderIconElement);
   };
 }

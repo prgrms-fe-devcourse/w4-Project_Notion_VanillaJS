@@ -20,6 +20,8 @@ export default function EditPageIconSelector({
       iconElement.textContent = icon;
       iconElement.addEventListener("click", (e) => {
         event.stopPropagation(iconElement);
+        const ishiden = editPageIconSelector.className === "hide";
+        if (ishiden) return;
         const selectedIcon = e.target.textContent;
         selectIcon(selectedIcon);
       });

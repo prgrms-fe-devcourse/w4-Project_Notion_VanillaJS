@@ -10,7 +10,7 @@ export default function EditPageHeader({ targetElement }) {
   this.render = () => {
     const { title } = this.state;
     editPageHeaderElement.textContent = title;
-    targetElement.appendChild(editPageHeaderElement);
+    targetElement.prepend(editPageHeaderElement);
   };
 
   this.changetext = (text) => {

@@ -9,7 +9,7 @@ export default function NavPage({
   onDelete,
   onSelect,
 }) {
-  const navElement = document.createElement("div");
+  const navElement = document.createElement("nav");
   navElement.classList.add("nav-page");
   targetElement.appendChild(navElement);
 
