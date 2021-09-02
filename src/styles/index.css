@@ -8,6 +8,7 @@
   --sideButtonColor: #808080;
   --sideButtonHoverColor: #353535;
   --darkModeToggleButtonColor: #000000;
+  --modalFontColor: #000000;
 }
 
 :root[notion-theme='dark'] {
@@ -18,6 +19,7 @@
   --sideButtonColor: #6e6e6e;
   --sideButtonHoverColor: #ffffff;
   --darkModeToggleButtonColor: #ff8200;
+  --modalFontColor: #ffffff;
 }
 
 html {
@@ -64,6 +66,7 @@ button {
   border: none;
   padding: 5px 10px;
   background-color: var(--backgroundColor);
+  color: var(--modalFontColor);
 }
 
 .document-list {
