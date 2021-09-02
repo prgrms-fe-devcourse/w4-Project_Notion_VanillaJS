@@ -43,6 +43,13 @@ export default function PostEditPage({ $target, initialState }) {
             body: JSON.stringify(post),
           })
 
+          if (post.content) {
+            await request(`/documents/${createdPost.id}`, {
+              method: 'PUT',
+              body: JSON.stringify(post),
+            })
+          }
+
           history.replaceState(null, null, `/documents/${createdPost.id}`)
           removeItem(postLocalSaveKey)
           this.setState({

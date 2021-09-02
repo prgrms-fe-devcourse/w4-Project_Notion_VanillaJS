@@ -1,3 +1,5 @@
+import { throwTitle } from '../../utils/Router.js'
+import { $creEle } from '../../utils/document.js'
 export default function Editor({
   $target,
   initialState = {
@@ -6,7 +8,7 @@ export default function Editor({
   },
   onEditing,
 }) {
-  const $editor = document.createElement('div')
+  const $editor = $creEle('div')
   $editor.className = 'editorDiv'
   $target.appendChild($editor)
 
@@ -36,7 +38,13 @@ export default function Editor({
   // 이벤트 버블
   $editor.addEventListener('keyup', (e) => {
     const { target } = e
+    const { title } = this.state
     const name = target.getAttribute('name')
+
+    if (title !== target.value) {
+      throwTitle(target.value)
+    }
+
     const nextState = {
       ...this.state,
       [name]: target.value,

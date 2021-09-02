@@ -1,5 +1,6 @@
 import { request } from '../../utils/api.js'
 import { $creEle } from '../../utils/document.js'
+import { pushUrl } from '../../utils/Router.js'
 import LinkButton from '../../utils/LinkButton.js'
 import PostList from './PostList.js'
 
@@ -30,10 +31,13 @@ export default function PostPage({ $target }) {
 
       this.setState()
     },
+
     onDelete: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE',
       })
+
+      pushUrl('/')
 
       this.setState()
     },

@@ -1,11 +1,12 @@
 import PostPage from './SideBar/PostPage.js'
 import PostEditPage from './PostMain/PostEditPage.js'
-import { initRouter, popUrl } from '../utils/Router.js'
+import { $creEle } from '../utils/document.js'
+import { catchTitle, initRouter, popUrl } from '../utils/Router.js'
 
 export default function App({ $target }) {
-  const $listContainer = document.createElement('div')
+  const $listContainer = $creEle('div')
   $listContainer.className = 'listContainer'
-  const $rendingContainer = document.createElement('div')
+  const $rendingContainer = $creEle('div')
   $rendingContainer.className = 'rendingContainer'
   $target.appendChild($listContainer)
   $target.appendChild($rendingContainer)
@@ -28,13 +29,12 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location
 
-    if (pathname === '/') {
-      postPage.setState()
-    } else if (pathname.indexOf('/documents/') === 0) {
+    if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/')
       postEditPage.setState({ postId })
-      postPage.setState()
     }
+
+    postPage.setState()
   }
 
   this.route()
@@ -44,4 +44,7 @@ export default function App({ $target }) {
 
   // 뒤로 가기.
   popUrl(() => this.route())
+
+  // 문서 제목이 바뀌면, 리스트에 적용
+  catchTitle(() => postPage.setState())
 }

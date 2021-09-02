@@ -1,7 +1,8 @@
 import { pushUrl } from '../../utils/Router.js'
+import { $creEle } from '../../utils/document.js'
 
 export default function PostList({ $target, initialState, onAttach, onDelete }) {
-  const $postList = document.createElement('div')
+  const $postList = $creEle('div')
   $postList.className = 'postList'
   $target.appendChild($postList)
 
@@ -29,7 +30,7 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
         str += `<li class="dataList" data-id="${data[key].id}">
                   ${data[key].title}
                  <button class="addBtn" data-id="${data[key].id}">+</button>
-                 <button class="delBtn" data-id="${data[key].id}">x</button>
+                 <button class="delBtn" data-id="${data[key].id}">X</button>
                 </li>`
       }
     }
