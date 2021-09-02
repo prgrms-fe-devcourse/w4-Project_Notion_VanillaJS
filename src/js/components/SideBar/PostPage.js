@@ -1,10 +1,19 @@
 import { request } from '../api.js'
+import { $creEle } from '../../utils/document.js'
 import PostList from './PostList.js'
 
 // 사이드바를  담당하는 페이지
 export default function PostPage({ $target }) {
-  const $page = document.createElement('div')
+  const $page = $creEle('div')
   $page.className = 'documentList'
+
+  // 실제로는 Api에서 데이터 불러서 보여주는게 맞을듯
+  const $userInfo = $creEle('div')
+  $userInfo.innerHTML = `
+    <h2>김동현님의 Notion</h2>
+    <h3>ehehdgus1@hanyang.ac.kr</h3>
+  `
+  $page.appendChild($userInfo)
 
   const postList = new PostList({
     $target: $page,
@@ -29,7 +38,7 @@ export default function PostPage({ $target }) {
     },
   })
 
-  const $newPostButton = document.createElement('button')
+  const $newPostButton = $creEle('button')
   $page.appendChild($newPostButton)
   $newPostButton.textContent = '+ 새 페이지'
   $newPostButton.className = 'addNew'
@@ -46,14 +55,13 @@ export default function PostPage({ $target }) {
 
   fetchPosts()
 
-  // 이벤트 버블링인데, 특정 작업에 건게 아니라 페이지 전체에 걸었다.
-  // $page.addEventListener('click', () => {
-  //   window.dispatchEvent(
-  //     new CustomEvent('route-change', {
-  //       detail: {
-  //         nextUrl: '/documents/new',
-  //       },
-  //     }),
-  //   )
-  // })
+  $newPostButton.addEventListener('click', () => {
+    window.dispatchEvent(
+      new CustomEvent('route-change', {
+        detail: {
+          nextUrl: '/documents/new',
+        },
+      }),
+    )
+  })
 }

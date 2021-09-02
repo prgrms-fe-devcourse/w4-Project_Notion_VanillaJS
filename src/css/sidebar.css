@@ -10,6 +10,18 @@ ul {
   resize: horizontal;
 }
 
+.listContainer h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 10% 0% 0% 3%;
+}
+
+.listContainer h3 {
+  font-size: 15px;
+  margin: 0% 0% 0% 3%;
+  color: #808080;
+}
+
 .addNew {
   background-color: #f7f6f3;
   color: #808080;
