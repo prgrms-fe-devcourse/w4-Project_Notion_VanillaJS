@@ -3,6 +3,60 @@ body {
   padding: 0;
 }
 
+#page {
+  display: flex;
+  height: 100vh;
+}
+
+.notice {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: auto;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px 20px 0 20px;
+  height: 40px;
+  border-radius: 9px;
+  background-color: #f4f4f8;
+  opacity: 0;
+  transition: 1s all;
+}
+.notice.on {
+  opacity: 1;
+}
+
+#btn-help {
+  position: fixed;
+  display: inline-block;
+  font-weight: bolder;
+  top: 20px;
+  right: 50px;
+  width: 30px;
+  padding: 7px;
+  border-radius: 5px;
+  height: 20px;
+  background-color: #e3e0e0;
+}
+#btn-help #page-help {
+  display: none;
+}
+#btn-help:hover {
+  background-color: #f7f6f3;
+  cursor: pointer;
+}
+#btn-help:hover #page-help {
+  position: relative;
+  border: 2px solid #cbcbbb;
+  border-radius: 4px;
+  text-align: center;
+  background-color: ivory;
+  right: 280px;
+  width: 270px;
+  height: 430px;
+  display: block;
+}
+
 .doc-ul {
   color: #a1a09c;
   padding: 0;
@@ -78,11 +132,20 @@ body {
   color: black;
 }
 
+#nav-page {
+  border-right: none;
+  background-color: #f7f6f3;
+  flex-basis: 20%;
+  flex-grow: 2;
+  flex-shrink: 0;
+  height: 100%;
+}
+
 .editor-title {
   font-size: xxx-large;
   font-weight: bolder;
   height: 50px;
-  width: 100%;
+  width: 90%;
   border: none;
   margin: 5px 0 10px 0;
 }
@@ -101,11 +164,6 @@ body {
   outline: none;
 }
 
-#page {
-  display: flex;
-  height: 100vh;
-}
-
 #edit-page,
 #sub-docs-page {
   background-color: white;
@@ -120,33 +178,6 @@ body {
   height: 10vh;
   margin-left: 0;
   border: 1px solid black;
-}
-
-#nav-page {
-  border-right: none;
-  background-color: #f7f6f3;
-  flex-basis: 20%;
-  flex-grow: 2;
-  flex-shrink: 0;
-  height: 100%;
-}
-
-.notice {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: auto;
-  font-size: 18px;
-  text-align: center;
-  padding: 20px 20px 0 20px;
-  height: 40px;
-  border-radius: 9px;
-  background-color: #f4f4f8;
-  opacity: 0;
-  transition: 1s all;
-}
-.notice.on {
-  opacity: 1;
 }
 
 .preview-content {

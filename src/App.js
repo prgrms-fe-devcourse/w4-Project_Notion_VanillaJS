@@ -23,6 +23,29 @@ export default function App({$target, initialState}) {
   $modal.setAttribute('class', 'notice')
   $page.appendChild($modal)
 
+  const $helpButton=document.createElement('div')
+  $helpButton.setAttribute('id','btn-help')
+  $helpButton.innerText=`help`
+  $page.appendChild($helpButton)
+
+  const $helpPage=document.createElement('div')
+  $helpPage.setAttribute('id','page-help')
+  $helpPage.innerHTML=`
+    <h4>안내 페이지 입니다</h4>
+    <div style="font-size: 15px;text-align: left;padding-left: 5px">
+      <xmp>#: <h1></h1></xmp>
+      <xmp>##: <h2></h2></xmp>
+      <xmp>###: <h3></h3></xmp>
+      <xmp>####: <h4></h4></xmp>
+      <xmp>#####: <h5></h5></xmp>
+      <xmp>*: <li></li></xmp>
+      <xmp>** or __: <strong></strong></xmp>
+      <xmp>* or _: <em></em></xmp>
+      <xmp>~~: <del></del></xmp>
+    </div>
+    
+  `
+  $helpButton.appendChild($helpPage)
 
   // navigation section
   const navigation = new Navigation({
@@ -109,6 +132,7 @@ export default function App({$target, initialState}) {
       }, 2000)
     }
   });
+  // Sub Documents list section
   const subDocsPage = new SubDocsPage({
     $target: document.querySelector('#edit-page'),
     initialState: {
