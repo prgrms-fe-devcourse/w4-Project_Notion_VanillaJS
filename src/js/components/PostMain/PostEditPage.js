@@ -70,7 +70,17 @@ export default function PostEditPage({ $target, initialState }) {
     if (this.state.postId !== nextState.postId) {
       this.state = nextState
       postLocalSaveKey = `temp-post-${this.state.postId}`
-      await fetchPost()
+
+      if (this.state.postId === 'new') {
+        const post = getItem(postLocalSaveKey, {
+          title: '',
+          content: '',
+        })
+        editor.setState(post)
+      } else {
+        await fetchPost()
+      }
+
       return
     }
 

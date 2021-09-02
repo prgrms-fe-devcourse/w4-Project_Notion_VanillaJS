@@ -1,5 +1,6 @@
 import { request } from '../api.js'
 import { $creEle } from '../../utils/document.js'
+import LinkButton from '../../utils/LinkButton.js'
 import PostList from './PostList.js'
 
 // 사이드바를  담당하는 페이지
@@ -26,7 +27,7 @@ export default function PostPage({ $target }) {
           parent: id,
         }),
       })
-      console.log(post)
+
       await fetchPosts()
     },
     onDelete: async (id) => {
@@ -38,10 +39,14 @@ export default function PostPage({ $target }) {
     },
   })
 
-  const $newPostButton = $creEle('button')
-  $page.appendChild($newPostButton)
-  $newPostButton.textContent = '+ 새 페이지'
-  $newPostButton.className = 'addNew'
+  new LinkButton({
+    $target: $page,
+    initialState: {
+      text: '+새 페이지',
+      link: 'new',
+      name: 'addNew',
+    },
+  })
 
   const fetchPosts = async () => {
     const posts = await request('/documents')
@@ -54,14 +59,4 @@ export default function PostPage({ $target }) {
   }
 
   fetchPosts()
-
-  $newPostButton.addEventListener('click', () => {
-    window.dispatchEvent(
-      new CustomEvent('route-change', {
-        detail: {
-          nextUrl: '/documents/new',
-        },
-      }),
-    )
-  })
 }

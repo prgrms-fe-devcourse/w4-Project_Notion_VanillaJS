@@ -1,5 +1,6 @@
 import PostPage from './SideBar/PostPage.js'
 import PostEditPage from './PostMain/PostEditPage.js'
+import { initRouter, popUrl } from './Router.js'
 
 export default function App({ $target }) {
   const $listContainer = document.createElement('div')
@@ -26,7 +27,7 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location
-    console.log(pathname)
+
     if (pathname === '/') {
       postPage.render()
     } else if (pathname.indexOf('/documents/') === 0) {
@@ -39,17 +40,8 @@ export default function App({ $target }) {
   this.route()
 
   // 아이디 넘어오면 해당 URL을 Push State
-  window.addEventListener('route-change', (e) => {
-    const { nextUrl } = e.detail
-
-    if (nextUrl) {
-      history.pushState(null, null, nextUrl)
-      this.route()
-    }
-  })
+  initRouter(() => this.route())
 
   // 뒤로 가기.
-  window.addEventListener('popstate', () => {
-    this.route()
-  })
+  popUrl(() => this.route())
 }
