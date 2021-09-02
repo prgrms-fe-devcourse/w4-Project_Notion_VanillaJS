@@ -11,12 +11,19 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		this.render();
 	};
 
-	const drawNavList = (target, allDocuments) => {
+	const markCurrentLi = id => {
+		const currentLi = id ? id : this.state.currentDocument.id;
+
+		$('span.selected')?.classList.remove('selected');
+		$(`li[data-id="${currentLi}"] span`)?.classList.add('selected');
+	};
+
+	const drawNavList = (target, documents) => {
 		const $ul = $createElement('ul', '.tree');
 
-		allDocuments.forEach(document => {
+		documents.forEach(document => {
 			const { id, title, documents } = document;
-			const $li = $listItem(id, title, this.state['currentDocument']);
+			const $li = $listItem(id, title);
 
 			if (documents.length > 0) {
 				addClassAll($li, 'nav-header', 'tree-toggler');
@@ -30,10 +37,12 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	};
 
 	$navList.addEventListener('click', e => {
-		const { togglerBtn, deleteBtn, createDocument, getDocument } = onClick;
+		const { togglerBtn, deleteBtn, createDocument, readDocument } = onClick;
 		const { tagName, className, parentNode } = e.target;
 
 		if (tagName === 'UL' || tagName === 'LI') return;
+
+		const { id } = parentNode.dataset;
 
 		switch (className) {
 			case 'nav-toggler-btn':
@@ -43,11 +52,11 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 				deleteBtn(parentNode);
 				break;
 			case 'nav-crate-btn':
-				const { id } = parentNode.dataset;
 				createDocument(id, parentNode);
 				break;
 			default:
-				getDocument(parentNode);
+				readDocument(parentNode);
+				markCurrentLi(id);
 		}
 	});
 
@@ -56,12 +65,17 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	});
 
 	this.render = () => {
+		const { documents, currentDocument } = this.state;
+
 		$navList.innerHTML = '';
-		drawNavList($navList, this.state['allDocuments']);
+		drawNavList($navList, documents);
+
+		$target.appendChild($navList);
+		$target.appendChild($createBtn);
+
+		if (!$('span.selected')) {
+			const currentItem = `li[data-id="${currentDocument.id}"] span`;
+			$navList.querySelector(`${currentItem}`).classList.add('selected');
+		}
 	};
-
-	this.render();
-
-	$target.appendChild($navList);
-	$target.appendChild($createBtn);
 }

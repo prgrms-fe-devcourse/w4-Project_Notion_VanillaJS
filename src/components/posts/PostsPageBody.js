@@ -41,8 +41,6 @@ export default function PageBody({ $target, initialState, onEdit }) {
 		});
 	};
 
-	this.render();
-
 	$target.appendChild($pageTitle);
 	$target.appendChild($pageContent);
 }

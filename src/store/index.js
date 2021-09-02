@@ -1,152 +1,87 @@
+import { getStateAfter } from './getters.js';
 import { on, emit } from '../utils/emitter.js';
-import notionAPI from '../api/notion.js';
 
-export default function Store(initialState) {
-	const defaultState = {
-		allDocuments: [],
-		currentDocument: {},
+export default function Store() {
+	const commit = (mutation, options) => {
+		this.mutations[mutation](options);
 	};
 
-	this.state = initialState || defaultState;
+	const dispatch = (action, options) => {
+		this.actions[action](options);
+	};
 
 	this.mutations = {
-		SET_APP_STATE: needRenderItems => {
-			const nextState = this.state;
-			emit.updateState(nextState, needRenderItems);
-		},
-		SET_STORE_STATE: nextState => {
-			this.state = nextState;
+		SET_STATE: ({ nextState, needRender }) => {
+			emit.updateState(nextState, needRender);
 		},
 	};
 
-	const commit = (mutation, option) => {
-		this.mutations[mutation](option);
-	};
+	this.actions = {
+		createDocument: async ({ id }) => {
+			const nextState = await getStateAfter('create', id);
+			commit('SET_STATE', { nextState, needRender: 'all' });
+		},
+		createDocumentOnModal: async ({ id }) => {
+			emit.showModal();
 
-	const disconnectedOrignState = () => {
-		const state = this.state;
-		const allDocuments = [...state.allDocuments];
-
-		const disconnectedState = {
-			allDocuments: [],
-			currentDocument: {},
-		};
-
-		const newObject = object => {
-			return Object.assign({}, object);
-		};
-
-		for (let key in allDocuments) {
-			const newValue = newObject(allDocuments[key]);
-			disconnectedState.allDocuments.push(newValue);
-		}
-
-		disconnectedState.currentDocument = newObject(state.currentDocument);
-
-		return disconnectedState;
-	};
-
-	const updateState = async (...needUpdateStates) => {
-		const { getDocuments } = notionAPI;
-
-		const oldState = disconnectedOrignState();
-		const nextState = Object.assign({}, oldState);
-
-		const processUpdate = needUpdateStates.map(async state => {
-			const needUpdate = Object.keys(state)[0];
-			const post = Object.values(state)[0];
-
-			if (needUpdate === 'allDocuments') {
-				nextState[needUpdate] = await getDocuments();
-				return;
-			}
-
-			if (post && typeof post !== 'object') {
-				nextState[needUpdate] = await getDocuments(post);
-			} else {
-				nextState[needUpdate] = post;
-			}
-		});
-
-		await Promise.all(processUpdate).then(() => {
-			commit('SET_STORE_STATE', nextState);
-		});
-	};
-
-	const createDocument = async (id, onModal) => {
-		const { createDocument } = notionAPI;
-
-		const newDocument = await createDocument({
-			title: '제목 없음',
-			parent: id,
-		});
-
-		await updateState({ allDocuments: null });
-
-		if (!onModal) {
-			updateCurrentPage(newDocument.id);
-		} else {
-			emit.showModal(newDocument);
-		}
-	};
-
-	const removeDocument = async id => {
-		const { deleteDocument } = notionAPI;
-		const isCurrent = Number(id) === this.state.currentDocument.id;
-
-		if (confirm('문서를 삭제하시겠습니까?')) {
-			await deleteDocument(id);
-			await updateState({ allDocuments: null });
-
-			if (isCurrent) {
-				const postId = this.state.allDocuments[0].id;
-
-				updateCurrentPage(postId);
-				commit('SET_APP_STATE', ['sideBar', 'page']);
-				return;
-			}
-
-			commit('SET_APP_STATE', ['sideBar']);
-		}
-	};
-
-	const removeEmptyDocument = async id => {
-		const { deleteDocument } = notionAPI;
-		await deleteDocument(id);
-		await updateState({ allDocuments: null });
-
-		commit('SET_APP_STATE', ['sideBar']);
-	};
-
-	const editDocument = async (id, nextDocument, onModal) => {
-		const { updateDocument } = notionAPI;
-
-		const updatedDocument = await updateDocument(id, nextDocument);
-
-		if (!onModal) {
-			await updateState(
-				{ allDocuments: null },
-				{ currentDocument: updatedDocument },
+			const { documents, currentDocument, modalDocument } = await getStateAfter(
+				'createOnModal',
+				id,
 			);
-		} else {
-			await updateState({ allDocuments: null });
-		}
+			emit.updateModal(modalDocument);
 
-		commit('SET_APP_STATE', ['sideBar']);
+			commit('SET_STATE', {
+				nextState: { documents, currentDocument },
+				needRender: 'sideBar',
+			});
+		},
+		readDocument: async ({ id }) => {
+			const nextState = await getStateAfter('read', id);
+			commit('SET_STATE', { nextState, needRender: 'all' });
+		},
+		deleteDocument: async ({ id }) => {
+			if (confirm('문서를 삭제하시겠습니까?')) {
+				const nextState = await getStateAfter('delete', id);
+				commit('SET_STATE', { nextState, needRender: 'sideBar' });
+			}
+		},
+		deleteCurrentDocument: async ({ id }) => {
+			if (confirm('문서를 삭제하시겠습니까?')) {
+				const nextState = await getStateAfter('deleteCurrent', id);
+				commit('SET_STATE', { nextState, needRender: 'all' });
+
+				history.replaceState(
+					null,
+					null,
+					`/posts/${nextState.currentDocument.id}`,
+				);
+			}
+		},
+		deleteEmptyDocument: async ({ id }) => {
+			const nextState = await getStateAfter('delete', id);
+			commit('SET_STATE', { nextState, needRender: 'sideBar' });
+		},
 	};
 
-	const updateCurrentPage = async id => {
-		await updateState({ currentDocument: id });
-		commit('SET_APP_STATE', ['sideBar', 'page']);
-
-		history.pushState(null, null, `/posts/${id}`);
+	this.init = () => {
+		on.createDocument((id, onModal) => {
+			onModal
+				? dispatch('createDocumentOnModal', { id })
+				: dispatch('createDocument', { id });
+		});
+		on.readDocument((id, needRender) =>
+			dispatch('readDocument', { id, needRender }),
+		);
+		on.updateDocument((id, nextDocument, onModal) =>
+			console.log(id, nextDocument, onModal),
+		);
+		on.deleteDocument((id, isCurrent) => {
+			isCurrent
+				? dispatch('deleteCurrentDocument', { id })
+				: dispatch('deleteDocument', { id });
+		});
+		on.deleteEmptyDocument(id => dispatch('deleteEmptyDocument', { id }));
 	};
 
-	on.updateUrl(id => updateCurrentPage(id));
-	on.createDocument((id, modal) => createDocument(id, modal));
-	on.editDocument((id, nextDocument, onModal) =>
-		editDocument(id, nextDocument, onModal),
-	);
-	on.deleteDocument(id => removeDocument(id));
-	on.deleteEmptyDocument(id => removeEmptyDocument(id));
+	this.init();
 }

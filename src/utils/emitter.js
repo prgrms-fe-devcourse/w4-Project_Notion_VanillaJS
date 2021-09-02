@@ -1,93 +1,100 @@
-const CREATE_DOCUMENT_EVENT = 'create:document';
-const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
-const DELETE_DOCUMENT_EVENT = 'delete:document';
-const DELETE_EMPTY_DOCUMENT_EVENT = 'delete:emptyDocument';
-const SHOW_MODAL_EVENT = 'show:modal';
-const HIDE_MODAL_EVENT = 'hide:modal';
-const ROUTE_EVENT_NAME = 'update:route';
-const STATE_EVENT_NAME = 'updae:state';
+const UPDATE_STATE = 'update:state';
+const SHOW_MODAL = 'show:modal';
+const UPDATE_MODAL = 'update:modal';
+const CREATE_DOCUMENT = 'create:document';
+const READ_DOCUMENT = 'read:document';
+const UPDATE_DOCUMENT = 'update:document';
+const DELETE_DOCUMENT = 'delete:document';
+const DELETE_DOCUMENT_EMPTY = 'delete:emptyDocument';
 
 const on = {
-	showModal(showModal) {
-		window.addEventListener(SHOW_MODAL_EVENT, e => {
-			const { nextState } = e.detail;
-			showModal(nextState);
+	updateState(onUpdate) {
+		window.addEventListener(UPDATE_STATE, e => {
+			const { nextState, needUpdateItems } = e.detail;
+			onUpdate(nextState, needUpdateItems);
 		});
 	},
-	hideModal(hideModal) {
-		window.addEventListener(HIDE_MODAL_EVENT, e => {
-			hideModal();
+	showModal(onShow) {
+		window.addEventListener(SHOW_MODAL, e => {
+			onShow();
+		});
+	},
+	updateModal(onUpdate) {
+		window.addEventListener(UPDATE_MODAL, e => {
+			const { nextState } = e.detail;
+			onUpdate(nextState);
 		});
 	},
 	createDocument(onCreate) {
-		window.addEventListener(CREATE_DOCUMENT_EVENT, e => {
+		window.addEventListener(CREATE_DOCUMENT, e => {
 			const { id, onModal } = e.detail;
 			onCreate(id, onModal);
 		});
 	},
-	editDocument(onEdit) {
-		window.addEventListener(EDIT_DOCUMENT_EVENT, e => {
+	readDocument(onRead) {
+		window.addEventListener(READ_DOCUMENT, e => {
+			const { nextUrl } = e.detail;
+			history.pushState(null, null, nextUrl);
+
+			const [, , id] = nextUrl.split('/');
+			onRead(id);
+		});
+	},
+	updateDocument(onUpdate) {
+		window.addEventListener(UPDATE_DOCUMENT, e => {
 			const { id, nextDocument, onModal } = e.detail;
 
 			if (id && nextDocument) {
-				onEdit(id, nextDocument, onModal);
-			}
-		});
-	},
-	deleteEmptyDocument(onDelete) {
-		window.addEventListener(DELETE_EMPTY_DOCUMENT_EVENT, e => {
-			const { id } = e.detail;
-
-			if (id) {
-				onDelete(id);
+				onUpdate(id, nextDocument, onModal);
 			}
 		});
 	},
 	deleteDocument(onDelete) {
-		window.addEventListener(DELETE_DOCUMENT_EVENT, e => {
+		window.addEventListener(DELETE_DOCUMENT, e => {
+			const { id, isCurrent } = e.detail;
+
+			if (id) {
+				onDelete(id, isCurrent);
+			}
+		});
+	},
+	deleteEmptyDocument(onDelete) {
+		window.addEventListener(DELETE_DOCUMENT_EMPTY, e => {
 			const { id } = e.detail;
 
 			if (id) {
 				onDelete(id);
 			}
-		});
-	},
-	updateUrl(onUpdate) {
-		window.addEventListener(ROUTE_EVENT_NAME, e => {
-			const { nextUrl } = e.detail;
-
-			if (nextUrl) {
-				history.pushState(null, null, nextUrl);
-
-				const [, , id] = nextUrl.split('/');
-				onUpdate(id);
-			}
-		});
-	},
-	updateState(onUpdateState) {
-		window.addEventListener(STATE_EVENT_NAME, e => {
-			const { nextState, needUpdateItems } = e.detail;
-			onUpdateState(nextState, needUpdateItems);
 		});
 	},
 };
 
 const emit = {
-	showModal(nextState) {
+	updateState(nextState, needUpdateItems) {
 		window.dispatchEvent(
-			new CustomEvent(SHOW_MODAL_EVENT, {
+			new CustomEvent(UPDATE_STATE, {
+				detail: {
+					nextState,
+					needUpdateItems,
+				},
+			}),
+		);
+	},
+	showModal() {
+		window.dispatchEvent(new CustomEvent(SHOW_MODAL));
+	},
+	updateModal(nextState) {
+		window.dispatchEvent(
+			new CustomEvent(UPDATE_MODAL, {
 				detail: {
 					nextState,
 				},
 			}),
 		);
 	},
-	hideModal() {
-		window.dispatchEvent(new CustomEvent(HIDE_MODAL_EVENT));
-	},
 	createDocument(id, onModal) {
 		window.dispatchEvent(
-			new CustomEvent(CREATE_DOCUMENT_EVENT, {
+			new CustomEvent(CREATE_DOCUMENT, {
 				detail: {
 					id,
 					onModal,
@@ -95,9 +102,18 @@ const emit = {
 			}),
 		);
 	},
-	editDocument(id, nextDocument, onModal) {
+	readDocument(nextUrl) {
 		window.dispatchEvent(
-			new CustomEvent(EDIT_DOCUMENT_EVENT, {
+			new CustomEvent(READ_DOCUMENT, {
+				detail: {
+					nextUrl,
+				},
+			}),
+		);
+	},
+	updateDocument(id, nextDocument, onModal) {
+		window.dispatchEvent(
+			new CustomEvent(UPDATE_DOCUMENT, {
 				detail: {
 					id,
 					nextDocument,
@@ -106,39 +122,21 @@ const emit = {
 			}),
 		);
 	},
-	deleteDocument(id) {
+	deleteDocument(id, isCurrent) {
 		window.dispatchEvent(
-			new CustomEvent(DELETE_DOCUMENT_EVENT, {
+			new CustomEvent(DELETE_DOCUMENT, {
 				detail: {
 					id,
+					isCurrent,
 				},
 			}),
 		);
 	},
 	deleteEmptyDocument(id) {
 		window.dispatchEvent(
-			new CustomEvent(DELETE_EMPTY_DOCUMENT_EVENT, {
+			new CustomEvent(DELETE_DOCUMENT_EMPTY, {
 				detail: {
 					id,
-				},
-			}),
-		);
-	},
-	updateUrl(nextUrl) {
-		window.dispatchEvent(
-			new CustomEvent(ROUTE_EVENT_NAME, {
-				detail: {
-					nextUrl,
-				},
-			}),
-		);
-	},
-	updateState(nextState, needUpdateItems) {
-		window.dispatchEvent(
-			new CustomEvent(STATE_EVENT_NAME, {
-				detail: {
-					nextState,
-					needUpdateItems,
 				},
 			}),
 		);

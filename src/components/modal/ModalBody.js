@@ -1,23 +1,21 @@
-export default function ModalBody({ $target, initialState, onEdit }) {
+export default function ModalBody({ $target, onEdit }) {
 	const $modalTitle = $createElement('p', '.modal-title');
 	const $modalContent = $createElement('p', '.modal-content');
 
-	this.state = initialState;
-	this.setState = nextState => {
-		this.state = nextState;
-		this.render();
-	};
-
 	this.render = () => {
-		const { title, content } = this.state;
-		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
+		const titleTemp = '제목 없음';
+		const contentTemp = '문서를 입력해보세요!';
 
 		$modalTitle.innerHTML = `
-      <input type="text" class="modal-title-input" placeholder="제목 없음" value="${title}">
+      <input
+				type="text"
+				class="modal-title-input"
+				data-text=""
+				value="${titleTemp}">
     `;
 
 		$modalContent.innerHTML = `
-      <textarea class="modal-content-textarea">${convertedContent}</textarea>
+      <textarea class="modal-content-textarea" data-text="">${contentTemp}</textarea>
     `;
 
 		$modalTitle.querySelector('input').addEventListener('keyup', e => {

@@ -1,13 +1,13 @@
 const STORAGE = window.sessionStorage;
 
-const getDocumentFromStorage = key => {
-	const paresdDocument = JSON.parse(STORAGE.getItem(key));
+const getItemFromStorage = key => {
+	const paresdItem = JSON.parse(STORAGE.getItem(key));
 
-	return paresdDocument;
+	return paresdItem;
 };
 
-const setDocumentToStroage = (key, document) => {
-	STORAGE.setItem(key, JSON.stringify(document));
+const setItemtoStroage = (key, item) => {
+	STORAGE.setItem(key, JSON.stringify(item));
 };
 
-export { getDocumentFromStorage, setDocumentToStroage };
+export { getItemFromStorage, setItemtoStroage };

@@ -10,22 +10,21 @@ export default function Modal({ $target }) {
 	addClassAll($modal, 'modal-container', 'hide');
 
 	this.state = {
-		id: null,
+		id: 'new',
 		title: '제목없음',
 		content: '문서의 내용을 입력하세요!',
 	};
 
 	this.setState = nextState => {
 		this.state = nextState;
-		modalBody.setState(this.state);
 	};
 
-	const toggleModal = async isShow => {
-		if (isShow) {
-			$modal.classList.remove('hide');
-		} else {
-			$modal.classList.add('hide');
-		}
+	const showModal = () => {
+		$modal.classList.remove('hide');
+	};
+
+	const hideModal = () => {
+		$modal.classList.add('hide');
 	};
 
 	new ModalHeader({
@@ -34,47 +33,48 @@ export default function Modal({ $target }) {
 			openPage: () => {
 				const { id } = this.state;
 
-				emit.updateUrl(`/posts/${id}`);
-				toggleModal(false);
+				emit.readDocument(`/posts/${id}`);
+				hideModal();
 			},
 			closeModal: () => {
-				toggleModal(false);
+				hideModal();
 			},
 		},
 	});
 
-	const modalBody = new ModalBody({
+	new ModalBody({
 		$target: $modalBody,
-		initialState: this.state,
 		onEdit: document => {
 			const { id } = this.state;
-			emit.editDocument(id, document, true);
+			console.log(id, document);
+			// emit.updateDocument(id, document, true);
 		},
 	});
 
-	on.showModal(nextState => {
+	on.showModal(showModal);
+	on.updateModal(nextState => {
 		this.setState(nextState);
-		toggleModal(true);
-	});
-	on.hideModal(() => {
-		toggleModal(false);
 	});
 
 	window.addEventListener('click', e => {
-		const noData = $('li[data-id="new"]');
-		const isVisibleModal = window.getComputedStyle($modal).display !== 'none';
-		const insideModal = e.target.className.includes('modal');
+		const createBtn = e.target.dataset?.target === 'modal';
+		const onModal = e.target.className.includes('modal');
 
-		if (insideModal) {
+		if (createBtn || onModal) {
 			return;
 		}
 
-		const needRemoveDocument = isVisibleModal && noData && !insideModal;
-		if (needRemoveDocument) {
+		const title = $('.modal-title-input').dataset.text;
+		const content = $('.modal-content-textarea').dataset.text;
+		const noData = !title && !content;
+		const isHide = $modal.classList.contains('hide');
+		const isEmpty = !onModal && !isHide && noData && this.state.id !== 'new';
+
+		if (isEmpty) {
 			emit.deleteEmptyDocument(this.state.id);
 		}
 
-		toggleModal(false);
+		hideModal();
 	});
 
 	$target.appendChild($modal);

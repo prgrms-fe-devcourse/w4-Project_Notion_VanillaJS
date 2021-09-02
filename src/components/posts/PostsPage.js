@@ -1,7 +1,7 @@
 import { emit } from '../../utils/emitter.js';
 
-import PageHeader from './PageHeader.js';
-import PageBody from './PageBody.js';
+import PageHeader from './PostsPageHeader.js';
+import PageBody from './PostsPageBody.js';
 
 export default function Page({ $target, initialState }) {
 	const $page = $createElement('div');
@@ -29,7 +29,7 @@ export default function Page({ $target, initialState }) {
 		onEdit: {
 			editTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
-				emit.editDocument(id, nextDocument, false);
+				emit.updateDocument(id, nextDocument, false);
 			},
 			editContent: nextDocument => {
 				const { id } = this.state.currentDocument;
@@ -38,7 +38,7 @@ export default function Page({ $target, initialState }) {
 					clearTimeout(pageBodyEditTimer);
 				}
 				pageBodyEditTimer = setTimeout(() => {
-					emit.editDocument(id, nextDocument, false);
+					emit.updateDocument(id, nextDocument, false);
 				}, 1000);
 			},
 		},

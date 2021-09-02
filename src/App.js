@@ -1,53 +1,31 @@
-import { on, emit } from './utils/emitter.js';
+import { on } from './utils/emitter.js';
+import { getStateAfter } from './store/getters.js';
+
 import Store from './store/index.js';
 
-import NotFoundPage from './components/NotFoundPage.js';
-import Sidebar from './components/sidebar/Sidebar.js';
-import Page from './components/page/Page.js';
-import Modal from './components/modal/Modal.js';
+import MainPage from './pages/MainPage.js';
 
-export default function App({ $target, initialState }) {
-	const $row = $createElement('div', '.row');
+export default function App({ $target }) {
+	this.init = async () => {
+		const initialState = await getStateAfter('init');
 
-	if (!initialState?.currentDocument) {
-		new NotFoundPage({ $target });
-		return;
-	}
+		if ($('.not-found')) {
+			history.replaceState(null, null, `/404`);
+			return;
+		}
 
-	this.state = initialState;
-	this.setState = (nextState, needUpdateItems) => {
-		this.state = nextState;
-		this.render(needUpdateItems);
+		this.state = initialState;
+		this.setState = (nextState, needRender) => {
+			mainpage.setState(nextState, needRender);
+		};
+
+		const mainpage = new MainPage({ $target, initialState });
+
+		new Store();
+		on.updateState((nextState, needRender) =>
+			this.setState(nextState, needRender),
+		);
 	};
 
-	this.render = needRenderItems => {
-		needRenderItems.forEach(needRender => {
-			switch (needRender) {
-				case 'sideBar':
-					sideBar.setState(this.state);
-					break;
-				case 'page':
-					page.setState(this.state);
-					break;
-			}
-		});
-	};
-
-	new Store(initialState);
-
-	const sideBar = new Sidebar({
-		$target: $row,
-		initialState: this.state,
-	});
-	const page = new Page({
-		$target: $row,
-		initialState: this.state,
-	});
-	const modal = new Modal({ $target });
-
-	$target.appendChild($row);
-
-	on.updateState((nextState, needUpdateItems) =>
-		this.setState(nextState, needUpdateItems),
-	);
+	this.init();
 }

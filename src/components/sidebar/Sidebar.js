@@ -1,5 +1,5 @@
 import { emit } from '../../utils/emitter.js';
-import { $listItem } from '../../utils/templates.js';
+import { $drawNewLi } from '../../utils/templates.js';
 
 import SidebarHeader from './SidebarHeader.js';
 import SidebarBody from './SidebarBody.js';
@@ -18,20 +18,6 @@ export default function Sidebar({ $target, initialState }) {
 		sidebarBody.setState(this.state);
 	};
 
-	const createDocumentLi = $li => {
-		const $newLi = $listItem('new', '제목없음', this.state['currentDocument']);
-
-		if (!$li) {
-			$('.nav-list .tree').appendChild($newLi);
-			return;
-		}
-
-		const $ul = $createElement('ul', '.tree');
-		$ul.appendChild($newLi);
-		$li.appendChild($ul);
-		addClassAll($li, 'nav-header', 'tree-toggler');
-	};
-
 	new SidebarHeader({
 		$target: $sidebarHeader,
 		initialState,
@@ -44,19 +30,26 @@ export default function Sidebar({ $target, initialState }) {
 			togglerBtn: $li => {
 				console.log('toggler', $li);
 			},
-			getDocument: $li => {
+			readDocument: $li => {
 				const { id } = $li.dataset;
-				emit.updateUrl(`/posts/${id}`);
+				emit.readDocument(`/posts/${id}`);
 			},
 			deleteBtn: $li => {
 				const { id } = $li.dataset;
-				emit.deleteDocument(id);
+				const isCurrent = Number(id) === this.state.currentDocument.id;
+
+				emit.deleteDocument(id, isCurrent);
 			},
 			createDocument: (id, $li) => {
 				const onModal = !!id;
 
-				emit.createDocument(id, onModal);
-				createDocumentLi($li);
+				if (onModal) {
+					$drawNewLi($li, false);
+					emit.createDocument(id, onModal);
+				} else {
+					$drawNewLi($li, true);
+					emit.createDocument(id, onModal);
+				}
 			},
 		},
 	});
@@ -65,8 +58,8 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				emit.createDocument(null, true);
-				createDocumentLi();
+				$drawNewLi();
+				emit.createDocument(null, 'onModal');
 			},
 		},
 	});
