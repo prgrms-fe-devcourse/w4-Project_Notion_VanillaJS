@@ -1,5 +1,4 @@
 import { request } from "../util/api.js";
-
 import Component from "./Component.js";
 import { ToggleTriangle, SidebarEmpty } from "./util/utilComponent.js";
 import { customCreateNode, emit, on, qs, qsAll } from "../util/util.js";
@@ -8,12 +7,10 @@ class WorkSpace extends Component {
   state;
   constructor(...rest) {
     super(...rest);
-    this.initialState();
-  }
-  async initialState() {
-    this.state = await request();
+    this.state = this.props.state;
     this.render();
   }
+
   template() {
     return this.spaceRender(this.state, 0);
   }
@@ -58,6 +55,7 @@ class WorkSpace extends Component {
   }
 
   async handleSideBarClick(e) {
+    const { createNewContent, changeContent } = this.props;
     const { nodeName: targetNode } = e.target;
     if (targetNode === NODE_NAME.POLYGON || targetNode === NODE_NAME.SVG) {
       this.styleToggleBtn(e);
@@ -67,9 +65,8 @@ class WorkSpace extends Component {
         try {
           const result = await request(null, HTTP_METHOD.POST, { parent: e.target.dataset.id, title: data });
           // positive 방식 생각해보기
-          this.setState(await request());
-          history.replaceState(result, "", `/documents/${result.id}`);
-          emit(qs(".notion-sidebar-container"), "@changeState", result);
+          history.pushState(result, "", `/documents/${result.id}`);
+          createNewContent(result);
         } catch (e) {
           alert(e);
         }
@@ -77,8 +74,8 @@ class WorkSpace extends Component {
     } else if (e.target.closest("div").className === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
       const data = await request(id, HTTP_METHOD.GET);
-      history.replaceState(data, "", `/documents/${id}`);
-      emit(qs(".notion-sidebar-container"), "@changeState", data);
+      changeContent(data);
+      history.pushState(null, "", `/documents/${id}`);
     }
   }
 

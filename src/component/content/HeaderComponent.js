@@ -1,3 +1,4 @@
+import { qs } from "../../util/util.js";
 import Component from "../Component.js";
 
 class HeaderComponent extends Component {
@@ -12,6 +13,7 @@ class HeaderComponent extends Component {
       <h1><div class="content-header" contentEditable=true>${title}</div></h1>
     `;
   }
+  mount() {}
 }
 
 export default HeaderComponent;

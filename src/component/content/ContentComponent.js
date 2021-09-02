@@ -1,3 +1,6 @@
+import { request } from "../../util/api.js";
+import { HTTP_METHOD } from "../../util/constant.js";
+import { on, qs } from "../../util/util.js";
 import Component from "../Component.js";
 
 class ContentComponent extends Component {
@@ -9,7 +12,7 @@ class ContentComponent extends Component {
   template() {
     const { content } = this.props;
     return `
-      <div class="content" contentEditable="true" placeholder="내용을 입력해 주세요">
+      <div class="content-body" contentEditable="true" placeholder="내용을 입력해 주세요">
         ${!content ? "" : content}
       </div>
     `;

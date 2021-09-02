@@ -1,25 +1,30 @@
 import Component from "./component/Component.js";
-import ContentSpace from "./component/content/ContentSpace.js";
+import ContentContainer from "./component/content/ContentContainer.js";
 import WorkSpace from "./component/WorkSpace.js";
-import { on, qs } from "./util/util.js";
+import { request } from "./util/api.js";
+import { HTTP_METHOD } from "./util/constant.js";
+import { on, qs, qsAll } from "./util/util.js";
 
 class App extends Component {
   constructor(...rest) {
     super(...rest);
     this.state = {
+      sidebar: null,
       content: null,
     };
+    this.initialState();
+  }
+
+  async initialState() {
+    this.state.sidebar = await request();
     this.render();
   }
   setState(nextState) {
-    for (const props of Object.keys(nextState)) {
-      if (props === "content") {
-        this.state.content = nextState.content;
-        new ContentSpace(qs(".notion-content-container"), { state: this.state.content });
-      }
+    for (const key of Object.keys(nextState)) {
+      this.state = { ...this.state, [key]: nextState[key] };
     }
+    this.render();
   }
-
   template() {
     return `
     <div class="notion-sidebar-container">
@@ -28,9 +33,23 @@ class App extends Component {
     </div>
     `;
   }
+
   render() {
     this.$target.innerHTML = this.template();
-    new WorkSpace(qs(".notion-sidebar-container"));
+    const updateSidebar = async (data) => {
+      const sidebar = await request();
+      this.setState({ content: data, sidebar });
+    };
+    const createNewContent = async (data) => {
+      const sidebar = await request();
+      this.setState({ sidebar, content: data });
+    };
+    const changeContent = async (data) => {
+      this.setState({ content: data });
+    };
+    new WorkSpace(qs(".notion-sidebar-container"), { state: this.state.sidebar, createNewContent, changeContent });
+    new ContentContainer(qs(".notion-content-container"), { state: this.state.content, updateSidebar });
+
     this.mount();
   }
 

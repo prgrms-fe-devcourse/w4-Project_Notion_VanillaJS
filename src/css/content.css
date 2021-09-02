@@ -6,6 +6,8 @@
 
 .content-header {
   outline: none;
+  font-size: 30px;
+  height: 30px;
 }
 
 .notion-content-container section {
