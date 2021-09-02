@@ -1,16 +1,17 @@
 import { initRouter } from "./router.js";
 import SideBar from "./Sidebar.js";
 import DocumentPage from "./DocumentPage.js";
-import DocumentEditPage from "./DocumentEditPage.js";
-import { saveDocumentsPath, getDocumentId } from "../utils/Documents.js";
-import { request } from "./api.js";
+import { getDocumentId, saveDocumentsPathToLS } from "../utils/Documents.js";
 
 export default function App({ target }) {
     if (!(this instanceof App)) {
         return new App({ target });
     }
 
-    saveDocumentsPath({ pathname: "/" });
+    // *****************************
+    // * Valuables and Functions   *
+    // *****************************
+    saveDocumentsPathToLS();
 
     const sideBar = new SideBar({
         target,
@@ -23,8 +24,14 @@ export default function App({ target }) {
         target,
         initialState: {
             documentId: "/",
+            title: "",
+            content: "",
         },
     });
+
+    // *****************************
+    // * For Rendering             *
+    // *****************************
 
     this.route = () => {
         const { pathname } = window.location;

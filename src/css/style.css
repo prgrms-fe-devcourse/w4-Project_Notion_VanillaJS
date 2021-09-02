@@ -13,22 +13,67 @@
     overflow-x: hidden;
     padding-top: 20px;
     background-color: antiquewhite;
+    overflow: scroll;
 }
 
-.sidebar #username {
+#username {
     text-align: center;
     font-weight: bold;
 }
 
-.sidebar li {
+ul,
+#treeUL {
+    list-style-type: none;
+}
+
+#treeUL {
+    margin: 0;
+    padding: 0;
+}
+
+.rootDocument {
     cursor: pointer;
+    user-select: none;
+    width: 15px;
+    height: 15px;
+}
+
+/* .rootDocument::before {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.rootDocument-downbefore {
+    transform: rotate(90deg);
+}
+
+.childDocument {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.add_btn {
+    background-color: transparent;
+} */
+
+.add-document,
+.delete-document {
+    width: 15px;
+    height: 15px;
+    float: right;
+    cursor: pointer;
+}
+
+.sidebar .document:hover {
+    background: rgba(55, 53, 47, 0.08);
 }
 
 /* For Document Page */
 
 .path_header {
-    margin-left: 250px;
-    height: 80px;
     background-color: aqua;
 }
 

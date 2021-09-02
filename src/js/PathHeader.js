@@ -19,7 +19,7 @@ export default function PathHeader({ target, initialState }) {
     header.setAttribute("class", "path_header");
 
     // *****************************
-    // * For Rendering    *
+    // * For Rendering             *
     // *****************************
     target.appendChild(header);
 

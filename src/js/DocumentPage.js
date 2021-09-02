@@ -1,8 +1,21 @@
 import { request } from "./api.js";
-import DocumentEditPage from "./DocumentEditPage.js";
+import DocumentEditPage from "./DocumentEditor.js";
 import PathHeader from "./PathHeader.js";
 
-export default function DocumentPage({ target, initialState }) {
+/*
+initialState: {
+    documentId: "/",
+}
+*/
+
+export default function DocumentPage({
+    target,
+    initialState = {
+        documentId: "/",
+        title: "",
+        content: "",
+    },
+}) {
     if (!(this instanceof DocumentPage)) {
         return new DocumentPage({ target });
     }
@@ -18,7 +31,11 @@ export default function DocumentPage({ target, initialState }) {
 
     const editPage = new DocumentEditPage({
         target: documentPage,
-        initialState,
+        initialState: {
+            ...initialState,
+            title: "",
+            content: "",
+        },
     });
 
     this.state = initialState;
@@ -28,7 +45,6 @@ export default function DocumentPage({ target, initialState }) {
     // *****************************
 
     documentPage.setAttribute("class", "document_page");
-    // documentPage.appendChild(pathHeader);
 
     // *****************************
     // * Function for Rendering    *
@@ -38,10 +54,17 @@ export default function DocumentPage({ target, initialState }) {
 
     this.setState = async (nextState) => {
         this.state = nextState;
-
-        editPage.setState(this.state);
         this.render();
     };
 
-    this.render = () => {};
+    this.render = async () => {
+        if (this.state.documentId !== "/") {
+            const { title, content } = await request(`/documents/${this.state.documentId}`);
+            editPage.setState({
+                ...this.state,
+                title,
+                content,
+            });
+        }
+    };
 }
