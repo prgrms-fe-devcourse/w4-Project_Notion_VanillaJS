@@ -4,7 +4,7 @@ import { push } from "./router.js";
 
 export default function NotionPage({ $target, editDocument, reset }) {
   const $page = document.createElement("div");
-
+  $page.className = "notionPage";
   const notionList = new NotionList({
     $target: $page,
     initialState: [],
@@ -18,9 +18,7 @@ export default function NotionPage({ $target, editDocument, reset }) {
           parent: id,
         };
         const newDocumentId = await fetchNewDocument(post);
-
-        editDocument(newDocumentId.id);
-        await fetchDocuments();
+        await editDocument(newDocumentId.id);
       }
       //Li 클릭시 document 수정
       else {
@@ -33,9 +31,8 @@ export default function NotionPage({ $target, editDocument, reset }) {
         method: "DELETE",
       });
 
-      await fetchDocuments();
       history.pushState(null, null, "/");
-      reset(null);
+      reset();
     },
   });
 
@@ -50,9 +47,7 @@ export default function NotionPage({ $target, editDocument, reset }) {
       body: JSON.stringify(post),
     });
 
-    await fetchDocuments();
-
-    return newDocument;
+    return await newDocument;
   };
 
   this.render = async () => {
