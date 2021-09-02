@@ -34,7 +34,7 @@ export default function PostEditPage({ $target, initialState }) {
         })
 
         const isNew = this.state.postId === 'new'
-        console.log(post)
+
         if (isNew) {
           // async는 Resolved Promise를 반환하는 역할 수행.
           // Promise ( status, result ) 를 반환
@@ -49,7 +49,6 @@ export default function PostEditPage({ $target, initialState }) {
             postId: createdPost.id,
           })
         } else {
-          // 기존에 존재하는 포스트의 경우
           await request(`/documents/${post.id}`, {
             method: 'PUT',
             body: JSON.stringify(post),
@@ -76,6 +75,7 @@ export default function PostEditPage({ $target, initialState }) {
           title: '',
           content: '',
         })
+        this.render()
         editor.setState(post)
       } else {
         await fetchPost()
@@ -109,6 +109,7 @@ export default function PostEditPage({ $target, initialState }) {
 
     if (postId !== 'new') {
       const post = await request(`/documents/${postId}`)
+
       const tempPost = getItem(postLocalSaveKey, {
         title: '',
         content: '',

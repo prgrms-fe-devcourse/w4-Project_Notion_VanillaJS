@@ -37,16 +37,12 @@ export default function Editor({
   $editor.addEventListener('keyup', (e) => {
     const { target } = e
     const name = target.getAttribute('name')
-    if (this.state[name] !== undefined) {
-      const nextState = {
-        ...this.state,
-        [name]: target.value,
-        parent: null,
-      }
-
-      this.setState(nextState)
-      // 여기서 값을 넘겨줍니다.
-      onEditing(this.state)
+    const nextState = {
+      ...this.state,
+      [name]: target.value,
     }
+
+    this.setState(nextState)
+    onEditing(this.state)
   })
 }

@@ -20,7 +20,7 @@ export default function PostPage({ $target }) {
     $target: $page,
     initialState: [],
     onAttach: async (id) => {
-      const post = await request('/documents', {
+      await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
           title: 'untitled',
@@ -28,35 +28,33 @@ export default function PostPage({ $target }) {
         }),
       })
 
-      await fetchPosts()
+      this.setState()
     },
     onDelete: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE',
       })
 
-      await fetchPosts()
+      this.setState()
     },
   })
 
   new LinkButton({
     $target: $page,
     initialState: {
-      text: '+새 페이지',
+      text: '+ New Page',
       link: 'new',
       name: 'addNew',
     },
   })
 
-  const fetchPosts = async () => {
+  this.setState = async () => {
     const posts = await request('/documents')
     postList.setState(posts)
+    this.render()
   }
 
   this.render = async () => {
-    await fetchPosts()
     $target.appendChild($page)
   }
-
-  fetchPosts()
 }

@@ -2,7 +2,7 @@ import { pushUrl } from '../Router.js'
 
 export default function PostList({ $target, initialState, onAttach, onDelete }) {
   const $postList = document.createElement('div')
-
+  $postList.className = 'postList'
   $target.appendChild($postList)
 
   // 초기에는 [] 빈 값을 전달 받고,
@@ -21,7 +21,7 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
     for (const key in data) {
       if (data[key].documents.length) {
         str += `<li class="dataList" data-id="${data[key].id}">${data[key].title}
-                   <button class="addBtn" data-id="${data[key].id}">+</button>
+                  <button class="addBtn" data-id="${data[key].id}">+</button>
                   <button class="delBtn" data-id="${data[key].id}">x</button>
                   <ul>${this.createTreeView(data[key].documents)}</ul>
                 </li>`
@@ -44,7 +44,7 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
           .map(
             (post) => `
             <li class="dataList"data-id="${post.id}">
-              ${post.title}
+              🗒  ${post.title}
               <button class="addBtn" data-id="${post.id}">+</button>
               <button class="delBtn" data-id="${post.id}">x</button>
             </li>
@@ -75,6 +75,7 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
       case 'dataList':
         if ($li) {
           const { id } = $li.dataset
+          console.log(id)
           pushUrl(`/documents/${id}`)
         }
         break
