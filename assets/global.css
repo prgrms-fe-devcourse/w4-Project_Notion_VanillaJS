@@ -97,14 +97,13 @@ button[name="fold"]:hover {
   color: black;
 }
 
-button[name="add"] {
-  display: none;
+.add {
+  /* display: none; */
+  border: none;
+  color: rgba(55, 53, 47, 0.4);
 }
 
-.current-hover button[name="add"] {
-  border: none;
-  font-size: 15px;
-  color: rgba(55, 53, 47, 0.4);
+.current-hover .add {
   display: inline;
   position: absolute;
   right: 0;
@@ -123,23 +122,4 @@ li.current-hover ul button.add {
 
 .editor-content {
   border: none;
-}
-
-.toast {
-  background: #e6f5e7;
-  border-left: 6px solid #42db7f;
-  color: rgba(25, 23, 17, 0.8);
-  font-size: 12px;
-
-  padding: 10px;
-  display: inline-block;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  transform: translateX(200px);
-  transition: ease-in 300ms;
-}
-
-.toast.show {
-  transform: translateX(0);
 }

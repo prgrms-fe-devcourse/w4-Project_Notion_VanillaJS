@@ -1,5 +1,6 @@
 import Editor from './Editor.js';
 import SubDocLinks from './SubDocLinks.js';
+import Toast, { TOAST_SUCCESS_TYPE } from './Toast.js';
 
 import { request } from '../services/api.js';
 import {
@@ -7,7 +8,6 @@ import {
   removeItem,
   setItem,
 } from '../services/storage.js';
-import Toaster from './Toaster.js';
 
 export default function EditorPage({ $target, initialState }) {
   const $pageContainer = document.createElement('div');
@@ -58,9 +58,9 @@ export default function EditorPage({ $target, initialState }) {
           body: JSON.stringify(doc),
         });
 
-        new Toaster({
-          $target: $page,
-          message: 'Changes saved',
+        new Toast({
+          type: TOAST_SUCCESS_TYPE,
+          message: 'Your changes are saved.',
         });
 
         removeItem(docTempSaveKey(doc.id));
