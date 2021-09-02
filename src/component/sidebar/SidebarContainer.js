@@ -18,7 +18,7 @@ class SidebarContainer extends Component {
   render() {
     this.$target.innerHTML = this.template();
     new SidebarBlock(qs(".sidebar-block"), this.props);
-    new CreateSidebarBlock(qs(".sidebar-add"));
+    new CreateSidebarBlock(qs(".sidebar-add"), { createNewContent: this.props.createNewContent });
   }
 }
 export default SidebarContainer;
