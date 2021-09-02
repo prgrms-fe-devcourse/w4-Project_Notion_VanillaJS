@@ -31,8 +31,16 @@
 git clone {레포지토리 주소}
 ```
 
+### 브런치 변경
+
+```
+main -> 1b/#4_alajillo_working
+```
+
 ### 로컬서버 구동 명령어 입력
 
 ```
+
 npx serve -s
+
 ```

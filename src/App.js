@@ -93,7 +93,7 @@ export default function App({ targetElement }) {
     };
     return data;
   };
-  const onSaveWithnoDebounce = async (id) => {
+  const onSaveWithnoDebounce = async () => {
     const data = getPayLoadData();
     await updateDocumentById(data);
     loadDocumentsList();
@@ -101,10 +101,10 @@ export default function App({ targetElement }) {
 
   const navPage = new NavPage({ targetElement, onDelete, onCreate, onSelect });
   let timer = null;
-  const onSave = (id) => {
+  const onSave = () => {
     if (timer !== null) clearTimeout(timer);
     timer = setTimeout(() => {
-      onSaveWithnoDebounce(id);
+      onSaveWithnoDebounce();
     }, 500);
   };
   const editPage = new EditPage({

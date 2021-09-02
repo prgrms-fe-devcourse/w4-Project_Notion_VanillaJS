@@ -20,9 +20,11 @@ export const toggleWrap = (id) => {
 
 export const initializeToggle = (id) => {
   const documents = document.getElementById(id);
+  documents.classList.remove("wrap");
+  window.localStorage.removeItem(documents.id);
   documents.childNodes.forEach((node) => {
     if (node.tagName !== "UL") return;
     node.classList.remove("hide");
-    window.localStorage.removeItem(node.id, node.className);
+    window.localStorage.removeItem(node.id);
   });
 };
