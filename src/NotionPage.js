@@ -12,9 +12,9 @@ export default function NotionPage({ $target, editDocument, reset }) {
     //새로운 documemt 생성 후 생성된 id값을 찾아서 리턴
     newDocument: async (id, className) => {
       //Button 클릭시 document생성
-      if (className === "plus") {
+      if (className.includes("plus")) {
         const post = {
-          title: "기본값",
+          title: "new",
           parent: id,
         };
         const newDocumentId = await fetchNewDocument(post);

@@ -18,7 +18,8 @@ export default function NotionList({
 
   this.render = () => {
     const documentList = documentRecursive(this.state, "");
-    $notion.innerHTML = documentList;
+    const rootButton = "<button class='plus document-item'>ROOT</button>";
+    $notion.innerHTML = rootButton + documentList;
   };
 
   //컴포넌트 랜더링(하위 컴포넌트 포함)
@@ -48,15 +49,17 @@ export default function NotionList({
   this.render();
 
   $notion.addEventListener("click", (e) => {
-    const $li = e.target.closest(".document-item");
     const { className } = e.target;
+    const $li = e.target.closest(".document-item");
 
-    const { id } = $li.dataset;
+    if ($li) {
+      const id = $li.dataset?.id ?? null;
 
-    if (className === "remove") {
-      onRemove(id);
-    } else {
-      newDocument(id, className);
+      if (className === "remove") {
+        onRemove(id);
+      } else {
+        newDocument(id, className);
+      }
     }
   });
 }
