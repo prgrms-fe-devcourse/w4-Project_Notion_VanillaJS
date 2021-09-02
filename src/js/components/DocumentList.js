@@ -17,6 +17,7 @@ const DocumentList = class extends Component {
               <div style="display: flex;">
                 <i class="bx bxs-right-arrow js-toggle-sub-docs" role="button"></i>
                 <div class="doc-title js-select-doc">${title}</div>
+                <button class="js-delete-doc">-</button>
                 <button class="js-create-new-doc">+</button>
               </div>  
               <div class="sub-docs">${this.template(documents)}</div> 
@@ -29,7 +30,7 @@ const DocumentList = class extends Component {
   }
 
   setEvent() {
-    const { onCreate } = this.props
+    const { onCreate, onDelete } = this.props
     this.$target.addEventListener('click', e => {
       const $li = e.target.closest('li');
       const $subList = $li.lastElementChild;
@@ -47,6 +48,11 @@ const DocumentList = class extends Component {
       if (e.target.classList.contains('js-create-new-doc')) {
         console.log(e.target)
         onCreate(Number($li.dataset.id))
+      }
+
+      if (e.target.classList.contains('js-delete-doc')) {
+        console.log(e.target)
+        onDelete(Number($li.dataset.id))
       }
     })
   }

@@ -51,7 +51,7 @@ const EditableBlock = class extends Component{
         onCreate(blockIndex);
       }
     })
-
+    
     this.$target.addEventListener('blur', ({target}) => {
       const blockIndex = Number(target.dataset.index);
       const text = target.textContent;

@@ -1,7 +1,7 @@
 import api from '../api/index.js';
 import Component from '../core/Component.js'
-import ListContainer from './ListContainer.js';
-import ContentContainer from './ContentContainer.js';
+import ListPage from './ListPage.js';
+import PostPage from './PostPage.js';
 
 const App = class extends Component{
 
@@ -9,7 +9,6 @@ const App = class extends Component{
     this.state = {
       selectedDocId: ''
     }
-  
     this.render()
   }
 
@@ -24,8 +23,8 @@ const App = class extends Component{
     const $listContainer = this.$target.querySelector('#list-container');
     const $contentContainer = this.$target.querySelector('.js-content-container')
 
-    new ListContainer($listContainer)
-    new ContentContainer($contentContainer)
+    new ListPage($listContainer)
+    new PostPage($contentContainer)
   }
 
 
