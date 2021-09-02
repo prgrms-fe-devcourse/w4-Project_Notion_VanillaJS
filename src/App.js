@@ -93,4 +93,13 @@ export default function App({ $target, initialState }) {
 	);
 	on.deleteDocument(id => removeDocument(id));
 	on.updateState(nextState => this.setState(nextState));
+
+	window.addEventListener('click', e => {
+		const { className } = e.target;
+		const isVisibleModal = !$('.modal-container').classList.contains('hide');
+
+		if (!className.includes('modal') && isVisibleModal) {
+			emit.hideModal();
+		}
+	});
 }

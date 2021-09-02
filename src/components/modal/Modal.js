@@ -47,6 +47,9 @@ export default function Modal({ $target, initialState }) {
 	on.showModal(() => {
 		toggleModal(true);
 	});
+	on.hideModal(() => {
+		toggleModal(false);
+	});
 
 	$target.appendChild($modal);
 	$modal.appendChild($modalHeader);

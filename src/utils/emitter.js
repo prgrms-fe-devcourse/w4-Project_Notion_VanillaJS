@@ -2,6 +2,7 @@ const CREATE_DOCUMENT_EVENT = 'create:document';
 const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
 const DELETE_DOCUMENT_EVENT = 'delete:document';
 const SHOW_MODAL_EVENT = 'show:modal';
+const HIDE_MODAL_EVENT = 'hide:modal';
 const ROUTE_EVENT_NAME = 'update:route';
 const STATE_EVENT_NAME = 'updae:state';
 
@@ -9,6 +10,11 @@ const on = {
 	showModal(showModal) {
 		window.addEventListener(SHOW_MODAL_EVENT, e => {
 			showModal();
+		});
+	},
+	hideModal(hideModal) {
+		window.addEventListener(HIDE_MODAL_EVENT, e => {
+			hideModal();
 		});
 	},
 	createDocument(onCreate) {
@@ -58,6 +64,9 @@ const on = {
 const emit = {
 	showModal() {
 		window.dispatchEvent(new CustomEvent(SHOW_MODAL_EVENT));
+	},
+	hideModal() {
+		window.dispatchEvent(new CustomEvent(HIDE_MODAL_EVENT));
 	},
 	createDocument(id, onModal) {
 		window.dispatchEvent(
