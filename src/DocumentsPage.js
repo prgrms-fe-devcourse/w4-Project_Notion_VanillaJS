@@ -49,6 +49,8 @@ export default function DocumentsPage({ $target }) {
         await request(`/documents/${id}`, {
           method: "DELETE",
         });
+        // history.replaceState(null, null, `/documents`);
+        // push(`/documents`);
         this.render();
       }
       return;

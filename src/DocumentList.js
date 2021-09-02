@@ -9,30 +9,6 @@ export default function DocumentList({
   const $documentList = document.createElement("div");
   $target.appendChild($documentList);
 
-  this.state = initialState;
-
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  };
-
-  // tree menu 만들기
-  // function createTreeView(data) {
-  //   if (!data) return "";
-  //   let treeMenuList = "";
-  //   for (let i = 0; i < data.length; i++) {
-  //     if (data[i].documents)
-  //       treeMenuList +=
-  //         `<li data-id=${data[i].id}>
-  //         ${data[i].title}
-  //         <ul>` +
-  //         createTreeView(data[i].documents) +
-  //         `</ul></li>`;
-  //     else treeMenuList += `<li>${data[i].title}</li>`;
-  //   }
-  //   return `<ul>` + treeMenuList + `</ul>`;
-  // }
-
   // tree menu 만들기 : map + 재귀
   const createTreeView = (document) => {
     return document
@@ -45,6 +21,13 @@ export default function DocumentList({
       </li>`
       )
       .join("");
+  };
+
+  this.state = initialState;
+
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
   };
 
   this.render = () => {

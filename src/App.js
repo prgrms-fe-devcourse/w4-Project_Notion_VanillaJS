@@ -4,9 +4,9 @@ import DocumentList from "./documentList.js";
 import { initRouter } from "./router.js";
 
 export default function App({ $target }) {
-  const documentsPage = new DocumentsPage({
-    $target,
-  });
+  // const documentsPage = new DocumentsPage({
+  //   $target,
+  // });
 
   const documentEditPage = new DocumentEditPage({
     $target,
@@ -20,10 +20,10 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = window.location;
     if (pathname === "/") {
-      documentsPage.render();
+      // documentsPage.render();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
-      documentsPage.render();
+      // documentsPage.render();
       documentEditPage.setState({ documentId });
     }
   };

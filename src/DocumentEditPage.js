@@ -2,6 +2,7 @@ import { request } from "./api.js";
 import { getItem, removeItem, setItem } from "./storage.js";
 import Editor from "./Editor.js";
 import DocumentList from "./DocumentList.js";
+import DocumentsPage from "./DocumentsPage.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
   const $page = document.createElement("div");
@@ -12,6 +13,11 @@ export default function DocumentEditPage({ $target, initialState }) {
   const doc = getItem(documentLocalSaveKey, {
     title: "",
     content: "",
+  });
+
+  const documentsPage = new DocumentsPage({
+    $target,
+    initialState: this.state,
   });
 
   let timer = null;
@@ -35,6 +41,7 @@ export default function DocumentEditPage({ $target, initialState }) {
             method: "POST",
             body: JSON.stringify(doc),
           });
+          documentsPage.render();
           history.replaceState(null, null, `/documents/${createdDocument.id}`);
           removeItem(documentLocalSaveKey);
 
@@ -46,6 +53,7 @@ export default function DocumentEditPage({ $target, initialState }) {
             method: "PUT",
             body: JSON.stringify(doc),
           });
+          documentsPage.render();
           removeItem(documentLocalSaveKey);
         }
       }, 2000);
@@ -88,22 +96,22 @@ export default function DocumentEditPage({ $target, initialState }) {
     if (documentId !== "new") {
       const doc = await request(`/documents/${documentId}`);
 
-      const tempDocument = getItem(documentLocalSaveKey, {
-        id: doc.id,
-        title: doc.title,
-        createdAt: doc.creagtedAt,
-        updatedAt: "",
-      });
+      // const tempDocument = getItem(documentLocalSaveKey, {
+      //   id: doc.id,
+      //   title: doc.title,
+      //   createdAt: doc.creagtedAt,
+      //   updatedAt: "",
+      // });
 
-      if (tempDocument.createdAt && tempDocument.createdAt > doc.updatedAt) {
-        if (confirm("저장되지 않은 데이터가 있습니다. 불러올까요?")) {
-          this.setState({
-            ...this.state,
-            doc: tempDocument,
-          });
-          return;
-        }
-      }
+      // if (tempDocument.createdAt && tempDocument.createdAt > doc.updatedAt) {
+      //   if (confirm("저장되지 않은 데이터가 있습니다. 불러올까요?")) {
+      //     this.setState({
+      //       ...this.state,
+      //       doc: tempDocument,
+      //     });
+      //     return;
+      //   }
+      // }
 
       this.setState({ ...this.state, doc });
     }
