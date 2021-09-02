@@ -28,9 +28,10 @@ export default function DocumentList({ $target, inititalState, onClick }) {
 
     const dfs = (node, level) => {
       documentsIndex.push(
-        `<li data-id="${node.id}"style="padding-left:${10 * level}px;">
-        <span>${node.title}</span>
-        <button>+</button>
+        `<li data-id="${node.id}"style="padding-left:${15 * level}px;">
+        <span class="document">${node.title}</span>
+        <button class="add-document">+</button>
+        <button class="delete-document">x</button>
         </li>`
       );
 
@@ -48,7 +49,7 @@ export default function DocumentList({ $target, inititalState, onClick }) {
 
   $document.addEventListener('click', onClick);
 
-  const fetchDocument = async () => {
+  this.fetchDocument = async () => {
     const documents = await request();
 
     this.setState(documents);
@@ -89,5 +90,43 @@ export default function DocumentList({ $target, inititalState, onClick }) {
     return nextState;
   };
 
-  fetchDocument();
+  this.deleteDocument = async documentId => {
+    request(`/${documentId}`, {
+      method: 'DELETE'
+    });
+    const nextState = deleteChildDocument(documentId);
+    this.setState(nextState);
+  };
+
+  const deleteChildDocument = documentId => {
+    const nextState = this.state;
+    let isRoot;
+
+    const moveChildDocumentToRoot = node => {
+      node.forEach(document => nextState.push(document));
+    };
+
+    const dfs = (node, parentNode, idx) => {
+      if (node.id === documentId) {
+        moveChildDocumentToRoot(node.documents);
+        isRoot ? parentNode.splice(idx, 1) : parentNode.documents.splice(idx, 1);
+        return;
+      }
+
+      if (node.documents.length > 0) {
+        isRoot = false;
+
+        node.documents.forEach((documents, idx) => {
+          dfs(documents, node, idx);
+        });
+      }
+    };
+
+    nextState.map((document, idx) => {
+      isRoot = true;
+      dfs(document, nextState, idx);
+    });
+
+    return nextState;
+  };
 }
