@@ -1,6 +1,9 @@
 h2 {
   text-align: center;
 }
+main{
+  height:100%
+}
 body {
   font-family: 'Noto Sans KR', sans-serif;
 }
@@ -8,26 +11,33 @@ body {
   background-color: #F7F6F3;
   padding: 10px;
 }
+.main-editPage{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
 button{
   
   border-color: rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0);
-
 }
 button:hover{
   background-color: peachpuff;
 }
-.main-editPage{
-  padding: 10px;
-}
 
-div > ul{
-  padding-left: 0px;
+
+.root-document{
+  padding: 0px;
 }
 li{
   list-style: none;
 }
-
-li:hover {
+div.item{
+  width: 100%;
+}
+div.item:hover {
+  
   background-color: silver;
 }

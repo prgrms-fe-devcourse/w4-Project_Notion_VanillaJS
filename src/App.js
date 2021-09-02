@@ -25,9 +25,7 @@ export default function App({ $target }) {
       postEditPage.setState({ id })
     }
   })
-  new Location({
-    
-  })
+  
   const postEditPage = new PostEditPage({
     $target: $mainListContainer,
     initialState : {

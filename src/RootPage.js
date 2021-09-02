@@ -19,7 +19,6 @@ export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
     $target: $page,
     initialState: [],
     onAddChild: async (id) => {
-      alert('Child Page 생성합니다.')
       const bodys = {
         title: `New Page`,
         parent: id,
@@ -62,7 +61,7 @@ export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
     },
     onAddRoot: async () => {
       const newPage = {
-        title: "제목 없음",
+        title: "Untitled",
         parent: null
       }
       await request('/documents', {
@@ -72,7 +71,6 @@ export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
       this.setState({
         ...this.state
       })
-      alert(`새로운 루트페이지 생성`)
     },
     onPostClick
   })
