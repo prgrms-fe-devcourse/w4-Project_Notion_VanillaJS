@@ -1,6 +1,6 @@
 import {request} from './api.js';
 
-export default function DocumentMenu({$target, initialState, menuClick}) {
+export default function DocumentMenu({$target, initialState, menuClick, newDoc, deleteDoc}) {
 
   const $menu = document.createElement('div')
   $menu.className = 'document-menu'
@@ -9,7 +9,6 @@ export default function DocumentMenu({$target, initialState, menuClick}) {
   this.state = initialState
 
   this.setState = nextState => {
-    console.log('nextState :>> ', nextState);
     this.state = nextState
     this.render()
   }
@@ -30,7 +29,7 @@ export default function DocumentMenu({$target, initialState, menuClick}) {
       documentNode.className = `menu-${doc.id}`
 
       wrapperNode.appendChild(documentNode)
-      documentNode.innerHTML=`<a href="">${doc.title}</a>`
+      documentNode.innerHTML=`<a href="">${doc.title}</a><button class="new-doc-btn">+</button><button class="delete-doc-btn">x</button>`
       parentNode.appendChild(wrapperNode)
       if (doc.documents.length !== 0) {
         menuTree(doc.documents, doc.id)
@@ -40,12 +39,24 @@ export default function DocumentMenu({$target, initialState, menuClick}) {
   this.render = () => {
     $menu.innerHTML = ''
     menuTree(this.state.docList)
-    
   }
+
   $menu.addEventListener('click', (e) => {
     e.preventDefault()
+
     const $li = e.target.closest('li')
-    menuClick($li)
+    const {className} = e.target
+    if ($li) {
+      if (className === 'new-doc-btn') {
+        const {id} = e.target.parentNode.dataset
+        newDoc(id)
+      }else if (className === 'delete-doc-btn') {
+        console.log('delete :>> ', e.target.parentNode.dataset);
+      }
+      else{
+        menuClick($li)
+      }
+    }
   })
 
 };

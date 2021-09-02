@@ -19,6 +19,22 @@ export default function App({
       const {id} = node.dataset
       await history.pushState(null, null, `/?selectedDocId=${id}`)
       await fetchDocPage(id)
+    },
+    newDoc: async (id) => {
+      const newDocTitle = await window.prompt("새 페이지의 제목을 입력해주세요")
+      console.log('newDocTitle :>> ', newDocTitle);
+      const res = await request(`/documents`, {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+            "title" : newDocTitle,
+            "parent" : id
+          }
+        )
+      })
+      await fetchDocList()
+      console.log('res.id :>> ', res.id);
+      await fetchDocPage(res.id)
     }
   })
 
@@ -56,9 +72,7 @@ export default function App({
   }
 
   const fetchDocPage = async (id) => {
-    console.log('id :>> ', id);
     const res = await request(`/documents/${id}`)
-    console.log('res :>> ', res);
     this.setState({
       ...this.state,
       selectedDoc : res
