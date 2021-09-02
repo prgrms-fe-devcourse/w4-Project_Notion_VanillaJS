@@ -1,3 +1,10 @@
+.notion-sidebar-container {
+  padding: 30px 0 0 10px;
+  position: relative;
+  width: 20vw;
+  background-color: #f7f6f3;
+}
+
 .sidebar-add {
   display: flex;
   cursor: pointer;
@@ -13,4 +20,28 @@
 
 .sidebar-add p {
   margin: 7px 0 0 10px;
+}
+.notion-sidebar-block {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-top: 5px;
+}
+.notion-sidebar-block:hover {
+  background-color: #dddce9;
+}
+.notion-sidebar-block span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 160px;
+}
+.empty-block span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  color: gray;
 }

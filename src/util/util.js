@@ -6,9 +6,9 @@ export const qsAll = (selector, scope = document) => {
   if (!selector) throw "no selector";
   return scope.querySelectorAll(selector);
 };
-export function on(target, eventName, handler) {
+export function on(target, eventName, handler, capture = "false") {
   if (!target) throw "no selector";
-  target.addEventListener(eventName, handler);
+  target.addEventListener(eventName, handler, capture);
 }
 
 export const customCreateNode = (el, inner) => {

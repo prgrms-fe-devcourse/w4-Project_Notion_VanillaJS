@@ -8,22 +8,13 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: "Sunflower", sans-serif;
 }
 .app {
   height: 100vh;
   display: flex;
 }
 
-.notion-sidebar-container {
-  padding-left: 10px;
-  position: relative;
-  width: 20vw;
-  background-color: #f7f6f3;
-}
-.memo {
-  position: relative;
-  width: 500px;
-}
 polygon {
   box-sizing: border-box;
   fill: rgba(55, 53, 47, 0.4);
@@ -41,22 +32,6 @@ svg {
   cursor: pointer;
 }
 
-.notion-sidebar-block {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-.notion-sidebar-block:hover {
-  background-color: #dddce9;
-}
-.notion-sidebar-block span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 160px;
-}
-/* style="width: 17px; height: 17px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;" */
 button.add {
   opacity: 0;
   transition: all 200ms ease-in 0s;

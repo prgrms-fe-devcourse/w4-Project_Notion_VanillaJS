@@ -3,6 +3,7 @@ import { HTTP_METHOD, NODE_NAME } from "../../util/constant.js";
 import { customCreateNode, on, qs, qsAll } from "../../util/util.js";
 import Component from "../Component.js";
 import { SidebarEmpty, ToggleTriangle, Trash } from "../util/utilComponent.js";
+import { hideChildNode, showChildNode } from "./util.js";
 
 class SidebarBlock extends Component {
   state;
@@ -19,6 +20,7 @@ class SidebarBlock extends Component {
     this.$target.innerHTML = "";
     const siblings = this.template();
     for (const sibling of siblings) {
+      sibling.children[0].classList.add("0");
       this.$target.appendChild(sibling);
     }
     this.mount();
@@ -28,14 +30,14 @@ class SidebarBlock extends Component {
     qsAll(".notion-sidebar-block").forEach((el) => {
       on(el, "mouseover", (e) => this.styleHover(e, 1)), on(el, "mouseout", (e) => this.styleHover(e, 0));
     });
-    on(this.$target, "click", (e) => this.handleSideBarClick(e));
+    on(this.$target, "click", (e) => this.handleSideBarClick(e), true);
   }
 
   spaceRender(children, depth, parent = this.$target) {
     return children.map(({ id, title, documents }) => {
       const newNode = customCreateNode(
         "div",
-        `<div class="notion-sidebar-block" data-id=${id} style="padding-left:${depth * 10}px;" >
+        `<div class="notion-sidebar-block" data-id=${id} style="padding-left:${depth * 10}px; ${depth > 0 && "display: none;"}" >
           ${ToggleTriangle}
           <span>${title}</span>
           ${Trash}
@@ -45,12 +47,16 @@ class SidebarBlock extends Component {
       if (documents.length > 0) {
         const siblingNodes = this.spaceRender(documents, depth + 1, newNode);
         for (const sibling of siblingNodes) {
+          sibling.children[0].classList.add(newNode.children[0].dataset.id);
           newNode.appendChild(sibling);
         }
         return newNode;
       }
-      const siblingNode = customCreateNode("div", SidebarEmpty());
+      const siblingNode = customCreateNode("div", SidebarEmpty);
       siblingNode.style.paddingLeft = `${(depth + 2) * 10}px`;
+      siblingNode.style.display = "none";
+      siblingNode.classList.add("empty-block");
+      siblingNode.classList.add(id);
       newNode.appendChild(siblingNode);
       return parent.appendChild(newNode);
     });
@@ -90,16 +96,19 @@ class SidebarBlock extends Component {
 
   styleToggleBtn = ({ target }) => {
     const svgNode = target.closest("svg");
-    if (svgNode.classList.length < 1) {
+
+    if (svgNode.classList.length < 2) {
       svgNode.classList.add("active");
       svgNode.style.setProperty("--toggle", "180deg");
+      showChildNode(target);
     } else {
       svgNode.classList.remove("active");
       svgNode.style.setProperty("--toggle", "90deg");
+      hideChildNode(target);
     }
   };
   styleHover = ({ currentTarget }, opacity) => {
-    if (currentTarget.classList.value === "notion-sidebar-block") {
+    if (currentTarget.classList[0] === "notion-sidebar-block") {
       const btn = qs("button", currentTarget);
       const trashBtn = qs("svg.trash", currentTarget);
       trashBtn.style.opacity = opacity;

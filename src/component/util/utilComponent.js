@@ -1,4 +1,4 @@
-export const SidebarEmpty = () => `하위페이지가 없습니다.`;
+export const SidebarEmpty = `<span>하위페이지가 없습니다.</span>`;
 export const ToggleTriangle = `
   <svg class="toggle" viewBox="0 0 100 100">
     <polygon class="toggle" points="5.9,88.2 50,11.8 94.1,88.2 "></polygon>
