@@ -29,7 +29,7 @@ ul {
 }
 
 ul li {
-  padding-top: 2px;
+  line-height: 2;
   text-overflow: ellipsis;
   overflow-x: hidden;
   cursor: pointer;
