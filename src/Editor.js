@@ -23,9 +23,12 @@ export default function Editor({
   this.render = () => {
     if (!isinitialize) {
       $editor.innerHTML = `
-      <input type="text" name="title" style="width:500px;"  value="${this.state.title}"/>
-      <textarea name="content" style="width:500px; height:400px;">${this.state.content}
+    
+      <div><input type="text" name="title" style="width:500px;"  value="${this.state.title}"/></div>
+      <div><textarea name="content" style="width:500px; height:400px;">${this.state.content}
       </textarea>
+      </div>
+    
       `;
       isinitialize = true;
     }
