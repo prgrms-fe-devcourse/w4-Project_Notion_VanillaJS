@@ -40,7 +40,6 @@ export default function Modal({ $target, initialState }) {
 		initialState: this.state,
 		onEdit: document => {
 			const { id } = this.state.modalDocument;
-			console.log(document);
 			emit.editDocument(id, document, true);
 		},
 	});

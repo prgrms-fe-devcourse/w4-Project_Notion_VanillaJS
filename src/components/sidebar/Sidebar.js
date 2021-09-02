@@ -15,7 +15,7 @@ export default function Sidebar({ $target, initialState }) {
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
-		sidbarBody.setState(this.state);
+		sidebarBody.setState(this.state);
 	};
 
 	const createDocumentLi = $li => {
@@ -37,7 +37,7 @@ export default function Sidebar({ $target, initialState }) {
 		initialState,
 	});
 
-	const sidbarBody = new SidebarBody({
+	const sidebarBody = new SidebarBody({
 		$target: $sidebarBody,
 		initialState,
 		onClick: {

@@ -1,5 +1,3 @@
-import NotFoundPage from '../../components/NotFoundPage.js';
-
 const BASE_URL = 'https://kdt.roto.codes/documents';
 
 const request = async (url, options = {}) => {

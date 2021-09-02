@@ -4,7 +4,6 @@ export default function ModalBody({ $target, initialState, onEdit }) {
 
 	this.state = initialState;
 	this.setState = nextState => {
-		console.log(this.state.modalDocument);
 		this.state = nextState;
 		this.render();
 	};

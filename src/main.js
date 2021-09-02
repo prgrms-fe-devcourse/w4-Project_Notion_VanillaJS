@@ -11,6 +11,7 @@ const initState = async id => {
 	const currentDocument = await getDocuments(postId);
 	const modalDocument = Object.assign({}, currentDocument);
 
+	history.pushState(null, null, `/posts/${postId}`);
 	return { allDocuments, currentDocument, modalDocument };
 };
 
