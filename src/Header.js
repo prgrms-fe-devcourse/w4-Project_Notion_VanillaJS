@@ -12,4 +12,7 @@ export default function Header({
   }
 
   this.render()
+  const { origin } = window.location
+  $h2.setAttribute('onclick', `location.href="${origin}"`)
+  
 }

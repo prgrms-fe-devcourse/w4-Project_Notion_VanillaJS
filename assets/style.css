@@ -1,0 +1,22 @@
+h2 {
+  text-align: center;
+}
+
+.main-documentPage{
+  background-color: #F7F6F3;
+  padding: 10px;
+}
+
+.main-editPage{
+  padding: 10px;
+}
+
+div > ul{
+  padding-left: 0px;
+}
+div > ul > ul {
+  padding-left: 0px;
+}
+li{
+  list-style: none;
+}

@@ -18,17 +18,18 @@ export default function Editor({
       }
       this.state = nextState
       $editor.getElementsByClassName('title').value = this.state.title
-      $editor.getElementsByClassName('content').value = this.state.content 
+      $editor.getElementsByClassName('content').value = this.state.content
       this.render()
     }
     
   }
   
   this.render = () => {
+    const { title, content } = this.state
     if (!isInitialize){
       $editor.innerHTML = `
-      <input type='text' class="title" style="width: 400px;" value="${this.state.title}"/><br>
-      <textarea class="content" style="width: 400px; height: 600px;">${this.state.content}</textarea>
+      <input type='text' class="title" style="width: 500px;" value="${title}"/><br>
+      <textarea class="content" style="width: 500px; height: 600px;">${content ? content : ''}</textarea>
       `
     isInitialize = true
     console.log('editor 생성한다!')

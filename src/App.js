@@ -8,6 +8,9 @@ export default function App({ $target }) {
   const $rootListContainer = document.createElement('div')
   const $mainListContainer = document.createElement('div')
 
+  $rootListContainer.setAttribute('class', 'main-documentPage')
+  $mainListContainer.setAttribute('class', 'main-editPage')
+
   $target.appendChild($rootListContainer)
   $target.appendChild($mainListContainer)
 
@@ -44,8 +47,7 @@ export default function App({ $target }) {
       $mainListContainer.innerHTML = ``
       rootPage.setState()
     } else if (pathname.indexOf('/documents/') === 0) {
-      $mainListContainer.innerHTML = `새 페이지에서 보기도 추가하면 좋겠다. <br><br>`
-      const[,, id] = pathname.split('/')
+      const[ , , id ] = pathname.split('/')
       rootPage.setState()
       postEditPage.setState({ id })
     }

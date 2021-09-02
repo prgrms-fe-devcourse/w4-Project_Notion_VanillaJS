@@ -17,7 +17,6 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
     }, 
     onEditing: (post) => {
       
-      // 시간 다르게 만들기 저장과 로컬 값 / 서버 api.
       if (timer !== null) {
         clearTimeout(timer)
       }
@@ -40,7 +39,6 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
   })
 
   this.setState = async nextState => {
-    console.log(this.state, nextState)
 
     if (this.state.id !== nextState.id) {
       postLocalSaveKey = `temp-post-${nextState.id}`
@@ -84,7 +82,7 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
 
 
   const $moveListButton = document.createElement('button')
-  $moveListButton.innerHTML = '목록으로'
+  $moveListButton.innerHTML = '여기에 뭐 만들지'
   $page.appendChild($moveListButton)
   $moveListButton.addEventListener('click', (e) => {
     console.log(e)

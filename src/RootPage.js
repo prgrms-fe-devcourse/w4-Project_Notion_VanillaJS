@@ -4,7 +4,7 @@ import RootList from "./RootList.js";
 
 
 
-export default function RootPage({ $target, onPostClick,renderNewEditPage }) {
+export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
   const $page = document.createElement('div')
 
   new Header({
@@ -19,9 +19,9 @@ export default function RootPage({ $target, onPostClick,renderNewEditPage }) {
     $target: $page,
     initialState: [],
     onAddChild: async (id) => {
-      alert('하위 페이지를 생성합니다.')
+      alert('Child Page 생성합니다.')
       const bodys = {
-        title: `${id}child의 new Page`,
+        title: `New Page`,
         parent: id,
         content: ''
       }
@@ -60,18 +60,19 @@ export default function RootPage({ $target, onPostClick,renderNewEditPage }) {
         
       }
     },
-    onAddRoot: async (val) => {
-      const bodys = {
-        title: val,
+    onAddRoot: async () => {
+      const newPage = {
+        title: "제목 없음",
         parent: null
       }
       await request('/documents', {
         method: "POST",
-        body: JSON.stringify(bodys)
+        body: JSON.stringify(newPage)
       })
       this.setState({
         ...this.state
       })
+      alert(`새로운 루트페이지 생성`)
     },
     onPostClick
   })
