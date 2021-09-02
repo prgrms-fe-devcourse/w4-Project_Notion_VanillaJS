@@ -2,7 +2,7 @@ import NotionList from "./NotionList.js";
 import { request } from "./Api.js";
 import { push } from "./router.js";
 
-export default function NotionPage({ $target, editDocument }) {
+export default function NotionPage({ $target, editDocument, reset }) {
   const $page = document.createElement("div");
 
   const notionList = new NotionList({
@@ -17,10 +17,9 @@ export default function NotionPage({ $target, editDocument }) {
           title: "기본값",
           parent: id,
         };
-        await createDocument(post);
+        const newDocumentId = await fetchNewDocument(post);
 
-        const selectedDocumentId = await selectedDocument(id);
-        editDocument(selectedDocumentId);
+        editDocument(newDocumentId.id);
         await fetchDocuments();
       }
       //Li 클릭시 document 수정
@@ -33,7 +32,10 @@ export default function NotionPage({ $target, editDocument }) {
       await request(`/documents/${id}`, {
         method: "DELETE",
       });
+
       await fetchDocuments();
+      history.pushState(null, null, "/");
+      reset(null);
     },
   });
 
@@ -42,20 +44,15 @@ export default function NotionPage({ $target, editDocument }) {
     notionList.setState(posts);
   };
 
-  const createDocument = async (post) => {
-    await request("/documents", {
+  const fetchNewDocument = async (post) => {
+    const newDocument = await request("/documents", {
       method: "POST",
       body: JSON.stringify(post),
     });
 
     await fetchDocuments();
-  };
 
-  //새로운 document id값 찾기
-  const selectedDocument = async (id) => {
-    const post = await request(`/documents/${id}`);
-    const newDocumentId = post.documents.length;
-    return parseInt(post?.documents[newDocumentId - 1].id);
+    return newDocument;
   };
 
   this.render = async () => {
