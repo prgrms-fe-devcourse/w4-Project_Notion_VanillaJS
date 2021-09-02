@@ -4,27 +4,31 @@ import DocList from './components/DocumentList.js';
 
 const $app = document.querySelector('#app');
 
-const docs = await api.getAllDocs()
-
 new App($app)
 
-// new DocList(
-//   $app,
-//   {
-//     state: docs 
-//   }
-// )
-// //new App($app)
+/*
+const content = [
+  {
+    "className": "test",
+    "placeholder": "내용을 입력해 주세요",
+    "text": "안되는 것 같은데..."
+  }
+]
 
-//   const childDoc = {
-//     title: "두번째 문서의 네번째 자식 문서",
-//     content: "이 문서는 세번째 문서입니다.",
-//     parent: 4269
-//   }
+const normalize = JSON.stringify(content);
 
-//   const test = async () => {
-//     const docs = await api.getAllDocs();
-//     console.log(docs);
-//   }
+console.log(normalize)
 
-//   test();
+  const childDoc = {
+    title: "content가 object형태여도 괜찮을까??",
+    content: normalize      
+  }
+
+  const test = async () => {
+    const docs = await api.getDoc(7625);
+    const parsedContent = JSON.parse(docs.content)
+    console.log(parsedContent);
+  }
+
+  test();
+*/

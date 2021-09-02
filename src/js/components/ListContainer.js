@@ -19,6 +19,7 @@ const ListContainer = class extends Component{
   }
 
   mount() {
+    const {createNewDoc} = this
     const $header = this.$target.querySelector('#title');
     const $documentList = this.$target.querySelector('#documents-list');
 
@@ -29,9 +30,20 @@ const ListContainer = class extends Component{
     new DocumentList(
       $documentList,
       {
-        state: this.state
+        state: this.state,
+        onCreate: createNewDoc.bind(this) 
       }
     )
+  }
+
+  async createNewDoc(parentId) {
+    const newDoc = {
+      title: '새 문서',
+      parent: parentId
+    }
+    //await api.create(newDoc);
+    const newState = await api.getAllDocs()
+    this.setState(newState);
   }
 }
 

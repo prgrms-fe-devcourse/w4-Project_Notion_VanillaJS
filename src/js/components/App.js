@@ -15,14 +15,14 @@ const App = class extends Component{
 
   template() {
     return `
-      <section id="list-container" class="sidebar"></section>
-      <section id="content-container"></section>
+      <section id="list-container" class="sidebar" style="height: 100%;"></section>
+      <section class="js-content-container" style="disply: flex; flex-direction: column; width: 100%; height: 100%"></section>
     `     
   }
 
   mount() {
     const $listContainer = this.$target.querySelector('#list-container');
-    const $contentContainer = this.$target.querySelector('#content-container')
+    const $contentContainer = this.$target.querySelector('.js-content-container')
 
     new ListContainer($listContainer)
     new ContentContainer($contentContainer)

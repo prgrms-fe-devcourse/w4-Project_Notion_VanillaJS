@@ -1,59 +1,59 @@
 import Component from '../core/Component.js';
 
+const SPACE_KEY = ' ';
+const BACK_SPACE_KEY = 'Backspace'
+const ENTER_KEY = 'Enter'
+
 const EditableBlock = class extends Component{
 
   template() {
+    const { index, className, placeholder, text} = this.state
     return `
-      <div class="test" contenteditable="true" style="padding: 2px 0px; border: none; width: 200px; min-height: 30px;" placeholder='내용을 입력해 주세요.' ></div>
+      <div 
+        class="${className} editable-block"
+        contenteditable="true"
+        data-index="${index}" 
+        placeholder='${placeholder}'
+      >${text}</div>
     `
   }
 
-  createNewBlock() {
-
-  }
-
   setEvent() {
+    const { onConvert, onRemove, onEditing, onCreate } = this.props;
+    
     this.$target.addEventListener('keydown', (e) => {
-      console.log(e.key)
+      const {target, key} = e
+      const blockIndex = Number(target.dataset.index);
+      const text = target.textContent;
       
-      if (e.keyCode === 32 && e.target.textContent === '#') {
-        console.log(e.target)
-        e.preventDefault()
-        e.target.setAttribute('placeholder', '제목1')
-        e.target.textContent = '';
-        e.target.classList.add('header-block');
-      }
-      
-      if (e.keyCode === 32 && e.target.textContent === '##') {
-        console.log(e.target)
-        e.preventDefault()
-        e.target.setAttribute('placeholder', '제목2')
-        e.target.textContent = null;
-        e.target.classList.add('header-block');
-      }
+      e.stopImmediatePropagation();
 
-      if (e.keyCode === 32 && e.target.textContent === '###') {
-        console.log(e.target)
-        e.preventDefault()
-        e.target.setAttribute('placeholder', '제목3')
-        e.target.textContent = '';
-        e.target.classList.add('header-block');
+      if (key === SPACE_KEY && text.length < 4) {
+        e.preventDefault();
+        onConvert(blockIndex, text)
       }
-
-      if (e.keyCode === 32 && e.target.textContent === '-') {
-        console.log(e.target)
+  /*
+      if (key === SPACE_KEY && target.textContent === '-') {
         e.preventDefault()
         e.target.setAttribute('placeholder', '리스트')
         e.target.textContent = '';
         e.target.classList.add('header-block');
       }
+      */
 
-      if (e.key === 'Backspace' && e.target.textContent === '') {
-        e.target.setAttribute('placeholder', '내용을 입력해 주세요.');
-        e.target.classList.remove('header-block');
+      if (key === BACK_SPACE_KEY  && text.length === 0) {
+        onRemove(blockIndex)
       }
-      
+
+      if (key === ENTER_KEY ) {
+        onEditing(blockIndex, text)
+        onCreate(blockIndex);
+      }
     })
+  }
+
+  render() {
+    this.$target.insertAdjacentHTML('beforeend', this.template())
   }
 }
 

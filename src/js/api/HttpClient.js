@@ -21,7 +21,7 @@ const Client = class {
     const config = {method, headers}
     
     if (body) {
-      config.body = JSON.stringify(body);
+      config.body = JSON.stringify({...body});
     }
 
     return config;

@@ -9,59 +9,49 @@ const DocumentList = class extends Component {
     this.setEvent()
   }
 
-  template() {
+  template(document) {
     return `
       <ul>
-        ${this.state.map(({ id, title}) => 
+        ${document.map(({ id, title, documents }) => 
           `<li class="doc-info" data-id="${id}">
               <div style="display: flex;">
-                <i class="bx bxs-right-arrow js-toggle-sub-docs active" role="button"></i>
+                <i class="bx bxs-right-arrow js-toggle-sub-docs" role="button"></i>
                 <div class="doc-title js-select-doc">${title}</div>
-                <button>+</button>
+                <button class="js-create-new-doc">+</button>
               </div>  
-              <div class="sub-docs"></div> 
+              <div class="sub-docs">${this.template(documents)}</div> 
           </li>`).join('')}
       </ul>
     `
   }
-
-  mount() {
-    const $liList = this.$target.querySelectorAll('li');
-
-    $liList.forEach($li => {
-        const parentId = Number($li.dataset.id);
-        const $subDocList = $li.lastElementChild
-        const subDocuments = this.state.find(({id}) => id === parentId).documents
-        
-        if(!subDocuments) return;
-
-        new DocumentList(
-          $subDocList,
-          {
-            state: subDocuments
-          }
-        )
-    });
+  render() {
+    this.$target.innerHTML = this.template(this.state);
   }
 
   setEvent() {
+    const { onCreate } = this.props
     this.$target.addEventListener('click', e => {
       const $li = e.target.closest('li');
       const $subList = $li.lastElementChild;
-      e.stopPropagation()
 
       if (e.target.classList.contains('js-toggle-sub-docs')) {
         $subList.classList.toggle('active')
-
         return;
       }
 
       if (e.target.classList.contains('js-select-doc')) {
-        console.log(e.target.textContent)
+        console.log($li.dataset.id)
         return;
+      }
+
+      if (e.target.classList.contains('js-create-new-doc')) {
+        console.log(e.target)
+        onCreate(Number($li.dataset.id))
       }
     })
   }
+
+  
 }
 
 export default DocumentList
