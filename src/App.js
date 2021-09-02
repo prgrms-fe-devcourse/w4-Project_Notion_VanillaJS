@@ -15,18 +15,18 @@ export default function App({
     $target,
     initialState : this.state,
     menuClick: async (node) => {
-      console.log('node :>> ', node);
       const {id} = node.dataset
-      fetchDocPage(id)
+      await fetchDocPage(id)
     }
   })
+
 
   const documentPage = new DocumentPage({
     $target,
     initialState : this.state.selectedDoc,
     childDocClick: async (node) => {
       const {id} = node.dataset
-      fetchDocPage(id)
+      await fetchDocPage(id)
     }
   })
 
@@ -39,9 +39,7 @@ export default function App({
       selectedDoc: this.state.selectedDoc
     })
 
-    documentPage.setState({
-      selectedDoc: this.state.selectedDoc
-    })
+    documentPage.setState(this.state.selectedDoc)
   }
 
   this.render = () => {
@@ -56,7 +54,9 @@ export default function App({
   }
 
   const fetchDocPage = async (id) => {
+    console.log('id :>> ', id);
     const res = await request(`/documents/${id}`)
+    console.log('res :>> ', res);
     this.setState({
       ...this.state,
       selectedDoc : res

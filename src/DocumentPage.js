@@ -3,9 +3,9 @@ export default function DocumentPage({$target, initialState, childDocClick}) {
   $target.appendChild($page)
 
   this.state = initialState
-
+console.log('initialState :>> ', initialState);
   this.setState = nextState => {
-    console.log('nextState :>> ', nextState);
+    console.log('nextState :>> ', nextState.title);
     this.state = nextState
     this.render()
   }
