@@ -9,7 +9,7 @@ export default function ModalBody({ $target, initialState, onEdit }) {
 	};
 
 	this.render = () => {
-		const { title, content } = this.setState;
+		const { title, content } = this.state;
 		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
 
 		$modalTitle.innerHTML = `

@@ -10,7 +10,8 @@ const STATE_EVENT_NAME = 'updae:state';
 const on = {
 	showModal(showModal) {
 		window.addEventListener(SHOW_MODAL_EVENT, e => {
-			showModal();
+			const { nextState } = e.detail;
+			showModal(nextState);
 		});
 	},
 	hideModal(hideModal) {
@@ -72,8 +73,14 @@ const on = {
 };
 
 const emit = {
-	showModal() {
-		window.dispatchEvent(new CustomEvent(SHOW_MODAL_EVENT));
+	showModal(nextState) {
+		window.dispatchEvent(
+			new CustomEvent(SHOW_MODAL_EVENT, {
+				detail: {
+					nextState,
+				},
+			}),
+		);
 	},
 	hideModal() {
 		window.dispatchEvent(new CustomEvent(HIDE_MODAL_EVENT));

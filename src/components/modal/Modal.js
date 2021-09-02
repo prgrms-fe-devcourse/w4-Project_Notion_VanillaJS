@@ -20,7 +20,7 @@ export default function Modal({ $target }) {
 		modalBody.setState(this.state);
 	};
 
-	const toggleModal = isShow => {
+	const toggleModal = async isShow => {
 		if (isShow) {
 			$modal.classList.remove('hide');
 		} else {
@@ -52,10 +52,23 @@ export default function Modal({ $target }) {
 		},
 	});
 
-	on.showModal(() => {
+	on.showModal(nextState => {
+		this.setState(nextState);
 		toggleModal(true);
 	});
 	on.hideModal(() => {
+		toggleModal(false);
+	});
+
+	window.addEventListener('click', e => {
+		const isVisibleModal = window.getComputedStyle($modal).display !== 'none';
+		const noData = $('li[data-id="new"]');
+		const needRemoveDocument =
+			isVisibleModal && noData && !e.target.className.includes('modal');
+
+		if (needRemoveDocument) {
+			emit.deleteEmptyDocument(this.state.id);
+		}
 		toggleModal(false);
 	});
 

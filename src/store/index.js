@@ -5,7 +5,6 @@ export default function Store(initialState) {
 	const defaultState = {
 		allDocuments: [],
 		currentDocument: {},
-		modalDocument: {},
 	};
 
 	this.state = initialState || defaultState;
@@ -31,7 +30,6 @@ export default function Store(initialState) {
 		const disconnectedState = {
 			allDocuments: [],
 			currentDocument: {},
-			modalDocument: {},
 		};
 
 		const newObject = object => {
@@ -44,7 +42,6 @@ export default function Store(initialState) {
 		}
 
 		disconnectedState.currentDocument = newObject(state.currentDocument);
-		disconnectedState.modalDocument = newObject(state.modalDocument);
 
 		return disconnectedState;
 	};
@@ -78,23 +75,19 @@ export default function Store(initialState) {
 
 	const createDocument = async (id, onModal) => {
 		const { createDocument } = notionAPI;
+
 		const newDocument = await createDocument({
 			title: '제목 없음',
 			parent: id,
 		});
 
+		await updateState({ allDocuments: null });
+
 		if (!onModal) {
-			await updateState({ allDocuments: null });
 			updateCurrentPage(newDocument.id);
-			return;
+		} else {
+			emit.showModal(newDocument);
 		}
-
-		await updateState(
-			{ allDocuments: null },
-			{ modalDocument: newDocument.id },
-		);
-
-		commit('SET_APP_STATE', ['modal']);
 	};
 
 	const removeDocument = async id => {
@@ -136,10 +129,7 @@ export default function Store(initialState) {
 				{ currentDocument: updatedDocument },
 			);
 		} else {
-			await updateState(
-				{ allDocuments: null },
-				{ modalDocument: updatedDocument },
-			);
+			await updateState({ allDocuments: null });
 		}
 
 		commit('SET_APP_STATE', ['sideBar']);

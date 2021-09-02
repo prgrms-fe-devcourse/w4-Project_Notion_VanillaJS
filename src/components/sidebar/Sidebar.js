@@ -53,9 +53,9 @@ export default function Sidebar({ $target, initialState }) {
 				emit.deleteDocument(id);
 			},
 			createDocument: (id, $li) => {
-				const modal = !!id;
+				const onModal = !!id;
 
-				emit.createDocument(id, modal);
+				emit.createDocument(id, onModal);
 				createDocumentLi($li);
 			},
 		},

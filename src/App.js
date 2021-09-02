@@ -29,10 +29,6 @@ export default function App({ $target, initialState }) {
 				case 'page':
 					page.setState(this.state);
 					break;
-				case 'modal':
-					modal.setState(this.state);
-					emit.showModal();
-					break;
 			}
 		});
 	};
@@ -54,21 +50,4 @@ export default function App({ $target, initialState }) {
 	on.updateState((nextState, needUpdateItems) =>
 		this.setState(nextState, needUpdateItems),
 	);
-	window.addEventListener('click', e => {
-		const { className } = e.target;
-		const isVisibleModal = !$('.modal-container').classList.contains('hide');
-
-		if (className.includes('modal') || !isVisibleModal) {
-			return;
-		}
-
-		const noData = $('li[data-id="new"]');
-
-		if (noData) {
-			const { id } = this.state.modalDocument;
-			emit.deleteEmptyDocument(id);
-		}
-
-		emit.hideModal();
-	});
 }
