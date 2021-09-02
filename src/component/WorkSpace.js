@@ -1,6 +1,6 @@
 import { request } from "../util/api.js";
 import Component from "./Component.js";
-import { ToggleTriangle, SidebarEmpty } from "./util/utilComponent.js";
+import { ToggleTriangle, SidebarEmpty, Trash } from "./util/utilComponent.js";
 import { customCreateNode, emit, on, qs, qsAll } from "../util/util.js";
 import { HTTP_METHOD, NODE_NAME } from "../util/constant.js";
 class WorkSpace extends Component {
@@ -37,6 +37,7 @@ class WorkSpace extends Component {
         `<div class="notion-sidebar-block" data-id=${id} style="padding-left:${depth * 10}px;" >
           ${ToggleTriangle}
           <span>${title}</span>
+          ${Trash}
           <button class="add" data-id=${id}>+</button>
         </div>`,
       );
@@ -92,6 +93,8 @@ class WorkSpace extends Component {
   styleHoverAddBtn = ({ currentTarget }, opacity) => {
     if (currentTarget.classList.value === "notion-sidebar-block") {
       const btn = qs("button", currentTarget);
+      const trashBtn = qs(".trash", currentTarget);
+      trashBtn.style.opacity = opacity;
       btn.style.opacity = opacity;
     }
   };

@@ -46,7 +46,7 @@ svg {
   cursor: pointer;
 }
 .notion-sidebar-block:hover {
-  background-color: darkgray;
+  background-color: #dddce9;
 }
 .notion-sidebar-block span {
   display: block;
@@ -55,7 +55,7 @@ svg {
   white-space: nowrap;
   width: 160px;
 }
-
+/* style="width: 17px; height: 17px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;" */
 button.add {
   opacity: 0;
   transition: all 200ms ease-in 0s;
@@ -65,4 +65,18 @@ button.add {
 }
 button:hover {
   background-color: darkgray;
+}
+.trash {
+  display: block;
+  transform: rotateZ(0deg);
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  opacity: 0;
+  fill: black;
+  transition: all 200ms ease-in 0s;
+}
+.trash:hover {
+  fill: red;
+  backface-visibility: hidden;
 }
