@@ -1,3 +1,5 @@
+import PostList from "./PostList.js"
+
 const DUMMY_DATA = [
     {
       "id": 1, // Document id
@@ -25,3 +27,7 @@ const DUMMY_DATA = [
 
 const $target = document.querySelector('#app')
 
+new PostList({
+    $target,
+    initialState : DUMMY_DATA
+})
