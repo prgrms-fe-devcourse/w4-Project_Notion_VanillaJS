@@ -64,8 +64,17 @@ export default function App({ $target, initialState }) {
 		const { className } = e.target;
 		const isVisibleModal = !$('.modal-container').classList.contains('hide');
 
-		if (!className.includes('modal') && isVisibleModal) {
-			emit.hideModal();
+		if (className.includes('modal') || !isVisibleModal) {
+			return;
 		}
+
+		const noData = $('li[data-id="new"]');
+
+		if (noData) {
+			const { id } = this.state.modalDocument;
+			emit.deleteEmptyDocument(id);
+		}
+
+		emit.hideModal();
 	});
 }

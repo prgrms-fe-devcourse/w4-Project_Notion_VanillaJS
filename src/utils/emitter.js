@@ -1,6 +1,7 @@
 const CREATE_DOCUMENT_EVENT = 'create:document';
 const EDIT_DOCUMENT_EVENT = 'edit:currentDocument';
 const DELETE_DOCUMENT_EVENT = 'delete:document';
+const DELETE_EMPTY_DOCUMENT_EVENT = 'delete:emptyDocument';
 const SHOW_MODAL_EVENT = 'show:modal';
 const HIDE_MODAL_EVENT = 'hide:modal';
 const ROUTE_EVENT_NAME = 'update:route';
@@ -29,6 +30,15 @@ const on = {
 
 			if (id && nextDocument) {
 				onEdit(id, nextDocument, onModal);
+			}
+		});
+	},
+	deleteEmptyDocument(onDelete) {
+		window.addEventListener(DELETE_EMPTY_DOCUMENT_EVENT, e => {
+			const { id } = e.detail;
+
+			if (id) {
+				onDelete(id);
 			}
 		});
 	},
@@ -92,6 +102,15 @@ const emit = {
 	deleteDocument(id) {
 		window.dispatchEvent(
 			new CustomEvent(DELETE_DOCUMENT_EVENT, {
+				detail: {
+					id,
+				},
+			}),
+		);
+	},
+	deleteEmptyDocument(id) {
+		window.dispatchEvent(
+			new CustomEvent(DELETE_EMPTY_DOCUMENT_EVENT, {
 				detail: {
 					id,
 				},

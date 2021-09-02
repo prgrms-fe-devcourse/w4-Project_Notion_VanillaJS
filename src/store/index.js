@@ -87,8 +87,8 @@ export default function Store(initialState) {
 	};
 
 	const removeDocument = async id => {
-		const isCurrent = Number(id) === this.state.currentDocument.id;
 		const { deleteDocument } = notionAPI;
+		const isCurrent = Number(id) === this.state.currentDocument.id;
 
 		if (confirm('문서를 삭제하시겠습니까?')) {
 			await deleteDocument(id);
@@ -104,6 +104,14 @@ export default function Store(initialState) {
 
 			this.UPDATE_APP_STATE(['sideBar']);
 		}
+	};
+
+	const removeEmptyDocument = async id => {
+		const { deleteDocument } = notionAPI;
+		await deleteDocument(id);
+		await this.updateState({ allDocuments: null });
+
+		this.UPDATE_APP_STATE(['sideBar']);
 	};
 
 	const editDocument = async (id, nextDocument, onModal) => {
@@ -137,4 +145,5 @@ export default function Store(initialState) {
 		editDocument(id, nextDocument, onModal),
 	);
 	on.deleteDocument(id => removeDocument(id));
+	on.deleteEmptyDocument(id => removeEmptyDocument(id));
 }
