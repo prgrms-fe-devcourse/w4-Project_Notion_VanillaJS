@@ -3,7 +3,7 @@ export default function HomePage({ $target }) {
   
   this.template =/*html*/`
   <div>
-    <h1>새 문서를 추가해 주세요.</h1>
+    <h1>문서를 선택해 주세요.</h1>
   </div>`
 
   this.render = () => {

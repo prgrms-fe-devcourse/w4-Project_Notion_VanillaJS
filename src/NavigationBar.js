@@ -3,7 +3,7 @@ import { request } from './utils/api.js';
 import { RouterUtils } from './utils/router.js'
 import { EventUtils } from './utils/event.js'
 
-export default function NavigationBar ({ $target }) {
+export default function NavigationBar ({ $target , onDeleteDoc }) {
   const $navigationBar = document.createElement('nav')
   $target.appendChild($navigationBar)
 
@@ -30,7 +30,8 @@ export default function NavigationBar ({ $target }) {
       this.setState()
     },
 
-    onDeleteDoc : async (id) => {
+    
+    onDeleteDoc /*: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE'
       })
@@ -41,10 +42,11 @@ export default function NavigationBar ({ $target }) {
       if (id === documentId) {
         // onDelete시 isReplace : true 값을 추가하여 뒤로가기 시 오류방지
         RouterUtils.routerDispatcher('/', true)
+        //history.back()
       }
 
       this.setState()
-    }
+    }*/
 
   })
 
@@ -54,7 +56,7 @@ export default function NavigationBar ({ $target }) {
     const documents = await request('/documents')
     // document들로 새로 setState
     documentList.setState(documents)
-    console.log('documentList.setState!', documents)
+    //console.log('documentList.setState!', documents)
   }
 
   this.setState()

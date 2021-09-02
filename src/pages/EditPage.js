@@ -64,40 +64,27 @@ export default function EditPage({ $target, initialState }) {
   const editorBottomBar = new EditorBottomBar({
     $target: $editPage
   })
-  
+
+  const fetchDocument = async () => {
+
+    const { documentId } = this.state
+    if (!!documentId) {
+      const document = await request(`/documents/${documentId}`)
+      editor.setState(document)
+      // 현재 document 하위 document 수 만큼 버튼 렌더
+      editorBottomBar.makeSubButtons(document)
+      
+      this.render()
+    }
+  }
 
   this.setState = async (nextState) => {
-    /*
-    if (this.state.documentId === 'new') {
-      const localSavedDocument = getItem(KeyLocalDocument, {
-        title: '',
-        content: ''
-      })
-      editor.setState()
-    }*/
-
     this.state = nextState
     // console.log('editpage', this.state)
     fetchDocument()
   }
 
 
-  const fetchDocument = async () => {
-    
-    //console.log(this.state.documentId)
-
-    const { documentId } = this.state
-    if (documentId !== 'new') {
-
-      const document = await request(`/documents/${documentId}`)
-      console.log('document:',document)
-      editor.setState(document)
-      // 현재 document 하위 document 수 만큼 버튼 렌더
-      editorBottomBar.makeSubButtons(document)
-
-      this.render()
-    }
-  }
   
   
   this.render = () => {

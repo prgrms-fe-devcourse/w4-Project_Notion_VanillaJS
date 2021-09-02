@@ -16,6 +16,7 @@ import LinkButton from './LinkButton.js';
     const $editorBottomBar = document.createElement('nav')
     $target.appendChild($editorBottomBar)
 
+    //setState, render()
 
     this.makeSubButtons = (document) => {
       $editorBottomBar.innerHTML = ''
@@ -28,4 +29,6 @@ import LinkButton from './LinkButton.js';
       });
       
     }
+
+
   }
