@@ -8,9 +8,11 @@ class HeaderComponent extends Component {
   }
 
   template() {
-    const { title } = this.props;
+    const { title, editable } = this.props;
     return `
-      <h1><div class="content-header" contentEditable=true>${title}</div></h1>
+      <div class="content-header" contenteditable=${editable} placeholder="제목을 입력해 주세요">
+        ${title}
+      </div>
     `;
   }
   mount() {}

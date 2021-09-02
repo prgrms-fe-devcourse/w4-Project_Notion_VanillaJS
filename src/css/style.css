@@ -19,6 +19,14 @@ polygon {
   box-sizing: border-box;
   fill: rgba(55, 53, 47, 0.4);
 }
+code {
+  background-color: lightgray;
+}
+blockquote {
+  border-left: 5px solid lightgray;
+  margin: 10px;
+  padding-left: 20px;
+}
 svg {
   padding: 5px;
   width: 0.6875em;

@@ -65,7 +65,6 @@ class SidebarBlock extends Component {
   async handleSideBarClick(e) {
     const { createNewContent, changeContent, updateSidebar } = this.props;
     const { nodeName: targetNode } = e.target;
-
     if (e.target.classList[0] === "toggle") {
       this.styleToggleBtn(e);
     } else if (targetNode === NODE_NAME.BUTTON) {
@@ -86,7 +85,7 @@ class SidebarBlock extends Component {
         history.pushState(null, "", `/`);
         updateSidebar();
       }
-    } else if (e.target.closest("div").className === "notion-sidebar-block") {
+    } else if (e.target.closest("div").classList[0] === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
       const data = await request(id, HTTP_METHOD.GET);
       changeContent(data);
