@@ -26,7 +26,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       $title.disabled = false;
       $content.disabled = false;
       $title.placeholder = '';
-      $content.placeholder = '';
+      $content.placeholder = '내용을 입력해주세요';
     }
 
     this.render();
@@ -40,6 +40,7 @@ export default function Editor({ $target, initialState, onEditing }) {
     if (!isInitialized) {
       $editor.innerHTML = `
         <input
+          class="editor-title"
           name="title"
           type="text"
           style="width:100%; padding: 10px"
@@ -48,6 +49,7 @@ export default function Editor({ $target, initialState, onEditing }) {
           placeholder="${id === null ? '문서를 선택해주세요' : ''}"
         />
         <textarea
+        class="editor-content"
           name="content"
           style="width:100%; height:100%; padding: 10px"
           ${id === null ? 'disabled' : ''}
