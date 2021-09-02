@@ -1,5 +1,6 @@
 import api from '../api/index.js';
 import Component from '../core/Component.js';
+import debounce from '../utils/debounce.js';
 import EditableBlock from './EditableBlock.js';
 
 const ContentContainer = class extends Component{
@@ -60,6 +61,7 @@ const ContentContainer = class extends Component{
             placeholder: block.placeholder,
             text: block.text,
           },
+          focus: index === content.length - 1,
           onConvert: convertBlock.bind(this),
           onRemove: removeBlock.bind(this),
           onEditing: updateText.bind(this),
@@ -123,6 +125,7 @@ const ContentContainer = class extends Component{
 
     this.setState(newState);
   }
+
 
   updateText(index, newText){
     const newContent = [...this.state.content];

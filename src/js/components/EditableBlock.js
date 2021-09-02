@@ -25,7 +25,7 @@ const EditableBlock = class extends Component{
       const {target, key} = e
       const blockIndex = Number(target.dataset.index);
       const text = target.textContent;
-      
+
       e.stopImmediatePropagation();
 
       if (key === SPACE_KEY && text.length < 4) {
@@ -42,6 +42,7 @@ const EditableBlock = class extends Component{
       */
 
       if (key === BACK_SPACE_KEY  && text.length === 0) {
+        onEditing(blockIndex, text)
         onRemove(blockIndex)
       }
 
@@ -50,6 +51,13 @@ const EditableBlock = class extends Component{
         onCreate(blockIndex);
       }
     })
+
+    this.$target.addEventListener('blur', ({target}) => {
+      const blockIndex = Number(target.dataset.index);
+      const text = target.textContent;
+      onEditing(blockIndex, text)
+    }, true) 
+    
   }
 
   render() {
