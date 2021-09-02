@@ -3,7 +3,7 @@ export default function EditPageHeader({ targetElement }) {
   const editPageHeaderElement = document.createElement("header");
   this.state = null;
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = nextState || { title: "" };
     this.render();
     editPageHeaderIcon.setState(this.state.content);
   };

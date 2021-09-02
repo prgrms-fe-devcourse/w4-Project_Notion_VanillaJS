@@ -15,16 +15,18 @@ export default function EditPage({
   targetElement.appendChild(editPageElement);
   this.state = initialState;
   this.render = () => {
-    if (this.state) {
-      editPageElement.textContent = "";
+    if (this.state.empty) {
+      editPageElement.textContent = "Empty Page";
       return;
     }
-    editPageElement.textContent = "Empty Page";
+    editPageElement.textContent = "";
   };
   this.setState = (nextState) => {
-    this.state = nextState;
+    this.state = nextState || { empty: true };
 
     this.render();
+    if (this.state.empty) return;
+
     editPageHeader.setState(this.state);
     editPageImage.setState(this.state.content);
     editPageIcon.setState(this.state.content);
