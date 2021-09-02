@@ -41,7 +41,6 @@ class ContentContainer extends Component {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        console.log(title, content);
         const data = await request(this.state.id, HTTP_METHOD.PUT, { title, content });
         updateSidebar(data);
       }, 500);

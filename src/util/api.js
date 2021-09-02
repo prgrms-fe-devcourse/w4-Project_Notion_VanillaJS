@@ -10,10 +10,11 @@ export const request = async (documentId = null, method = HTTP_METHOD.GET, data 
   try {
     const res = await fetch(`${NOTION_API}/${documentId ? documentId : ""}`, options);
     if (!res.ok) {
-      return console.error("API is not ok");
+      alert("API is not ok");
+      return;
     }
     return res.json();
   } catch (e) {
-    console.error(e);
+    alert(e);
   }
 };
