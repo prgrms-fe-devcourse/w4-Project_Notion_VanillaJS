@@ -73,7 +73,7 @@ export default function EditPage({$target, initialState, onEditing}) {
   const renderContent = () => {
     let res
     $previewContent.innerHTML = $editorContent.value.split('\n').map(line => {
-      //TODO: 각종 마크다운 추가하기
+      // markdown -> html tag
       if (line.indexOf('# ') === 0) {
         res = `<h1>${line.substr(2)}</h1>`
       } else if (line.indexOf('## ') === 0) {
@@ -89,9 +89,52 @@ export default function EditPage({$target, initialState, onEditing}) {
       } else {
         res = line
       }
+      /*
+      * 강조체 처리
+      * italic: *italic* || _italic_ -> <em>
+      * bold: **bold** || __bold__ -> <strong>
+      * del: ~~del~~ -> <del>
+      * */
+      if (res.includes('**')) {
+        const count = countKeyword(res, '**')
+        res = convertKeyword(res, parseInt(count / 2), '**', '<strong>', '</strong>')
+      }
+      if (res.includes('__')) {
+        const count = countKeyword(res, '__')
+        res = convertKeyword(res, parseInt(count / 2), '__', '<strong>', '</strong>')
+      }
+      if (res.includes('*')) {
+        const count = countKeyword(res, '*')
+        res = convertKeyword(res, parseInt(count / 2), '*', '<em>', '</em>')
+      }
+      if (res.includes('_')) {
+        const count = countKeyword(res, '_')
+        res = convertKeyword(res, parseInt(count / 2), '_', '<em>', '</em>')
+      }
+      if (res.includes('~~')) {
+        const count = countKeyword(res, '~~')
+        res = convertKeyword(res, parseInt(count / 2), '~~', '<del>', '</del>')
+      }
       return res
     }).join('')
 
+  }
+  const convertKeyword = (str, count, keyword, frontTag, rearTag) => {
+    let _str = str
+    for (let i = 0; i < count; i++) {
+      _str = _str.replace(keyword, frontTag)
+      _str = _str.replace(keyword, rearTag)
+    }
+    return _str
+  }
+  const countKeyword = (str, keyword) => {
+    let pos = str.indexOf(keyword)
+    let count = 0
+    while (pos !== -1) {
+      count++
+      pos = str.indexOf(keyword, pos + 1)
+    }
+    return count
   }
   this.render = () => {
     $editPage.querySelector('[name=title]').innerHTML = this.state.documentTitle
