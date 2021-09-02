@@ -92,6 +92,7 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
         case CLASS_NAME_DOCUMENT_DELETE_BUTTON:
           if (confirm(MSG_CONFIRM_DELETE)) {
             await fetchDeleteDocument(documentId);
+            history.replaceState(null, null, '/');
             movePage(`/`);
           }
           break;
