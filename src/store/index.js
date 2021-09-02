@@ -1,12 +1,12 @@
-import { emit } from '../utils/emitter.js';
+import { on, emit } from '../utils/emitter.js';
 import notionAPI from '../api/notion.js';
 
 export default function Store(initialState) {
 	this.state = initialState;
 
-	this.EMIT_APP_STATE = () => {
+	this.UPDATE_APP_STATE = needRenderItems => {
 		const nextState = this.state;
-		emit.updateState(nextState);
+		emit.updateState(nextState, needRenderItems);
 	};
 
 	this.setState = nextState => {
@@ -65,48 +65,48 @@ export default function Store(initialState) {
 		});
 	};
 
-	this.createDocument = async (id, onModal) => {
+	const createDocument = async (id, onModal) => {
 		const { createDocument } = notionAPI;
-
 		const newDocument = await createDocument({
 			title: '제목 없음',
 			parent: id,
 		});
 
 		if (!onModal) {
-			await this.updateState(
-				{ allDocuments: null },
-				{ currentDocument: newDocument.id },
-			);
-
-			this.EMIT_APP_STATE();
-			history.pushState(null, null, `/posts/${newDocument.id}`);
-		} else {
-			await this.updateState(
-				{ allDocuments: null },
-				{ modalDocument: newDocument.id },
-			);
-
-			this.EMIT_APP_STATE();
+			await this.updateState({ allDocuments: null });
+			updateCurrentPage(newDocument.id);
+			return;
 		}
+
+		await this.updateState(
+			{ allDocuments: null },
+			{ modalDocument: newDocument.id },
+		);
+
+		this.UPDATE_APP_STATE(['modal']);
 	};
 
-	this.removeDocument = async (id, isCurrent) => {
+	const removeDocument = async id => {
+		const isCurrent = Number(id) === this.state.currentDocument.id;
 		const { deleteDocument } = notionAPI;
 
-		await deleteDocument(id);
-		await this.updateState({ allDocuments: null });
+		if (confirm('문서를 삭제하시겠습니까?')) {
+			await deleteDocument(id);
+			await this.updateState({ allDocuments: null });
 
-		if (isCurrent) {
-			const postId = this.state.allDocuments[0].id;
-			await this.updateState({ currentDocument: postId });
-			history.replaceState(null, null, `/posts/${postId}`);
+			if (isCurrent) {
+				const postId = this.state.allDocuments[0].id;
+
+				updateCurrentPage(postId);
+				this.UPDATE_APP_STATE(['sideBar', 'page']);
+				return;
+			}
+
+			this.UPDATE_APP_STATE(['sideBar']);
 		}
-
-		this.EMIT_APP_STATE();
 	};
 
-	this.editDocument = async (id, nextDocument, onModal) => {
+	const editDocument = async (id, nextDocument, onModal) => {
 		const { updateDocument } = notionAPI;
 
 		const updatedDocument = await updateDocument(id, nextDocument);
@@ -123,11 +123,18 @@ export default function Store(initialState) {
 			);
 		}
 
-		this.EMIT_APP_STATE();
+		this.UPDATE_APP_STATE(['sideBar']);
 	};
 
-	this.updateCurrentPage = async id => {
+	const updateCurrentPage = async id => {
 		await this.updateState({ currentDocument: id });
-		this.EMIT_APP_STATE();
+		this.UPDATE_APP_STATE(['sideBar', 'page']);
 	};
+
+	on.updateUrl(id => updateCurrentPage(id));
+	on.createDocument((id, modal) => createDocument(id, modal));
+	on.editDocument((id, nextDocument, onModal) =>
+		editDocument(id, nextDocument, onModal),
+	);
+	on.deleteDocument(id => removeDocument(id));
 }

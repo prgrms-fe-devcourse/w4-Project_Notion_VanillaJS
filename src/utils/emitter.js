@@ -55,8 +55,8 @@ const on = {
 	},
 	updateState(onUpdateState) {
 		window.addEventListener(STATE_EVENT_NAME, e => {
-			const { nextState } = e.detail;
-			onUpdateState(nextState);
+			const { nextState, needRenderItems } = e.detail;
+			onUpdateState(nextState, needRenderItems);
 		});
 	},
 };
@@ -107,11 +107,12 @@ const emit = {
 			}),
 		);
 	},
-	updateState(nextState) {
+	updateState(nextState, needRenderItems) {
 		window.dispatchEvent(
 			new CustomEvent(STATE_EVENT_NAME, {
 				detail: {
 					nextState,
+					needRenderItems,
 				},
 			}),
 		);

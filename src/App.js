@@ -9,9 +9,18 @@ import Modal from './components/modal/Modal.js';
 export default function App({ $target, initialState }) {
 	const $row = $createElement('div', '.row');
 
+	if (!initialState?.currentDocument) {
+		new NotFoundPage({ $target });
+		return;
+	}
+
 	this.state = initialState;
-	this.setState = nextState => {
+	this.setState = (nextState, needRenderItems) => {
 		this.state = nextState;
+
+		if (needRenderItems) {
+			this.render(needRenderItems);
+		}
 	};
 
 	this.render = needRenderItems => {
@@ -25,17 +34,13 @@ export default function App({ $target, initialState }) {
 					break;
 				case 'modal':
 					modal.setState(this.state);
+					emit.showModal();
 					break;
 			}
 		});
 	};
 
-	if (!initialState.currentDocument) {
-		new NotFoundPage({ $target });
-		return;
-	}
-
-	const store = new Store(initialState);
+	new Store(initialState);
 
 	const sideBar = new Sidebar({
 		$target: $row,
@@ -52,48 +57,9 @@ export default function App({ $target, initialState }) {
 
 	$target.appendChild($row);
 
-	const createDocument = async (id, onModal) => {
-		await store.createDocument(id, onModal);
-
-		if (!onModal) {
-			this.render(['sideBar', 'page']);
-		} else {
-			this.render(['modal']);
-			emit.showModal();
-		}
-	};
-
-	const updateCurrentPage = async id => {
-		await store.updateCurrentPage(id);
-		this.render(['sideBar', 'page']);
-	};
-
-	const editDocument = async (id, nextDocument, onModal) => {
-		await store.editDocument(id, nextDocument, onModal);
-		this.render(['sideBar']);
-	};
-
-	const removeDocument = async id => {
-		const isCurrent = Number(id) === this.state.currentDocument.id;
-
-		if (confirm('문서를 삭제하시겠습니까?')) {
-			await store.removeDocument(id, isCurrent);
-			this.render(['sideBar']);
-
-			if (isCurrent) {
-				this.render(['page']);
-			}
-		}
-	};
-
-	on.updateUrl(id => updateCurrentPage(id));
-	on.createDocument((id, modal) => createDocument(id, modal));
-	on.editDocument((id, nextDocument, onModal) =>
-		editDocument(id, nextDocument, onModal),
+	on.updateState((nextState, needRenderItems) =>
+		this.setState(nextState, needRenderItems),
 	);
-	on.deleteDocument(id => removeDocument(id));
-	on.updateState(nextState => this.setState(nextState));
-
 	window.addEventListener('click', e => {
 		const { className } = e.target;
 		const isVisibleModal = !$('.modal-container').classList.contains('hide');
