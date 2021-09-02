@@ -1,5 +1,8 @@
 import DocList from './DocList.js';
 
+import { DOC_LIST_TABLE_TYPE } from '../constants.js';
+import { push } from '../services/router.js';
+
 export default function SubDocLinks({ $target, initialState }) {
   const $listContainer = document.createElement('div');
   $listContainer.setAttribute('class', 'subdoclinks-container');
@@ -13,6 +16,7 @@ export default function SubDocLinks({ $target, initialState }) {
   const subDocList = new DocList({
     $target: $listContainer,
     initialState: this.state,
+    type: DOC_LIST_TABLE_TYPE,
   });
 
   this.setState = (nextState) => {
@@ -30,6 +34,9 @@ export default function SubDocLinks({ $target, initialState }) {
 
   $listContainer.addEventListener('click', (e) => {
     const $li = e.target.closest('li');
-    console.log($li.dataset.id);
+
+    const { id } = $li.dataset;
+
+    push(`/documents/${id}`);
   });
 }

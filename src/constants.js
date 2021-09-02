@@ -1,0 +1,3 @@
+export const DOC_LIST_TREE_TYPE = 'DOC_LIST_TREE_TYPE';
+
+export const DOC_LIST_TABLE_TYPE = 'DOC_LIST_TABLE_TYPE';
