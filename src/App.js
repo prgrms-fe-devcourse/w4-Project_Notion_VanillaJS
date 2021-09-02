@@ -3,6 +3,7 @@ import EditPage from "./EditPage.js";
 import {request} from "./api.js";
 import {setItem, getItem} from "./storage.js";
 import {initRouter, push} from "./router.js";
+import SubDocsPage from "./SubDocsPage.js";
 
 export default function App({$target, initialState}) {
   /**initialState=
@@ -22,33 +23,14 @@ export default function App({$target, initialState}) {
   $modal.setAttribute('class', 'notice')
   $page.appendChild($modal)
 
+
   // navigation section
   const navigation = new Navigation({
     $target: $page,
     initialState: {
       documentTree: this.state.documentTree
     },
-    onClickTitle: async ($title, id) => {
-      const doc = await request(`/${id}`, {
-        method: 'GET'
-      })
-
-      editPage.setState({
-        documentTitle: doc.title,
-        documentContent: doc.content,
-      })
-      //현재 상태 localStorage에 저장
-      setItem('meta', {
-        'title': doc.title,
-        'createdAt': doc.createdAt,
-        'updatedAt': doc.updatedAt,
-        'id': doc.id
-      })
-      setItem('content', doc.content)
-
-      // history update
-      push(`/${id}`)
-    },
+    onClickTitle: async (id) => getDocument(id),
     onClickPlus: ($plusButton) => {
       let id = $plusButton.id.substr(7) // id(숫자부분)만 추출
       const $row = document.querySelector(`#row${id}`)
@@ -96,7 +78,8 @@ export default function App({$target, initialState}) {
     $target: $page,
     initialState: {
       documentTitle: '',
-      documentContent: ''
+      documentContent: '',
+
     },
     onEditing: (post) => {
       if (timer != null) {
@@ -126,6 +109,40 @@ export default function App({$target, initialState}) {
       }, 2000)
     }
   });
+  const subDocsPage = new SubDocsPage({
+    $target: document.querySelector('#edit-page'),
+    initialState: {
+      docList: []
+    },
+    onClickLi: (id) => getDocument(id)
+  })
+
+  const getDocument = async id => {
+    const doc = await request(`/${id}`, {
+      method: 'GET'
+    })
+
+    editPage.setState({
+      documentTitle: doc.title,
+      documentContent: doc.content
+    })
+    subDocsPage.setState({
+      docList: doc.documents
+    })
+
+    //현재 상태 localStorage에 저장
+    setItem('meta', {
+      'title': doc.title,
+      'createdAt': doc.createdAt,
+      'updatedAt': doc.updatedAt,
+      'id': doc.id
+    })
+    setItem('content', doc.content)
+
+    // history update
+    push(`/${id}`)
+
+  }
 
   const saveDocInServer = async post => {
     const {id} = getItem('meta')

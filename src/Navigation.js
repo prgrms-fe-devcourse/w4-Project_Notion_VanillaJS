@@ -67,7 +67,7 @@ export default function Navigation({
       }
     } else if ($docTitle) {
       const _id = $docTitle.id
-      onClickTitle($docTitle, _id)
+      onClickTitle(_id)
     } else if ($docPlusButton) {
       onClickPlus($docPlusButton)
     } else if ($addPageButton) {
