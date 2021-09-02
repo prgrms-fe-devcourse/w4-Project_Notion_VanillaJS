@@ -1,0 +1,16 @@
+.sidebar-add {
+  display: flex;
+  cursor: pointer;
+}
+.sidebar-add:hover {
+  background-color: #dddce9;
+}
+
+.plus {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-add p {
+  margin: 7px 0 0 10px;
+}

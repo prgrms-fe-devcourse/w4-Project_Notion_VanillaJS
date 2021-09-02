@@ -1,4 +1,5 @@
 @import url("./content.css");
+@import url("./sidebar.css");
 
 :root {
   --toggle: 90deg;
