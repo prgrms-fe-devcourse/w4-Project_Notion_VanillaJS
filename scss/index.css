@@ -30,6 +30,9 @@ body {
 .doc-row:hover .doc-plusButton {
   display: inline;
 }
+.doc-row:hover .doc-carot {
+  color: black;
+}
 .doc-carot {
   padding: 5px;
   color: #a1a09c;

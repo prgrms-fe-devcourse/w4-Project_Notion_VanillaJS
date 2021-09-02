@@ -24,7 +24,9 @@ export default function App({$target, initialState}) {
   $target.appendChild($page);
   // $target.appendChild($page);
   this.state = initialState
-
+  const $modal = document.createElement('div')
+  $modal.setAttribute('class', 'notice')
+  $page.appendChild($modal)
 
   const navigation = new Navigation({
     $target: $page,
@@ -96,12 +98,62 @@ export default function App({$target, initialState}) {
       pageGenerator($navPage, $btn)
     }
   });
+  let timer
   const editPage = new EditPage({
     $target: $page,
     initialState: {
       documentTitle: '',
       documentContent: ''
     },
+    onEditing: (post) => {
+      if (timer != null) {
+        clearTimeout(timer)
+
+      }
+      timer = setTimeout(async () => {
+        const _meta = getItem('meta')
+
+        setItem('meta', {
+          ..._meta,
+          title: post.documentTitle,
+          updatedAt: new Date()
+        })
+        setItem('content', post.documentContent)
+
+        const _id = _meta.id
+        await request(`/${_id}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            "title": post.documentTitle,
+            "content": post.documentContent
+          })
+        })
+
+        $modal.innerHTML = `${post.documentTitle} 가(이) 서버에 저장되었습니다`
+        $modal.classList.add('on')
+
+        setTimeout(() => {
+          $modal.classList.remove('on')
+
+        }, 2300)
+        console.log(`저장 정보\ntitle:${post.documentTitle}\ncontent:${post.documentContent}`)
+        const _documentTree = await request('', {
+          method: 'GET'
+        })
+        // console.log(documentTree)
+
+        const title=getItem('meta').title
+        const content=getItem('content')
+
+        this.setState({
+          ...this.state,
+          documentTitle: title,
+          documentContent: content,
+          documentTree: _documentTree
+        })
+        // console.log(`${_id}가 서버에 저장 되었습니다`)
+      }, 2000)
+    }
   });
   // 새 페이지 생성 위한 모든 절차 수행 담당
   const pageGenerator = ($target, $btn, parent = '') => {
@@ -112,9 +164,9 @@ export default function App({$target, initialState}) {
     let title
     $input.setAttribute('type', 'text')
     $input.setAttribute('placeholder', 'input title')
-    $input.style.height='30px'
-    $input.style.width='200px'
-    $input.style.fontSize='20px'
+    $input.style.height = '30px'
+    $input.style.width = '200px'
+    $input.style.fontSize = '20px'
     // $input.setAttribute('width','100px')
     // $input.setAttribute('height','50px')
     // $input.setAttribute('font-size','50px')
