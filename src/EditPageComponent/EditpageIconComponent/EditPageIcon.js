@@ -10,7 +10,7 @@ export default function EditPageIcon({
   editPageIconElement.className = "editor-icon";
   iconContainerElement.appendChild(editPageIconElement);
 
-  const iconList = ["❤️", "🦈", "⛱", "삭제"];
+  const iconList = ["🦈", "⛱", "🚀", "🔥", "🍌", "📒", "🍊", "⏳", "🏝", "삭제"];
   this.state = initialState || { icon: "✚" };
 
   this.setState = (nextState) => {
@@ -31,7 +31,7 @@ export default function EditPageIcon({
   this.render = () => {
     const { icon } = this.state;
     targetElement.appendChild(iconContainerElement);
-    editPageIconElement.textContent = icon;
+    editPageIconElement.textContent = icon || "✚";
   };
   const editPageIconSelector = new EditPageIconSelector({
     targetElment: iconContainerElement,
