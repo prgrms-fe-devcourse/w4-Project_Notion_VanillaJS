@@ -10,15 +10,13 @@ export default function Navigation({
    * initialState={
    *    documentTree:[]
    * }
-   *
-   *
    */
   this.state = initialState;
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
-  let isInit = true
+
 
   const $navPage = document.createElement("div");
   $navPage.setAttribute("id", "nav-page");
@@ -28,16 +26,14 @@ export default function Navigation({
   this.render = () => {
     const {documentTree} = this.state;
     $navPage.innerHTML = `
-		${openDocumentTree(documentTree)}
+		${renderDocumentTree(documentTree)}
 		`
 
     const $carots = document.querySelectorAll('.doc-carot')
     $carots.forEach(carot => {
-      carot.addEventListener('click', (e) => {
+      carot.addEventListener('click', () => {
         carot.classList.toggle('open')
-
       })
-
     })
 
 
@@ -86,7 +82,7 @@ export default function Navigation({
 }
 const NO_PAGE = `<span style="color:gray;position: relative;left: 25px">하위 페이지가 없습니다</span>`
 
-function openDocumentTree(documents) {
+function renderDocumentTree(documents) {
   if (documents.length === 0)
     return NO_PAGE
   return `
@@ -98,9 +94,7 @@ function openDocumentTree(documents) {
             <button class="doc-delButton" id="delBtn${doc.id}">x</button>
             <button class="doc-plusButton" id="plusBtn${doc.id}" >+</button>
           </div>
-          
-          <li id="sub${doc.id}" style="display: none">${openDocumentTree(doc.documents)}</li>
-
+          <li id="sub${doc.id}" style="display: none">${renderDocumentTree(doc.documents)}</li>
         `).join('')}
       </ul>
     `

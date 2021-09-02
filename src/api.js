@@ -10,8 +10,7 @@ export const request=async (url,options={})=>{
       }
     })
     if(res.ok){
-      const json=await res.json()
-      return json
+      return await res.json()
     }
   }catch(e){
     alert(e.message)

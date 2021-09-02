@@ -4,7 +4,6 @@ body {
 }
 
 .doc {
-
   &-ul {
     //margin-left: 10px;
     color: rgb(161, 160, 156);
@@ -15,7 +14,6 @@ body {
     left: 10px;
     overflow: hidden;
   }
-
   &-row {
     position: relative;
     list-style: none;
@@ -25,7 +23,6 @@ body {
     .doc-plusButton {
       display: none;
     }
-
     &:hover {
       color: black;
       cursor: default;
@@ -38,23 +35,17 @@ body {
       .doc-carot{
         color: black;
       }
-
-
     }
   }
-
   &-carot {
-
     padding: 5px;
     color: rgb(161, 160, 156);
     //border: 1px solid black;
   }
-
   &-title {
     display: inline-block;
     width: 70%;
   }
-
   &-plusButton, &-delButton {
     position: absolute;
     right: 5px;
@@ -64,20 +55,15 @@ body {
     border: none;
     color: #c7c4c4;
     font-weight: bolder;
-
     &:hover {
       background-color: rgb(232, 231, 228);
       color: black;
       border-radius: 5px;
     }
-
   }
-
   &-delButton {
     right: 27px;
   }
-
-
 }
 
 .add-page {
@@ -123,43 +109,20 @@ body {
   }
 }
 
-//.editor{
-//  &-title{
-//    font-size: 30px;
-//    overflow: hidden;
-//    width: 300px;
-//    border:none;
-//    border-top:1px solid #a8a7a7;
-//  }
-//  &-content{
-//    overflow: auto;
-//    border:none;
-//    border-top:1px solid #a8a7a7;
-//
-//  }
-//}
-
 #page {
-
   display: flex;
   height: 100vh;
 }
 
 #edit-page {
-  //border: 1px solid #a8a7a7;
-  //border-left: none;
-  //border-top: none;
   border: none;
   background-color: white;
   height: 100vh;
   flex-basis: 80%;
   flex-grow: 8;
-  //margin-left: 2px;
   margin-left: 10px;
 }
-
 #nav-page {
-  //border: 1px solid black;
   border-right: none;
   background-color: rgb(247, 246, 243);
   flex-basis: 20%;
@@ -168,7 +131,6 @@ body {
   height: 100%;
   //margin-right: 2px;
 }
-
 .notice {
   position: fixed;
   top: 0;
@@ -188,31 +150,26 @@ body {
     opacity: 1;
   }
 }
-#preview-content{
+.preview-content{
   width: auto;
   height: 600px;
   padding-top: 3px;
   border: none;
   border-top: 1px solid #a8a7a7;
 }
-@keyframes fadeOut {
-  from {
-    opacity: 1;
+#btn{
+  &-raw,
+  &-preview{
+    font-size: 20px;
+    border: 1px solid #a8a7a7;
+    background-color: white;
+    border-radius: 4px;
   }
-  to {
-    opacity: 0;
+  &-raw{
+    margin-right: -4px;
   }
-}
-#btn-raw,
-#btn-preview{
-  font-size: 20px;
-  border: 1px solid #a8a7a7;
-  background-color: white;
-  border-radius: 4px;
-}
-#btn-raw{
-  margin-right: -4px;
-}
-#btn-preview{
-  margin-left: -3px;
+  &-preview{
+    margin-left: -3px;
+
+  }
 }

@@ -1,5 +1,4 @@
-
-export default function EditPage({$target, initialState,onEditing}) {
+export default function EditPage({$target, initialState, onEditing}) {
   this.state = initialState;
   /**
    * initialState format
@@ -18,33 +17,62 @@ export default function EditPage({$target, initialState,onEditing}) {
       <button id="btn-raw" style="background-color: rgb(212,212,212);">raw</button>
       <button id="btn-preview" >preview</button>
       <textarea name="content" class="editor-content">${documentContent === null ? '' : documentContent}</textarea>
-      <div id="preview-content" style="display: none"></div>
+      <div class="preview-content" style="display: none"></div>
     `
-  const $previewContent = document.querySelector('#preview-content')
   const $btnRaw = document.querySelector('#btn-raw')
-  const $editorContent = document.querySelector('.editor-content')
   const $btnPreview = document.querySelector('#btn-preview')
+  const $editorContent = document.querySelector('.editor-content') //markdown 작성 에디터
+  const $previewContent = document.querySelector('.preview-content') // 작성한 에디터 html로 랜더링
+
 
   $btnRaw.addEventListener('click', () => {
     $previewContent.style.display = 'none'
     $editorContent.style.display = 'block'
     $btnPreview.style.backgroundColor = 'white'
     $btnRaw.style.backgroundColor = 'rgb(212,212,212)'
-    // $btnRaw.setAttribute('disabled','disabled')
-    // $btnPreview.removeAttribute('disabled')
+
   })
   $btnPreview.addEventListener('click', () => {
     $previewContent.style.display = 'block'
     $editorContent.style.display = 'none'
     $btnPreview.style.backgroundColor = 'rgb(212,212,212)'
     $btnRaw.style.backgroundColor = 'white'
-    // $btnPreview.setAttribute('disabled','disabled')
-    // $btnRaw.removeAttribute('disabled')
+
   })
+  $editPage.querySelector('[name=title]').addEventListener('input', e => {
+
+    const nextState = {
+      ...this.state,
+      documentTitle: e.target.innerText
+    }
+    this.setState(nextState)
+
+    // 매 입력마다 커서가 맨 앞으로 이동 -> 현재 커서 위치 추적
+    let offset = e.target.innerText.length
+    let range = document.createRange()
+    let sel = window.getSelection()
+    range.setStart(e.target.childNodes[0], offset)
+    sel.removeAllRanges()
+    sel.addRange(range)
+    onEditing(this.state)
+  })
+  $editPage.querySelector('[name=content]').addEventListener('input', e => {
+    const nextState = {
+      ...this.state,
+      documentContent: e.target.value
+    }
+    this.setState(nextState)
+    onEditing(this.state)
+  })
+
+
+  this.setState = nextState => {
+    this.state = nextState
+    this.render()
+  }
   const renderContent = () => {
-    // console.log(lines)
     let res
-    const lines = $editorContent.value.split('\n').map(line => {
+    $previewContent.innerHTML = $editorContent.value.split('\n').map(line => {
       //TODO: 각종 마크다운 추가하기
       if (line.indexOf('# ') === 0) {
         res = `<h1>${line.substr(2)}</h1>`
@@ -63,65 +91,13 @@ export default function EditPage({$target, initialState,onEditing}) {
       }
       return res
     }).join('')
-    $previewContent.innerHTML = lines
 
   }
-
-  this.render=()=>{
+  this.render = () => {
     $editPage.querySelector('[name=title]').innerHTML = this.state.documentTitle
     $editPage.querySelector('[name=content]').value = this.state.documentContent
 
     renderContent()
   }
-  $editPage.querySelector('[name=title]').addEventListener('input', e => {
-
-    const nextState = {
-      ...this.state,
-      documentTitle: e.target.innerText
-    }
-    this.setState(nextState)
-    console.log(e.target.innerText)
-    let offset = e.target.innerText.length
-    let range = document.createRange()
-    let sel = window.getSelection()
-    range.setStart(e.target.childNodes[0], offset)
-    sel.removeAllRanges()
-    sel.addRange(range)
-    onEditing(this.state)
-  })
-  $editPage.querySelector('[name=content]').addEventListener('input', e => {
-    const nextState = {
-      ...this.state,
-      documentContent: e.target.value
-    }
-    this.setState(nextState)
-
-    // const $editorContent=document.querySelector('.editor-content')
-    // let i=0;
-    // let offset=$editorContent.innerText.length
-    // console.log(offset)
-    // let range=document.createRange()
-    // let sel=window.getSelection()
-    // console.log($editorContent.childNodes[0])
-    // range.setStart($editorContent.childNodes[0],offset)
-    // sel.removeAllRanges()
-    // sel.addRange(range)
-
-    onEditing(this.state)
-    // renderContent()
-    // const lines=$editorContent.value
-    // console.log(lines)
-    // lines.split('\n').map(line=>{
-    //   if(line.indexOf('# ')===0){
-    //     return `<h1>${line}</h1>`
-    //   }
-    // }).join('')
-    // $previewContent.innerHTML=lines
-  })
-
-
-  this.setState=nextState=>{
-    this.state=nextState
-    this.render()
-  }
+  this.render()
 }

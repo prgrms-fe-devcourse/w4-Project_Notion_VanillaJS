@@ -139,7 +139,7 @@ body {
   opacity: 1;
 }
 
-#preview-content {
+.preview-content {
   width: auto;
   height: 600px;
   padding-top: 3px;
@@ -147,26 +147,15 @@ body {
   border-top: 1px solid #a8a7a7;
 }
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-#btn-raw,
-#btn-preview {
+#btn-raw, #btn-preview {
   font-size: 20px;
   border: 1px solid #a8a7a7;
   background-color: white;
   border-radius: 4px;
 }
-
 #btn-raw {
   margin-right: -4px;
 }
-
 #btn-preview {
   margin-left: -3px;
 }
