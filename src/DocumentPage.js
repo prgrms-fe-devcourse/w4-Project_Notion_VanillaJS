@@ -1,3 +1,6 @@
+import Editor from './Editor.js';
+import ChildDocumentList from './ChildDocumentList.js';
+
 export default function DocumentPage({$target, initialState, childDocClick}) {
   const $page = document.createElement('div')
   $target.appendChild($page)
@@ -12,30 +15,33 @@ export default function DocumentPage({$target, initialState, childDocClick}) {
     if (currentNode) {
       currentNode.classList.add('active')
     }
-    console.log('currentNode :>> ', currentNode);
+
+    editor.setState({
+      title: this.state.title,
+      content: this.state.content
+    })
+    childDocumentList.setState(nextState)
   }
 
+  const editor = new Editor({
+    $target: $page,
+    initialState: {
+      title: '',
+      content: ''
+    }
+  })
+
+  const childDocumentList = new ChildDocumentList({
+    $target: $page,
+    initialState: {},
+    childDocClick
+  })
+
   this.render = () => {
-    $page.innerHTML = `
-      <div class="doc-page-editor">
-        <input type="text" name="title" value ="${this.state.title}"/>
-        <textarea name="content" placeholder="내용을 입력해주세요">${this.state.content? this.state.content : ''}</textarea>
-      </div>
-      <ul class="child-doc-list">
-        ${this.state.documents? this.state.documents.map(doc => `
-          <li><a href="">${doc.title}</a></li>
-        `).join('') : ''}
-      </ul>
-    `
+    
   }
   this.render()
 
-  const $childDocList = document.querySelector('.child-doc-list')
-  $childDocList.addEventListener('click', (e) => {
-    e.preventDefault()
-    const $li = e.target.closest('li')
-    console.log('$li :>> ', $li);
-    childDocClick($li)
-  })
+  
 
 };
