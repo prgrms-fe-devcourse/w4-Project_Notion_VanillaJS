@@ -24,7 +24,7 @@ export default function NotionList({
   //컴포넌트 랜더링(하위 컴포넌트 포함)
   const documentRecursive = (data, text) => {
     text += `
-      <ul>
+      <ul  style="margin : 4px;">
       ${data
         .map(
           ({
@@ -33,7 +33,7 @@ export default function NotionList({
             id,
           }) => `<li data-id="${id}" class="document-item">${title}
           <button class="plus">+</button>
-          <button class="minus">-</button>
+          <button class="remove">-</button>
           </li>
             ${documents
               .map((document) => documentRecursive([document], text))
@@ -53,7 +53,7 @@ export default function NotionList({
 
     const { id } = $li.dataset;
 
-    if (className === "minus") {
+    if (className === "remove") {
       onRemove(id);
     } else {
       newDocument(id, className);
