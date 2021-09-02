@@ -1,50 +1,42 @@
-const getDocument = (data) => {
-  const { id, title, documents } = data;
+import { createDocument, getDocument } from "../api/api.js";
+import Header from "./Header.js";
+import DocumentList from "./DocumentList.js";
 
-  return /*html*/ `
-  <ul id = 'document-${id}'>
-    <div>${title}<button class="add-btn">+</button></div>
-    <li>${
-      documents.length === 0
-        ? "Add a Page"
-        : documents.map((document) => getDocument(document)).join("")
-    }</li>
-  </ul>`;
-};
-
-export default function Sidebar({ $target, initialState, addDocument }) {
+export default function Sidebar({ $target, onCeatedDocument }) {
   if (!new.target) {
     throw new Error("Sidebar new 연산자 누락!");
   }
 
   const $sidebar = document.createElement("div");
-  $sidebar.className = "sidebar";
+  $sidebar.className = "notion-sidebar";
 
   $target.appendChild($sidebar);
 
-  this.state = initialState;
+  this.state = [];
+
+  new Header({ $target: $sidebar });
+
+  const documentList = new DocumentList({
+    $target: $sidebar,
+    initialState: this.state,
+    addDocument: async (id) => {
+      const data = { title: "페이지 제목을 입력해주세요", parent: id };
+      const createdDocument = await createDocument(data);
+      // onCeatedDocument(createdDocument);
+      this.render();
+    },
+  });
 
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
   };
 
-  this.render = () => {
-    $sidebar.innerHTML = `${this.state
-      .map((document) => getDocument(document))
-      .join("")}`;
+  this.render = async () => {
+    const nextState = await getDocument();
+
+    documentList.setState(nextState);
   };
-
-  $sidebar.addEventListener("click", (e) => {
-    if (e.target.className === "sidebar") return;
-
-    const $document = e.target.closest("ul");
-    const addButton = $document.querySelector(".add-btn");
-    if (e.target === addButton) {
-      const [, id] = $document.id.split("-");
-      addDocument(id);
-    }
-  });
 
   this.render();
 }

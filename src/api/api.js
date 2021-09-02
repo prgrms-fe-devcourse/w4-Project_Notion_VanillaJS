@@ -2,7 +2,7 @@ const API_ENDPOINT = "https://kdt.roto.codes/documents/";
 const options = (method, data) => {
   switch (method) {
     case "GET":
-    case "DELET": {
+    case "DELETE": {
       return {
         method,
         headers: {

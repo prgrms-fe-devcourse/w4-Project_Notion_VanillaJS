@@ -1,27 +1,30 @@
 import Sidebar from "./component/Sidebar.js";
-import Frame from "./component/Frame.js";
 import { createDocument, getDocument } from "./api/api.js";
+import EditorPage from "./component/EditorPage.js";
 
 export default function App({ $target }) {
-  this.state = [];
+  this.state = { id: "", title: "" };
 
   const sidebar = new Sidebar({
     $target,
-    initialState: this.state,
-    addDocument: async (id) => {
-      const data = { title: "임시 추가", parent: id };
-      await createDocument(data);
-      this.render();
-    },
+    // onCeatedDocument: (document) => {
+    //   const { id, title } = document;
+    //   const nextState = { id, title };
+    //   this.setState(nextState);
+    // },
   });
 
-  // new Frame({ $target });
+  const editPage = new EditorPage({
+    $target,
+    initialState: { id: 708, title: this.state.title, content: "" },
+  });
 
-  this.render = async () => {
-    const nextState = await getDocument();
+  this.setState = (nextState) => {
     this.state = nextState;
-    sidebar.setState(this.state);
+    this.render();
   };
+
+  this.render = async () => {};
 
   this.render();
 }
