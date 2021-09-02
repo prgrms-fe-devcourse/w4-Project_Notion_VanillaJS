@@ -51,7 +51,8 @@ export default function DocumentMenu({$target, initialState, menuClick, newDoc, 
         const {id} = e.target.parentNode.dataset
         newDoc(id)
       }else if (className === 'delete-doc-btn') {
-        console.log('delete :>> ', e.target.parentNode.dataset);
+        const {id} = e.target.parentNode.dataset
+        deleteDoc(id)
       }
       else{
         menuClick($li)

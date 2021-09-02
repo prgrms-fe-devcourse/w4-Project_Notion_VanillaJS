@@ -22,19 +22,31 @@ export default function App({
     },
     newDoc: async (id) => {
       const newDocTitle = await window.prompt("새 페이지의 제목을 입력해주세요")
-      console.log('newDocTitle :>> ', newDocTitle);
-      const res = await request(`/documents`, {
-        method: 'POST',
-        body: JSON.stringify(
-          {
-            "title" : newDocTitle,
-            "parent" : id
-          }
-        )
-      })
-      await fetchDocList()
-      console.log('res.id :>> ', res.id);
-      await fetchDocPage(res.id)
+      if (id && newDocTitle) {
+        const res = await request(`/documents`, {
+          method: 'POST',
+          body: JSON.stringify(
+            {
+              "title" : newDocTitle,
+              "parent" : id
+            }
+          )
+        })
+        await fetchDocList()
+        console.log('res.id :>> ', res.id);
+        await fetchDocPage(res.id)
+      }
+    },
+    deleteDoc: async (id) => {
+      const userConfirm = await confirm('해당 문서를 삭제하시겠습니까?')
+      if (userConfirm) {
+        
+        const res = await request(`/documents/${id}`, {
+          method: 'DELETE',
+        })
+        await fetchDocList()
+        await fetchDocPage(this.state.docList[0].id)
+      }
     }
   })
 

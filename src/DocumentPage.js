@@ -19,7 +19,7 @@ export default function DocumentPage({$target, initialState, childDocClick}) {
     $page.innerHTML = `
       <div class="doc-page-editor">
         <input type="text" name="title" value ="${this.state.title}"/>
-        <textarea name="content">${this.state.content}</textarea>
+        <textarea name="content" placeholder="내용을 입력해주세요">${this.state.content? this.state.content : ''}</textarea>
       </div>
       <ul class="child-doc-list">
         ${this.state.documents? this.state.documents.map(doc => `
