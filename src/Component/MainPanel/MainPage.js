@@ -2,8 +2,9 @@ import { request } from "../api.js";
 import { push } from "../router.js";
 import { getItem } from "../storage.js";
 import Editor from "./Editor.js";
-import EditorTitle from "./EditorTitle.js";
+// import EditorTitle from "./EditorTitle.js";
 import GuidePage from "./GuidePage.js";
+import Modal from "./Modal.js";
 import SubDocumentList from "./SubDocumentList.js";
 
 export default function MainPage({ $target }) {
@@ -11,14 +12,19 @@ export default function MainPage({ $target }) {
   $mainPageContainer.className = "main-page-container";
   $target.appendChild($mainPageContainer);
 
-  const guidePage = new GuidePage({ $target: $mainPageContainer });
-
   this.state = {
     id: null,
     title: "",
     content: "",
     documents: [],
   };
+
+  const guidePage = new GuidePage({ $target: $mainPageContainer });
+  const modalPage = new Modal({
+    $target: $mainPageContainer,
+    init: this.state,
+  });
+
   this.setState = async (nextState = null) => {
     if (nextState === null) {
       guidePage.render();
@@ -26,18 +32,12 @@ export default function MainPage({ $target }) {
       guidePage.remove();
       const contentList = await request(`/documents/${nextState.id}`);
       this.state = contentList;
-      editorTitle.setState(this.state);
+      modalPage.setState(this.state);
       editor.setState(this.state);
       editor.appendChild();
       subDocumentList.setState(this.state);
-      this.render();
     }
   };
-
-  const editorTitle = new EditorTitle({
-    $target: $mainPageContainer,
-    init: this.state,
-  });
 
   let timer = null;
 
@@ -79,28 +79,4 @@ export default function MainPage({ $target }) {
       push(`/documents/${selectDocumentId}`);
     },
   });
-
-  this.render = () => {
-    // editorTitle.setState(this.state);
-  };
-
-  // const fetchDocumentAdd = async () => {
-  //   const res = await request("/documents", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       title: "테스트5",
-  //       parent: 615,
-  //     }),
-  //   });
-  //   alert(res);
-  // };
-
-  // fetchDocumentAdd();
-
-  // const fetchDocumentDelete = async () => {
-  //   await request(`/documents/700`, {
-  //     method: "DELETE",
-  //   });
-  // };
-  // fetchDocumentDelete();
 }
