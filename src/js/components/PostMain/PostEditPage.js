@@ -1,5 +1,5 @@
-import { getItem, removeItem, setItem } from '../Storage.js'
-import { request } from '../api.js'
+import { getItem, removeItem, setItem } from '../../utils/Storage.js'
+import { request } from '../../utils/api.js'
 import Editor from './Editor.js'
 
 // PageEdit 페이지의 역할은 무엇일까?

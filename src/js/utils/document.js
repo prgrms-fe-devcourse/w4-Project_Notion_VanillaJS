@@ -1,1 +1,1 @@
-export const $creEle = (ele) => document.createElement(ele);
+export const $creEle = (ele) => document.createElement(ele)

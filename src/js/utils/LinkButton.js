@@ -1,4 +1,4 @@
-import { pushUrl } from '../components/Router.js'
+import { pushUrl } from './Router.js'
 import { $creEle } from './document.js'
 
 export default function LinkButton({ $target, initialState }) {

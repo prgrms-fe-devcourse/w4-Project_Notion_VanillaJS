@@ -1,4 +1,4 @@
-import { request } from '../api.js'
+import { request } from '../../utils/api.js'
 import { $creEle } from '../../utils/document.js'
 import LinkButton from '../../utils/LinkButton.js'
 import PostList from './PostList.js'

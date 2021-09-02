@@ -1,4 +1,4 @@
-import { pushUrl } from '../Router.js'
+import { pushUrl } from '../../utils/Router.js'
 
 export default function PostList({ $target, initialState, onAttach, onDelete }) {
   const $postList = document.createElement('div')
@@ -75,7 +75,6 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
       case 'dataList':
         if ($li) {
           const { id } = $li.dataset
-          console.log(id)
           pushUrl(`/documents/${id}`)
         }
         break

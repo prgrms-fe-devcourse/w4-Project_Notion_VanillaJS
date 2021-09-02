@@ -1,6 +1,6 @@
 import PostPage from './SideBar/PostPage.js'
 import PostEditPage from './PostMain/PostEditPage.js'
-import { initRouter, popUrl } from './Router.js'
+import { initRouter, popUrl } from '../utils/Router.js'
 
 export default function App({ $target }) {
   const $listContainer = document.createElement('div')
