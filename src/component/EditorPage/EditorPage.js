@@ -1,10 +1,14 @@
-import { modifyDocument } from "../api/api.js";
-import { getItem, removeItem, setItem } from "../api/storage.js";
+import { modifyDocument } from "../../utils/api.js";
+import { getItem, removeItem, setItem } from "../../utils/storage.js";
+import { createElement } from "../../utils/util.js";
 import Editor from "./Editor.js";
 
 //에디터에 필요한 데이터를 가지고 있는 컴포넌트 상태 === 정보
-export default function EditorPage({ $target, initialState }) {
-  const $page = document.createElement("div");
+export default function EditorPage({
+  $target,
+  initialState = { title: "", content: "" },
+}) {
+  const $page = createElement("div", "notion-editor");
 
   this.state = initialState;
 

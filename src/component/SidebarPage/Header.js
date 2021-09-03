@@ -2,7 +2,7 @@ export default function Header({ $target, title }) {
   if (!new.target) {
     throw new Error("Header new 연산자 누락!");
   }
-  const $header = document.createElement("h1");
+  const $header = document.createElement("div");
   $header.className = "sidebar-header";
 
   $target.appendChild($header);

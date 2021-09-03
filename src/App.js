@@ -1,7 +1,7 @@
-import Sidebar from "./component/Sidebar.js";
-import EditorPage from "./component/EditorPage.js";
-import { getDocument } from "./api/api.js";
-import { initRouter } from "./router.js";
+import Sidebar from "./component/SidebarPage/Sidebar.js";
+import EditorPage from "./component/EditorPage/EditorPage.js";
+import { getDocument } from "./utils/api.js";
+import { initRouter } from "./utils/router.js";
 
 export default function App({ $target }) {
   new Sidebar({
@@ -19,23 +19,16 @@ export default function App({ $target }) {
 
   const editPage = new EditorPage({
     $target,
-    initialState: { id: "", title: "", content: "" },
   });
 
-  this.render = () => {};
+  this.state = { id: "", title: "", content: "" };
 
-  // this.route = async () => {
-  // const { pathname } = window.location;
-  // if (pathname === "/") {
-  //   sidebar.setState();
-  // } else if (pathname.indexOf("/document/") === 0) {
-  //   const [, , id] = pathname.split("/");
-  //   const nextState = await getDocument(id);
-  //   editPage.setState(nextState);
-  // }
-  // };
+  this.setState = async (id) => {
+    const nextState = await getDocument(id);
+    this.state = nextState;
 
-  // this.route();
+    editPage.setState(this.state);
+  };
 
-  // initRouter(() => this.route());
+  initRouter((id) => this.setState(id));
 }

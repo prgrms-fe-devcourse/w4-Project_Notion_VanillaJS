@@ -1,12 +1,12 @@
-import { push } from "../router.js";
-import { createElement } from "../util.js";
+import { push } from "../../utils/router.js";
+import { createElement } from "../../utils/util.js";
 
 const getDocument = (data) => {
   const { id, title, documents } = data;
 
   return /*html*/ `
     <ul data-id=${id}>
-      <div class="document">${title}<button class="add-btn">+</button></div>
+      <div data-id=${id}>${title}<button class="add-btn">+</button></div>
       <li>${
         documents.length === 0
           ? ""
@@ -28,12 +28,21 @@ export default function DocumentList({ $target, initialState, onAdd }) {
 
     const $document = e.target.closest("ul");
     const $addButton = $document.querySelector(".add-btn");
-    const text = $document.querySelector(".document");
 
     if (e.target === $addButton) {
       const { id } = $document.dataset;
 
       onAdd(id);
+    } else {
+      const { id } = $document.dataset;
+
+      push(id);
+
+      // window.dispatchEvent(
+      //   new CustomEvent("route-change", { detail: { nextUrl: id } })
+      // );
+
+      // history.pushState(null, null, `${id}`);
     }
   });
 

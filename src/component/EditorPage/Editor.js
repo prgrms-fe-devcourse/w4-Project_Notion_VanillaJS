@@ -1,16 +1,18 @@
+import { createElement } from "../../utils/util.js";
+
 export default function Editor({ $target, initialState, onEditing }) {
   if (!new.target) {
     throw new Error("Frame new 연산자 누락!");
   }
 
-  const $editor = document.createElement("div");
+  const $editor = createElement("div", "editor-container");
 
   $editor.innerHTML = /*html*/ `
-    <input type="text" name="title" style="width:300px"/>
-    <textarea name="content" style="width:300px; height:300px;"/>
+    <input type="text" name="title"/>
+    <div class="horisontal-line"></div>
+    <textarea name="content"/>
     `;
 
-  $editor.className = "notion-editor";
   $target.appendChild($editor);
 
   this.state = initialState;

@@ -1,15 +1,12 @@
-import { createDocument, getDocument } from "../api/api.js";
+import { createDocument, getDocument } from "../../utils/api.js";
 import Header from "./Header.js";
 import DocumentList from "./DocumentList.js";
-import { createElement } from "../util.js";
+import { createElement } from "../../utils/util.js";
+import { push } from "../../utils/router.js";
 
 //Sidebar 렌더시 Header, DocumentList 컴포넌트 렌더
 // DocumentList 데이터를 관리
-export default function Sidebar({
-  $target,
-  onCeatedDocument,
-  onSelectedDocument,
-}) {
+export default function Sidebar({ $target, onCeatedDocument }) {
   if (!new.target) {
     throw new Error("Sidebar new 연산자 누락!");
   }
@@ -31,7 +28,8 @@ export default function Sidebar({
       onCeatedDocument(createdInfo);
 
       // 생성후 API 로직 이후 상태변경
-      this.render();
+      const nextState = await getDocument();
+      documentList.setState(nextState);
     },
   });
 
@@ -39,6 +37,12 @@ export default function Sidebar({
     const rootDocument = await getDocument();
 
     if (rootDocument.length === 0) return;
+
+    push(rootDocument[0].id);
+
+    // window.dispatchEvent(
+    //   new CustomEvent("route-change", { detail: { id: rootDocument[0].id } })
+    // );
 
     documentList.setState(rootDocument);
   };

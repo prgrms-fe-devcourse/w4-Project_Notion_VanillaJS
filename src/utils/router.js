@@ -5,7 +5,7 @@ export const initRouter = (onRoute) => {
 
     if (nextUrl) {
       history.pushState(null, null, nextUrl);
-      onRoute();
+      onRoute(nextUrl);
     }
   });
 };
