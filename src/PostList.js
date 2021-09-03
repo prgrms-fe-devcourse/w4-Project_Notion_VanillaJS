@@ -9,18 +9,32 @@ export default function PostList({ $target, initialState, onClickPost }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
-    
+
     this.render();
   };
 
   const subPostRendering = (post) => {
     const { documents } = post;
-    let list = `<li data-id="${post.id}">
-      <span class="displaySubDocument">▶</span>
-      📄 ${post.title}
-      <span class="options">•••</span>
-      <span class="createSubDocument">+</span>
-      </li>`;
+    let list = "";
+    if (documents) {
+      list = `
+        <li data-id="${post.id}">
+          <span class="displaySubDocument${
+            documents.length ? " displayRotate" : ""
+          }">▶</span>
+          📄 ${post.title}
+          <span class="options">•••</span>
+          <span class="createSubDocument">+</span>
+        </li>`;
+    } else {
+      list = `
+        <li data-id="${post.id}">
+          <span class="displaySubDocument">▶</span>
+          📄 ${post.title}
+          <span class="options">•••</span>
+          <span class="createSubDocument">+</span>
+        </li>`;
+    }
 
     if (!documents) return list;
 
@@ -58,12 +72,11 @@ export default function PostList({ $target, initialState, onClickPost }) {
 
   $postList.addEventListener("click", async (e) => {
     const className = e.target.className;
-    if (className === "displaySubDocument") {
+    if (className.indexOf("displaySubDocument") === 0) {
       e.target.classList.toggle("displayRotate");
 
       const childDocuments = e.target.closest("li").nextSibling;
-      if (!childDocuments) return;
-      if (childDocuments.tagName === "UL") {
+      if (childDocuments && childDocuments.tagName === "UL") {
         invisibleSubDocuments(childDocuments);
       }
     } else if (className === "createRootDocument") {
