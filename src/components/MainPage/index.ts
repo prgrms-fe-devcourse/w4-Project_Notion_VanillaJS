@@ -51,7 +51,11 @@ const MainPage = createComponent(
     }
 
     render() {
-      return div({}, []);
+      const { currentPath, changeRoute } = this.props;
+      const { documents, dispatcher } = this.state;
+      const currentDocumentId = this.convertPathToDocumentId(currentPath);
+
+      return div({ className: styles.MainPage }, []);
     }
   }
 );

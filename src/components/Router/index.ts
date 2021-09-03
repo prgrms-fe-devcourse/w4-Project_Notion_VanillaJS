@@ -1,6 +1,6 @@
 import { Component } from "@/VDOM/Component";
 import { createComponent } from "@/VDOM";
-import { div } from "@/VDOM/elements";
+import MainPage from "@/components/MainPage";
 
 interface RouterState {
   currentPath: string;
@@ -60,7 +60,11 @@ const Router = createComponent(
     }
 
     render() {
-      return div({}, []);
+      const { currentPath } = this.state;
+      return MainPage({
+        currentPath,
+        changeRoute: this.changeRoute.bind(this),
+      });
     }
   }
 );
