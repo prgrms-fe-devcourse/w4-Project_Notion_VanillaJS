@@ -4,6 +4,7 @@ import { createComponent } from "@/VDOM";
 import { Document, Action } from "@/types";
 import { identity } from "@/utils";
 import { fetchDocuments } from "@/utils/api/documents";
+import Sidebar from "@/components/MainPage/Sidebar";
 import styles from "@/components/MainPage/styles.module.scss";
 
 interface MainPageProps {
@@ -55,7 +56,14 @@ const MainPage = createComponent(
       const { documents, dispatcher } = this.state;
       const currentDocumentId = this.convertPathToDocumentId(currentPath);
 
-      return div({ className: styles.MainPage }, []);
+      return div({ className: styles.MainPage }, [
+        Sidebar({
+          changeRoute,
+          dispatcher,
+          documents,
+          currentDocumentId,
+        }),
+      ]);
     }
   }
 );
