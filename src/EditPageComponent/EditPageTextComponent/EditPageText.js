@@ -26,7 +26,7 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
   };
   const makeNewBlock = () => {
     const newBlock = new TextBlock({ targetElement: editPageContentElement });
-    newBlock.block.focus();
+    setCaret(newBlock.block);
     giveChildIndexId(editPageContentElement);
   };
 
@@ -36,4 +36,14 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     e.preventDefault();
     makeNewBlock();
   });
+
+  const setCaret = (targetElement) => {
+    const range = document.createRange();
+    const selection = window.getSelection();
+
+    range.selectNode(targetElement);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+  };
 }
