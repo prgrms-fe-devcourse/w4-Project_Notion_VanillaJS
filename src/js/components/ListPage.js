@@ -1,5 +1,6 @@
 import api from '../api/index.js';
 import Component from '../core/Component.js';
+import { push } from '../core/Router.js';
 import CreateRootDoc from './CreateRootDoc.js';
 import DocumentList from './DocumentList.js';
 import Header from './Header.js';
@@ -19,9 +20,22 @@ const ListPage= class {
   }
 
   async init() {
-    this.state = await api.getAllDocs();
+    const rootDocuments = await api.getAllDocs();
+    this.state = {
+      rootDocuments,
+      selectedId: null
+    }
     this.render()
     this.mount()
+  }
+  
+  setState(newState) {
+    this.state = newState
+    this.docListComponent.setState(newState)
+  }
+  
+  setId(id) {
+    
   }
 
   template() {
@@ -64,12 +78,8 @@ const ListPage= class {
     ) 
   }
 
-  setState(newState) {
-    this.docListComponent.setState(newState)
-  }
-
   selectDoc(docId) {
-    
+    push(`/documents/${docId}`)
   }
 
   async createDoc(parentId = null) {
@@ -77,15 +87,23 @@ const ListPage= class {
       title: '새 문서',
       parent: parentId
     }
-    await api.create(newDoc);
-    const newState = await api.getAllDocs()
-    console.log(newState)
+    const { newDocId }  = await api.create(newDoc);
+    const updatedRootDocs = await api.getAllDocs() 
+    const newState = {
+      rootDocuments: updatedRootDocs,
+      selectedId: newDocId
+    }
     this.setState(newState);
   }
 
   async deleteDoc(docId) {
     await api.delete(docId);
-    const newState = await api.getAllDocs()
+    const updatedRootDocs = await api.getAllDocs()
+
+    const newState = {
+      rootDocuments: updatedRootDocs,
+      selectedId: null,
+    }
     console.log(newState)
     this.setState(newState);
   }

@@ -6,7 +6,7 @@ const BACK_SPACE_KEY = 'Backspace'
 const ENTER_KEY = 'Enter'
 
 const EditableBlock = class extends Component{
-
+  
   template() {
     const { index, className, placeholder, text} = this.state
     return `
@@ -28,7 +28,8 @@ const EditableBlock = class extends Component{
       const text = target.textContent;
 
       e.stopImmediatePropagation();
-    
+      
+      onEditing(blockIndex, text)
       if (key === SPACE_KEY && text.length < 4) {
         e.preventDefault();
         onConvert(blockIndex, text)
@@ -42,25 +43,18 @@ const EditableBlock = class extends Component{
       }
       */
 
-      if (key === BACK_SPACE_KEY  && text.length === 0) {
-        //onEditing(blockIndex, text)
-        onRemove(blockIndex)
+      if (key === BACK_SPACE_KEY && text.length === 0) {
+        onRemove(blockIndex, text)
       }
 
+      // if (key === BACK_SPACE_KEY) {
+      //   onEditing(blockIndex, text)
+      // }
+
       if (key === ENTER_KEY ) {
-        //onEditing(blockIndex, text)
         onCreate(blockIndex, text);
       }
     })
-    /*
-    this.$target.addEventListener('blur', (e) => {
-      e.stopImmediatePropagation();
-      const {target} = e;
-      const blockIndex = Number(target.dataset.index);
-      const text = target.textContent;
-      onEditing(blockIndex, text)
-    }, true) 
-    */  
   }
 
   render() {

@@ -9,6 +9,7 @@ export const initRouter = (onRoute) => {
       onRoute()
     }
   })
+  
 }
 
 export const push = (nextUrl) => {
@@ -18,3 +19,6 @@ export const push = (nextUrl) => {
     }
   }))
 }
+
+
+

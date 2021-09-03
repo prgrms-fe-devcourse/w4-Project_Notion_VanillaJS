@@ -39,7 +39,7 @@ const PostPage = class extends Component{
     const { id } = selectedDocId 
     const newState = await api.getDoc(id);
     const parsedContent = this.parseJson(newState.content) || onBoardingState.content  
-    
+    console.log(parsedContent);
     newState.content = parsedContent;
     this.state = newState
     

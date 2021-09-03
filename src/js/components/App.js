@@ -1,16 +1,19 @@
 import api from '../api/index.js';
 import Component from '../core/Component.js'
+import { initRouter } from '../core/Router.js';
 import ListPage from './ListPage.js';
 import PostPage from './PostPage.js';
 
 const App = class extends Component{
   listPage;
-  postPage;
+  //postPage;
 
   init() {
     this.render()
     this.mount()
+    this.activeRouter()
     this.route()
+    
   }
 
   template() {
@@ -31,7 +34,7 @@ const App = class extends Component{
   render() {
     this.$target.innerHTML = this.template();
   }
-
+  
   route() {
     const { pathname } = window.location
 
@@ -39,9 +42,16 @@ const App = class extends Component{
       this.postPage.init();
     } else if (pathname.startsWith(`/documents/`)) {
       const [, ,postId] = pathname.split('/')
+      console.log(postId)
+      console.log(this.postPage)
       this.postPage.setState({id: Number(postId)})
     }
-  } 
+  }
+
+  activeRouter() {
+    initRouter(this.route.bind(this))
+    window.onpopstate = () => this.route()
+  }
 }
 
 export default App

@@ -21,7 +21,7 @@ const ContentContainer = class extends Component {
           focus: index === content.length - 1,
           onConvert: convertBlock.bind(this),
           onRemove: removeBlock.bind(this),
-          onEditing: updateBlock.bind(this),
+          onEditing: () => updateBlock.bind(this),
           onCreate: createNewBlock.bind(this)
         }  
       )
@@ -92,12 +92,15 @@ const ContentContainer = class extends Component {
     this.setState(newState);
   }
 
-  removeBlock(index) {
+  removeBlock(index, text) {
     const {content} = this.state;
-    const newContent = [
-      ...content.slice(0, index),
-      ...content.slice(index + 1)
-    ]
+    content[index].text = text
+    
+    const newContent = (text.length === 0) ?
+    [ ...content.slice(0, index), ...content.slice(index + 1)] 
+    : [...content]
+
+    console.log(newContent)
     this.setState({ content: newContent })
   }
 }

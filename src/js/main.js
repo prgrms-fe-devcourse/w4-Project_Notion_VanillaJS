@@ -3,11 +3,12 @@ import api from './api/index.js';
 import DocList from './components/DocumentList.js';
 import{ initRouter } from './core/Router.js';
 
+
 const $app = document.querySelector('#app');
 
-const app = new App($app)
+new App($app)
 
-initRouter(app.route)
+//initRouter(app.route)
 
 /*
 const content = [
