@@ -25,7 +25,7 @@ export default function NotionList({
   //컴포넌트 랜더링(하위 컴포넌트 포함)
   const documentRecursive = (data, text) => {
     text += `
-      <ul  style="margin : 4px;">
+      <ul>
       ${data
         .map(
           ({
