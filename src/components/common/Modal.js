@@ -62,12 +62,14 @@ export default function Modal({
   };
 
   const onCancel = () => {
-    $target.removeChild(this.$container);
+    if ($target.querySelector(`.${container}`)) {
+      $target.removeChild(this.$container);
+    }
   };
 
-  $conformButton.addEventListener(
-    'click',
-    async () => await onConform(isInput ? this.state.title : undefined),
-  );
+  $conformButton.addEventListener('click', async () => {
+    await onConform(isInput ? this.state.title : undefined);
+    onCancel(); // 확인 후 모달을 없앱니다!
+  });
   $cancelButton.addEventListener('click', () => onCancel());
 }

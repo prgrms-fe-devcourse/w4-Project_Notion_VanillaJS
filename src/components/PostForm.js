@@ -58,8 +58,12 @@ export default function PostForm({
   };
 
   this.render = () => {
-    $postForm.appendChild($editor);
-    $target.appendChild($postForm);
+    if (!$postForm.querySelector(`.${editor}`)) {
+      $postForm.appendChild($editor);
+    }
+    if (!$target.querySelector(`.${postForm}`)) {
+      $target.appendChild($postForm);
+    }
   };
 
   $editor.addEventListener('keyup', async e => {

@@ -1,4 +1,3 @@
-import classNames from '@/utils/classNames';
 import {
   _removeAllChildNodes,
   _createElemWithAttr,
@@ -26,6 +25,7 @@ export default function SideBar({ $target, initialState, onClick }) {
     postsItem,
     postsBlock,
     sideBarItem,
+    sideBarContainer,
     sideBarButtonBox,
     sideBarCreatePostBtn,
     postBlock,
@@ -35,13 +35,10 @@ export default function SideBar({ $target, initialState, onClick }) {
     postNextNew,
     postRemoveBtn,
   } = names;
-
-  const $sideBar = document.createElement('nav');
-  $sideBar.className = classNames.sideBarContainer;
-
-  const $posts = _createElemWithAttr('section', [sideBarItem, postsBlock]);
   this.state = initialState;
 
+  const $sideBar = _createElemWithAttr('nav', [sideBarContainer]);
+  const $posts = _createElemWithAttr('section', [sideBarItem, postsBlock]);
   const $sideBarButtonBox = _createElemWithAttr('div', [sideBarButtonBox]);
   new Button({
     $target: $sideBarButtonBox,
@@ -84,15 +81,18 @@ export default function SideBar({ $target, initialState, onClick }) {
   };
 
   this.render = () => {
-    $target.appendChild($sideBar);
+    console.log($sideBar, $target);
+    if (!$target.querySelector(`.${sideBarContainer}`))
+      $target.append($sideBar);
   };
 
   $sideBar.addEventListener('click', e => {
     if (
       !e.target.classList.contains(postsItem) &&
       !e.target.classList.contains(postLink)
-    )
+    ) {
       return;
+    }
     const postId = e.target.closest(`.${postsItem}`).getAttribute(['data-id']);
     onClick(postId);
   });
@@ -135,7 +135,6 @@ export default function SideBar({ $target, initialState, onClick }) {
 
   $sideBar.addEventListener('click', e => {
     if (!e.target.classList.contains(postRemoveBtn)) return;
-    const $app = document.querySelector('#app');
     const closestPostNext = e.target.closest(`.${postsItem}`);
     const modal = new Modal({
       $target: document.querySelector('#app'),
@@ -143,16 +142,18 @@ export default function SideBar({ $target, initialState, onClick }) {
       isInput: false,
       onConform: async () => {
         try {
-          await deletePost(this.state.username, closestPostNext.dataset.id);
+          const { id } = closestPostNext.dataset;
+          await deletePost(this.state.username, id);
           const posts = await getPostList(this.state.username);
           this.setState({
             documents: posts,
           });
+          if (id === window.location.pathname.split('/')[2]) {
+            push('/');
+          }
         } catch (e) {
           console.error(e);
           alert(ERROR_STATUS, e);
-        } finally {
-          $app.removeChild(modal.$container);
         }
       },
     });

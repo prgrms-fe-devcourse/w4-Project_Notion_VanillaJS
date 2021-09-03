@@ -41,10 +41,12 @@ export default function Header({
   };
 
   this.render = () => {
-    $target.appendChild($header);
+    if (!$target.querySelector(`.${headerBlock}`)) {
+      $target.appendChild($header);
+    }
   };
 
-  $logoBox.addEventListener('click', e => {
+  $logoBox.addEventListener('click', () => {
     push('/');
   });
 }
