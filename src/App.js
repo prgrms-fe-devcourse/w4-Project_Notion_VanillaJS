@@ -44,7 +44,11 @@ export default function App({
           method: 'DELETE',
         })
         await fetchDocList()
-        await fetchDocPage(this.state.docList[0].id)
+        console.log('this.state.docList :>> ', this.state.docList);
+        await this.setState({
+          ...this.state,
+          selectedDoc: {}
+        })
       }
     }
   })
@@ -81,6 +85,10 @@ export default function App({
 
   const fetchDocList = async () => {
     const res = await request('/documents')
+    if (!res) {
+      await history.pushState(null, null, `/`)
+      return
+    }
     this.setState({
       ...this.state,
       docList : res
@@ -89,6 +97,11 @@ export default function App({
 
   const fetchDocPage = async (id) => {
     const res = await request(`/documents/${id}`)
+    if (!res) {
+      await history.pushState(null, null, `/`)
+      return
+    }
+    console.log('res :>> ', res);
     this.setState({
       ...this.state,
       selectedDoc : res
