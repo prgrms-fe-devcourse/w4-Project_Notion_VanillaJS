@@ -3,7 +3,6 @@ import { getItem, removeItem, setItem } from "../../utils/storage.js";
 import { createElement } from "../../utils/util.js";
 import Editor from "./Editor.js";
 
-//에디터에 필요한 데이터를 가지고 있는 컴포넌트 상태 === 정보
 export default function EditorPage({
   $target,
   initialState = { title: "", content: "" },
@@ -26,8 +25,8 @@ export default function EditorPage({
 
       timer = setTimeout(async () => {
         const data = getItem(this.state.id, post);
-        const a = await modifyDocument(this.state.id, data);
-        console.log(a);
+        
+        await modifyDocument(this.state.id, data);
         removeItem(this.state.id);
       }, 2000);
     },

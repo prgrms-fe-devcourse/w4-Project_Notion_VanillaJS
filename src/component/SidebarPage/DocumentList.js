@@ -1,7 +1,7 @@
 import { push } from "../../utils/router.js";
 import { createElement } from "../../utils/util.js";
 
-const getDocument = (data) => {
+const createDocument = (data) => {
   const { id, title, documents } = data;
 
   return /*html*/ `
@@ -10,13 +10,10 @@ const getDocument = (data) => {
       <li>${
         documents.length === 0
           ? ""
-          : documents.map((document) => getDocument(document)).join("")
+          : documents.map((document) => createDocument(document)).join("")
       }</li>
     </ul>`;
 };
-
-//Root Document 데이터를 활용해서 렌더링함
-//initialState set [{id: '', title: '', createdAt: '', documents: [](배열)} ] 배열
 
 export default function DocumentList({ $target, initialState, onAdd }) {
   const $documentContainer = createElement("div", "document-container");
@@ -37,12 +34,6 @@ export default function DocumentList({ $target, initialState, onAdd }) {
       const { id } = $document.dataset;
 
       push(id);
-
-      // window.dispatchEvent(
-      //   new CustomEvent("route-change", { detail: { nextUrl: id } })
-      // );
-
-      // history.pushState(null, null, `${id}`);
     }
   });
 
@@ -57,7 +48,7 @@ export default function DocumentList({ $target, initialState, onAdd }) {
   this.render = () => {
     $documentContainer.innerHTML = `${
       this.state
-        ? this.state.map((document) => getDocument(document)).join("")
+        ? this.state.map((document) => createDocument(document)).join("")
         : ""
     }<ul data-id="new"><div><button class="add-btn">+</button> Add a Page</div></ul>`;
   };

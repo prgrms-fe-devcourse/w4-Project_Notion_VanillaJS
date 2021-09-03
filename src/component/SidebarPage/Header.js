@@ -1,9 +1,11 @@
+import { createElement } from "../../utils/util.js";
+
 export default function Header({ $target, title }) {
   if (!new.target) {
     throw new Error("Header new 연산자 누락!");
   }
-  const $header = document.createElement("div");
-  $header.className = "sidebar-header";
+
+  const $header = createElement("div", "sidebar-header");
 
   $target.appendChild($header);
 

@@ -4,8 +4,6 @@ import DocumentList from "./DocumentList.js";
 import { createElement } from "../../utils/util.js";
 import { push } from "../../utils/router.js";
 
-//Sidebar 렌더시 Header, DocumentList 컴포넌트 렌더
-// DocumentList 데이터를 관리
 export default function Sidebar({ $target, onCeatedDocument }) {
   if (!new.target) {
     throw new Error("Sidebar new 연산자 누락!");
@@ -27,7 +25,6 @@ export default function Sidebar({ $target, onCeatedDocument }) {
 
       onCeatedDocument(createdInfo);
 
-      // 생성후 API 로직 이후 상태변경
       const nextState = await getDocument();
       documentList.setState(nextState);
     },
@@ -39,10 +36,6 @@ export default function Sidebar({ $target, onCeatedDocument }) {
     if (rootDocument.length === 0) return;
 
     push(rootDocument[0].id);
-
-    // window.dispatchEvent(
-    //   new CustomEvent("route-change", { detail: { id: rootDocument[0].id } })
-    // );
 
     documentList.setState(rootDocument);
   };

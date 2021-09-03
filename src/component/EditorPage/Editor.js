@@ -31,11 +31,13 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   $editor.querySelector("[name=title]").addEventListener("keyup", (e) => {
     const nextState = { ...this.state, title: e.target.value };
+
     onEditing(nextState);
     this.setState(nextState);
   });
   $editor.querySelector("[name=content]").addEventListener("keyup", (e) => {
     const nextState = { ...this.state, content: e.target.value };
+
     onEditing(nextState);
     this.setState(nextState);
   });
