@@ -24,7 +24,8 @@ export default function Editor({
   $editor.addEventListener('keyup', e => {
     const {target} = e
     const name = target.getAttribute('name')
-
+    console.log('target :>> ', target);
+    console.log('name :>> ', name);
     //js 특성상 []사이가 빈 문자열이면 false로 인식함
     if (this.state[name] !== undefined) {
       const nextState = {
@@ -32,6 +33,7 @@ export default function Editor({
         [name] : target.value
       }
       this.state = nextState
+      console.log('this.state :>> ', this.state);
       onEditing(this.state)
     }
   })

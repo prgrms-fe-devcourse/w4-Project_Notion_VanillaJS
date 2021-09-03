@@ -20,21 +20,20 @@ export default function App({
       await history.pushState(null, null, `/?selectedDocId=${id}`)
       await fetchDocPage(id)
     },
-    newDoc: async (id) => {
-      if (id) {
-        const res = await request(`/documents`, {
-          method: 'POST',
-          body: JSON.stringify(
-            {
-              "title" : 'New Document',
-              "parent" : id
-            }
-          )
-        })
-        await fetchDocList()
-        console.log('res.id :>> ', res.id);
-        await fetchDocPage(res.id)
-      }
+    newDoc: async (id = null) => {
+      const res = await request(`/documents`, {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+            "title" : 'New Document',
+            "parent" : id
+          }
+        )
+      })
+      await fetchDocList()
+      console.log('res.id :>> ', res.id);
+      await fetchDocPage(res.id)
+
     },
     deleteDoc: async (id) => {
       const userConfirm = await confirm('해당 문서를 삭제하시겠습니까?')
@@ -73,6 +72,7 @@ export default function App({
     })
 
     documentPage.setState(this.state.selectedDoc)
+    this.render()
   }
 
   this.render = () => {
@@ -95,12 +95,7 @@ export default function App({
   }
 
   const init = async() => {
-    const res = await request(`/documents`)
-    await fetchDocPage(res[0].id)
-    this.setState({
-      ...this.state,
-      docList : res
-    })
+    fetchDocList()
   }
 
   const docPopstate = () => {
@@ -117,6 +112,13 @@ export default function App({
     }
   }
 
+  this.render = () => {
+    const {selectedDoc} = this.state
+    const $documentContainer = document.querySelector('.document-page')
+    $documentContainer.style.display = selectedDoc.id ? 'block' : 'none'
+  }
+
+  this.render()
   init()
   docPopstate()
 

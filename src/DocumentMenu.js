@@ -3,8 +3,19 @@ import {request} from './api.js';
 export default function DocumentMenu({$target, initialState, menuClick, newDoc, deleteDoc}) {
 
   const $menu = document.createElement('div')
-  $menu.className = 'document-menu'
+  $menu.className = 'menu-container'
   $target.appendChild($menu)
+
+  const $projectTitle = document.createElement('div')
+  $projectTitle.innerHTML=`
+    <h2>소정의 프로그래머스 노션</h2>
+    <button class="new-doc-btn">+</button>
+    `
+  $menu.appendChild($projectTitle)
+
+  const $rootMenu = document.createElement('div')
+  $rootMenu.className = 'document-menu'
+  $menu.appendChild($rootMenu)
 
   this.state = initialState
 
@@ -12,7 +23,6 @@ export default function DocumentMenu({$target, initialState, menuClick, newDoc, 
     this.state = nextState
     this.render()
   }
-
 
   const menuTree = (currentDocument, parentId = 0) => {
     let parentNode
@@ -36,12 +46,20 @@ export default function DocumentMenu({$target, initialState, menuClick, newDoc, 
       }
     })
   }
+
   this.render = () => {
-    $menu.innerHTML = ''
+    $rootMenu.innerHTML = ''
     menuTree(this.state.docList)
   }
 
-  $menu.addEventListener('click', (e) => {
+  $projectTitle.addEventListener('click', (e) => {
+    e.preventDefault()
+    if(e.target.className === 'new-doc-btn'){
+      newDoc()
+    }
+  })
+
+  $rootMenu.addEventListener('click', (e) => {
     e.preventDefault()
 
     const $li = e.target.closest('li')

@@ -12,10 +12,11 @@ export default function ChildDocumentList({
     this.render()
   }
   this.render = () => {
+    console.log('this.state :>> ', this.state);
     $childDocList.innerHTML = `
       <h3>[${this.state.title}] 의 하위 페이지</h3>
       <ul class="child-doc-list">
-        ${!this.state.documents.length?`<li>하위 페이지가 없습니다</li>`: this.state.documents.map(doc => `
+        ${!this.state.documents?`<li>하위 페이지가 없습니다</li>`: this.state.documents.map(doc => `
           <li data-id='${doc.id}'><a href="">${doc.title}</a></li>
         `).join('')}
       </ul>

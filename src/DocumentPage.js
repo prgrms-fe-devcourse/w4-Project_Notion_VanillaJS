@@ -34,6 +34,7 @@ export default function DocumentPage({$target, initialState, childDocClick, titl
     },
     onEditing: (editDoc) => {
       const {title, content} = editDoc
+      titleUpdate(title)
       if (timer !== null) {
         clearTimeout(timer)
       }
@@ -47,7 +48,6 @@ export default function DocumentPage({$target, initialState, childDocClick, titl
             }
           )
         })
-        titleUpdate()
       }, 2000)
     }
   })
