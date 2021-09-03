@@ -87,7 +87,7 @@ export default function PostEditPage({
 
             if (this.state.postId === 'new') {
                 console.log(this.state.parent)
-                if (this.state.parent === undefined && this.state.retitle===undefined) {
+                if (this.state.parent === undefined && this.state.decodeRetitle===undefined) {
                     const post = getItem(postLocalSaveKey, {
                         title: '',
                         content: '',
@@ -100,7 +100,7 @@ export default function PostEditPage({
                 }
                 else if (this.state.parent === undefined) {
                     const post = getItem(postLocalSaveKey, {
-                        title: nextState.retitle,
+                        title: nextState.decodeRetitle,
                         content: '',
                         parent: null
                     })
@@ -183,8 +183,9 @@ export default function PostEditPage({
     new LinkButton({
         $target:$page,
         initialState:{
-            text:'새로고침',
-            link:'/'
+            text:'🏠홈',
+            link:'/',
+            buttonClassName:'refreshButton'        
         }
     })
 }

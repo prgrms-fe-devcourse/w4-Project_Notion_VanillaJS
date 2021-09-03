@@ -34,7 +34,7 @@ export default function Editor({$target,
         $editor.innerHTML=`
                 <input type="text" class="documentTitle"  name="title" placeholder='제목 없음' value="${this.state.title}"></input>
                 <div class="textAreadiv">
-                    <textarea name="content" class="ContentArea" style="width:600px; height:600px;">${this.state.content}</textarea>
+                    <textarea name="content" class="ContentArea" style="width:600px; height:500px;">${this.state.content}</textarea>
                 </div>
             `
             

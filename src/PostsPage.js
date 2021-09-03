@@ -1,16 +1,21 @@
 import PostList from "./PostList.js"
-import { request } from "./api.js"
 import LinkButton from "./LinkButton.js"
 import PostListTrash from "./PostListTrash.js"
+import FirstPage from "./FirstPage.js"
+import { request } from "./api.js"
+
 import { removeItem,getItem } from "./storage.js"
 import { push } from "./router.js"
 export default function PostsPage({
     $target,
     
 }){
-
+    const firstPage = new FirstPage({
+        $target
+    })
     const $page = document.createElement('div')
     $page.className='postlist'
+
     const postList=new PostList({
         $target:$page,
         initialState:[],
@@ -107,6 +112,8 @@ export default function PostsPage({
             removeItem(`temp-trash-${recoverId}`)
             postListTrash.state.splice(docsIndex,1)
             postListTrash.Eventrender()
+            console.log(recoverTitle)
+            console.log(`documents/new/recover/${recoverTitle}`)
             push(`/documents/new/recover/${recoverTitle}`)
             
         },
@@ -127,12 +134,18 @@ export default function PostsPage({
 
     })
 
+
     this.setState= async()=>{
         const documents= await request('/documents')
         postList.setState(documents)
         postListTrash.forRender()
         this.render()
+        //firstPage.render()
     }
+    this.deletfirstPage= ()=>{
+        firstPage.deleteRender()
+    }
+
 
 
 

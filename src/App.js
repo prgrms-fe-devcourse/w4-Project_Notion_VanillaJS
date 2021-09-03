@@ -1,13 +1,9 @@
 import PostsPage from "./PostsPage.js"
 import PostEditPage from "./PostEditPage.js"
 import { initRouter } from "./router.js"
+import FirstPage from "./FirstPage.js"
 export default function App({$target}){
     
-    //const $userListContainer = document.createElement('div')
-    //const $documentContainer = document.createElement('div')
-    //$target.appendChild($documentContainer)
-
-    //$target.appendChild($todoListContainer)
     const postsPage = new PostsPage({
         $target,
     })
@@ -24,6 +20,7 @@ export default function App({$target}){
         }
     })
 
+
     this.route = ()=>{
         
         
@@ -34,17 +31,23 @@ export default function App({$target}){
 
         if(pathname==='/'){
             $target.innerHTML=''
+
             postsPage.setState()
+            
+            //postsPage.deletfirstPage()
+
         }else if(pathname.indexOf('/documents/')===0){
             const [, , postId,parent,retitle] = pathname.split('/')
-
-            if(parent&& parent!='recover'){
+            const decodeRetitle=decodeURIComponent(retitle)
+            console.log(pathname.split('/'))
+            if(parent!=''&& parent!='recover'){
                 postEditPage.setState({postId,parent})
             }
-            else if(retitle){
-                postEditPage.setState({postId,undefined,retitle})
+            else if(decodeRetitle){
+                postEditPage.setState({postId,decodeRetitle})
             }
             else{
+                console.log({postId})
             postEditPage.setState({postId})
             }
 

@@ -50,12 +50,10 @@ export default function PostListTrash({$target,initialState,onHardRemove,onRecov
         <div button class="trash">\u00A0\u00A0🗑\u00A0휴지통</div>
             <ul class="trashList" style="display : none">
                 ${this.state.map(a=>`
-                <li class="trashDocs"data-id="${a.id}">
-                 ${a.title}
-                 <button class="recoverButton">♻</button>
+                <li class="trashDocs"data-id="${a.id}">${a.title}<button class="recoverButton">♻</button>
                  <button class="hardRemoveButton">✂</button>
                 </li>`).join('')}
-                <div button class="RemoveAllTrash">휴지통 비우기</div>
+                <div button class="RemoveAllTrash">🗑\u00A0\u00A0휴지통 비우기</div>
             </ul>
             
         <div>
@@ -69,12 +67,10 @@ export default function PostListTrash({$target,initialState,onHardRemove,onRecov
         <div button class="trash">\u00A0\u00A0🗑\u00A0휴지통</div>
             <ul class="trashList" style="display : block">
                 ${this.state.map(a=>`
-                <li class="trashDocs"data-id="${a.id}">
-                 ${a.title}
-                 <button class="recoverButton">♻</button>
+                <li class="trashDocs"data-id="${a.id}">${a.title}<button class="recoverButton">♻</button>
                  <button class="hardRemoveButton">✂</button>
                 </li>`).join('')}
-                <div button class="RemoveAllTrash">휴지통 비우기</div>
+                <div button class="RemoveAllTrash">🗑\u00A0\u00A0휴지통 비우기</div>
             </ul>
             
         <div>
