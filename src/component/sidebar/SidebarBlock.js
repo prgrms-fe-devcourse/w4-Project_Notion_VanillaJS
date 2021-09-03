@@ -88,7 +88,6 @@ class SidebarBlock extends Component {
     } else if (e.target.closest("div").classList[0] === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
       const data = await request(id, HTTP_METHOD.GET);
-      console.log(data, "sidebar request");
       emit(qs(".notion-content-container"), "@changeContent", { id: data.id, title: data.title, content: data.content });
       history.pushState(null, "", `/documents/${id}`);
     }

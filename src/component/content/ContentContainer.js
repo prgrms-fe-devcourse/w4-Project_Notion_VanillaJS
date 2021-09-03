@@ -34,8 +34,11 @@ class ContentContainer extends Component {
   }
   render() {
     this.$target.innerHTML = this.template();
+
     new HeaderComponent(qs(".editor h1"), { title: this.state.title, editable: true });
-    new ContentComponent(qs(".content-body"), { content: this.state.content });
+    new ContentComponent(qs(".content-body"), {
+      content: this.state.content ? this.state.content.replaceAll(/\n/g, "<br>") : this.state.content,
+    });
     new ViewerContainer(qs(".viewer"), { state: this.state });
     this.mount();
   }
@@ -44,19 +47,16 @@ class ContentContainer extends Component {
     let timer;
     on(this.$target, "keyup", (e) => {
       handleAutoSaveContent(e);
-      // if (e.target.className === "content-header") {
-      //   emit(qs(".viewer"), "@reflectHeaderToViewer", e.target.innerText);
-      // }
-      // else if (e.target.className === "content-body") {
-      //   console.log("yes");
-      // }
+      if (e.target.className === "content-header") {
+        emit(qs(".viewer"), "@reflectHeaderToViewer", e.target.innerText);
+      } else if (e.target.className === "content-body") {
+        emit(qs(".viewer"), "@reflectContentToViewer", e.target.innerText);
+      }
     });
 
     const handleAutoSaveContent = (e) => {
       const title = qs(".editor .content-header").innerText;
       const content = qs(".editor .content-body").innerText;
-      console.log(title);
-      console.log(this.state);
       if (timer) {
         clearTimeout(timer);
       }

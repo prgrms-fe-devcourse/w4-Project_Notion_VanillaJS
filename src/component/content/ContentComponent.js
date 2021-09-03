@@ -7,10 +7,8 @@ class ContentComponent extends Component {
   }
 
   template() {
-    let { content } = this.props;
-    if (content) {
-      content = content.replaceAll(/\n/g, "<br>");
-    }
+    const { content } = this.props;
+
     return `
       ${!content ? "" : content}
     `;
