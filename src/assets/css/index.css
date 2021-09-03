@@ -89,6 +89,9 @@ p.blank {
 }
 .nav-page-title {
 	z-index: 2;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 .nav-toggler-btn,
 .nav-crate-btn,
