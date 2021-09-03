@@ -28,8 +28,9 @@ export default function Editor ({ $target, initialState, onEditing, onDelete }) 
     if (isInitialize) {
       $editor.innerHTML = `
         <div class="documentTitle">
-          <input class="titleInput" type="text" name="title" placeholder="제목 없음" value="${this.state.title}"/>
-          <button class="editorDelete" name="delete">❎</button>
+          <div class="titleIcon"></div>
+          <input class="titleInput" type="text" name="title" placeholder="제목 없음" value="${this.state.title}" autocomplete="off" />
+          <button class="editorDelete" name="delete">x</button>
         </div>
         <textarea class="documentContent" name="content" placeholder="내용을 입력하세요..">${this.state.content}</textarea>
       `

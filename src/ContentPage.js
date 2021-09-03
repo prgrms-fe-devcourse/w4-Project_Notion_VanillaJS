@@ -1,6 +1,6 @@
+import Editor from "./Editor.js";
 import { request } from "./api.js";
 import { pushRoute } from "./router.js";
-import Editor from "./Editor.js";
 import { removeItem } from "./storage.js";
 
 export default function ContentPage({ $target }) {

@@ -31,8 +31,8 @@ export default function ControlPage({ $target }) {
       this.setState();
     },
     onSelect: id => {
-      const prevSelectedId = getItem('selectedDocument')[0];
-
+      const prevSelectedId = getItem('selectedDocument', [])[0];
+      console.log(prevSelectedId)
       if(prevSelectedId !== Number(id)) {
         setItem('selectedDocument', [Number(id)])
       }
@@ -51,10 +51,8 @@ export default function ControlPage({ $target }) {
 
 
   this.setState = async () => {
-    // 만약 nextState 가 빈값이라면? validation. 초기 디폴트값 필요
     const nextState = await request('/documents');
-    const selectedState = getItem('selectedDocument');
-    
+    const selectedState = getItem('selectedDocument', []);
     this.state = nextState;    
 
     documentList.setState(this.state, this.toggledState, selectedState);

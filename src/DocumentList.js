@@ -13,16 +13,17 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
   this.setState = (nextState, nextToggledState, nextSelectedState) => {
     this.state = nextState;
     this.toggledState = nextToggledState;
+
     this.selectedState = nextSelectedState;
-    console.log(this.selectedState[0])
     this.render();
   }
 
-  function checkSelected(id, selectedId) {
-    if(id === selectedId) {
-      return 'isSelectedText'
-    } else {
-      return ''
+  function checkSelected(id, selectedDocument) {
+    if(selectedDocument[0]) {
+      if(id === selectedDocument[0]) {
+        return 'isSelectedText';
+      }
+      return '';
     }
   }
 
@@ -33,17 +34,17 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
         ? 
         `
           <li id=${document.id}>
-            <button class='toggleDocument'>▼</button>
-            <span id='${checkSelected(document.id, selectedDocument[0])}' class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
+            <button id='toggledImage' class='toggleDocument'></button>
+            <span id='${checkSelected(document.id, selectedDocument)}' class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
             <button class='createChildDocument'>➕</button>
           </li>
-            ${document.documents.length ? createListTree(document.documents, toggledDocuments) : '<ul><li class="noChildDocument">하위 Document가 없습니다.</li></ul>'}
+            ${document.documents.length ? createListTree(document.documents, toggledDocuments, selectedDocument) : '<ul><li class="noChildDocument">하위 Document가 없습니다.</li></ul>'}
         ` 
         :
         `
           <li id=${document.id}>
-            <button class='toggleDocument'>▶</button>
-            <span id='${checkSelected(document.id, selectedDocument[0])}' class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
+            <button id='toggleImage' class='toggleDocument'></button>
+            <span id='${checkSelected(document.id, selectedDocument)}' class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
             <button class='createChildDocument'>➕</button>
           </li>
         `}
@@ -58,8 +59,7 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
     `
 
     const $selectedLi = document.getElementById(`${this.selectedState[0]}`)
-    if ($selectedLi !== null) {
-      // select 했을 때 CSS
+    if ($selectedLi) {
       $selectedLi.classList.add('isSelected');
     }
   }
@@ -67,11 +67,12 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
   $documentList.addEventListener('click', async (e) => {
     const { className } = e.target;
     const $li = e.target.closest('li');
-    
+
     if ($li) {
       const { id } = $li; 
-      switch ($li && className) {
-        case 'toggleDocument':    
+      switch (className) {
+        case 'toggleDocument':  
+          console.log('토글~~')  
           onToggle(id);
           break;
         case 'selectDocument':

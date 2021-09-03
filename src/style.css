@@ -36,6 +36,17 @@ body {
   background-color: rgb(190, 190, 190);
 }
 
+.titleIcon {
+  position: absolute;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: url('./image/openFile.png') no-repeat center/contain transparent;
+  background-size: 100%;
+}
 
 .documentTitle {
   position: relative;
@@ -51,14 +62,24 @@ body {
   background: transparent;
   color: rgb(255, 255, 255);
   width: 500px;
+  vertical-align: baseline;
+  margin-top: 7px;
+  margin-left: 25px;
 }
 
 .editorDelete {
   position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
   right: 0;
-  width: 30px;
-  background: transparent;
-  border: none;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  font-size: 14px;
+  font-weight: bolder;
+  padding: 0 4px;
+  background-color: rgb(190, 190, 190);
 }
 
 .documentContent {
@@ -87,10 +108,35 @@ li {
   list-style: none;
 }
 
-.toggleDocument, .createChildDocument {
+.toggleDocument {
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   background: none;
   border: none;
+}
+
+.createChildDocument {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+#toggleImage {
+  width: 20px;
+  height: 20px;
+  background: url('./image/file.png') no-repeat center/contain;
+  background-size: 100%;
+}
+
+#toggledImage {
+  width: 22px;
+  height: 22px;
+  background: url('./image/toggleFile.png') no-repeat center/contain;
+  background-size: 100%;
+  padding: 0;
 }
 
 .selectDocument {
