@@ -63,6 +63,10 @@ export async function createDocument(parent = null) {
 }
 
 export async function deleteDocument(id) {
+  if (id === 12835) {
+    alert("🥺");
+    return;
+  }
   try {
     await fetch(`${API_END_POINT}/documents/${id}`, {
       method: "DELETE",

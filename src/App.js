@@ -65,6 +65,10 @@ export default function App({ targetElement }) {
   };
 
   const onDelete = async (id) => {
+    if (id === 12835) {
+      alert("🥺");
+      return;
+    }
     const intendedDeleteElement = document.getElementById(id);
     checkCurrentDocumentDeleted(id);
     intendedDeleteElement.remove();
