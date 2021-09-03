@@ -17,7 +17,7 @@ export default function Editor ({ $target, initialState, onEditing, onDelete }) 
     
     this.state = nextState;
     if(!isInitialize) {
-      $editor.querySelector('.documentTitle').value = this.state.title;
+      $editor.querySelector('.titleInput').value = this.state.title;
       $editor.querySelector('.documentContent').value = this.state.content;
     }
 
