@@ -81,11 +81,11 @@ input{
 }
 
 li{
-    cursor : pointer;
+    /* cursor : pointer; */
     
 }
 
 button{
-    cursor : pointer;
+    /* cursor : pointer; */
     
 }

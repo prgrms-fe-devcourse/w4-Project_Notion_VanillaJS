@@ -34,7 +34,7 @@ export default function DocumentEditPage({ $target, initialState }) {
       }
 
       timer = setTimeout(async() => {
-        console.log(document)
+        // console.log(document)
         setItem(documentLocalSaveKey, {
           ...document,
           tempSaveData: new Date(),
@@ -46,7 +46,7 @@ export default function DocumentEditPage({ $target, initialState }) {
                 method : 'POST',
                 body: JSON.stringify({
                     title : document.title,
-                    parent: null
+                    parent: this.state.parentId
                 })
             })
             history.replaceState(null, null, `/${createdDocument.id}`)
@@ -119,19 +119,8 @@ export default function DocumentEditPage({ $target, initialState }) {
               ...this.state,
             document
           })
-          console.log(this.state)
         }
   }
-  this.route = () => {
-    const {pathname} = window.location
-    const [, id] = pathname.split('/')
-    this.setState({
-        documentId : id
-    })
-    editor.render()
-  }
-  
-  initRoute(() => this.route())
 
 
 }

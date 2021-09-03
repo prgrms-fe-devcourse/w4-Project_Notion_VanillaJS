@@ -30,7 +30,7 @@ export default function documentPage({
 
     this.render = async() => {
         await fetchDocuments()
-        $target.appendChild($documentPage)
+        $target.prepend($documentPage)
 
     }
 }

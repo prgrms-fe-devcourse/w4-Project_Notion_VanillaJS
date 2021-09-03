@@ -29,6 +29,8 @@ export default function Editor({
         }
         isinitialize = true
     }
+
+    this.render()
     
 
 

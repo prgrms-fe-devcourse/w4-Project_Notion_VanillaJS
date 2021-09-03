@@ -11,7 +11,7 @@ export const initRoute = (onRoute) => {
         console.log(documentId, id)
         if(type === 'list'&& documentId !== id){
             history.pushState(null, null, `/${id}`)
-            onRoute()
+            onRoute(null)
         }
         else if(type === 'remove-btn'){
             await request(`/${id}`, {

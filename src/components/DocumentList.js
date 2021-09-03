@@ -19,7 +19,7 @@ export default function PostList({
 
     this.render = () => {
         $documentList.innerHTML = `
-            <button name ="add-btn parent-document-add" data-id = "null"><i class="fas fa-plus"></i> 페이지 추가</button>
+            <button ><i class="fas fa-plus" name ="add-btn parent" data-id = "null"></i> 페이지 추가</button>
             ${displayDocumentList(this.state)}
         `
     }
@@ -27,7 +27,10 @@ export default function PostList({
     $documentList.addEventListener('click', e=> {
         const {target} = e
         const name = target.getAttribute('name')
-        // console.log(target.dataset.id)
+        if(!name){
+            target = target.closest('li')
+        }
+        console.log
         if(name){
             push({
                 type : name,

@@ -19,17 +19,30 @@ export default function App({ $target }) {
     }
   })
 
-  this.render = () => {
-    $target.innerHTML = ''
-    const {pathname} = window.location
-    const [ , id ] = pathname.split('/')
-    documentPage.render()
-    documentEditPage.render()
-  }
-
-  this.render()
 
 
+    this.route = (parent) => {
+        $target.innerHTML = ''
+        const {pathname} = window.location
+        if(pathname === '/'){
+            console.log('hi')
+            documentPage.render()
+        }else{
+            // console.log(parent)
+            console.log('bye')
+
+            const [ , id ] = pathname.split('/')
+            documentPage.render()
+            documentEditPage.setState({
+                documentId : id,
+                parentId : parent
+            })
+        }
+    }
+    
+    this.route()
+    
+    initRoute((parent) => this.route(parent))
 
 
 }
