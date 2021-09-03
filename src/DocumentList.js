@@ -55,7 +55,7 @@ export default function DocumentList({ $target, inititalState, onClick }) {
     this.setState(documents);
   };
 
-  this.addDocument = async documentId => {
+  this.addDocument = async (documentId = null) => {
     const res = await request('', {
       method: 'POST',
       body: JSON.stringify({
@@ -65,7 +65,11 @@ export default function DocumentList({ $target, inititalState, onClick }) {
     });
 
     const newDocument = { id: res.id, title: res.title, documents: [] };
-    const nextState = addChildDocument(newDocument, documentId);
+
+    const nextState =
+      documentId === null
+        ? [...this.state, newDocument]
+        : addChildDocument(newDocument, documentId);
 
     this.setState(nextState);
 
