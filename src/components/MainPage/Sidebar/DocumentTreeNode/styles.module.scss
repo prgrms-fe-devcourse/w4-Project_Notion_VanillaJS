@@ -1,0 +1,30 @@
+.DocumentTreeNode {
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  max-width: 100%;
+  white-space: nowrap;
+  &:hover {
+    background: rgba(55, 53, 47, 0.08);
+  }
+  & + * {
+    display: none;
+  }
+  &.open + * {
+    display: block;
+  }
+
+  &.choose {
+    background: rgba(55, 53, 47, 0.08);
+    font-weight: bold;
+  }
+
+  & .Content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    white-space: nowrap;
+    width: 100%;
+  }
+}

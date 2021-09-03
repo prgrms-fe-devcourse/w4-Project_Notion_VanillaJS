@@ -1,0 +1,15 @@
+.ChildrenVisibilityToggler {
+  cursor: pointer;
+  user-select: none;
+
+  &::before {
+    color: black;
+    content: "\25B6";
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  &.open::before {
+    transform: rotate(90deg);
+  }
+}
