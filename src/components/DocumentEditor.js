@@ -20,6 +20,7 @@ export default function DocumentEditor({ $target, initialState }) {
   const $editor = createElement('textarea');
   const $editorPreview = createElement('div');
   const $emptyPageMessage = createElement('p');
+  const $border = createElement('div');
 
   $emptyPageMessage.textContent = MESSAGE.EMPTY_EDIT_PAGE;
   $emptyPageMessage.className = CLASS_NAME.EMPTY_EDIT_PAGE_MESSAGE;
@@ -34,8 +35,10 @@ export default function DocumentEditor({ $target, initialState }) {
   $editor.placeholder = MESSAGE.PLACEHOLDER_EDITOR;
   $editorPreview.contentEditable = 'false';
   $editorPreview.className = CLASS_NAME.DOCUMENT_EDITOR;
+  $border.className = CLASS_NAME.BORDER_VERTICAL;
 
   $editorContainer.appendChild($editor);
+  $editorContainer.appendChild($border);
   $editorContainer.appendChild($editorPreview);
 
   $target.appendChild($title);
@@ -47,20 +50,29 @@ export default function DocumentEditor({ $target, initialState }) {
     this.render();
   };
 
+  const addClassDisplayNone = () => {
+    $title.classList.add(CLASS_NAME.DISPLAY_NONE);
+    $editor.classList.add(CLASS_NAME.DISPLAY_NONE);
+    $editorPreview.classList.add(CLASS_NAME.DISPLAY_NONE);
+    $border.classList.add(CLASS_NAME.DISPLAY_NONE);
+  };
+
+  const removeClassDisplayNone = () => {
+    $title.classList.remove(CLASS_NAME.DISPLAY_NONE);
+    $editor.classList.remove(CLASS_NAME.DISPLAY_NONE);
+    $editorPreview.classList.remove(CLASS_NAME.DISPLAY_NONE);
+    $border.classList.remove(CLASS_NAME.DISPLAY_NONE);
+  };
+
   this.render = () => {
     if (isEmptyObject(this.state)) {
-      $title.classList.add(CLASS_NAME.DISPLAY_NONE);
-      $editor.classList.add(CLASS_NAME.DISPLAY_NONE);
-      $editorPreview.classList.add(CLASS_NAME.DISPLAY_NONE);
-
+      addClassDisplayNone();
       $target.appendChild($emptyPageMessage);
       return;
     }
 
+    removeClassDisplayNone();
     $emptyPageMessage.remove();
-    $title.classList.remove(CLASS_NAME.DISPLAY_NONE);
-    $editor.classList.remove(CLASS_NAME.DISPLAY_NONE);
-    $editorPreview.classList.remove(CLASS_NAME.DISPLAY_NONE);
 
     const { content, title } = this.state;
 
