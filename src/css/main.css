@@ -1,0 +1,121 @@
+@import url("reset.css");
+
+/* common */
+body {
+    display: grid;
+    grid-template-columns: 380px auto;
+    /* grid-template-rows: 1f 3f; */
+    grid-template-areas: 
+    "aside header"
+    "aside main";
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    background-color: #F7F6F3;
+}
+
+button:hover {
+    background-color: gray;
+}
+
+/* header */
+header {
+    grid-area: header;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 5px 0 10px 5px;
+    margin: 5px 0 15px 10px;
+ 
+}
+
+/* aside */
+aside {
+    resize: horizontal;
+    height: 100%;
+    opacity: 1;
+    grid-area: aside;
+    background-color:#F7F6F3;
+}
+
+#aside-header {
+    margin: 15px 1px 10px 10px;
+}
+
+#aside-header > span {
+    display: inline-block;
+}
+
+#aside-header > span:hover {
+    background-color: gray;
+}
+
+#aside-header > button {
+    float: right;
+}
+
+#aside-document {
+    margin-left: 10px;
+}
+
+.add-document, .remove-document {
+    float: right;
+}
+
+.li-document {
+    list-style-type:none;
+    margin: 5px 0 5px 0;
+}
+
+.li-document > .li-text {
+    font-size: 14px;
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.li-document > ul{
+    display: none;
+    margin: 5px 0px 0px 20px;
+    padding: 0;
+}
+
+.empty-document {
+    color: #a19a90;
+    font-size: 12px;
+}
+
+/* main Editor*/
+
+main {
+    grid-area: main;
+}
+
+#editor > button {
+    color: red;
+    margin: 5px 0 0 15px;
+}
+
+.editor-inner-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
+.editor-inner-wrapper #input-editor {
+    width: 600px;
+}
+
+.editor-inner-wrapper #textarea-editor {
+    resize: none;
+    width: 600px;
+    height: 100vh;
+}
+
+.editor-inner-wrapper > label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
