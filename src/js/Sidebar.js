@@ -57,6 +57,7 @@ export default function Sidebar({ target, initialState = {} }) {
         }
     };
 
+    // Click Event
     sidebar.addEventListener("click", async (e) => {
         const target = e.target;
 
@@ -64,14 +65,19 @@ export default function Sidebar({ target, initialState = {} }) {
             const documentId = target.dataset.id;
 
             if (target.className === "document") {
+                // Select Document
                 push(`/documents/${documentId}`);
             } else if (target.className === "add-document" || target.className === "add-btn") {
+                // Create Document
+                const selectedDocument = e.target.closest("li");
                 const newDocumentId = await addNewDocument(
-                    this.state.documentId === "/" ? "/" : this.state.documentId
+                    selectedDocument ? selectedDocument.dataset.id : null
                 );
+
                 push(`/documents/${newDocumentId}`);
                 this.setState({ documentId: newDocumentId });
             } else if (target.className === "delete-document") {
+                // Delete Document
                 const { id } = target.parentElement.dataset;
 
                 if (id && confirm("해당 문서를 삭제하시겠습니까?")) {
@@ -79,23 +85,15 @@ export default function Sidebar({ target, initialState = {} }) {
                     push("/");
                 }
             }
-            // else if (target.className === "rootDocument") {
-            //     const rootToggler = document.getElementsByClassName("rootDocument");
-            //     console.log(rootToggler);
-            //     for (const child of rootToggler) {
-            //         child.parentElement.querySelector(".childDocument").classList.toggle("active");
-            //         child.classList.toggle("rootDocument-down");
-            //     }
+        }
+    });
 
-            //     // for (let i = 0; i < rootToggler.length; i++) {
-            //     //     rootToggler[i].addEventListener("click", function () {
-            //     //         this.parentElement
-            //     //             .querySelector(".childDocument")
-            //     //             .classList.toggle("active");
-            //     //         this.classList.toggle("rootDocument-down");
-            //     //     });
-            //     // }
-            // }
+    // Hover Event
+    sidebar.addEventListener("mouseover", (e) => {
+        const target = e.target;
+
+        if (target.className === "document") {
+            // target.classList.toggle("mouse-over");
         }
     });
 

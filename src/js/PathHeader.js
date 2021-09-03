@@ -1,5 +1,12 @@
-import { getUserName } from "./api.js";
+import { getCurrentDocumentPath } from "../utils/Documents.js";
 import { getItem } from "../utils/storage.js";
+import { getUserName } from "./api.js";
+
+/*
+initialState: {
+    documentId: "/",
+}
+*/
 
 export default function PathHeader({ target, initialState }) {
     if (!(this instanceof PathHeader)) {
@@ -9,6 +16,7 @@ export default function PathHeader({ target, initialState }) {
     // *****************************
     // * Valuables and Functions   *
     // *****************************
+
     const header = document.createElement("header");
 
     this.state = initialState;
@@ -16,23 +24,28 @@ export default function PathHeader({ target, initialState }) {
     // *****************************
     // * Setting attribute         *
     // *****************************
+
     header.setAttribute("class", "path_header");
 
     // *****************************
     // * For Rendering             *
     // *****************************
+
     target.appendChild(header);
 
     this.setState = (nextState) => {
         this.state = nextState;
+        getCurrentDocumentPath(parseInt(this.state.documentId));
         this.render();
     };
 
     this.render = () => {
-        // const { pathname } = this.state;
-        // if (pathname === "/") {
-        // }
-        header.innerHTML = "header";
+        const savedPath = getItem(`path_${getUserName()}`, []);
+
+        console.log(savedPath);
+        // header.innerHTML = `
+        //                     ${savedPath.}
+        //                     `
     };
 
     this.render();

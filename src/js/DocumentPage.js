@@ -27,6 +27,7 @@ export default function DocumentPage({
 
     const pathHeader = new PathHeader({
         target: documentPage,
+        initialState,
     });
 
     const editPage = new DocumentEditPage({
@@ -65,6 +66,7 @@ export default function DocumentPage({
                 title,
                 content,
             });
+            pathHeader.setState(this.state);
         }
     };
 }

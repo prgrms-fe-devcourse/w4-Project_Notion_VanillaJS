@@ -1,5 +1,30 @@
 import { request, getUserName } from "../js/api.js";
-import { setItem } from "./storage.js";
+import { getItem, setItem } from "./storage.js";
+
+// *****************************
+// * Valuables and Functions   *
+// *****************************
+
+const isSameId = (rootId, documentId) => (rootId === documentId ? true : false);
+
+const findPath = (currentDocument, targetDocumentId, savedPath) => {
+    if (currentDocument.id === parseInt(targetDocumentId)) {
+        savedPath.push(currentDocument.title);
+        setItem(`path_${getUserName()}`, savedPath);
+
+        return true;
+    }
+
+    if (currentDocument.documents) {
+        currentDocument.documents.forEach(({ title, documents }) => {
+            savedPath.push(title);
+            if (findPath(documents, targetDocumentId, savedPath)) {
+                return true;
+            }
+            savedPath.pop();
+        });
+    }
+};
 
 // Save documents path to local storage, key is username and value is all of documents information.
 export const saveDocumentsPathToLS = async () => {
@@ -54,7 +79,7 @@ export const addNewDocument = async (documentId) => {
         method: "POST",
         body: JSON.stringify({
             title: "제목없음",
-            parent: `${documentId === "/" ? null : documentId}`,
+            parent: `${documentId}`,
         }),
     });
 
@@ -84,4 +109,11 @@ export const deleteDocument = async (documentId) => {
     await saveDocumentsPathToLS();
 };
 
-const isSameId = (rootId, documentId) => (rootId === documentId ? true : false);
+// Get Current Document Path
+export const getCurrentDocumentPath = (targetDocumentId) => {
+    const documents = getItem(`username_${getUserName}`, []);
+
+    documents.forEach((root) => {
+        findPath(root, targetDocumentId, [root.title]);
+    });
+};
