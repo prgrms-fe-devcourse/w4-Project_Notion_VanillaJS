@@ -14,6 +14,8 @@ export default function PostEditPage({
 
   this.state = initialState;
 
+  let subDocuments = [];
+
   const editor = new Editor({
     $target,
     initialState: {
@@ -47,7 +49,6 @@ export default function PostEditPage({
       });
 
       this.state = post;
-
       editor.setState(
         this.state || {
           id: null,
@@ -55,7 +56,40 @@ export default function PostEditPage({
           content: "",
         }
       );
+
+      const posts = await request("/documents", {
+        method: "GET",
+      });
+
+      subDocuments = [];
+      findSubDocuments(posts, post.id);
+      this.subDocumentRender(subDocuments.reverse().slice(1));
     }
+  };
+  
+  const findSubDocuments = (currentPosts, findId) => {
+    for (const document of currentPosts) {
+      if (document.id === parseInt(findId)) {
+        foundSubDocuments(document);
+      }
+
+      if (document.documents.length) {
+        findSubDocuments(document.documents, findId);
+      }
+    }
+  };
+
+  const foundSubDocuments = (foundDocument) => {
+    if (foundDocument.documents.length) {
+      for (const document of foundDocument.documents) {
+        foundSubDocuments(document);
+      }
+    }
+    subDocuments.push(foundDocument.id);
+  };
+
+  this.subDocumentRender = (subDocumentsId) => {
+    editor.subDocumentsRender(subDocumentsId);
   };
 
   this.setState = async (nextState) => {
