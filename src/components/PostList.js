@@ -10,14 +10,14 @@ export default function PostList({
     
     this.state = initialState
 
-    this.setState = nextState => {
+    this.setState =  nextState => {
         this.state = nextState
         this.render()
     }
 
     this.render = () => {
         $postList.innerHTML = `
-            <button>Add</button>
+            <button name ="button" data-id = "null">Add</button>
             ${displayPostList(this.state)}
         `
     }
