@@ -1,0 +1,81 @@
+@import "@/sass/_variables";
+
+.sidebar-container {
+  // position: fixed;
+  top: $headerHeight;
+  width: 300px;
+  height: calc(100vh - #{$headerHeight});
+  overflow-y: scroll;
+  padding: 0 1rem;
+  background: $mint100;
+  .sidebar__btn-box {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    .sidebar__create-post-btn {
+      position: relative;
+      right: 0;
+      @include _button($mint500, white);
+      width: 7rem;
+      height: 2rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+  .sidebar__item.posts {
+    width: 100%;
+    .post {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: {
+        right: auto;
+        bottom: 0.5rem;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+      &__link {
+        text-decoration: none;
+        color: black;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        &:hover {
+          color: $mint500;
+        }
+      }
+      &__toggle-btn {
+        transition: all 0.3s;
+        &:hover {
+          color: $mint500;
+        }
+      }
+      &__remove-btn {
+        margin-left: auto;
+        &:hover {
+          color:  $red300;
+        }
+      }
+      &__new-button {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .post-next {
+      padding-left: 1.375rem;
+      &__new {
+        display: flex;
+        align-items: center;
+        transition: all 0.3s;
+        margin-bottom: 1rem;
+        &:hover {
+          cursor: pointer;
+          color: $mint500;
+        }
+      }
+      &__new-icon {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+}
