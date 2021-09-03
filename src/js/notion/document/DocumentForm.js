@@ -1,4 +1,5 @@
 import {CHECK_TITLE_INPUT_MESSAGE} from '../../constants/message.js'
+import {documentForm} from '../../templates/documentForm.js'
 import {$} from '../../utils/DOM.js'
 
 export default function DocumentForm({$target, onSubmit}) {
@@ -6,10 +7,7 @@ export default function DocumentForm({$target, onSubmit}) {
     $target.appendChild($form)
 
     this.render = () => {
-        $form.innerHTML = `
-        <button class="btn btn-cyan">+</button>
-        <input class="new-document" type="text" placeholder="새로운 페이지 만들기">
-        `
+        $form.innerHTML = documentForm()
     }
 
     $form.addEventListener('submit', (e) => {
