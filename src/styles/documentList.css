@@ -74,9 +74,7 @@
 }
 
 .document-list .message-container {
-  position: absolute;
-  top: 50%;
-  align-self: center;
+  text-align: center;
 }
 
 .document-tree {
