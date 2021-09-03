@@ -88,6 +88,7 @@ export default function Modal({ $target }) {
 		const createBtn = e.target.dataset?.target === 'modal';
 		const onModal = e.target.className.includes('modal');
 
+		console.log(createBtn, onModal);
 		if (createBtn || onModal) {
 			return;
 		}

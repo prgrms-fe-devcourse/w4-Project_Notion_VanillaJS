@@ -1,4 +1,4 @@
-import { getItemFromStorage, setItemtoStroage } from '../utils/storage.js';
+import { getItemFromStorage, setItemToStroage } from '../utils/storage.js';
 
 import {
 	getDocuments,
@@ -11,7 +11,7 @@ const getStateAfter = async (action, option) => {
 	const state = await getters[action](option);
 
 	if (state && !action.includes('Modal')) {
-		setItemtoStroage('notionState', state);
+		setItemToStroage('notionState', state);
 	}
 	return state;
 };
@@ -50,7 +50,7 @@ const getters = {
 		const documents = await getDocuments();
 		const { currentDocument } = getItemFromStorage('notionState');
 
-		setItemtoStroage('notionState', { documents, currentDocument });
+		setItemToStroage('notionState', { documents, currentDocument });
 		return { documents, currentDocument, modalDocument };
 	},
 	read: async id => {

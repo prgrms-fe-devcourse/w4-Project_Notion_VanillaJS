@@ -1,3 +1,4 @@
+import { getItemFromStorage, setItemToStroage } from '../../utils/storage.js';
 import { emit } from '../../utils/emitter.js';
 import { $drawNewLi } from '../../utils/templates.js';
 
@@ -12,14 +13,13 @@ export default function Sidebar({ $target, initialState }) {
 	const $sidebarFooter = $createElement('div', '.sidebar-footer');
 	addClassAll($sidebar, 'col', 'sidebar-container');
 
-	this.state = initialState;
+	this.state = {
+		...initialState,
+	};
+
 	this.setState = nextState => {
 		this.state = nextState;
 		sidebarBody.setState(this.state);
-	};
-
-	this.render = () => {
-		sidebarBody.render();
 	};
 
 	new SidebarHeader({
@@ -28,10 +28,29 @@ export default function Sidebar({ $target, initialState }) {
 
 	const sidebarBody = new SidebarBody({
 		$target: $sidebarBody,
-		initialState,
+		initialState: this.state,
 		onClick: {
-			togglerBtn: $li => {
-				console.log('toggler', $li);
+			showList: $li => {
+				const { id } = $li.dataset;
+
+				console.log(id);
+				const currentLi = $li.querySelector('.icon-play');
+				currentLi.classList.toggle('icon-play');
+				currentLi.classList.toggle('icon-down-dir');
+
+				const hiddenLi = $li.querySelector('.hide');
+				hiddenLi.classList.remove('hide');
+			},
+			hideList: $li => {
+				const { id } = $li.dataset;
+
+				const currentLi = $li.querySelector('.icon-down-dir');
+				currentLi.classList.toggle('icon-play');
+				currentLi.classList.toggle('icon-down-dir');
+
+				const needHiddenLi =
+					$li.querySelector('.tree') || $li.querySelector('.blank');
+				needHiddenLi.classList.add('hide');
 			},
 			readDocument: $li => {
 				const { id } = $li.dataset;
@@ -66,6 +85,10 @@ export default function Sidebar({ $target, initialState }) {
 			},
 		},
 	});
+
+	this.render = () => {
+		sidebarBody.render();
+	};
 
 	$target.appendChild($sidebar);
 	$sidebar.appendChild($sidebarHeader);

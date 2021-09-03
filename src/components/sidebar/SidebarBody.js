@@ -1,4 +1,4 @@
-import { $listItem } from '../../utils/templates.js';
+import { $listItem, $blankItem } from '../../utils/templates.js';
 
 export default function SidebarBody({ $target, initialState, onClick }) {
 	const $navList = $createElement('div', '.nav-list');
@@ -17,8 +17,12 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		$(`li[data-id="${currentLi}"] span`)?.classList.add('selected');
 	};
 
-	const drawNavList = (target, documents) => {
+	const drawNavList = (target, documents, isFirstNode) => {
 		const $ul = $createElement('ul', '.tree');
+
+		if (!isFirstNode) {
+			$ul.classList.add('hide');
+		}
 
 		documents.forEach(document => {
 			const { id, title, documents } = document;
@@ -27,6 +31,9 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 			if (documents.length > 0) {
 				addClassAll($li, 'nav-header', 'tree-toggler');
 				drawNavList($li, documents);
+			} else {
+				const blankData = $blankItem();
+				$li.appendChild(blankData);
 			}
 
 			$ul.appendChild($li);
@@ -34,30 +41,6 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 
 		target.appendChild($ul);
 	};
-
-	$navList.addEventListener('click', e => {
-		const { togglerBtn, deleteBtn, createDocument, readDocument } = onClick;
-		const { tagName, className, parentNode } = e.target;
-
-		if (tagName === 'UL' || tagName === 'LI') return;
-
-		const { id } = parentNode.dataset;
-
-		switch (className) {
-			case 'nav-toggler-btn':
-				togglerBtn(parentNode);
-				break;
-			case 'nav-delete-btn':
-				deleteBtn(parentNode);
-				break;
-			case 'nav-crate-btn':
-				createDocument(id, parentNode);
-				break;
-			default:
-				readDocument(parentNode);
-				markCurrentLi(id);
-		}
-	});
 
 	$createBtn.addEventListener('click', e => {
 		onClick.createDocument(null, null);
@@ -67,14 +50,40 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		const { documents, currentDocument } = this.state;
 
 		$navList.innerHTML = '';
-		drawNavList($navList, documents);
+		drawNavList($navList, documents, true);
 
 		$target.appendChild($navList);
 		$target.appendChild($createBtn);
 
-		if (!$('span.selected')) {
-			const currentItem = `li[data-id="${currentDocument.id}"] span`;
+		if (!$('p.selected')) {
+			const currentItem = `li[data-id="${currentDocument.id}"] p`;
 			$navList.querySelector(`${currentItem}`).classList.add('selected');
 		}
 	};
+
+	$navList.addEventListener('click', e => {
+		const { tagName, className, parentNode } = e.target;
+		if (tagName === 'UL' || tagName === 'LI' || className.includes('blank')) {
+			return;
+		}
+
+		const isToggele = className.includes('nav-toggler-btn');
+		const isDelete = className.includes('nav-delete-btn');
+		const isCreate = className.includes('nav-crate-btn');
+
+		const $li = tagName === 'P' ? parentNode : parentNode.parentNode;
+		const { id } = $li.dataset;
+
+		if (isToggele) {
+			const isOpend = e.target.className.includes('icon-down-dir');
+			isOpend ? onClick.hideList($li) : onClick.showList($li);
+		} else if (isDelete) {
+			onClick.deleteBtn($li);
+		} else if (isCreate) {
+			onClick.createDocument(id, $li);
+		} else {
+			onClick.readDocument($li);
+			markCurrentLi(id);
+		}
+	});
 }
