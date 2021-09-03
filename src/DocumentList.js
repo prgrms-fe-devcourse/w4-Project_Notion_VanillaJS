@@ -37,7 +37,9 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
     onDocsClick = id
 
     if(className === 'removeBtn'){
-      removeDocument(id)
+      if(confirm("삭제하실건가요?")) {
+        removeDocument(id)
+      }
     } else{
       fetchDocument(onDocsClick)
       const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]

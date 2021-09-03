@@ -45,10 +45,11 @@ export default function Editor({ $target, initialState, fetchDocument
       console.log(this.state.id);
       newDocument(newTitle, this.state.id)
     } else if (className === 'editBtn') {
-      console.log("test");
-      const newArticleTitle = document.getElementById('newArticleTitle').value
-      const newArticleContent = document.getElementById('newArticleContent').value
-      editDocument(newArticleTitle, newArticleContent, this.state.id)
+      if(confirm("수정 후 되돌릴 수 없습니다. 수정하실건가요?")) {
+        const newArticleTitle = document.getElementById('newArticleTitle').value
+        const newArticleContent = document.getElementById('newArticleContent').value
+        editDocument(newArticleTitle, newArticleContent, this.state.id)
+      }
     }
   }
   )
