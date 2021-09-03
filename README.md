@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 노션 클로닝 프로젝트
 
 ## 기본 요구사항
@@ -140,3 +141,6 @@ request body에 수정할 내용을 JSON 형태로 넣으면 됩니다.
 documentId에 해당하는 Document를 삭제합니다.
 
 만약 하위 documents가 있는 document를 삭제한 경우, 하위 documents 등은 상위 document가 없어지므로 root document로 인식됩니다.
+=======
+# w4-Project_Notion_VanillaJS
+>>>>>>> parent of 2f7b73e (Update README.md)
