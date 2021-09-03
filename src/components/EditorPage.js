@@ -121,5 +121,11 @@ export default function EditorPage({ $target, initialState }) {
 
   this.render = () => {
     $target.appendChild($pageContainer);
+
+    const $title = $target.querySelector('[name=title]');
+
+    setTimeout(() => {
+      $title.focus();
+    }, 0);
   };
 }
