@@ -1,4 +1,3 @@
-import api from '../api/index.js';
 import Component from '../core/Component.js'
 import { initRouter } from '../core/Router.js';
 import ListPage from './ListPage.js';

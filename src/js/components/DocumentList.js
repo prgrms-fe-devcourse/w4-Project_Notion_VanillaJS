@@ -1,10 +1,8 @@
-import api from '../api/index.js';
 import Component from '../core/Component.js';
 
 const DocumentList = class extends Component {
   async init() { 
     const { state } = this.props
-    console.log(state)
     this.state = state
     this.render()
     this.setEvent()
@@ -46,7 +44,6 @@ const DocumentList = class extends Component {
       }
 
       if (e.target.classList.contains('js-select-doc')) {
-        console.log(documentId)
     
         onSelect(documentId)
         return;

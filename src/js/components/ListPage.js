@@ -1,5 +1,4 @@
 import api from '../api/index.js';
-import Component from '../core/Component.js';
 import { push } from '../core/Router.js';
 import CreateRootDoc from './CreateRootDoc.js';
 import DocumentList from './DocumentList.js';

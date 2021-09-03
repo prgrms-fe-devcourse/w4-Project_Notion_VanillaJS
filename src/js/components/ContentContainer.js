@@ -1,5 +1,4 @@
 import Component from '../core/Component.js';
-import debounce from '../utils/debounce.js';
 import EditableBlock from './EditableBlock.js';
 
 const ContentContainer = class extends Component {
@@ -42,7 +41,6 @@ const ContentContainer = class extends Component {
       '###': 'head3'
     }
     const blockType = controller[text];
-    console.log(block)
     if(!blockType) return;
     this.convertHeadBlock(index, blockType)
   }
@@ -83,7 +81,6 @@ const ContentContainer = class extends Component {
   }
 
   updateBlock(index, newText){
-    console.log(index)
     const newContent = [...this.state.content];
     newContent[index].text = newText
     
@@ -99,7 +96,6 @@ const ContentContainer = class extends Component {
     [ ...content.slice(0, index), ...content.slice(index + 1)] 
     : [...content]
 
-    console.log(newContent)
     this.setState({ content: newContent })
   }
 }

@@ -1,5 +1,4 @@
 import Component from '../core/Component.js';
-import debounce from '../utils/debounce.js';
 
 const SPACE_KEY = ' ';
 const BACK_SPACE_KEY = 'Backspace'
@@ -55,7 +54,7 @@ const EditableBlock = class extends Component{
           clearTimeout(this.timer)
         }
         
-        this.timer = setTimeout(() => onEditing(blockIndex, text), 200)  
+        this.timer = setTimeout(() => onEditing(blockIndex, text), 1000)  
         
     })
   }
