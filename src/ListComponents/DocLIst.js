@@ -46,7 +46,7 @@ export default function DocList({
                   ? recursiveDocuments(documents, depth + 1)
                   : ''
               }
-					</li>
+            </li>
           `
         )
         .join('')}
