@@ -11,8 +11,8 @@ export default function Header({ $target, initialState }) {
   };
 
   this.render = () => {
-    $header.innerHTML = `<span class="username">${this.state.name}</span>${this.state.name}의 <span class="notion">Notion</span>`
-  }
-  
+    $header.innerHTML = `<span class="username">${this.state.name}</span>${this.state.name}의 <span class="notion">Notion</span>`;
+  };
+
   this.render();
 }
