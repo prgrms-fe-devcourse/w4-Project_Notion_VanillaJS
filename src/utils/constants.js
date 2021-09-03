@@ -66,6 +66,7 @@ export const CLASS_NAME = {
   EMPTY_EDIT_PAGE_MESSAGE: 'edit-page-empty-message',
   EDITOR_CONTAINER: 'editor-container',
   DARK_MODE_TOGGLE_BUTTON: 'dark-mode-toggle-button',
+  BORDER_VERTICAL: 'border-vertical',
 };
 
 export const GENERAL = {
