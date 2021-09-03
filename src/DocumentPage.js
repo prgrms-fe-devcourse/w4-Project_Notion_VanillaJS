@@ -2,7 +2,7 @@ import Editor from './Editor.js';
 import ChildDocumentList from './ChildDocumentList.js';
 import {request} from './api.js';
 
-export default function DocumentPage({$target, initialState, childDocClick}) {
+export default function DocumentPage({$target, initialState, childDocClick, titleUpdate}) {
   const $page = document.createElement('div')
   $target.appendChild($page)
   $page.className = 'document-page'
@@ -33,8 +33,6 @@ export default function DocumentPage({$target, initialState, childDocClick}) {
       content: ''
     },
     onEditing: (editDoc) => {
-      console.log('editDoc :>> ', editDoc);
-      console.log('this.state.id :>> ', this.state.id);
       const {title, content} = editDoc
       if (timer !== null) {
         clearTimeout(timer)
@@ -49,6 +47,7 @@ export default function DocumentPage({$target, initialState, childDocClick}) {
             }
           )
         })
+        titleUpdate()
       }, 2000)
     }
   })

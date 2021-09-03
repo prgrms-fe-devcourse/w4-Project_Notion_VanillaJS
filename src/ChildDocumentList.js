@@ -13,7 +13,7 @@ export default function ChildDocumentList({
   }
   this.render = () => {
     $childDocList.innerHTML = `
-      <h3>[${this.state.title}]의 하위 페이지</h3>
+      <h3>[${this.state.title}] 의 하위 페이지</h3>
       <ul class="child-doc-list">
         ${!this.state.documents.length?`<li>하위 페이지가 없습니다</li>`: this.state.documents.map(doc => `
           <li data-id='${doc.id}'><a href="">${doc.title}</a></li>
@@ -23,11 +23,15 @@ export default function ChildDocumentList({
   }
 
 
+  const linkToPage = document.querySelector('.child-doc-list')
+  console.log('linkToPage :>> ', linkToPage);
   $childDocList.addEventListener('click', (e) => {
     e.preventDefault()
     const $li = e.target.closest('li')
-    console.log('$li :>> ', $li);
-    childDocClick($li)
+    const {id} = $li.dataset
+    if (id) {
+      childDocClick(id)
+    }
   })
 
 };

@@ -21,13 +21,12 @@ export default function App({
       await fetchDocPage(id)
     },
     newDoc: async (id) => {
-      const newDocTitle = await window.prompt("새 페이지의 제목을 입력해주세요")
-      if (id && newDocTitle) {
+      if (id) {
         const res = await request(`/documents`, {
           method: 'POST',
           body: JSON.stringify(
             {
-              "title" : newDocTitle,
+              "title" : 'New Document',
               "parent" : id
             }
           )
@@ -54,10 +53,13 @@ export default function App({
   const documentPage = new DocumentPage({
     $target,
     initialState : this.state.selectedDoc,
-    childDocClick: async (node) => {
-      console.log('node :>> ', node);
-      const {id} = node.dataset
+    childDocClick: async (id) => {
+      console.log('id :>> ', id);
+      await history.pushState(null, null, `/?selectedDocId=${id}`)
       await fetchDocPage(id)
+    },
+    titleUpdate: () => {
+      console.log(' titleUpdate :>> ');
     }
   })
 
