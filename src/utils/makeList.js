@@ -8,8 +8,10 @@ export const makeList = (documents) => `
     <div class="item">
       <span class="ontoggle">${getState(id).state === 'block' ? `▼` : `▶`}</span>   
       <span class="document-list">${title.replace(/ /gi, "") ? title : 'Untitled'}</span>
+      <span class="btn">
       <button class="add-child">&#43;</button>
       <button class="delete">&#10006;</button>
+      </span>
     </div>
       ${documents.length > 0 ? makeChildList(documents, id) : hasNoChild()}
     </li>

@@ -25,9 +25,7 @@ h2 {
 .contain-documentPage {
   opacity: 0.8;
 }
-.item{
-  display: felx;
-}
+
 button {
   
   border-color: rgba(0, 0, 0, 0);
@@ -55,6 +53,9 @@ textarea {
   font-size: 16px;
   resize: both;
 }
+button{
+  float: right;
+}
 
 .root-document{
   padding: 0px;
@@ -72,4 +73,11 @@ div.item:hover,
 .add-root-Document:hover{
   opacity: 1;
   background-color: silver;
+  
+}
+div.item  button {
+  display: none;
+}
+div.item:hover  button {
+  display: block;
 }
