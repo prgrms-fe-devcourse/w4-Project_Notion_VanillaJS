@@ -42,12 +42,40 @@ export default function Modal({ $target }) {
 		},
 	});
 
+	let modalBodyUpdateTimer = null;
+
 	new ModalBody({
 		$target: $modalBody,
-		onEdit: document => {
-			const { id } = this.state;
-			console.log(id, document);
-			// emit.updateDocument(id, document, true);
+		onUpdate: {
+			updateTitle: document => {
+				const { id } = this.state;
+
+				const currentLi = $(`li[data-id="${id}"] span`);
+				const currentInput = $('.modal-title-input').dataset;
+
+				currentLi.textContent = document.title;
+				currentInput.text = document.title;
+
+				if (modalBodyUpdateTimer) {
+					clearTimeout(modalBodyUpdateTimer);
+				}
+				modalBodyUpdateTimer = setTimeout(() => {
+					emit.updateDocument(id, document);
+				}, 1000);
+			},
+			updateContent: document => {
+				const { id } = this.state;
+
+				const currentTextArea = $('.modal-content-textarea').dataset;
+				currentTextArea.text = document.content;
+
+				if (modalBodyUpdateTimer) {
+					clearTimeout(modalBodyUpdateTimer);
+				}
+				modalBodyUpdateTimer = setTimeout(() => {
+					emit.updateDocument(id, document);
+				}, 1000);
+			},
 		},
 	});
 

@@ -1,4 +1,4 @@
-export default function ModalBody({ $target, onEdit }) {
+export default function ModalBody({ $target, onUpdate }) {
 	const $modalTitle = $createElement('p', '.modal-title');
 	const $modalContent = $createElement('p', '.modal-content');
 
@@ -25,7 +25,7 @@ export default function ModalBody({ $target, onEdit }) {
 				content,
 			};
 
-			onEdit(document);
+			onUpdate.updateTitle(document);
 		});
 
 		$modalContent.querySelector('textarea').addEventListener('keyup', e => {
@@ -35,7 +35,7 @@ export default function ModalBody({ $target, onEdit }) {
 				content: e.target.value,
 			};
 
-			onEdit(document);
+			onUpdate.updateContent(document);
 		});
 	};
 

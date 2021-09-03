@@ -42,10 +42,10 @@ const on = {
 	},
 	updateDocument(onUpdate) {
 		window.addEventListener(UPDATE_DOCUMENT, e => {
-			const { id, nextDocument, onModal } = e.detail;
+			const { id, document } = e.detail;
 
-			if (id && nextDocument) {
-				onUpdate(id, nextDocument, onModal);
+			if (id && document) {
+				onUpdate(id, document);
 			}
 		});
 	},
@@ -111,13 +111,12 @@ const emit = {
 			}),
 		);
 	},
-	updateDocument(id, nextDocument, onModal) {
+	updateDocument(id, document) {
 		window.dispatchEvent(
 			new CustomEvent(UPDATE_DOCUMENT, {
 				detail: {
 					id,
-					nextDocument,
-					onModal,
+					document,
 				},
 			}),
 		);

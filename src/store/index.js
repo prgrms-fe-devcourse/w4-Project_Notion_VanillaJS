@@ -39,6 +39,11 @@ export default function Store() {
 			const nextState = await getStateAfter('read', id);
 			commit('SET_STATE', { nextState, needRender: 'all' });
 		},
+		updateDocument: async ({ id, document }) => {
+			const nextState = await getStateAfter('update', { id, document });
+			console.log(nextState);
+			commit('SET_STATE', { nextState, needRender: 'all' });
+		},
 		deleteDocument: async ({ id }) => {
 			if (confirm('문서를 삭제하시겠습니까?')) {
 				const nextState = await getStateAfter('delete', id);
@@ -72,8 +77,8 @@ export default function Store() {
 		on.readDocument((id, needRender) =>
 			dispatch('readDocument', { id, needRender }),
 		);
-		on.updateDocument((id, nextDocument, onModal) =>
-			console.log(id, nextDocument, onModal),
+		on.updateDocument((id, document) =>
+			dispatch('updateDocument', { id, document }),
 		);
 		on.deleteDocument((id, isCurrent) => {
 			isCurrent

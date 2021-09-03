@@ -1,4 +1,4 @@
-export default function PageBody({ $target, initialState, onEdit }) {
+export default function PageBody({ $target, initialState, onUpdate }) {
 	const $pageTitle = $createElement('div', 'page-title');
 	const $pageContent = $createElement('div', 'page-content');
 
@@ -27,7 +27,7 @@ export default function PageBody({ $target, initialState, onEdit }) {
 				title: e.target.value,
 				content,
 			};
-			onEdit.editTitle(nextDocument);
+			onUpdate.updateTitle(nextDocument);
 		});
 
 		$pageContent.querySelector('textarea').addEventListener('keyup', e => {
@@ -37,7 +37,7 @@ export default function PageBody({ $target, initialState, onEdit }) {
 				title,
 				content: e.target.value,
 			};
-			onEdit.editContent(nextDocument);
+			onUpdate.updateContent(nextDocument);
 		});
 	};
 

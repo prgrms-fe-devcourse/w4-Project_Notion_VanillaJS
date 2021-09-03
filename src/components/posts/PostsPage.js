@@ -21,24 +21,32 @@ export default function Page({ $target, initialState }) {
 		initialState,
 	});
 
-	let pageBodyEditTimer = null;
+	let pageBodyUpdateTimer = null;
 
 	const pageBody = new PageBody({
 		$target: $pageBody,
 		initialState,
-		onEdit: {
-			editTitle: nextDocument => {
+		onUpdate: {
+			updateTitle: document => {
 				const { id } = this.state.currentDocument;
-				emit.updateDocument(id, nextDocument, false);
+				const currentLi = $(`li[data-id="${id}"] span`);
+				currentLi.textContent = document.title;
+
+				if (pageBodyUpdateTimer) {
+					clearTimeout(pageBodyUpdateTimer);
+				}
+				pageBodyUpdateTimer = setTimeout(() => {
+					emit.updateDocument(id, document);
+				}, 1000);
 			},
-			editContent: nextDocument => {
+			updateContent: document => {
 				const { id } = this.state.currentDocument;
 
-				if (pageBodyEditTimer) {
-					clearTimeout(pageBodyEditTimer);
+				if (pageBodyUpdateTimer) {
+					clearTimeout(pageBodyUpdateTimer);
 				}
-				pageBodyEditTimer = setTimeout(() => {
-					emit.updateDocument(id, nextDocument, false);
+				pageBodyUpdateTimer = setTimeout(() => {
+					emit.updateDocument(id, document);
 				}, 1000);
 			},
 		},
