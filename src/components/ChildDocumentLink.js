@@ -2,11 +2,7 @@ import { createElement } from '../utils/dom.js';
 import { checkIsEmptyThrowError, checkUseConstructorFunction, isEmptyArray } from '../utils/validator.js';
 import { makeChildDocumentLinkTemplate } from '../utils/template.js';
 import { movePage } from '../utils/eventListeners.js';
-import {
-  CLASS_NAME_CHILD_DOCUMENT_LINK,
-  CLASS_NAME_CHILD_DOCUMENT_CONTAINER,
-  CLASS_NAME_DISPLAY_NONE,
-} from '../utils/constants.js';
+import { CLASS_NAME } from '../utils/constants.js';
 
 export default function ChildDocumentLink({ $target, initialState }) {
   const validate = state => {
@@ -18,7 +14,7 @@ export default function ChildDocumentLink({ $target, initialState }) {
   this.state = initialState;
 
   const $childDocumentLink = createElement('div');
-  $childDocumentLink.className = CLASS_NAME_CHILD_DOCUMENT_CONTAINER;
+  $childDocumentLink.className = CLASS_NAME.CHILD_DOCUMENT_CONTAINER;
 
   $target.appendChild($childDocumentLink);
 
@@ -41,7 +37,7 @@ export default function ChildDocumentLink({ $target, initialState }) {
     $childDocumentLink.addEventListener('click', e => {
       const { className, dataset } = e.target;
 
-      if (className === CLASS_NAME_CHILD_DOCUMENT_LINK) {
+      if (className === CLASS_NAME.CHILD_DOCUMENT_LINK) {
         movePage(`/document/${dataset.id}`);
       }
     });
