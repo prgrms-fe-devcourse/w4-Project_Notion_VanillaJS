@@ -1,6 +1,7 @@
-h2 {
-  text-align: center;
+*:focus {
+  outline: 0;
 }
+
 main{
   height:100%
 }
@@ -11,6 +12,9 @@ body {
   background-color: #F7F6F3;
   padding: 10px;
 }
+h2 {
+  text-align: center;
+}
 .main-editPage{
   padding: 10px;
   display: flex;
@@ -19,30 +23,35 @@ body {
   flex-grow: 1;
 }
 .contain-documentPage {
-  opacity: 0.6;
+  opacity: 0.8;
 }
-
-button{
+.item{
+  display: felx;
+}
+button {
   
   border-color: rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0);
 }
-button:hover{
+button:hover {
+  
   background-color: peachpuff;
   opacity: 1;
 }
+
 input {
   width: 600px;
   font-size: 40px;
-  border: solid 2px rgba(0, 0, 0, 0);
+  border: solid 0.5px ;
+  border-bottom: none;
 }
 textarea {
   width: 600px;
   height: 600px;
   padding: 10px;
   box-sizing: border-box;
-  border: solid 2px rgba(0, 0, 0, 0);
-  
+  border: solid 0.5px ;
+  border-top: none;
   font-size: 16px;
   resize: both;
 }
@@ -57,8 +66,10 @@ li{
 div.item{
   width: 100%;
 }
+
+
 div.item:hover,
-.add-root-Document:hover  {
+.add-root-Document:hover{
   opacity: 1;
   background-color: silver;
 }

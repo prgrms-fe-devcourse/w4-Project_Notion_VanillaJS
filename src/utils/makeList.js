@@ -6,7 +6,7 @@ export const makeList = (documents) => `
     return `
     <li data-id=${id} class="documents-list"  >
     <div class="item">
-      <span class="ontoggle">▶</span>   
+      <span class="ontoggle">${getState(id).state === 'block' ? `▼` : `▶`}</span>   
       <span class="document-list">${title.replace(/ /gi, "") ? title : 'Untitled'}</span>
       <button class="add-child">&#43;</button>
       <button class="delete">&#10006;</button>
@@ -15,16 +15,15 @@ export const makeList = (documents) => `
     </li>
       `}).join('')}
 `
+
+// none이거나 '' >, block이면 아래화살표
 // style 코드 정리
 // 코드정리
-const getState = (id) => {
-  const hasState = getItem(`temp-toggle-${id}`, '')
-  return hasState ? hasState.state : 'none'
-}
+const getState = (id) => getItem(`temp-toggle-${id}`, '')
 
 
 const makeChildList = (documents, id) => `
-    <ul class="child-${id}" style="display: ${getState(id)}  " >
+    <ul class="child-${id}" style="display: ${getState(id) ? getState(id).state : 'none'}  " >
       ${makeList(documents)}
     </ul>
   `

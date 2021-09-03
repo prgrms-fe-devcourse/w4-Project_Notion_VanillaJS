@@ -55,7 +55,7 @@ export default function DocumentList({
           (ulClassName.length > 1) ? setItem(toggleLocalSaveKey, {state: item}) : '';
         }
         
-        
+        console.log(e.target)
         if ($ul.style.display === 'none') {
           $ul.style.display = 'block'
           e.target.innerHTML = '▼';
