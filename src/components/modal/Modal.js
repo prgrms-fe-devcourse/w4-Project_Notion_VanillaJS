@@ -23,6 +23,7 @@ export default function Modal({ $target }) {
 		$modal.classList.remove('hide');
 	};
 	const hideModal = () => {
+		modalBody.render();
 		$modal.classList.add('hide');
 	};
 
@@ -53,7 +54,7 @@ export default function Modal({ $target }) {
 		}, LIMIT_TIME);
 	};
 
-	new ModalBody({
+	const modalBody = new ModalBody({
 		$target: $modalBody,
 		onUpdate: {
 			updateTitle: nextDocument => {

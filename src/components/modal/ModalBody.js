@@ -7,11 +7,12 @@ export default function ModalBody({ $target, onUpdate }) {
 	const $titleInput = $createElement('div', '.show-modal-title');
 	$titleInput.setAttribute('contenteditable', true);
 	$titleInput.setAttribute('data-text', '');
+
 	const $contentInput = $createElement('div', '.show-modal-content');
 	$contentInput.setAttribute('contenteditable', true);
 	$contentInput.setAttribute('data-text', '');
 
-	this.init = () => {
+	this.render = () => {
 		const titleTemp = '제목 없음';
 		const contentTemp = '문서의 내용을 입력해보세요!';
 
@@ -22,6 +23,10 @@ export default function ModalBody({ $target, onUpdate }) {
 		$modalContent.appendChild($contentInput);
 		$target.appendChild($modalTitle);
 		$target.appendChild($modalContent);
+	};
+
+	this.init = () => {
+		this.render();
 
 		$titleInput.addEventListener('keyup', e => {
 			const content = $contentInput.textContent;
