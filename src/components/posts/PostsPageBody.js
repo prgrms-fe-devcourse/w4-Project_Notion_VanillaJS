@@ -1,6 +1,6 @@
 export default function PageBody({ $target, initialState, onUpdate }) {
-	const $pageTitle = $createElement('div', 'page-title');
-	const $pageContent = $createElement('div', 'page-content');
+	const $pageTitle = $createElement('div', '.page-title');
+	const $pageContent = $createElement('div', '.page-content');
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -13,31 +13,36 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
 
 		$pageTitle.innerHTML = `
-			<input type="text" class="page-title-input" value="${title}">
+			<div class="show-page-title" contenteditable="true" >${title}</div>
 		`;
 		$pageContent.innerHTML = `
-			<textarea class="page-content-textarea">${convertedContent}</textarea>
+			<div class="show-page-content" contenteditable="true">${convertedContent}</div>
 		`;
 
-		$pageTitle.querySelector('input').addEventListener('keyup', e => {
-			const content = $pageContent.querySelector('textarea').value;
+		$pageTitle
+			.querySelector('.show-page-title')
+			.addEventListener('keyup', e => {
+				const content =
+					$pageContent.querySelector('.show-page-content').textContent;
 
-			const nextDocument = {
-				title: e.target.value,
-				content,
-			};
-			onUpdate.updateTitle(nextDocument);
-		});
+				const nextDocument = {
+					title: e.target.textContent,
+					content,
+				};
+				onUpdate.updateTitle(nextDocument);
+			});
 
-		$pageContent.querySelector('textarea').addEventListener('keyup', e => {
-			const title = $pageTitle.querySelector('input').value;
+		$pageContent
+			.querySelector('.show-page-content')
+			.addEventListener('keyup', e => {
+				const title = $pageTitle.querySelector('.page-title-input').textContent;
 
-			const nextDocument = {
-				title,
-				content: e.target.value,
-			};
-			onUpdate.updateContent(nextDocument);
-		});
+				const nextDocument = {
+					title,
+					content: e.target.textContent,
+				};
+				onUpdate.updateContent(nextDocument);
+			});
 	};
 
 	$target.appendChild($pageTitle);

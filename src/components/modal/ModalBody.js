@@ -7,36 +7,39 @@ export default function ModalBody({ $target, onUpdate }) {
 		const contentTemp = '문서를 입력해보세요!';
 
 		$modalTitle.innerHTML = `
-      <input
-				type="text"
-				class="modal-title-input"
-				data-text=""
-				value="${titleTemp}">
+			<div class="show-modal-title" contenteditable="true" datat-text="">${titleTemp}</div>
     `;
 
 		$modalContent.innerHTML = `
-      <textarea class="modal-content-textarea" data-text="">${contentTemp}</textarea>
+			<div class="show-modal-content" contenteditable="true" datat-text="">${contentTemp}</div>
     `;
 
-		$modalTitle.querySelector('input').addEventListener('keyup', e => {
-			const content = $modalContent.querySelector('textarea').value;
-			const document = {
-				title: e.target.value,
-				content,
-			};
+		$modalTitle
+			.querySelector('.show-modal-title')
+			.addEventListener('keyup', e => {
+				const content = $modalContent.querySelector(
+					'.show-modal-content',
+				).textContent;
+				const document = {
+					title: e.target.value,
+					content,
+				};
 
-			onUpdate.updateTitle(document);
-		});
+				onUpdate.updateTitle(document);
+			});
 
-		$modalContent.querySelector('textarea').addEventListener('keyup', e => {
-			const title = $modalTitle.querySelector('input').value;
-			const document = {
-				title,
-				content: e.target.value,
-			};
+		$modalContent
+			.querySelector('.show-modal-content')
+			.addEventListener('keyup', e => {
+				const title =
+					$modalTitle.querySelector('.show-modal-title').textContent;
+				const document = {
+					title,
+					content: e.target.value,
+				};
 
-			onUpdate.updateContent(document);
-		});
+				onUpdate.updateContent(document);
+			});
 	};
 
 	this.render();

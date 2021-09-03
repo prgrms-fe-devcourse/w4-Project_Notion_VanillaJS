@@ -2,6 +2,7 @@ html {
 	font-size: 10px;
 	overflow: hidden;
 	font-family: 'Open Sans', sans-serif;
+	box-sizing: content-box;
 }
 input,
 textarea,
@@ -56,16 +57,35 @@ p.blank {
 	font-size: 1.4rem;
 	color: rgba(55, 53, 47, 0.4);
 }
-
-.nav-toggler-btn {
-	font-size: 1.2rem;
-	opacity: 0.5;
-	cursor: pointer;
+.nav-toggler-btn.icon-down-dir {
+	font-size: 1.7rem;
+	margin-top: 0.2rem;
 }
 .nav-toggler-btn.icon-play {
-	margin-top: -0.3rem;
+	font-size: 1.1rem;
+	margin-top: -0.2rem;
 }
-
+.nav-toggler-btn {
+	opacity: 0.5;
+	border-radius: 3px;
+}
+.nav-crate-btn {
+	padding: 0.5rem;
+	border-radius: 3px;
+}
+.nav-delete-btn {
+	padding: 0.5rem;
+	border-radius: 3px;
+}
+.nav-toggler-btn:hover {
+	background: rgba(55, 53, 47, 0.08);
+}
+.nav-crate-btn:hover {
+	background: rgba(55, 53, 47, 0.08);
+}
+.nav-delete-btn:hover {
+	background: rgba(55, 53, 47, 0.08);
+}
 .nav-item:hover {
 	color: rgb(55, 53, 47);
 	font-weight: 700;
@@ -76,12 +96,10 @@ p.blank {
 	color: rgb(55, 53, 47);
 	font-weight: 700;
 }
-
 .sidebar-body .create-btn {
 	cursor: pointer;
 	padding: 1rem 1.5rem;
 }
-
 .sidebar-footer {
 	box-shadow: rgb(55 53 47 / 9%) 0px -1px 0px;
 	cursor: pointer;
@@ -101,15 +119,43 @@ p.blank {
 /* page */
 .page-container {
 	display: flex;
-	flex-grow: 0;
-	flex-shrink: 1;
-	flex-direction: column;
+	flex-direction: row;
+	justify-content: center;
+	padding-top: 7rem;
 	width: 1200px;
 	height: 100vh;
 	max-height: 100%;
 	background: white;
 }
+.page-body {
+	width: 70%;
+}
+.page-title {
+	position: relative;
+	width: 100%;
+}
+.show-page-title {
+	cursor: text;
+	font-size: 4rem;
+	font-weight: 700;
+	white-space: pre-wrap;
+	word-break: break-word;
+	outline: none;
+}
+.page-content {
+	margin-top: 3vh;
+	min-height: 100%;
+	cursor: text;
+}
+.show-page-content {
+	font-size: 1.6rem;
+	line-height: 1.5;
+	white-space: pre-wrap;
+	word-break: break-word;
+	outline: none;
+}
 
+/* modal */
 .modal-container {
 	position: absolute;
 	top: 72px;
@@ -127,6 +173,60 @@ p.blank {
 	box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px,
 		rgb(15 15 15 / 10%) 0px 5px 10px, rgb(15 15 15 / 20%) 0px 15px 40px;
 }
+.modal-header {
+	display: flex;
+	padding: 1rem;
+	justify-content: space-between;
+}
+.modal-openpage-btn {
+	padding: 1rem;
+	cursor: pointer;
+	border-radius: 3px;
+	font-size: 1.4rem;
+	line-height: 1.2;
+	color: rgba(55, 53, 47, 0.6);
+}
+.modal-openpage-btn:hover {
+	background: rgba(55, 53, 47, 0.08);
+}
+.modal-close-btn {
+	padding: 1rem;
+	cursor: pointer;
+	border-radius: 3px;
+	font-size: 1.4rem;
+	line-height: 1.2;
+	color: rgba(55, 53, 47, 0.6);
+}
+.modal-close-btn:hover {
+	background: rgba(55, 53, 47, 0.1);
+}
+.modal-body {
+	display: flex;
+	flex-direction: column;
+	padding: 8rem;
+	height: 100%;
+}
+.show-modal-title {
+	cursor: text;
+	font-size: 4rem;
+	font-weight: 700;
+	white-space: pre-wrap;
+	word-break: break-word;
+	outline: none;
+}
+.modal-content {
+	margin-top: 3vh;
+	min-height: 100%;
+	cursor: text;
+}
+.show-modal-content {
+	font-size: 1.6rem;
+	line-height: 1.5;
+	white-space: pre-wrap;
+	word-break: break-word;
+	outline: none;
+}
+
 .hide {
 	display: none;
 }

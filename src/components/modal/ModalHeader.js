@@ -1,11 +1,14 @@
 export default function ModalHeader({ $target, onClick }) {
-	const $openPagebtn = $createElement('button', '.modal-openpage-btn');
-	$openPagebtn.textContent = '페이지로 열기';
+	const $openPage = $createElement('span', '.modal-openpage-btn');
+	$openPage.innerHTML = `
+		<i class="demo-icon icon-resize-full"></i>
+		페이지로 열기
+	`;
 
-	const $closeModalBtn = $createElement('button', '.modal-close-btn');
-	$closeModalBtn.textContent = 'X';
+	const $closeModalBtn = $createElement('button');
+	addClassAll($closeModalBtn, 'modal-close-btn', 'icon-cancel');
 
-	$openPagebtn.addEventListener('click', e => {
+	$openPage.addEventListener('click', e => {
 		onClick.openPage();
 	});
 
@@ -13,6 +16,6 @@ export default function ModalHeader({ $target, onClick }) {
 		onClick.closeModal();
 	});
 
-	$target.appendChild($openPagebtn);
+	$target.appendChild($openPage);
 	$target.appendChild($closeModalBtn);
 }
