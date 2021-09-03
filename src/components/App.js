@@ -20,7 +20,7 @@ export default function App({ $target }) {
   
   documentPage.render()
   documentEditPage.setState({
-      documentId : 7464
+      documentId : 11006
   })
 
 }

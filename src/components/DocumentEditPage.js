@@ -8,9 +8,9 @@ export default function DocumentEditPage({ $target, initialState }) {
   this.state = initialState
     
   
-  let TEMP_DOCUMENT_SAVE_KEY = `temp-document-${this.state.documentId}`;
+  let documentLocalSaveKey = `temp-document-${this.state.documentId}`;
 
-  const tempDocument = getItem(TEMP_DOCUMENT_SAVE_KEY, {
+  const tempDocument = getItem(documentLocalSaveKey, {
     title: '',
     content: "",
   });
@@ -33,10 +33,12 @@ export default function DocumentEditPage({ $target, initialState }) {
 
       timer = setTimeout(() => {
         console.log(document)
-        setItem(TEMP_DOCUMENT_SAVE_KEY, {
+        setItem(documentLocalSaveKey, {
           ...document,
           tempSaveData: new Date(),
         });
+
+     
       }, 1000);
     },
   });
@@ -44,15 +46,21 @@ export default function DocumentEditPage({ $target, initialState }) {
   
   this.setState = async nextState => {
       if(this.state.documentId !== nextState.documentId){
+    documentLocalSaveKey = `temp-document-${this.state.documentId}`;
+
         this.state = nextState
         
         await fetchDocument()
         return 
       }
-
+     
     this.state = nextState
-    editor.setState(this.state.document)
     this.render()
+    editor.setState(this.state.document || {
+        title : '',
+        content : ''
+    })
+
     }
 
   this.render = () => {
@@ -64,6 +72,22 @@ export default function DocumentEditPage({ $target, initialState }) {
 
       if(this.state.documentId !== 'new'){
       const document = await request(`/${documentId}`)
+
+    //   console.log(documentLocalSaveKey)
+      const getTempDocument = getItem(documentLocalSaveKey, {
+        title: '',
+        content: "",
+      });
+      if(getTempDocument.tempSaveData && getTempDocument.tempSaveData > document.updatedAt){
+          if(confirm('저장하지 않은 임시데이터가 있습니다. 불러올까요?')){
+              this.setState({
+                  ...this.state,
+                  document: getTempDocument
+              })
+              return 
+          }
+      }
+
           this.setState({
               ...this.state,
             document
