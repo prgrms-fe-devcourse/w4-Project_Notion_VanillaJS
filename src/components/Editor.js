@@ -70,10 +70,17 @@ export default function Editor({ $target, initialState, onEditing }) {
       return;
     }
 
-    this.setState({
+    const nextState = {
       ...this.state,
       [name]: value,
-    });
+    };
+
+    if (nextState.title === this.state.title
+      && nextState.content === this.state.content) {
+      return;
+    }
+
+    this.setState(nextState);
 
     onEditing(this.state);
   });
