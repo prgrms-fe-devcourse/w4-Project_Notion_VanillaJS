@@ -1,5 +1,4 @@
 import DocumentEditor from '../components/DocumentEditor.js';
-import ChildDocumentLink from '../components/ChildDocumentLink.js';
 import { fetchGetDocument } from '../utils/api.js';
 import { checkIsEmptyThrowError, checkUseConstructorFunction } from '../utils/validator.js';
 import { CLASS_NAME } from '../utils/constants.js';
@@ -22,19 +21,15 @@ export default function DocumentEditPage({ $target, initialState }) {
     initialState: {},
   });
 
-  const childDocumentLink = new ChildDocumentLink({ $target: $page, initialState: [] });
-
   this.setState = async nextState => {
     validate(nextState);
     const documentInfo = await fetchGetDocument(nextState);
     documentEditor.setState(documentInfo);
-    childDocumentLink.setState(documentInfo.documents);
     this.render();
   };
 
   this.clear = () => {
     documentEditor.setState({});
-    childDocumentLink.setState([]);
   };
 
   this.render = () => {

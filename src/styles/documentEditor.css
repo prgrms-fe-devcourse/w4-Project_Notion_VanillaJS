@@ -15,11 +15,10 @@
 
 .document-title {
   width: 85%;
-  height: 70px;
   font-size: 48px;
   border: 0;
   outline: none;
-  flex-basis: 20%;
+  flex-basis: 10%;
   background: var(--backgroundColor);
   color: var(--fontColor);
 }
@@ -42,7 +41,7 @@
 .editor-container {
   display: flex;
   width: 85%;
-  height: 60%;
+  flex-basis: 80%;
 }
 
 .border-vertical {
