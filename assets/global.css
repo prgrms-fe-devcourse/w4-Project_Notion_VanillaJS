@@ -35,8 +35,13 @@ input:focus {
 
 .tree-li {
   line-height: 2;
-  text-overflow: ellipsis;
+}
+
+.li-inner-container {
+  position: relative;
   overflow-x: hidden;
+  text-overflow: ellipsis;
+  padding-right: 30px;
   cursor: pointer;
 }
 
@@ -98,14 +103,16 @@ button[name="fold"]:hover {
 }
 
 .add {
-  /* display: none; */
+  display: none;
   border: none;
   color: rgba(55, 53, 47, 0.4);
+  position: absolute;
+  height: 100%;
+  width: 24px;
 }
 
 .current-hover .add {
   display: inline;
-  position: absolute;
   right: 0;
   top: 0;
 }

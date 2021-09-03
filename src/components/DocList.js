@@ -9,6 +9,7 @@ export default function DocList({
   type = DOC_LIST_TREE_TYPE,
 }) {
   const $list = document.createElement('div');
+  $list.setAttribute('class', 'doc-list');
   $target.appendChild($list);
 
   this.state = initialState;
@@ -29,14 +30,19 @@ export default function DocList({
       <ul class="tree-ul">
         ${this.state.map(({ id, title }) => `
           <li class="tree-li" data-id="${id}">
-            <button data-id="${id}" name="fold" class="folded">▶</button>
-            ${title}(${id})
-            <button data-id="${id}" name="add" class="add">+</button>
+            <div class="li-inner-container" data-id="${id}">
+              <button class="folded" data-id="${id}" name="fold" >▶</button>
+              ${title}(${id})
+              <button class="add" data-id="${id}" name="add">+</button>
+            </div>
           </li>
         `).join('')}
       </ul>
     `;
-    } else if (type === DOC_LIST_TABLE_TYPE) {
+      return;
+    }
+
+    if (type === DOC_LIST_TABLE_TYPE) {
       $list.innerHTML = `
       <ul class="table-ul">
         ${this.state.map(({ id, title }) => `

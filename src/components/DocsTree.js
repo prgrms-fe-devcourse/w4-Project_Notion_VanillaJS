@@ -26,6 +26,7 @@ export default function DocsTree({ $target, initialState }) {
 
     if (!Array.isArray(subdocs) || subdocs.length === 0) {
       const $noPagesInsideMessage = document.createElement('div');
+      $noPagesInsideMessage.setAttribute('class', 'doc-list');
       $noPagesInsideMessage.textContent = 'No pages inside';
       parentDoc.appendChild($noPagesInsideMessage);
       return;
@@ -53,13 +54,13 @@ export default function DocsTree({ $target, initialState }) {
   };
 
   const foldSubDocList = (parentDoc, $button) => {
-    parentDoc.removeChild(parentDoc.querySelector('div'));
+    parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
     toggleFoldButton($button);
   };
 
   const refreshSubDocList = (parentDoc) => {
-    if (parentDoc.querySelector('div')) {
-      parentDoc.removeChild(parentDoc.querySelector('div'));
+    if (parentDoc.querySelector('.doc-list')) {
+      parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
     }
 
     renderSubDocList(parentDoc);
@@ -79,7 +80,7 @@ export default function DocsTree({ $target, initialState }) {
 
     const { id } = $eventTarget.dataset;
 
-    if ($eventTarget.nodeName.toLowerCase() === 'li') {
+    if ($eventTarget.className === 'li-inner-container') {
       push(`/documents/${id}`);
       return;
     }
