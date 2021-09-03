@@ -1,7 +1,6 @@
-import DocumentList from "./DocumentList.js"
 import { request } from "./api.js"
 
-export default function Editor({ $target, initialState, fetchDocument
+export default function Editor({ $target, initialState
 }) {
   const $editor = document.createElement('div')
   $target.appendChild($editor)
@@ -94,12 +93,5 @@ export default function Editor({ $target, initialState, fetchDocument
       })
     })
   }
-
-
   this.render()
 }
-
-
-
-  
-

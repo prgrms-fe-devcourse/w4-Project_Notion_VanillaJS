@@ -84,7 +84,3 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
 
   this.render()
 }
-
-
-  
-
