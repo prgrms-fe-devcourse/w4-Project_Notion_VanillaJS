@@ -1,0 +1,226 @@
+body{
+    margin: 0;
+    padding:0;
+}
+.header{
+    display: flex;
+    background-color:#F6F7F1;
+    width: 380px;
+    height: 50px;
+    border-bottom: solid #F6F7F3
+}
+.userName{
+    font-family: 'Roboto';
+    padding-left: 30px;
+    padding-top:10px;
+    font-size: 15px;
+}
+.notion{
+    font-family: 'Roboto';
+    padding-left: 4px;
+    padding-top:8px;
+    font-weight: bold;
+}
+.app{
+
+    display: flex;
+}
+.postlist{
+    background-color:#F6F7F1;
+    width: 380px;
+    height: 1000px;
+    list-style:none;
+    
+}
+.editor{
+    padding-left: 300px;
+}
+
+.docsList{
+    margin-bottom: 5px;
+
+    font-size: 1px;
+    list-style:none;
+    -webkit-padding-start:15px;
+
+}
+
+
+.documentsList{
+
+    color:#828282;
+    font-size: 15px;
+    list-style:none;
+
+}
+.docsChildList{
+    list-style:none;
+}
+.arrowButton{
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #F6F7F1;
+    background-color: rgba(0,0,0,0);
+    color:#aaaaaa;
+    padding: 5px;
+}
+.arrowButton:hover {
+    background-color:	#dcdcdc;
+    color: #fff;
+    transform: translateY(1px);
+  }
+.arrowChildButton{
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #F6F7F1;
+    background-color: rgba(0,0,0,0);
+    color:#aaaaaa;
+    padding: 5px;
+}
+.arrowChildButton:hover {
+    background-color:	#dcdcdc;
+    color: #fff;
+    transform: translateY(1px);
+  }
+.addDocuments{
+    border: 1px solid #F6F7F1;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(0,0,0,0);
+    color:burlywood;
+    padding: 3px;
+}
+.addDocuments:hover {
+    background-color: #dcdcdc;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0);
+    color: #fff; 
+    transform: translateY(-7px);
+  }
+
+.removeDocuments{
+    border: 1px solid #F6F7F1;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(0,0,0,0);
+    color:burlywood;
+    padding: 5px;
+
+}
+
+.removeDocuments:hover {
+    background-color: #dcdcdc;
+    box-shadow: 0px 15px 20px rgba(0,0,0,0);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+.addPageButton{
+    font-family: 'Roboto', sans-serif;
+    width: 380px;
+    text-align:left;
+    border: 1px solid #F6F7F1;
+    background-color: rgba(0,0,0,0);
+    color:#aaaaaa;
+    padding: 5px;
+
+}
+.addPageButton:hover {
+    background-color:	#dcdcdc;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+
+.trash{
+    font-family: 'Roboto', sans-serif;
+    width: 380px;
+    border: 1px solid #F6F7F1;
+    background-color: rgba(0,0,0,0);
+    color:#aaaaaa;
+    padding: 0;
+}
+.trash:hover {
+    background-color: #dcdcdc;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.4);
+    color: #aaaaaa;
+    transform: translateY(-7px);
+  }
+
+.trashList{
+    list-style-type: none;
+}
+.trashDocs{
+    font-size: 13px;
+    color:#aaaaaa;
+
+}
+.recoverButton{
+    text-align:left;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #F6F7F1;
+    background-color: rgba(0,0,0,0);
+    color:green;
+    padding: 5px;
+
+}
+.recoverButton:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+
+.hardRemoveButton{
+    font-size: 13px;
+    text-align:left;
+    font-family: 'Roboto', sans-serif;
+    border: none;
+    background-color: rgba(0,0,0,0);
+    color:red;
+    padding: 5px;
+
+
+}
+
+.hardRemoveButton:hover {
+    background-color: red;
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+.RemoveAllTrash{
+    font-size: 13px;
+    font-family: 'Roboto', sans-serif;
+    border: none;
+    background-color: rgba(0,0,0,0);
+    color:#aaaaaa;
+    padding-left: 230px;
+
+
+}
+
+.RemoveAllTrash:hover {
+    background-color: #F6F7F1;
+    color:gainsboro;
+    transform: translateY(-7px);
+  }
+
+
+.documentTitle{
+    margin-top:100px;
+    font-family:'Malgun Gothic';
+   width:600px; 
+   height:100px;
+   border: none;
+   border-bottom: solid #dcdcdc ;
+   font-size:50px;
+
+
+}
+input:focus{outline:none;}
+textarea:focus{outline:none;}
+.documentTitle:hover{
+border:none;
+}
+.ContentArea{
+    border:none;
+    font-family:'Malgun Gothic';
+}
