@@ -3,6 +3,7 @@ import DocumentsPage from "./pages/DocumentsPage.js";
 
 export default function App({ $target }) {
   const documentsPage = new DocumentsPage({ $target });
+
   const documentEditPage = new DocumentEditPage({
     $target,
     initialState: {
@@ -10,10 +11,17 @@ export default function App({ $target }) {
     },
   });
 
-  documentsPage.render();
+  this.route = () => {
+    const { pathname } = window.location;
 
-  documentEditPage.setState({
-    documentId: 9175,
-  });
-  // documentEditPage.render();
+    if (pathname === "/") {
+      documentsPage.setState();
+    } else if (pathname.indexOf("/documents/") === 0) {
+      documentsPage.setState();
+      const [, , documentId] = pathname.split("/");
+      documentEditPage.setState({ documentId });
+    }
+  };
+
+  this.route();
 }
