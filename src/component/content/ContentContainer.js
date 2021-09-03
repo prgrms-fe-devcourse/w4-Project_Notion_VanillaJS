@@ -1,4 +1,4 @@
-import { emit, on, qs, qsAll } from "../../util/util.js";
+import { on, qs, qsAll } from "../../util/util.js";
 import Component from "../Component.js";
 import ContentComponent from "./ContentComponent.js";
 import HeaderComponent from "./HeaderComponent.js";

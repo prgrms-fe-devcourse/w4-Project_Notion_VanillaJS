@@ -1,4 +1,3 @@
-import { qs } from "../../util/util.js";
 import Component from "../Component.js";
 
 class HeaderComponent extends Component {
