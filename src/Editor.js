@@ -18,7 +18,6 @@ export default function Editor({ $target, initialState, fetchDocument
       <article>
         <div class="editContainer">
           <button class="newBtn">작성하기</button>
-          <button class="editBtn">수정하기</button>
         </div>
         <textarea id="newArticleTitle" class="articleTitle"> ${this.state.title}</textarea>
         <div "articleDate">
@@ -32,6 +31,12 @@ export default function Editor({ $target, initialState, fetchDocument
   }
 
   this.render()
+
+  $editor.addEventListener('keyup', (e) => {
+    const newArticleTitle = document.getElementById('newArticleTitle').value
+    const newArticleContent = document.getElementById('newArticleContent').value
+    editDocument(newArticleTitle, newArticleContent, this.state.id)
+  })
 
   $editor.addEventListener('click', (e) => {
     const { className } = e.target
@@ -47,13 +52,6 @@ export default function Editor({ $target, initialState, fetchDocument
        newDocument(newTitle, this.state.id)
        history.go(0)
       } else alert("제목을 입력하세요")
-    } else if (className === 'editBtn') {
-      if(confirm("수정 후 되돌릴 수 없습니다. 수정하실건가요?")) {
-        const newArticleTitle = document.getElementById('newArticleTitle').value
-        const newArticleContent = document.getElementById('newArticleContent').value
-        editDocument(newArticleTitle, newArticleContent, this.state.id)
-        history.go(0)
-      }
     } else if (className === 'cancelBtn'){
       history.go(0)
     }
@@ -95,7 +93,6 @@ export default function Editor({ $target, initialState, fetchDocument
         'content': content
       })
     })
-    console.log(document);
   }
 
 
