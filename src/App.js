@@ -2,7 +2,6 @@ import { on } from './utils/emitter.js';
 import { getStateAfter } from './store/getters.js';
 
 import Store from './store/index.js';
-
 import MainPage from './pages/MainPage.js';
 
 export default function App({ $target }) {

@@ -73,9 +73,11 @@ export default function Store() {
 
 	this.init = () => {
 		on.createDocument((id, onModal) => {
-			onModal
-				? dispatch('createDocumentOnModal', { id })
-				: dispatch('createDocument', { id });
+			if (onModal) {
+				dispatch('createDocumentOnModal', { id });
+			} else {
+				dispatch('createDocument', { id });
+			}
 		});
 		on.readDocument((id, needRender) =>
 			dispatch('readDocument', { id, needRender }),
@@ -84,9 +86,11 @@ export default function Store() {
 			dispatch('updateDocument', { id, nextDocument }),
 		);
 		on.deleteDocument((id, isCurrent) => {
-			isCurrent
-				? dispatch('deleteCurrentDocument', { id })
-				: dispatch('deleteDocument', { id });
+			if (isCurrent) {
+				dispatch('deleteCurrentDocument', { id });
+			} else {
+				dispatch('deleteDocument', { id });
+			}
 		});
 		on.deleteEmptyDocument(id => dispatch('deleteEmptyDocument', { id }));
 	};

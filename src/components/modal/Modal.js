@@ -1,13 +1,13 @@
 import { on, emit } from '../../utils/emitter.js';
+import { $createElement } from '../../utils/templates.js';
 
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
 
 export default function Modal({ $target }) {
-	const $modal = $createElement('div');
+	const $modal = $createElement('div', '.modal-container', '.hide');
 	const $modalHeader = $createElement('div', '.modal-header');
 	const $modalBody = $createElement('div', '.modal-body');
-	addClassAll($modal, 'modal-container', 'hide');
 
 	this.state = {
 		id: 'new',
@@ -50,7 +50,7 @@ export default function Modal({ $target }) {
 			updateTitle: nextDocument => {
 				const { id } = this.state;
 
-				const currentLi = $(`li[data-id="${id}"] span`);
+				const currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
 				currentLi.textContent = nextDocument.title;
 				$('.show-modal-title').dataset.text = nextDocument.title;
 
@@ -75,31 +75,35 @@ export default function Modal({ $target }) {
 		},
 	});
 
-	on.showModal(showModal);
-	on.updateModal(nextState => {
-		this.setState(nextState);
-	});
-
-	window.addEventListener('click', e => {
-		const createBtn = e.target.dataset?.target === 'modal';
-		const onModal = e.target.className.includes('modal');
-
-		if (createBtn || onModal) {
-			return;
-		}
-		const noData =
-			!$('.show-modal-title').dataset.text &&
-			!$('.show-modal-content').dataset.text;
-		const isHide = $modal.classList.contains('hide');
-		const isEmpty = !onModal && !isHide && noData;
-
-		if (isEmpty) {
-			emit.deleteEmptyDocument(this.state.id);
-		}
-		hideModal();
-	});
-
 	$target.appendChild($modal);
 	$modal.appendChild($modalHeader);
 	$modal.appendChild($modalBody);
+
+	this.init = () => {
+		on.showModal(showModal);
+		on.updateModal(nextState => {
+			this.setState(nextState);
+		});
+
+		window.addEventListener('click', e => {
+			const createBtn = e.target.dataset?.target === 'modal';
+			const onModal = e.target.className.includes('modal');
+
+			if (createBtn || onModal) {
+				return;
+			}
+			const noData =
+				!$('.show-modal-title').dataset.text &&
+				!$('.show-modal-content').dataset.text;
+			const isHide = $modal.classList.contains('hide');
+			const isEmpty = !onModal && !isHide && noData;
+
+			if (isEmpty) {
+				emit.deleteEmptyDocument(this.state.id);
+			}
+			hideModal();
+		});
+	};
+
+	this.init();
 }

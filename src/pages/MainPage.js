@@ -1,3 +1,5 @@
+import { $createElement } from '../utils/templates.js';
+
 import Sidebar from '../components/sidebar/Sidebar.js';
 import PostsPage from '../components/posts/PostsPage.js';
 import Modal from '../components/modal/Modal.js';
@@ -43,5 +45,5 @@ export default function MainPage({ $target, initialState }) {
 
 	$target.appendChild($row);
 
-	this.render('all');
+	this.render();
 }

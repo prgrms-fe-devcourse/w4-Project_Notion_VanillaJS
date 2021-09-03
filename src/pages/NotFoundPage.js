@@ -1,3 +1,5 @@
+import { $createElement } from '../utils/templates.js';
+
 export default function NotFoundPage({ $target }) {
 	const $page = $createElement('div', '.not-found');
 

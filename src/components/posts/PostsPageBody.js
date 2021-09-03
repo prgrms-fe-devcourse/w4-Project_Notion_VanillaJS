@@ -1,3 +1,5 @@
+import { $createElement } from '../../utils/templates.js';
+
 export default function PageBody({ $target, initialState, onUpdate }) {
 	const $pageTitle = $createElement('div', '.page-title');
 	const $pageContent = $createElement('div', '.page-content');

@@ -1,22 +1,25 @@
-import { getItemFromStorage, setItemToStroage } from '../../utils/storage.js';
 import { emit } from '../../utils/emitter.js';
-import { $drawNewLi } from '../../utils/templates.js';
+
+import { $createElement } from '../../utils/templates.js';
+
+import {
+	makeNewPostLiOnRoot,
+	makeNewPostLiOnTree,
+} from '../../utils/render.js';
 
 import SidebarHeader from './SidebarHeader.js';
 import SidebarBody from './SidebarBody.js';
 import SidebarFooter from './SidebarFooter.js';
 
 export default function Sidebar({ $target, initialState }) {
-	const $sidebar = $createElement('div');
+	const $sidebar = $createElement('div', '.col', '.sidebar-container');
 	const $sidebarHeader = $createElement('div', '.sidebar-header');
 	const $sidebarBody = $createElement('div', '.sidebar-body');
 	const $sidebarFooter = $createElement('div', '.sidebar-footer');
-	addClassAll($sidebar, 'col', 'sidebar-container');
 
 	this.state = {
 		...initialState,
 	};
-
 	this.setState = nextState => {
 		this.state = nextState;
 		sidebarBody.setState(this.state);
@@ -65,11 +68,19 @@ export default function Sidebar({ $target, initialState }) {
 				const onModal = !!id;
 
 				if (onModal) {
-					$drawNewLi($li, false);
-					emit.createDocument(id, onModal);
+					makeNewPostLiOnTree({ $target: $li, needMark: false });
+
+					emit.createDocument({
+						id,
+						onModal,
+					});
 				} else {
-					$drawNewLi($li, true);
-					emit.createDocument(id, onModal);
+					makeNewPostLiOnRoot({ needMark: true });
+
+					emit.createDocument({
+						id,
+						onModal,
+					});
 				}
 			},
 		},
@@ -79,8 +90,12 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				$drawNewLi();
-				emit.createDocument(null, 'onModal');
+				makeNewPostLiOnRoot({ needMark: false });
+
+				emit.createDocument({
+					id: null,
+					onModal: true,
+				});
 			},
 		},
 	});

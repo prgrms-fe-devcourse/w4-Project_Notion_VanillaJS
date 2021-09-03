@@ -1,3 +1,5 @@
+import { $createElement } from '../../utils/templates.js';
+
 export default function ModalBody({ $target, onUpdate }) {
 	const $modalTitle = $createElement('p', '.modal-title');
 	const $modalContent = $createElement('p', '.modal-content');

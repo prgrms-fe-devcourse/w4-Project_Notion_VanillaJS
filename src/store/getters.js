@@ -7,6 +7,45 @@ import {
 	deleteDocument,
 } from '../api/notion.js';
 
+const getOpendeLiAfter = async (action, option) => {
+	const result = (await gettersLi[action](option)) || [];
+
+	setItemToStroage('openedLi', result);
+	return result;
+};
+
+const gettersLi = {
+	fetch: () => {
+		return getItemFromStorage('opendLi') || [];
+	},
+	add: (origin, id) => {
+		if (!origin || id) {
+			return [];
+		}
+
+		const newData = [...origin];
+
+		if (!newData.includes(id)) {
+			newData.push(id);
+		}
+
+		return newData;
+	},
+	delete: (origin, id) => {
+		if (!origin || id) {
+			return [];
+		}
+
+		const newData = [...origin];
+
+		if (newData.includes) {
+			newData.splice(newData.indexOf(id), 1);
+		}
+
+		return newData;
+	},
+};
+
 const getStateAfter = async (action, option) => {
 	const state = await getters[action](option);
 
@@ -26,7 +65,7 @@ const getters = {
 		const postId = id ? id : documents[0].id;
 		const currentDocument = await getDocuments(postId);
 
-		// history.pushState(null, null, `/posts/${postId}`);
+		history.pushState(null, null, `/posts/${postId}`);
 		return { documents, currentDocument };
 	},
 	create: async id => {
@@ -86,4 +125,4 @@ const getters = {
 	},
 };
 
-export { getStateAfter };
+export { getStateAfter, getOpendeLiAfter };

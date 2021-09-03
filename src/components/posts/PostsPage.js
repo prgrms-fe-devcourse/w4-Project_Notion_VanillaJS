@@ -1,11 +1,11 @@
+import { $createElement } from '../../utils/templates.js';
 import { emit } from '../../utils/emitter.js';
 
 import PageBody from './PostsPageBody.js';
 
 export default function Page({ $target, initialState }) {
-	const $page = $createElement('div');
+	const $page = $createElement('div', '.col', '.page-container');
 	const $pageBody = $createElement('div', '.page-body');
-	addClassAll($page, 'col', 'page-container');
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -26,7 +26,7 @@ export default function Page({ $target, initialState }) {
 		onUpdate: {
 			updateTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
-				const currentLi = $(`li[data-id="${id}"] span`);
+				const currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
 				currentLi.textContent = nextDocument.title;
 
 				if (pageBodyUpdateTimer) {

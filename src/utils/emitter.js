@@ -91,7 +91,7 @@ const emit = {
 			}),
 		);
 	},
-	createDocument(id, onModal) {
+	createDocument({ id, onModal }) {
 		window.dispatchEvent(
 			new CustomEvent(CREATE_DOCUMENT, {
 				detail: {

@@ -1,3 +1,5 @@
+import { $createElement } from '../../utils/templates.js';
+
 export default function ModalHeader({ $target, onClick }) {
 	const $openPage = $createElement('span', '.modal-openpage-btn');
 	$openPage.innerHTML = `
@@ -5,17 +7,24 @@ export default function ModalHeader({ $target, onClick }) {
 		페이지로 열기
 	`;
 
-	const $closeModalBtn = $createElement('button');
-	addClassAll($closeModalBtn, 'modal-close-btn', 'icon-cancel');
-
-	$openPage.addEventListener('click', e => {
-		onClick.openPage();
-	});
-
-	$closeModalBtn.addEventListener('click', e => {
-		onClick.closeModal();
-	});
+	const $closeModalBtn = $createElement(
+		'button',
+		'.modal-close-btn',
+		'.icon-cancel',
+	);
 
 	$target.appendChild($openPage);
 	$target.appendChild($closeModalBtn);
+
+	this.init = () => {
+		$openPage.addEventListener('click', e => {
+			onClick.openPage();
+		});
+
+		$closeModalBtn.addEventListener('click', e => {
+			onClick.closeModal();
+		});
+	};
+
+	this.init();
 }

@@ -1,7 +1,21 @@
-import { $listItem, $blankItem } from '../../utils/templates.js';
+import {
+	$createElement,
+	$treeItem,
+	$listItem,
+	$blankItem,
+} from '../../utils/templates.js';
+
+import {
+	fillListItem,
+	markListItemOfId,
+	markListItemofLi,
+} from '../../utils/render.js';
+
+import { getOpendeLiAfter } from '../../store/getters.js';
 
 export default function SidebarBody({ $target, initialState, onClick }) {
 	const $navList = $createElement('div', '.nav-list');
+	const $ul = $createElement('ul', '.root');
 	const $createBtn = $createElement('div', '.create-btn');
 	$createBtn.innerHTML = `<span data-target="page">+ 페이지 추가</span>`;
 
@@ -10,59 +24,51 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		this.state = nextState;
 	};
 
-	const markCurrentLi = id => {
-		const currentLi = id ? id : this.state.currentDocument.id;
+	const drawNavList = (target, childDocuments, isOpened) => {
+		childDocuments.forEach(({ id, title, documents }) => {
+			const $li = $listItem();
+			const haveChild = documents.length > 0;
 
-		$('span.selected')?.classList.remove('selected');
-		$(`li[data-id="${currentLi}"] span`)?.classList.add('selected');
-	};
+			if (haveChild) {
+				const $tree = $treeItem();
 
-	const drawNavList = (target, documents, isFirstNode) => {
-		const $ul = $createElement('ul', '.tree');
-
-		// if (!isFirstNode) {
-		// 	$ul.classList.add('hide');
-		// }
-
-		documents.forEach(document => {
-			const { id, title, documents } = document;
-			const $li = $listItem(id, title);
-
-			if (documents.length > 0) {
-				addClassAll($li, 'nav-header', 'tree-toggler');
-				drawNavList($li, documents);
+				drawNavList($tree, documents, isOpened);
+				addClass($li, 'nav-header', 'tree-toggler');
+				$li.appendChild($tree);
 			} else {
-				const blankData = $blankItem();
-				$li.appendChild(blankData);
+				const $blank = $blankItem();
+
+				$li.appendChild($blank);
 			}
 
-			$ul.appendChild($li);
+			const $filledListItem = fillListItem($li, { id, title, isOpened });
+			target.appendChild($filledListItem);
 		});
-
-		target.appendChild($ul);
 	};
 
 	$createBtn.addEventListener('click', e => {
 		onClick.createDocument(null, null);
 	});
 
-	this.render = () => {
+	this.render = async () => {
 		const { documents, currentDocument } = this.state;
+		const isOpened = await getOpendeLiAfter('fetch');
 
-		$navList.innerHTML = '';
-		drawNavList($navList, documents, true);
+		$ul.innerHTML = '';
+		drawNavList($ul, documents, isOpened);
 
+		$navList.appendChild($ul);
 		$target.appendChild($navList);
 		$target.appendChild($createBtn);
 
 		if (!$('p.selected')) {
-			const currentItem = `li[data-id="${currentDocument.id}"] p`;
-			$navList.querySelector(`${currentItem}`).classList.add('selected');
+			markListItemOfId(currentDocument.id);
 		}
 	};
 
 	$navList.addEventListener('click', e => {
 		const { tagName, className, parentNode } = e.target;
+
 		if (tagName === 'UL' || tagName === 'LI' || className.includes('blank')) {
 			return;
 		}
@@ -70,7 +76,6 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		const isToggele = className.includes('nav-toggler-btn');
 		const isDelete = className.includes('nav-delete-btn');
 		const isCreate = className.includes('nav-crate-btn');
-
 		const $li = tagName === 'P' ? parentNode : parentNode.parentNode;
 		const { id } = $li.dataset;
 
@@ -83,7 +88,7 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 			onClick.createDocument(id, $li);
 		} else {
 			onClick.readDocument($li);
-			markCurrentLi(id);
+			markListItemofLi($li);
 		}
 	});
 }
