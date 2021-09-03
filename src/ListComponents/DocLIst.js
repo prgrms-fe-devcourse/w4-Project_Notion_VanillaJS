@@ -26,25 +26,22 @@ export default function DocList({
       ${documents
         .map(
           ({ id, title, documents }) =>
-            `<li 
-              data-id=${id}
-					    class='doc-list-item ${
-                Number(getItem('temp-doc', '').id) === id ? 'actived' : ''
-              }'
+            `<li data-id=${id} class='doc-list-item ${
+              Number(getItem('temp-doc', '').id) === id ? 'actived' : ''
+            }'
             >
               <div class='doc-list-item-wrapper ${
                 getItem(`toggle-doc-${id}`, false) ? 'toggled' : ''
               }'
-              style='padding-left: ${depth * paddingDepth}px'
+                style='padding-left: ${depth * paddingDepth}px'
               >
-                <i class ='drop-down-arrow'></i>
-						    ${title}
+                <i class ='drop-down-arrow'></i>${title}
                 <div class='button-wrapper'>
-						      <button type='button' class='delete-button' title='삭제하기'>-</button>
-						      <button type='button' class='add-button' title='추가하기'>+</button>
+                  <button type='button' class='delete-button' title='삭제하기'>-</button>
+                  <button type='button' class='add-button' title='추가하기'>+</button>
                 </div>
               </div>
-						  ${
+              ${
                 !getItem(`toggle-doc-${id}`, false)
                   ? recursiveDocuments(documents, depth + 1)
                   : ''
