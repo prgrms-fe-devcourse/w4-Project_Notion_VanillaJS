@@ -147,7 +147,6 @@ export default function EditPage({$target, initialState, onEditing}) {
       }
 
 
-
       //code inline 처리
       if (line.includes('`')) {
         const count = countKeyword(res, '`',)

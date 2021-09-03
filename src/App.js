@@ -23,14 +23,14 @@ export default function App({$target, initialState}) {
   $modal.setAttribute('class', 'notice')
   $page.appendChild($modal)
 
-  const $helpButton=document.createElement('div')
-  $helpButton.setAttribute('id','btn-help')
-  $helpButton.innerText=`help`
+  const $helpButton = document.createElement('div')
+  $helpButton.setAttribute('id', 'btn-help')
+  $helpButton.innerText = `help`
   $page.appendChild($helpButton)
 
-  const $helpPage=document.createElement('div')
-  $helpPage.setAttribute('id','page-help')
-  $helpPage.innerHTML=`
+  const $helpPage = document.createElement('div')
+  $helpPage.setAttribute('id', 'page-help')
+  $helpPage.innerHTML = `
     <h4>마크다운 안내</h4>
     <div style="font-size: 15px;text-align: left;padding-left: 5px">
       <xmp>#: <h1></h1></xmp>
