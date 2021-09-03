@@ -1,15 +1,19 @@
-body, div > ul, input, textarea, span {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+body,
+div > ul,
+input,
+textarea,
+span {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 ul {
-	list-style: none;
-  white-space:nowrap;
+  list-style: none;
+  white-space: nowrap;
   padding-left: 15px;
 }
 
@@ -87,11 +91,16 @@ span {
   width: 20px;
   height: 20px;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 4px;
+  transition: transform 200ms, background-color 150ms;
 }
 
 li span:hover:not(.createRootDocument) {
   background-color: #dddcda;
+}
+
+li span:active:not(.createRootDocument) {
+  background-color: #c0bfbc;
 }
 
 ul li:hover span.createSubDocument,
@@ -102,9 +111,9 @@ ul li:hover span.options {
 span.createSubDocument {
   border: 1px solid #cccbc7;
   font-weight: bolder;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 15px;
-  position:absolute;
+  position: absolute;
   right: 10px;
   display: none;
 }
@@ -115,12 +124,8 @@ span.options {
   right: 40px;
 }
 
-span.displaySubDocument {
-  transform: rotate(90deg);
-}
-
 span.displaySubDocument.displayRotate {
-  transform: rotate(0deg);
+  transform: rotate(90deg);
 }
 
 span.createRootDocument {
@@ -156,6 +161,11 @@ span.username {
 
 span.notion {
   font-weight: bold;
+}
+
+div.subDocuments {
+  text-align: center;
+  width: 80%;
 }
 
 div.subDocuments ul {
