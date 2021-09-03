@@ -1,5 +1,6 @@
 import DocumentEditPage from "./pages/DocumentEditPage.js";
 import DocumentsPage from "./pages/DocumentsPage.js";
+import { initRouter } from "./router.js";
 
 export default function App({ $target }) {
   const documentsPage = new DocumentsPage({ $target });
@@ -24,4 +25,6 @@ export default function App({ $target }) {
   };
 
   this.route();
+
+  initRouter(() => this.route());
 }

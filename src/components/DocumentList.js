@@ -1,8 +1,6 @@
-export default function DocumentList({
-  $target,
-  initialState,
-  onDocumentClick,
-}) {
+import { push } from "../router.js";
+
+export default function DocumentList({ $target, initialState }) {
   const $documentList = document.createElement("aside");
   $documentList.className = "listBar";
   $target.appendChild($documentList);
@@ -49,4 +47,13 @@ export default function DocumentList({
   };
 
   this.render();
+
+  $documentList.addEventListener("click", (e) => {
+    const $li = e.target.closest("li");
+
+    if ($li) {
+      const { id } = $li.dataset;
+      push(`/documents/${id}`);
+    }
+  });
 }
