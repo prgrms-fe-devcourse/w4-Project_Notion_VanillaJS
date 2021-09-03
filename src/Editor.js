@@ -28,7 +28,7 @@ export default function Editor({
   this.render = (nextState) => {
     if (!isinitialize) {
       $editor.innerHTML = `
-        <img class="headerImg" src="../header.png">
+        
       <div>
         <input type="text" name="title" style="width:500px;"  value="${this.state.title}"/>
       </div>
