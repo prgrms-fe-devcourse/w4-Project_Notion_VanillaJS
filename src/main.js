@@ -6,8 +6,6 @@ import { getItem, setItem } from "./storage.js";
 const mainPageId = getItem("mainPageId", false) || "initialPage";
 if (mainPageId == "initialPage") setItem("mainPageId", "initialPage");
 
-console.log(1);
-
 const sidePage = new SidePage({
   $target: document.querySelector("#sideMenu"),
   mainPageId: mainPageId,
@@ -21,8 +19,6 @@ const sidePage = new SidePage({
   },
 });
 
-console.log(2);
-
 const header = new Header({
   $target: document.querySelector("#header"),
   initialState: {
@@ -33,8 +29,6 @@ const header = new Header({
   },
 });
 
-console.log(3);
-
 const app = new App({
   $target: document.querySelector("#app"),
   mainPageId: mainPageId,
@@ -42,5 +36,3 @@ const app = new App({
     sidePage.refreshList();
   },
 });
-
-console.log(4);

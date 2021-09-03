@@ -21,7 +21,6 @@ export default function PostsPage({ $target, mainPageId }) {
 
   this.setState = async (postListInfo) => {
     const posts = postListInfo;
-    console.log(posts);
     postList.setState(posts.documents, posts.id);
     this.render();
   };

@@ -174,6 +174,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 13rem;
+  border-radius: 5px;
 }
 
 #sideMenu .headerBox .headerTitle:hover {
@@ -186,6 +187,7 @@ body {
   margin-left: 1em;
   color: rgba(25, 23, 17, 0.6);
   cursor:pointer;
+  border-radius: 5px;
 }
 
 #sideMenu .newButton:hover {
@@ -264,13 +266,17 @@ body {
 /* 헤더 */
 
 #container .headerBox {
-  margin: 1.5em 0 1em 0
+  margin: 1.5em 0 1em 0;
 }
 
 #container .headerBox .headerTitle {
   cursor: pointer;
-  width:75%;
-  margin: auto;
+  width:fit-content;
+  min-width: 180px;
+  max-width: 720px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 1em;
   font-size: 2em;
   padding: 0.25em;
   border-bottom: 3px double #000;
