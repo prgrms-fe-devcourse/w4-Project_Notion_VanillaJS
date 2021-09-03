@@ -2,15 +2,7 @@ import DocumentList from '../components/DocumentList.js';
 import { fetchGetDocuments } from '../utils/api.js';
 import { checkCorrectTypeThrowError, checkUseConstructorFunction } from '../utils/validator.js';
 import { createElement } from '../utils/dom.js';
-import {
-  CLASS_NAME_DOCUMENT_PAGE,
-  CLASS_NAME_SIDE_BUTTON,
-  CLASS_NAME_FAS,
-  CLASS_NAME_FA_ANGLE_DOUBLE_LEFT,
-  CLASS_NAME_FA_ANGLE_DOUBLE_RIGHT,
-  CLASS_NAME_FADE_IN,
-  CLASS_NAME_FADE_OUT,
-} from '../utils/constants.js';
+import { CLASS_NAME } from '../utils/constants.js';
 
 export default function DocumentsPage({ $target, onOpenModal }) {
   const validate = () => {
@@ -24,10 +16,10 @@ export default function DocumentsPage({ $target, onOpenModal }) {
   const $sideButton = createElement('div');
   const $sideButtonIcon = createElement('i');
 
-  $sideButtonIcon.classList.add(CLASS_NAME_FAS, CLASS_NAME_FA_ANGLE_DOUBLE_LEFT);
-  $sideButton.className = CLASS_NAME_SIDE_BUTTON;
+  $sideButtonIcon.classList.add(CLASS_NAME.FAS, CLASS_NAME.FA_ANGLE_DOUBLE_LEFT);
+  $sideButton.className = CLASS_NAME.SIDE_BUTTON;
   $sideButton.appendChild($sideButtonIcon);
-  $page.className = CLASS_NAME_DOCUMENT_PAGE;
+  $page.className = CLASS_NAME.DOCUMENT_PAGE;
   $page.appendChild($sideButton);
   $target.appendChild($page);
 
@@ -46,16 +38,16 @@ export default function DocumentsPage({ $target, onOpenModal }) {
 
   this.init = () => {
     $sideButton.addEventListener('click', e => {
-      if (!$page.classList.contains(CLASS_NAME_FADE_OUT)) {
-        $page.classList.remove(CLASS_NAME_FADE_IN);
-        $page.classList.add(CLASS_NAME_FADE_OUT);
-        $sideButtonIcon.classList.remove(CLASS_NAME_FA_ANGLE_DOUBLE_LEFT);
-        $sideButtonIcon.classList.add(CLASS_NAME_FA_ANGLE_DOUBLE_RIGHT);
+      if (!$page.classList.contains(CLASS_NAME.FADE_OUT)) {
+        $page.classList.remove(CLASS_NAME.FADE_IN);
+        $page.classList.add(CLASS_NAME.FADE_OUT);
+        $sideButtonIcon.classList.remove(CLASS_NAME.FA_ANGLE_DOUBLE_LEFT);
+        $sideButtonIcon.classList.add(CLASS_NAME.FA_ANGLE_DOUBLE_RIGHT);
       } else {
-        $page.classList.remove(CLASS_NAME_FADE_OUT);
-        $page.classList.add(CLASS_NAME_FADE_IN);
-        $sideButtonIcon.classList.remove(CLASS_NAME_FA_ANGLE_DOUBLE_RIGHT);
-        $sideButtonIcon.classList.add(CLASS_NAME_FA_ANGLE_DOUBLE_LEFT);
+        $page.classList.remove(CLASS_NAME.FADE_OUT);
+        $page.classList.add(CLASS_NAME.FADE_IN);
+        $sideButtonIcon.classList.remove(CLASS_NAME.FA_ANGLE_DOUBLE_RIGHT);
+        $sideButtonIcon.classList.add(CLASS_NAME.FA_ANGLE_DOUBLE_LEFT);
       }
     });
 

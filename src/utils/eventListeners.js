@@ -1,7 +1,7 @@
-import { ROUTE_CHANGE_EVENT_NAME, EDITOR_DATA_CHANGED } from './constants.js';
+import { GENERAL } from './constants.js';
 
 export const initRouter = onRoute => {
-  window.addEventListener(ROUTE_CHANGE_EVENT_NAME, e => {
+  window.addEventListener(GENERAL.ROUTE_CHANGE_EVENT_NAME, e => {
     const { nextUrl } = e.detail;
 
     if (nextUrl) {
@@ -19,7 +19,7 @@ export const initBrowserRouter = onRoute => {
 
 export const movePage = nextUrl => {
   window.dispatchEvent(
-    new CustomEvent(ROUTE_CHANGE_EVENT_NAME, {
+    new CustomEvent(GENERAL.ROUTE_CHANGE_EVENT_NAME, {
       detail: {
         nextUrl,
       },
@@ -28,7 +28,7 @@ export const movePage = nextUrl => {
 };
 
 export const initEditorDataChangedListener = onChange => {
-  window.addEventListener(EDITOR_DATA_CHANGED, e => {
+  window.addEventListener(GENERAL.EDITOR_DATA_CHANGED, e => {
     onChange();
   });
 };

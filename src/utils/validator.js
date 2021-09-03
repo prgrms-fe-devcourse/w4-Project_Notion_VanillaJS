@@ -1,10 +1,4 @@
-import {
-  ERROR_MSG_IS_CONSTRUCTOR_FUNCTION,
-  ERROR_MSG_EMPTY_VALUE,
-  ERROR_MSG_INVALID_TYPE,
-  ERROR_MSG_EXPECT_TYPE,
-  ERROR_MSG_INVALID_TYPE_ARRAY,
-} from './constants.js';
+import { ERROR_MESSAGE } from './constants.js';
 
 export const isEmpty = data => {
   if (data === null || data === undefined || data === '') {
@@ -47,24 +41,24 @@ export const isEmptyObject = obj => {
 
 export const checkUseConstructorFunction = (newTarget, constructorFunction) => {
   if (newTarget !== constructorFunction || !isCorrectType(constructorFunction, 'function')) {
-    throw new Error(ERROR_MSG_IS_CONSTRUCTOR_FUNCTION);
+    throw new Error(ERROR_MESSAGE.IS_CONSTRUCTOR_FUNCTION);
   }
 };
 
 export const checkIsArrayThrowError = arr => {
   if (!isArray(arr)) {
-    throw new Error(`${ERROR_MSG_INVALID_TYPE_ARRAY} ${typeof arr}`);
+    throw new Error(`${ERROR_MESSAGE.INVALID_TYPE_ARRAY} ${typeof arr}`);
   }
 };
 
 export const checkIsEmptyThrowError = value => {
   if (isEmpty(value)) {
-    throw new Error(ERROR_MSG_EMPTY_VALUE);
+    throw new Error(ERROR_MESSAGE.EMPTY_VALUE);
   }
 };
 
 export const checkCorrectTypeThrowError = (value, type) => {
   if (!isCorrectType(value, type)) {
-    throw new Error(`${ERROR_MSG_INVALID_TYPE} ${typeof value} / ${ERROR_MSG_EXPECT_TYPE} ${type}`);
+    throw new Error(`${ERROR_MESSAGE.INVALID_TYPE} ${typeof value} / ${ERROR_MESSAGE.EXPECT_TYPE} ${type}`);
   }
 };

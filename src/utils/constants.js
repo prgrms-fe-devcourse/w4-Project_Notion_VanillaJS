@@ -1,6 +1,6 @@
 export const API = {
-  API_END_POINT: 'https://kdt.roto.codes',
-  API_X_USERNAME: 'rkdvnfma90',
+  END_POINT: 'https://kdt.roto.codes',
+  X_USERNAME: 'rkdvnfma90',
 };
 
 export const MESSAGE = {
@@ -56,6 +56,10 @@ export const CLASS_NAME = {
   FAR: 'far',
   MOON_ICON: 'fa-moon',
   BULB_ICON: 'fa-lightbulb',
+  ADD_ICON: 'fa-plus-square',
+  TRASH_ICON: 'fa-trash-alt',
+  BOOK_ICON: 'fa-book-open',
+  FA_MD: 'fa-md',
   FA_ANGLE_DOUBLE_LEFT: 'fa-angle-double-left',
   FA_ANGLE_DOUBLE_RIGHT: 'fa-angle-double-right',
   DISPLAY_NONE: 'display-none',
@@ -73,6 +77,7 @@ export const GENERAL = {
   STORAGE_KEY_NOTION_THEME: 'notion-theme',
   DARK: 'dark',
   LIGHT: 'light',
+  LOGO_IMAGE_SRC: '/src/images/logo.png',
 };
 
 // API

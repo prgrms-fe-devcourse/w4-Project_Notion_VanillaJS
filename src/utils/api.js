@@ -1,12 +1,12 @@
-import { API_END_POINT, API_X_USERNAME, ERROR_MSG_API_ERROR } from './constants.js';
+import { API, ERROR_MESSAGE } from './constants.js';
 
 const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${url}`, {
+    const res = await fetch(`${API.END_POINT}${url}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'x-username': API_X_USERNAME,
+        'x-username': API.X_USERNAME,
       },
     });
 
@@ -14,7 +14,7 @@ const request = async (url, options = {}) => {
       return await res.json();
     }
 
-    throw new Error(ERROR_MSG_API_ERROR);
+    throw new Error(ERROR_MESSAGE.API_ERROR);
   } catch (error) {
     alert(error.message);
   }

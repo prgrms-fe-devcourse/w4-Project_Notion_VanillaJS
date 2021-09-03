@@ -1,15 +1,6 @@
 import { createElement } from '../utils/dom.js';
 import { checkUseConstructorFunction } from '../utils/validator.js';
-import {
-  CLASS_NAME_DARK_MODE_TOGGLE_BUTTON,
-  CLASS_NAME_FAS,
-  CLASS_NAME_FAR,
-  CLASS_NAME_MOON_ICON,
-  CLASS_NAME_BULB_ICON,
-  STORAGE_KEY_NOTION_THEME,
-  DARK,
-  LIGHT,
-} from '../utils/constants.js';
+import { CLASS_NAME, GENERAL } from '../utils/constants.js';
 
 export default function DarkModeToggle({ $target }) {
   const validate = () => {
@@ -19,24 +10,24 @@ export default function DarkModeToggle({ $target }) {
   validate();
 
   const $darkModeToggleButtonIcon = createElement('i');
-  const userTheme = localStorage.getItem(STORAGE_KEY_NOTION_THEME);
-  const osTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? DARK : LIGHT;
+  const userTheme = localStorage.getItem(GENERAL.STORAGE_KEY_NOTION_THEME);
+  const osTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? GENERAL.DARK : GENERAL.LIGHT;
   const changeToggleButtonClass = state => {
     const classListOption = {
-      [DARK]: [CLASS_NAME_FAS, CLASS_NAME_MOON_ICON],
-      [LIGHT]: [CLASS_NAME_FAR, CLASS_NAME_BULB_ICON],
+      [GENERAL.DARK]: [CLASS_NAME.FAS, CLASS_NAME.MOON_ICON],
+      [GENERAL.LIGHT]: [CLASS_NAME.FAR, CLASS_NAME.BULB_ICON],
     };
 
-    if (state === DARK) {
-      $darkModeToggleButtonIcon.classList.add(...classListOption[LIGHT]);
-      $darkModeToggleButtonIcon.classList.remove(...classListOption[DARK]);
-    } else if (state === LIGHT) {
-      $darkModeToggleButtonIcon.classList.add(...classListOption[DARK]);
-      $darkModeToggleButtonIcon.classList.remove(...classListOption[LIGHT]);
+    if (state === GENERAL.DARK) {
+      $darkModeToggleButtonIcon.classList.add(...classListOption[GENERAL.LIGHT]);
+      $darkModeToggleButtonIcon.classList.remove(...classListOption[GENERAL.DARK]);
+    } else if (state === GENERAL.LIGHT) {
+      $darkModeToggleButtonIcon.classList.add(...classListOption[GENERAL.DARK]);
+      $darkModeToggleButtonIcon.classList.remove(...classListOption[GENERAL.LIGHT]);
     }
 
-    localStorage.setItem(STORAGE_KEY_NOTION_THEME, state);
-    document.documentElement.setAttribute(STORAGE_KEY_NOTION_THEME, state);
+    localStorage.setItem(GENERAL.STORAGE_KEY_NOTION_THEME, state);
+    document.documentElement.setAttribute(GENERAL.STORAGE_KEY_NOTION_THEME, state);
   };
 
   this.state = userTheme || osTheme;
@@ -46,7 +37,7 @@ export default function DarkModeToggle({ $target }) {
     changeToggleButtonClass(this.state);
   };
 
-  $darkModeToggleButtonIcon.className = CLASS_NAME_DARK_MODE_TOGGLE_BUTTON;
+  $darkModeToggleButtonIcon.className = CLASS_NAME.DARK_MODE_TOGGLE_BUTTON;
 
   $target.appendChild($darkModeToggleButtonIcon);
 
@@ -55,6 +46,6 @@ export default function DarkModeToggle({ $target }) {
   });
 
   $darkModeToggleButtonIcon.addEventListener('click', e => {
-    this.state === DARK ? this.setState(LIGHT) : this.setState(DARK);
+    this.state === GENERAL.DARK ? this.setState(GENERAL.LIGHT) : this.setState(GENERAL.DARK);
   });
 }

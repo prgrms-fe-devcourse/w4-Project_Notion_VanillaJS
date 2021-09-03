@@ -1,24 +1,16 @@
 import { createElement } from '../utils/dom.js';
 import { isEmpty } from '../utils/validator.js';
-import {
-  CLASS_NAME_DIMMED,
-  CLASS_NAME_MODAL,
-  ERROR_MSG_EMPTY_INPUT_VALUE,
-  MSG_PLACEHOLDER_MODAL_TITLE,
-  CLASS_NAME_DISPLAY_FLEX,
-  KEY_ENTER,
-  KEY_ESCAPE,
-} from '../utils/constants.js';
+import { CLASS_NAME, ERROR_MESSAGE, MESSAGE, GENERAL } from '../utils/constants.js';
 
 export default function Modal({ $target, initialState, onTitleChange }) {
   const $dimmed = createElement('div');
   const $modal = createElement('div');
   const $input = createElement('input');
 
-  $dimmed.className = CLASS_NAME_DIMMED;
-  $modal.className = CLASS_NAME_MODAL;
+  $dimmed.className = CLASS_NAME.DIMMED;
+  $modal.className = CLASS_NAME.MODAL;
   $input.type = 'text';
-  $input.placeholder = MSG_PLACEHOLDER_MODAL_TITLE;
+  $input.placeholder = MESSAGE.PLACEHOLDER_MODAL_TITLE;
 
   $modal.appendChild($input);
   $dimmed.appendChild($modal);
@@ -36,12 +28,12 @@ export default function Modal({ $target, initialState, onTitleChange }) {
   };
 
   this.render = () => {
-    $dimmed.classList.add(CLASS_NAME_DISPLAY_FLEX);
+    $dimmed.classList.add(CLASS_NAME.DISPLAY_FLEX);
     $input.focus();
   };
 
   const clear = () => {
-    $dimmed.classList.remove(CLASS_NAME_DISPLAY_FLEX);
+    $dimmed.classList.remove(CLASS_NAME.DISPLAY_FLEX);
     $input.value = '';
     this.setState(null);
   };
@@ -52,7 +44,7 @@ export default function Modal({ $target, initialState, onTitleChange }) {
     $dimmed.addEventListener('click', e => {
       const { classList } = e.target;
 
-      if (!classList.contains(CLASS_NAME_DIMMED)) {
+      if (!classList.contains(CLASS_NAME.DIMMED)) {
         return;
       }
 
@@ -65,9 +57,9 @@ export default function Modal({ $target, initialState, onTitleChange }) {
         target: { value },
       } = e;
 
-      if (key === KEY_ENTER) {
+      if (key === GENERAL.KEY_ENTER) {
         if (isEmpty(value)) {
-          alert(ERROR_MSG_EMPTY_INPUT_VALUE);
+          alert(ERROR_MESSAGE.EMPTY_INPUT_VALUE);
           return;
         }
 
@@ -79,7 +71,7 @@ export default function Modal({ $target, initialState, onTitleChange }) {
 
     window.addEventListener('keyup', e => {
       const { key } = e;
-      if ($dimmed.classList.contains(CLASS_NAME_DISPLAY_FLEX) && key === KEY_ESCAPE) {
+      if ($dimmed.classList.contains(CLASS_NAME.DISPLAY_FLEX) && key === GENERAL.KEY_ESCAPE) {
         clear();
       }
     });
