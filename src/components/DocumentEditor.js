@@ -4,6 +4,7 @@ import { createElement } from '../utils/dom.js';
 import { checkIsEmptyThrowError, checkUseConstructorFunction, isEmptyObject } from '../utils/validator.js';
 import { parseMarkDown } from '../utils/functions.js';
 import { CLASS_NAME, MESSAGE, GENERAL } from '../utils/constants.js';
+import { dispatchEditorTitleChanged } from '../utils/eventListeners.js';
 
 export default function DocumentEditor({ $target, initialState }) {
   const validate = state => {
@@ -83,7 +84,7 @@ export default function DocumentEditor({ $target, initialState }) {
         this.setState(nextState);
 
         if (title !== $title.value) {
-          window.dispatchEvent(new CustomEvent(GENERAL.EDITOR_DATA_CHANGED));
+          dispatchEditorTitleChanged();
         }
       }, GENERAL.DEBOUNCE_DELAY)
     );
