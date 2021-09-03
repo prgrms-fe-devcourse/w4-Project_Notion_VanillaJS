@@ -1,6 +1,5 @@
 @import url("./content.css");
 @import url("./sidebar.css");
-
 :root {
   --toggle: 90deg;
 }
@@ -14,11 +13,6 @@ body {
   height: 100vh;
   display: flex;
 }
-
-polygon {
-  box-sizing: border-box;
-  fill: rgba(55, 53, 47, 0.4);
-}
 code {
   background-color: lightgray;
 }
@@ -27,40 +21,15 @@ blockquote {
   margin: 10px;
   padding-left: 20px;
 }
-svg {
-  padding: 5px;
-  width: 0.6875em;
-  height: 0.6875em;
-  display: block;
-  fill: rgba(55, 53, 47, 0.4);
-  flex-shrink: 0;
-  transition: transform 200ms ease-out 0s;
-  transform: rotateZ(var(--toggle));
-  opacity: 1;
-  cursor: pointer;
+.notion-sidebar-container {
+  padding: 30px 0 0 10px;
+  position: relative;
+  width: 20vw;
+  background-color: #f7f6f3;
 }
 
-button.add {
-  opacity: 0;
-  transition: all 200ms ease-in 0s;
-  border: lightgray;
-  margin-right: 5%;
-  cursor: pointer;
-}
-button:hover {
-  background-color: darkgray;
-}
-svg.trash {
-  display: block;
-  transform: rotateZ(0deg);
-  width: 17px;
-  height: 17px;
-  cursor: pointer;
-  opacity: 0;
-  fill: black;
-  transition: all 200ms ease-in 0s;
-}
-svg.trash:hover {
-  fill: red;
-  backface-visibility: hidden;
+.notion-content-container {
+  width: 80vw;
+  margin: 5% 5% 0 5%;
+  display: flex;
 }

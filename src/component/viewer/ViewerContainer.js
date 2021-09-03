@@ -2,8 +2,9 @@ import { on, qs } from "../../util/util.js";
 import Component from "../Component.js";
 import ContentComponent from "../content/ContentComponent.js";
 import HeaderComponent from "../content/HeaderComponent.js";
-import { changeToMd } from "../content/util.js";
+import { changeToMd } from "./util.js";
 class ViewerContainer extends Component {
+  state;
   constructor(...rest) {
     super(...rest);
     this.initialState();
@@ -15,7 +16,6 @@ class ViewerContainer extends Component {
       let { title, content } = this.state;
       content = content ? changeToMd(content) : content;
       this.state = { title, content };
-      console.log(this.state.content);
       this.render();
     }
   }
@@ -29,10 +29,13 @@ class ViewerContainer extends Component {
 
   render() {
     this.$target.innerHTML = this.template();
+
     new HeaderComponent(qs(".viewer h1"), { title: this.state.title, editable: false });
     new ContentComponent(qs(".viewer .content-body"), { content: this.state.content });
+
     this.mount();
   }
+
   mount() {
     on(this.$target, "@reflectHeaderToViewer", (e) => {
       qs(".viewer h1").innerHTML = e.detail;

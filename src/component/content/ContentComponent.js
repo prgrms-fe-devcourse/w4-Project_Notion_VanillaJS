@@ -8,7 +8,6 @@ class ContentComponent extends Component {
 
   template() {
     const { content } = this.props;
-
     return `
       ${!content ? "" : content}
     `;

@@ -1,8 +1,7 @@
-import { request } from "../../util/api.js";
-import { HTTP_METHOD } from "../../util/constant.js";
 import { on } from "../../util/util.js";
 import Component from "../Component.js";
 import { PlusBtn } from "../util/utilComponent.js";
+import { makeTitlePrompt } from "./util.js";
 
 class CreateSidebarBlock extends Component {
   constructor(...rest) {
@@ -18,15 +17,10 @@ class CreateSidebarBlock extends Component {
 
   mount() {
     const { createNewContent } = this.props;
-
     on(this.$target, "click", async () => {
-      const newSideBlockTitle = prompt("제목을 입력하세요");
-      if (newSideBlockTitle) {
-        const result = await request(null, HTTP_METHOD.POST, { title: newSideBlockTitle });
-        history.pushState(result, "", `/documents/${result.id}`);
-        createNewContent(result);
-      }
+      makeTitlePrompt(createNewContent, null);
     });
   }
 }
+
 export default CreateSidebarBlock;

@@ -1,16 +1,15 @@
-import { emit, on, qs } from "../../util/util.js";
+import { emit, on, qs, qsAll } from "../../util/util.js";
 import Component from "../Component.js";
 import ContentComponent from "./ContentComponent.js";
 import HeaderComponent from "./HeaderComponent.js";
 import { request } from "../../util/api.js";
 import { HTTP_METHOD } from "../../util/constant.js";
 import ViewerContainer from "../viewer/ViewerContainer.js";
+import { reflectToViewer } from "./util.js";
 class ContentContainer extends Component {
   state;
   constructor(...rest) {
     super(...rest);
-
-    this.state = this.props.state;
     this.state && this.render();
     this.initialEvent();
   }
@@ -43,27 +42,33 @@ class ContentContainer extends Component {
     this.mount();
   }
   mount() {
-    const { updateSidebar } = this.props;
     let timer;
-    on(this.$target, "keyup", (e) => {
+    on(this.$target, "keyup", async (e) => {
+      reflectToViewer(e.target);
       handleAutoSaveContent(e);
-      if (e.target.className === "content-header") {
-        emit(qs(".viewer"), "@reflectHeaderToViewer", e.target.innerText);
-      } else if (e.target.className === "content-body") {
-        emit(qs(".viewer"), "@reflectContentToViewer", e.target.innerText);
-      }
     });
 
-    const handleAutoSaveContent = (e) => {
+    const handleAutoSaveContent = async (e) => {
+      const id = this.state.id;
       const title = qs(".editor .content-header").innerText;
       const content = qs(".editor .content-body").innerText;
-      if (timer) {
-        clearTimeout(timer);
+      if (e.target.className === "content-header") {
+        qsAll(".notion-sidebar-block").forEach((el) => {
+          if (el.dataset.id == id) {
+            qs("span", el).innerText = title;
+          }
+        });
+        return;
       }
-      timer = setTimeout(async () => {
-        const data = await request(this.state.id, HTTP_METHOD.PUT, { title, content });
-        updateSidebar(data);
-      }, 600);
+      function lazyUpdateContent() {
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(async () => {
+          await request(id, HTTP_METHOD.PUT, { title, content });
+        }, 1000);
+      }
+      lazyUpdateContent();
     };
   }
 }
