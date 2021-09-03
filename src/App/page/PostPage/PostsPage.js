@@ -8,11 +8,11 @@ import {
 import PostList from "./PostList.js";
 
 export default function PostsPage({
-  $target,
-  initialState = [],
-  onClick,
-  onEraseBtnClick,
-}) {
+                                    $target,
+                                    initialState = [],
+                                    onClick,
+                                    onEraseBtnClick,
+                                  }) {
   const $postPage = document.createElement("div");
   $postPage.setAttribute("class", "post");
   $target.appendChild($postPage);
@@ -34,7 +34,7 @@ export default function PostsPage({
     if (isFirst) {
       $postPage.addEventListener("click", (e) => {
         const { target } = e;
-        if (target.classList.contains("btn")) {
+        if (target.classList.contains("erase-btn")) {
           onEraseBtnClick(target.closest("li"));
         }
         else{

@@ -16,7 +16,7 @@ export default function App({ $target, initialState = [] }) {
     if (type === "li-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });
       postsEditPage.setState({ $target, nextState });
-    } else if (type === "btn-click") {
+    } else if (type === "erase-btn-click") {
       $target = document.querySelector("#app");
       postsPage.setState({ $target, nextState: this.state, type });
       // postsEditPage.setState({ $target, nextState });
@@ -42,7 +42,7 @@ export default function App({ $target, initialState = [] }) {
         await deleteDocument($target.id);
         const initialState = await getRootDocument();
         console.log($target, initialState);
-        this.setState({ $target, nextState: initialState, type: "btn-click" });
+        this.setState({ $target, nextState: initialState, type: "erase-btn-click" });
       }
     },
   });
@@ -64,10 +64,10 @@ export default function App({ $target, initialState = [] }) {
         this.state = post;
       }, 1000);
     },
-    onPosting: async ({$target , nextState , type}) => {
+    onPosting: async ({$target , nextState}) => {
       const { title, id, content } = nextState;
       await putDocument(title, id, content);
-      this.setState({$target, nextState, type})
+      this.setState({$target, nextState, type : 'edit-btn-click'})
       // 해야할 것 : title은 Post 후에 바뀌지 않으니 이를 this.setState를 통해 다시 렌더처리
     },
   });

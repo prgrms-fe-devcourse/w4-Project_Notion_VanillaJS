@@ -18,13 +18,13 @@ export default function PostsList({ $target, initialState = [] }) {
       $div.innerHTML = `
          <ul>
         ${this.state
-          .map(
-            (document) =>
-              `<li class="li-tag" id=${document.id} data-is-open="false" >
-                    <span>${document.title}</span><button class="btn">X</button>
+        .map(
+          (document) =>
+            `<li class="li-tag" id=${document.id} data-is-open="false" >
+                    <span>${document.title}</span><button class="erase-btn">X</button>
                </li>`
-          )
-          .join("")}
+        )
+        .join("")}
         </ul>
           `;
       isFirst = false;
@@ -34,19 +34,19 @@ export default function PostsList({ $target, initialState = [] }) {
       // 닫혀있는 것을 클릭할 때
       if (!JSON.parse($target.dataset.isOpen)) {
         $target.dataset.isOpen = true;
-        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="btn">X</button>`;
+        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="erase-btn">X</button>`;
         $target.insertAdjacentHTML(
           "beforeend",
           `
          <ul>
         ${this.state
-          .map(
-            (document) =>
-              `<li class="li-tag" id=${document.id} data-is-open="false">
-                    <span>${document.title}</span><button class="btn">X</button>
+            .map(
+              (document) =>
+                `<li class="li-tag" id=${document.id} data-is-open="false">
+                    <span>${document.title}</span><button class="erase-btn">X</button>
                     </li>`
-          )
-          .join("")}
+            )
+            .join("")}
         </ul>
           `
         );
@@ -54,18 +54,18 @@ export default function PostsList({ $target, initialState = [] }) {
       // 열려있는 새로운 것을 열때
       else {
         $target.dataset.isOpen = false;
-        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="btn">X</button>`;
+        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="erase-btn">X</button>`;
       }
-    } else if (type === "btn-click") {
+    } else if (type === "erase-btn-click") {
       $div.innerHTML = `
          <ul>
         ${this.state
-          .map(
-            (document) =>
-              `<li class="li-tag" id=${document.id} data-is-open="false" >
-                    <span>${document.title}</span><button class="btn">X</button></li>`
-          )
-          .join("")}
+        .map(
+          (document) =>
+            `<li class="li-tag" id=${document.id} data-is-open="false" >
+                    <span>${document.title}</span><button class="erase-btn">X</button></li>`
+        )
+        .join("")}
         </ul>
           `;
     }
