@@ -143,7 +143,7 @@ p.blank {
 	outline: none;
 }
 .page-content {
-	margin-top: 3vh;
+	margin-top: 5vh;
 	min-height: 100%;
 	cursor: text;
 }
@@ -215,7 +215,7 @@ p.blank {
 	outline: none;
 }
 .modal-content {
-	margin-top: 3vh;
+	margin-top: 5vh;
 	min-height: 100%;
 	cursor: text;
 }
@@ -227,6 +227,30 @@ p.blank {
 	outline: none;
 }
 
+/* 404 NotFoundPage */
+.not-found {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	min-width: 100vh;
+	min-height: 100vh;
+	text-align: center;
+}
+.not-fount-title {
+	font-size: 7rem;
+	font-weight: 700;
+	color: rgb(55, 53, 47);
+}
+.not-found .home {
+	margin-top: 3vh;
+	text-decoration: none;
+	font-size: 4rem;
+	text-decoration: underline;
+	color: rgb(55, 53, 47);
+}
+
+/* js-controll */
 .hide {
 	display: none;
 }

@@ -26,7 +26,7 @@ const getters = {
 		const postId = id ? id : documents[0].id;
 		const currentDocument = await getDocuments(postId);
 
-		history.pushState(null, null, `/posts/${postId}`);
+		// history.pushState(null, null, `/posts/${postId}`);
 		return { documents, currentDocument };
 	},
 	create: async id => {
