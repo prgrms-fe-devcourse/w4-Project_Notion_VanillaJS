@@ -49,9 +49,9 @@ export default function DocumentEditPage({ $target, initialState }) {
         await fetchDocument()
         return 
       }
+
     this.state = nextState
-    console.log(this.state)
-    // editor.setState(this.state.document)
+    editor.setState(this.state.document)
     this.render()
     }
 
@@ -63,12 +63,12 @@ export default function DocumentEditPage({ $target, initialState }) {
       const {documentId} = this.state
 
       if(this.state.documentId !== 'new'){
-      const document = request(`/${documentId}`)
-
+      const document = await request(`/${documentId}`)
           this.setState({
               ...this.state,
             document
           })
-      }
+          console.log(this.state)
+        }
   }
 }

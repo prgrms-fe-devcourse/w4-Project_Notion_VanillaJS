@@ -1,5 +1,6 @@
 import DocumentList from "./DocumentList.js"
 import { request } from "../api/api.js"
+import Header from "./Header.js"
 
 
 export default function documentPage({
@@ -9,6 +10,10 @@ export default function documentPage({
     $documentPage.className  = "document-page"
     
     
+    new Header ({
+        $target,
+        initialState : '신효정'
+    })
     
     const documentList = new DocumentList({
         $target,
