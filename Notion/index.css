@@ -1,0 +1,59 @@
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+main {
+  height: 100%;
+  display: flex;
+}
+
+/* 사이드바 */
+aside {
+  width: 30%;
+  min-height: 700px;
+  background-color: pink;
+  padding: 20px;
+}
+
+.account {
+  width: 100%;
+  height: auto;
+  display: flex;
+  margin-bottom: 25%;
+}
+
+.account img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 10%;
+  border: 1px solid black;
+}
+
+#nickname {
+  margin-top: 5%;
+}
+#message {
+  margin-top: 2%;
+  font-size: 12px;
+}
+
+/* 에디터 */
+.editor {
+  width: 70%;
+  height: auto;
+}
+
+.editor input {
+  width: 100%;
+  height: 30%;
+  border: 0px;
+}
+
+.editor textarea {
+  width: 100%;
+  height: 69%;
+  border: 0px;
+}
