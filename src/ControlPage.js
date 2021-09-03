@@ -11,7 +11,6 @@ export default function ControlPage({ $target }) {
 
   this.state = [];
   this.toggledState = getItem('toggledDocument', []);
-  this.selectedState = getItem('selectedDocument', []);
 
   const documentList = new DocumentList({
     $target: $controlPage,
@@ -32,22 +31,12 @@ export default function ControlPage({ $target }) {
       this.setState();
     },
     onSelect: id => {
-      // setItem('selectedDocument', [id])
-      console.log('current: ', id, typeof id)
-
       const prevSelectedId = getItem('selectedDocument')[0];
 
       if(prevSelectedId !== Number(id)) {
         setItem('selectedDocument', [Number(id)])
       }
 
-      // if(!this.selectedState.length) {
-      //   this.selectedState.push(Number(id));
-      // } else if (this.selectedState[0] !== Number(id)) {
-      //   this.selectedState.splice(0, 1, Number(id));
-      // }
-
-      // setItem('selectedDocument', this.selectedState)
       pushRoute(`/documents/${id}`)
     },
     onCreateChild: id => {
