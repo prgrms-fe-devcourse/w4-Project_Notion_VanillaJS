@@ -8,7 +8,6 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
-		this.render();
 	};
 
 	const markCurrentLi = id => {

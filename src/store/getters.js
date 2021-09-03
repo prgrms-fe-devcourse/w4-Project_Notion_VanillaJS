@@ -59,8 +59,8 @@ const getters = {
 
 		return { documents, currentDocument };
 	},
-	update: async ({ id, document }) => {
-		const updatedDocument = await updateDocument(id, document);
+	update: async ({ id, nextDocument }) => {
+		const updatedDocument = await updateDocument(id, nextDocument);
 		const documents = await getDocuments();
 
 		return {

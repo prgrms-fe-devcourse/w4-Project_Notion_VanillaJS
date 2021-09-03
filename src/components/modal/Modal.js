@@ -22,7 +22,6 @@ export default function Modal({ $target }) {
 	const showModal = () => {
 		$modal.classList.remove('hide');
 	};
-
 	const hideModal = () => {
 		$modal.classList.add('hide');
 	};
@@ -42,39 +41,40 @@ export default function Modal({ $target }) {
 		},
 	});
 
+	const LIMIT_TIME = 200;
 	let modalBodyUpdateTimer = null;
 
 	new ModalBody({
 		$target: $modalBody,
 		onUpdate: {
-			updateTitle: document => {
+			updateTitle: nextDocument => {
 				const { id } = this.state;
 
 				const currentLi = $(`li[data-id="${id}"] span`);
 				const currentInput = $('.modal-title-input').dataset;
 
-				currentLi.textContent = document.title;
-				currentInput.text = document.title;
+				currentLi.textContent = nextDocument.title;
+				currentInput.text = nextDocument.title;
 
 				if (modalBodyUpdateTimer) {
 					clearTimeout(modalBodyUpdateTimer);
 				}
 				modalBodyUpdateTimer = setTimeout(() => {
-					emit.updateDocument(id, document);
-				}, 1000);
+					emit.updateDocument(id, nextDocument);
+				}, LIMIT_TIME);
 			},
-			updateContent: document => {
+			updateContent: nextDocument => {
 				const { id } = this.state;
 
 				const currentTextArea = $('.modal-content-textarea').dataset;
-				currentTextArea.text = document.content;
+				currentTextArea.text = nextDocument.content;
 
 				if (modalBodyUpdateTimer) {
 					clearTimeout(modalBodyUpdateTimer);
 				}
 				modalBodyUpdateTimer = setTimeout(() => {
 					emit.updateDocument(id, document);
-				}, 1000);
+				}, LIMIT_TIME);
 			},
 		},
 	});

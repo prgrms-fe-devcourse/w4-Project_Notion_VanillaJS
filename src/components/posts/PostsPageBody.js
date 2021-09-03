@@ -5,7 +5,6 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
-		this.render();
 	};
 
 	this.render = () => {

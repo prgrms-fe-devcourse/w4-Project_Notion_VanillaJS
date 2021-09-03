@@ -1,5 +1,3 @@
-import { on } from '../utils/emitter.js';
-
 import Sidebar from '../components/sidebar/Sidebar.js';
 import PostsPage from '../components/posts/PostsPage.js';
 import Modal from '../components/modal/Modal.js';
@@ -10,6 +8,9 @@ export default function MainPage({ $target, initialState }) {
 	this.state = initialState;
 	this.setState = (nextState, needRender) => {
 		this.state = nextState;
+		sideBar.setState(this.state);
+		postsPage.setState(this.state);
+
 		this.render(needRender);
 	};
 
@@ -18,14 +19,14 @@ export default function MainPage({ $target, initialState }) {
 			case 'null':
 				break;
 			case 'sideBar':
-				sideBar.setState(this.state);
+				sideBar.render();
 				break;
 			case 'postsPage':
-				postsPage.setState(this.state);
+				postsPage.render();
 				break;
 			default:
-				sideBar.setState(this.state);
-				postsPage.setState(this.state);
+				sideBar.render();
+				postsPage.render();
 		}
 	};
 

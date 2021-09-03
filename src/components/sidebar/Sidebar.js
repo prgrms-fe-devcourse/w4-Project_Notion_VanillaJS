@@ -18,9 +18,12 @@ export default function Sidebar({ $target, initialState }) {
 		sidebarBody.setState(this.state);
 	};
 
+	this.render = () => {
+		sidebarBody.render();
+	};
+
 	new SidebarHeader({
 		$target: $sidebarHeader,
-		initialState,
 	});
 
 	const sidebarBody = new SidebarBody({

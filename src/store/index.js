@@ -20,6 +20,9 @@ export default function Store() {
 		createDocument: async ({ id }) => {
 			const nextState = await getStateAfter('create', id);
 			commit('SET_STATE', { nextState, needRender: 'all' });
+
+			const postId = nextState.currentDocument.id;
+			history.pushState(null, null, `/posts/${postId}`);
 		},
 		createDocumentOnModal: async ({ id }) => {
 			emit.showModal();
@@ -39,10 +42,9 @@ export default function Store() {
 			const nextState = await getStateAfter('read', id);
 			commit('SET_STATE', { nextState, needRender: 'all' });
 		},
-		updateDocument: async ({ id, document }) => {
-			const nextState = await getStateAfter('update', { id, document });
-			console.log(nextState);
-			commit('SET_STATE', { nextState, needRender: 'all' });
+		updateDocument: async ({ id, nextDocument }) => {
+			const nextState = await getStateAfter('update', { id, nextDocument });
+			commit('SET_STATE', { nextState, needRender: 'null' });
 		},
 		deleteDocument: async ({ id }) => {
 			if (confirm('문서를 삭제하시겠습니까?')) {
@@ -77,8 +79,8 @@ export default function Store() {
 		on.readDocument((id, needRender) =>
 			dispatch('readDocument', { id, needRender }),
 		);
-		on.updateDocument((id, document) =>
-			dispatch('updateDocument', { id, document }),
+		on.updateDocument((id, nextDocument) =>
+			dispatch('updateDocument', { id, nextDocument }),
 		);
 		on.deleteDocument((id, isCurrent) => {
 			isCurrent
