@@ -35,14 +35,13 @@ export default function PostsPage({
     if (isFirst) {
       $postPage.addEventListener("click", (e) => {
         const { target } = e;
-        console.log(target);
         if (target.classList.contains("erase-btn")) {
           onEraseBtnClick(target.closest("li"));
         } else if (target.classList.contains("add-btn")) {
           onAddBtnClick(target.closest("li"));
         } else if (target.classList.contains("root-add-btn")) {
           onRootAddBtnClick(target);
-        } else {
+        } else if (target.classList.contains("span-tag")) {
           onClick(target.closest("li"));
         }
       });

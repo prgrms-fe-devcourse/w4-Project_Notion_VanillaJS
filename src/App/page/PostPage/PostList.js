@@ -21,7 +21,7 @@ export default function PostsList({ $target, initialState = [] }) {
           .map(
             (document) =>
               `<li class="li-tag" id=${document.id} data-is-open="false" >
-                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
+                    <span class="span-tag">${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                </li>`
           )
           .join("")}
@@ -34,7 +34,7 @@ export default function PostsList({ $target, initialState = [] }) {
       // 닫혀있는 것을 클릭할 때
       if (!JSON.parse($target.dataset.isOpen)) {
         $target.dataset.isOpen = true;
-        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
+        $target.innerHTML = `<span class="span-tag">${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
         $target.insertAdjacentHTML(
           "beforeend",
           `
@@ -43,7 +43,7 @@ export default function PostsList({ $target, initialState = [] }) {
           .map(
             (document) =>
               `<li class="li-tag" id=${document.id} data-is-open="false">
-                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
+                    <span class="span-tag">${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                     </li>`
           )
           .join("")}
@@ -54,7 +54,7 @@ export default function PostsList({ $target, initialState = [] }) {
       // 열려있는 새로운 것을 열때
       else {
         $target.dataset.isOpen = false;
-        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
+        $target.innerHTML = `<span class="span-tag">${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
       }
     } else if (type === "erase-btn-click") {
       $div.innerHTML = `
@@ -64,7 +64,7 @@ export default function PostsList({ $target, initialState = [] }) {
           .map(
             (document) =>
               `<li class="li-tag" id=${document.id} data-is-open="false" >
-                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button></li>`
+                    <span class="span-tag">${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button></li>`
           )
           .join("")}
         </ul>
@@ -73,7 +73,7 @@ export default function PostsList({ $target, initialState = [] }) {
       $target.firstElementChild.innerHTML = this.state.title;
     } else if (type === "add-btn-click") {
       $target.dataset.isOpen = true;
-      $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
+      $target.innerHTML = `<span class="span-tag">${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
       $target.insertAdjacentHTML(
         "beforeend",
         `
@@ -82,7 +82,7 @@ export default function PostsList({ $target, initialState = [] }) {
           .map(
             (document) =>
               `<li class="li-tag" id=${document.id} data-is-open="false">
-                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
+                    <span class="span-tag">${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                     </li>`
           )
           .join("")}
@@ -94,7 +94,7 @@ export default function PostsList({ $target, initialState = [] }) {
       $target.insertAdjacentHTML(
         "beforeend",
         `<li class="li-tag" id=${this.state.id} data-is-open="false">
-                    <span>${this.state.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
+                    <span class="span-tag">${this.state.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                     </li>`
       );
     }
