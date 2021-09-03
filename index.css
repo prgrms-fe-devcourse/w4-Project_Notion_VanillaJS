@@ -164,6 +164,8 @@ button {
 }
 
 .editor-text-block::before {
+  color: grey;
+  opacity: 70%;
   font-size: 1.5rem;
   content: "::";
   margin-right: 5px;
