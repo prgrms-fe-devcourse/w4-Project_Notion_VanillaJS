@@ -7,14 +7,14 @@ export default function Modal({ $target, init }) {
   $modalPage.className = "modal";
   $modalBody.className = "modal_body";
 
-  $target.appendChild($modalPage);
-  $modalPage.appendChild($modalBody);
   this.state = init;
   this.setState = (nextState) => {
     this.state = nextState;
     editor.setState(this.state);
     editor.appendChild();
     subDocumentList.setState(this.state);
+    $target.appendChild($modalPage);
+    $modalPage.appendChild($modalBody);
     $modalPage.classList.toggle("show");
   };
 
