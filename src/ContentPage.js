@@ -1,6 +1,7 @@
 import { request } from "./api.js";
 import { pushRoute } from "./router.js";
 import Editor from "./Editor.js";
+import { removeItem } from "./storage.js";
 
 export default function ContentPage({ $target }) {
   const $contentPage = document.createElement('div');
@@ -35,6 +36,14 @@ export default function ContentPage({ $target }) {
 
         pushRoute(`/documents/${documentId}`);
       }, 1000);
+    },
+    onDelete: async (id) => {
+      await request(`/documents/${id}`, {
+        method: 'DELETE'
+      });
+
+      removeItem('selectedContent');
+      pushRoute('/')
     }
   })
 

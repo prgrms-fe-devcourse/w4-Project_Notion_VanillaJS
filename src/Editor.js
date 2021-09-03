@@ -1,4 +1,6 @@
-export default function Editor ({ $target, initialState, onEditing }) {
+import { getItem } from "./storage.js";
+
+export default function Editor ({ $target, initialState, onEditing, onDelete }) {
   const $editor = document.createElement('div');
   $editor.className = 'editor';
  
@@ -18,14 +20,17 @@ export default function Editor ({ $target, initialState, onEditing }) {
       $editor.querySelector('.documentTitle').value = this.state.title;
       $editor.querySelector('.documentContent').value = this.state.content;
     }
-    
+
     this.render();
   }
 
    this.render = () => {
     if (isInitialize) {
       $editor.innerHTML = `
-        <input class="documentTitle" type="text" name="title" placeholder="제목 없음" value="${this.state.title}"/>
+        <div class="documentTitle">
+          <input class="titleInput" type="text" name="title" placeholder="제목 없음" value="${this.state.title}"/>
+          <button class="editorDelete" name="delete">❎</button>
+        </div>
         <textarea class="documentContent" name="content" placeholder="내용을 입력하세요..">${this.state.content}</textarea>
       `
       isInitialize = false;
@@ -43,6 +48,15 @@ export default function Editor ({ $target, initialState, onEditing }) {
 
       this.setState(nextState);
       onEditing(this.state);
+    }
+  })
+
+  $editor.addEventListener('click', e => {
+    const { name } = e.target;
+    const id = getItem('selectedDocument')[0];
+
+    if (name === 'delete') {
+      onDelete(id);
     }
   })
 }

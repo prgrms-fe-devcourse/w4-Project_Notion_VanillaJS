@@ -1,6 +1,6 @@
 import DocumentList from "./DocumentList.js";
 import { request } from "./api.js";
-import { getItem, setItem, removeItem } from "./storage.js";
+import { getItem, setItem } from "./storage.js";
 import { pushRoute } from "./router.js";
 
 export default function ControlPage({ $target }) {
@@ -46,22 +46,6 @@ export default function ControlPage({ $target }) {
       }
 
       pushRoute(`/documents/new/${id}`);
-    },
-    onDelete: async (id) => {
-      const [, , pageId] = window.location.pathname.split('/');
-      await request(`/documents/${id}`, {
-        method: 'DELETE'
-      });
-      
-      if(pageId === id || pageId === undefined) {
-        if(pageId === id && this.selectedState.length) {
-          this.selectedState.pop();
-          setItem('selectedDocument', this.selectedState);  
-        } 
-        pushRoute('/')
-      } else {
-        this.setState();
-      }
     }
   })
 

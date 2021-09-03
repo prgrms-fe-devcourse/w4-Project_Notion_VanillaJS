@@ -1,6 +1,6 @@
 import { pushRoute } from "./router.js";
 
-export default function DocumentList({ $target, initialState, onToggle, onSelect, onCreateChild, onDelete }) {
+export default function DocumentList({ $target, initialState, onToggle, onSelect, onCreateChild }) {
   const $documentList = document.createElement('div');
   $documentList.className = 'documentList'
 
@@ -27,7 +27,6 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
             <button class='toggleDocument'>▼</button>
             <span class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
             <button class='createChildDocument'>➕</button>
-            <button class='deleteDocument'>삭제</button>
           </li>
             ${document.documents.length ? createListTree(document.documents, toggledDocuments) : '<ul><li class="noChildDocument">하위 Document가 없습니다.</li></ul>'}
         ` 
@@ -37,7 +36,6 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
             <button class='toggleDocument'>▶</button>
             <span class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
             <button class='createChildDocument'>➕</button>
-            <button class='deleteDocument'>삭제</button>
           </li>
         `}
     </ul>  `
@@ -72,9 +70,6 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
           break;
         case 'createChildDocument':
           onCreateChild(id);
-          break;
-        case 'deleteDocument':
-          onDelete(id);
           break;
         default:
           return;
