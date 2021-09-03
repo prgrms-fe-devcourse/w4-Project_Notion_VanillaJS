@@ -12,6 +12,7 @@ export default function App({ $target }) {
       mainPage.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
+      sidePage.render();
       mainPage.setState({ id: documentId, type });
     }
   };
