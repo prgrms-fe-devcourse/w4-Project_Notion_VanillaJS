@@ -5,6 +5,7 @@ import { Document, Action } from "@/types";
 import { identity } from "@/utils";
 import { fetchDocuments } from "@/utils/api/documents";
 import Sidebar from "@/components/MainPage/Sidebar";
+import Main from "@/components/MainPage/Main";
 import styles from "@/components/MainPage/styles.module.scss";
 
 interface MainPageProps {
@@ -62,6 +63,10 @@ const MainPage = createComponent(
           dispatcher,
           documents,
           currentDocumentId,
+        }),
+        Main({
+          currentDocumentId,
+          dispatcher,
         }),
       ]);
     }
