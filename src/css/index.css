@@ -1,9 +1,6 @@
 body {
   margin: 0px;
 }
-#app {
-  display: flex;
-}
 .docList {
   position: relative;
   padding: 10px;
