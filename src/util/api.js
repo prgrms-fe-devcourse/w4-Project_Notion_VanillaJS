@@ -48,7 +48,7 @@ export async function createDocument(parent = null) {
   try {
     let title = "new";
     if (parent) title = `${parent.title}'s child`;
-    await fetch(`${API_END_POINT}/documents`, {
+    const result = await fetch(`${API_END_POINT}/documents`, {
       method: "POST",
       headers: { "x-username": userName, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -56,6 +56,7 @@ export async function createDocument(parent = null) {
         parent,
       }),
     });
+    return result.json();
   } catch (e) {
     alert("서버와 통신 원할하지않습니다.");
   }

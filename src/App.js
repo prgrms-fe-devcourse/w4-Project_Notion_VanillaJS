@@ -36,20 +36,13 @@ export default function App({ targetElement }) {
   };
 
   const createInRoot = async () => {
-    await createDocument();
-    const documentsList = await getDocumentsList();
-    const newDocument = documentsList[documentsList.length - 1];
+    const newDocument = await createDocument();
     pushStateUrl(newDocument.id);
   };
 
   const createInDocument = async (id) => {
     const parentDocument = await getDocumentById(id);
-    await createDocument(parentDocument);
-    const refreshParentDocument = await getDocumentById(id);
-    const newDocument =
-      refreshParentDocument.documents[
-        refreshParentDocument.documents.length - 1
-      ];
+    const newDocument = await createDocument(parentDocument);
     pushStateUrl(newDocument.id);
   };
 
