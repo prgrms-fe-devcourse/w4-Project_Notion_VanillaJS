@@ -97,7 +97,7 @@ export default function EditPage({$target, initialState, onEditing}) {
         const start = line.indexOf('[')
         const mid = line.indexOf('](')
         const end = line.indexOf(')')
-        res = `<a href="${line.substr(mid + 2, end - mid - 2)}">${line.substr(start + 1, mid - start - 1)}</a><br>`
+        res = `<a href="${line.substr(mid + 2, end - mid - 2)}">${line.substr(start + 1, mid - start - 1)}</a>`
       }
 
       // img 처리
@@ -121,7 +121,7 @@ export default function EditPage({$target, initialState, onEditing}) {
                   alt="${line.substr(start + 1, mid - start - 1)}"
                   width="${width}"
                   height="${height}"
-                 ><br>`
+                 >`
       }
 
       // 강조체 처리
@@ -151,12 +151,12 @@ export default function EditPage({$target, initialState, onEditing}) {
       //code inline 처리
       if (line.includes('`')) {
         const count = countKeyword(res, '`',)
-        res = convertKeyword(res, parseInt(count / 2), '`', '<code>', '</code><br>')
+        res = convertKeyword(res, parseInt(count / 2), '`', '<code>', '</code>')
       }
 
 
       return res
-    }).join('')
+    }).join('<br>')
 
   }
 
