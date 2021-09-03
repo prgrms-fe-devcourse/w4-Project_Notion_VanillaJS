@@ -1,0 +1,15 @@
+input {
+    border-style: none;
+    background-color: transparent;
+    outline: none;
+}
+
+input::placeholder {
+    color: #d3d1cb;
+}
+
+input[name='title'] {
+    margin-bottom: 60px;
+    font-size: xx-large;
+    font-weight: 700;
+}
