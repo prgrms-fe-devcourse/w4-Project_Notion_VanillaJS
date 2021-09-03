@@ -1,14 +1,14 @@
-import { request } from "./api.js";
+import { request } from "../utils/api.js";
 import Header from "./Header.js";
 import DocumentList from "./DocumentList.js";
-import { getItem, setItem, removeItem } from "./storage.js";
+import { getItem, setItem, removeItem } from "../utils/storage.js";
 
 
 
 
 export default function DocumentPage({ $target, onPostClick, renderNewEditPage }) {
   const $page = document.createElement('div')
-
+  $page.setAttribute('class', 'contain-documentPage')
   new Header({
     $target: $page,
     initialState: {

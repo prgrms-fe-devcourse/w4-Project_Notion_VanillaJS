@@ -28,8 +28,8 @@ export default function Editor({
     const { title, content } = this.state
     if (!isInitialize){
       $editor.innerHTML = `
-      <input type='text' class="title" style="width: 500px;" value="${title}"/><br>
-      <textarea class="content" style="width: 500px; height: 600px;" placeholder="내용을 입력하세요.">${content ? content : ''}</textarea>
+      <input type='text' class="title" placeholder="${title}" value=""/><br>
+      <textarea class="content" placeholder="내용을 입력하세요.">${content ? content : ''}</textarea>
       `
     isInitialize = true
     }

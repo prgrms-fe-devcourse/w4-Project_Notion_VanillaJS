@@ -18,6 +18,10 @@ body {
   align-items: center;
   flex-grow: 1;
 }
+.contain-documentPage {
+  opacity: 0.6;
+}
+
 button{
   
   border-color: rgba(0, 0, 0, 0);
@@ -25,8 +29,22 @@ button{
 }
 button:hover{
   background-color: peachpuff;
+  opacity: 1;
 }
-
+input {
+  width: 600px;
+  font-size: 40px;
+}
+textarea {
+  width: 600px;
+  height: 600px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: solid 2px #1E90FF;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: both;
+}
 
 .root-document{
   padding: 0px;
@@ -38,10 +56,10 @@ div.item{
   width: 100%;
 }
 div.item:hover  {
-  
+  opacity: 1;
   background-color: silver;
 }
 .add-root-Document:hover  {
-  
+  opacity: 1;
   background-color: silver;
 }

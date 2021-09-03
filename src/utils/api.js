@@ -1,4 +1,4 @@
-export const API_END_POINT = 'https://kdt.roto.codes'
+const API_END_POINT = 'https://kdt.roto.codes'
 
 export const request = async (url, options = {} ) => {
   try {

@@ -1,4 +1,4 @@
-import { getItem } from "../src/storage.js"
+import { getItem } from "./storage.js"
 
 export const makeList = (documents) => `
   ${documents.map(document => {
@@ -6,7 +6,7 @@ export const makeList = (documents) => `
     return `
     <li data-id=${id} class="documents-list"  >
     <div class="item">
-      <span class="ontoggle">&#10148;</span>   
+      <span class="ontoggle">▶</span>   
       <span class="document-list">${title}</span>
       <button class="add-child">&#43;</button>
       <button class="delete">&#10006;</button>

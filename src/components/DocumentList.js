@@ -1,4 +1,4 @@
-import { setItem } from "./storage.js"
+import { setItem } from "../utils/storage.js"
 import { makeList } from "../utils/makeList.js"
 
 export default function DocumentList({ 
@@ -50,18 +50,18 @@ export default function DocumentList({
       if (className === 'ontoggle') {
         const $ul = $li.children[1]
         const ulClassName = $ul.className.split('-')
-        let toggleLocalSaveKey = `temp-toggle-${ulClassName}`
+        let toggleLocalSaveKey = `temp-toggle-${ulClassName[1]}`
         const setToggle = (item) => {
           (ulClassName.length > 1) ? setItem(toggleLocalSaveKey, {state: item}) : '';
         }
 
         if ($ul.style.display === 'none') {
           $ul.style.display = 'block'
-          e.target.innerHTML = '&#9660;';
+          e.target.innerHTML = '▼';
           setToggle('block')
         } else {
           $ul.style.display = 'none'
-          e.target.innerHTML = '&#10148;';
+          e.target.innerHTML = '▶';
           setToggle('none')
         }
       }

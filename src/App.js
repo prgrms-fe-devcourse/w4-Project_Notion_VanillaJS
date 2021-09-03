@@ -1,6 +1,6 @@
-import DocumentPage from "./DocumentPage.js"
-import PostEditPage from "./PostEditPage.js"
-import Location from "./Location.js"
+import DocumentPage from "./components/DocumentPage.js"
+import PostEditPage from "./components/PostEditPage.js"
+
 
 
 export default function App({ $target }) {

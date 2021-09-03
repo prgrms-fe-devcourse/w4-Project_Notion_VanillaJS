@@ -1,6 +1,6 @@
-import { request } from "./api.js"
+import { request } from "../utils/api.js"
 import Editor from "./Editor.js"
-import { setItem, getItem, removeItem } from "./storage.js"
+import { setItem, getItem, removeItem } from "../utils/storage.js"
 
 export default function PostEditPage({ $target, initialState, refresh }) {
   const $page = document.createElement('div')
@@ -25,7 +25,7 @@ export default function PostEditPage({ $target, initialState, refresh }) {
           tempSavedDate: new Date()
         })
       }, 1000)
-      
+
       timer = setTimeout(async() => {
         await request(`/documents/${post.id}`, {
           method: 'PUT',
