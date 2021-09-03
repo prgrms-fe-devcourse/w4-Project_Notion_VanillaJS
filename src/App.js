@@ -1,5 +1,8 @@
-import DocumentList from "./components/DocumentList.js";
+import DocumentsPage from "./pages/DocumentsPage.js";
+import { request } from "./api.js";
 
-export default function App({ $target, initialState }) {
-  new DocumentList({ $target, initialState });
+export default function App({ $target }) {
+  const documentsPage = new DocumentsPage({ $target });
+
+  documentsPage.render();
 }
