@@ -58,7 +58,6 @@ class ContentContainer extends Component {
             qs("span", el).innerText = title;
           }
         });
-        return;
       }
       function lazyUpdateContent() {
         if (timer) {
