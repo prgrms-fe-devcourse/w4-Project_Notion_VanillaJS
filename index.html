@@ -14,10 +14,16 @@
     <div id="app"></div>
   </div>
   <div id="toast"></div>
-  <!-- <script>
+  <script>
+    // `~/documents/id`에서 새로고침 or 직접 접속 시 알 수 없는 에러 발생 (MIME 어쩌구)
+    // 해결1: `~/~` 기본페이지로 이동 -> css 작동 x
+    // 해결2: 기본페이지 이동 후, 페이지 새로고침
     const { pathname } = window.location;
-    if (pathname.indexOf("/documents/") === 0) history.pushState(null,null,"/")
-  </script> -->
+    if (pathname.indexOf("/documents/") === 0) {
+      history.pushState(null,null,"/");
+      history.go(0);
+    }
+  </script>
   <script src="./src/main.js" type="module"></script>
 </body>
 </html>

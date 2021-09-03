@@ -121,6 +121,13 @@ body {
   left:0;
   color: #ff0000;
   padding: 0.15em;
+  border-radius: 5px;
+}
+
+#postEditPage #editor #attributeBox #editorattribute [name=attributeRemove]:hover {
+  font-weight: 500;
+  background: rgba(55, 53, 47, 0.08);
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 2px 4px;
 }
 
 #postEditPage #editor #attributeBox #editorattribute [data-id=addButton] {
@@ -398,7 +405,6 @@ body {
 #postPage #postListBox .postList .post .removePostButton:hover {
   font-weight: 500;
   background: rgba(55, 53, 47, 0.08);
-  border-radius: 5px;
   box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 2px 4px;
 }
 
