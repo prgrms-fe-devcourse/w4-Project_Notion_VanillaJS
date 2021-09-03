@@ -1,10 +1,11 @@
 import Component from '../core/Component.js';
+import debounce from '../utils/debounce.js';
 import EditableBlock from './EditableBlock.js';
 
 const ContentContainer = class extends Component {
   
   mount() {
-    const {convertBlock, removeBlock, updateText, createNewBlock} = this
+    const {convertBlock, removeBlock, updateBlock, createNewBlock} = this
     const { content } = this.state;
 
     content.forEach((block, index) => {
@@ -20,11 +21,20 @@ const ContentContainer = class extends Component {
           focus: index === content.length - 1,
           onConvert: convertBlock.bind(this),
           onRemove: removeBlock.bind(this),
-          onEditing: updateText.bind(this),
+          onEditing: updateBlock.bind(this),
           onCreate: createNewBlock.bind(this)
         }  
       )
     })
+  }
+
+  setState(newState) {
+    const {onUpdate} = this.props
+    this.state = newState;
+    console.log(123)
+    console.log(newState)
+    onUpdate(newState)
+    this.render();
   }
 
   convertBlock(index, text) {
@@ -50,39 +60,36 @@ const ContentContainer = class extends Component {
       className: `${type}-block`,
       placeholder: `제목${headNum[type]}`
     }
-    const newState = {
-      ...this.state,
-      content: newContent
-    }
+    const newState = { content: newContent }
     this.setState(newState)  
   }
 
-  createNewBlock(index) {
+  createNewBlock(index, text) {
     const {content} = this.state;
+    content[index].text = text
+
     const newBlock = {
       className: 'basic-text-block',
       placeholder: '내용을 입력해 주세요.',
       text: ''
     }
+
     const newContent = [
           ...content.slice(0, index+1),
           newBlock,
           ...content.slice(index + 1)
     ] 
-    const newState = {
-      ...this.state,
-      ...{content: newContent}
-    }
-    this.setState(newState);
+    const newState = { content: newContent }
+    this.setState(newState)  
+    
   }
 
-  updateText(index, newText){
+  updateBlock(index, newText){
     const newContent = [...this.state.content];
     newContent[index].text = newText
-    this.setState({
-      ...this.state,
-      content: newContent  
-    })
+    
+    const newState = { content: newContent }
+    this.setState(newState);
   }
 
   removeBlock(index) {
@@ -91,10 +98,7 @@ const ContentContainer = class extends Component {
       ...content.slice(0, index),
       ...content.slice(index + 1)
     ]
-    this.setState({
-      ...this.state,
-      content: newContent  
-    })
+    this.setState({ content: newContent })
   }
 }
 

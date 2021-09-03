@@ -30,10 +30,12 @@ const DocumentList = class extends Component {
   }
 
   setEvent() {
-    const { onCreate, onDelete } = this.props
-    this.$target.addEventListener('click', e => {
+    const { onSelect, onCreate, onDelete } = this.props
+
+    this.$target.addEventListener('click', async (e) => {
       const $li = e.target.closest('li');
       const $subList = $li.lastElementChild;
+      const documentId = Number($li.dataset.id)
 
       if (e.target.classList.contains('js-toggle-sub-docs')) {
         $subList.classList.toggle('active')
@@ -41,18 +43,19 @@ const DocumentList = class extends Component {
       }
 
       if (e.target.classList.contains('js-select-doc')) {
-        console.log($li.dataset.id)
+        console.log(documentId)
+        e.preventDefault();
+    
+        onSelect(document)
         return;
       }
 
       if (e.target.classList.contains('js-create-new-doc')) {
-        console.log(e.target)
-        onCreate(Number($li.dataset.id))
+        onCreate(documentId)
       }
 
       if (e.target.classList.contains('js-delete-doc')) {
-        console.log(e.target)
-        onDelete(Number($li.dataset.id))
+        onDelete(documentId)
       }
     })
   }

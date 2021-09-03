@@ -37,7 +37,7 @@ const ListPage= class {
   }
 
   mount() {
-    const {createDoc, deleteDoc} = this
+    const {selectDoc, createDoc, deleteDoc} = this
     const $header = this.$target.querySelector('.js-title');
     const $documentList = this.$target.querySelector('.js-documents-list');
     const $createRootDoc = this.$target.querySelector('.js-create-root-doc');
@@ -50,6 +50,7 @@ const ListPage= class {
       $documentList,
       {
         state: this.state,
+        onSelect: selectDoc.bind(this),
         onCreate: createDoc.bind(this),
         onDelete: deleteDoc.bind(this) 
       }
@@ -65,6 +66,10 @@ const ListPage= class {
 
   setState(newState) {
     this.docListComponent.setState(newState)
+  }
+
+  selectDoc(docId) {
+    
   }
 
   async createDoc(parentId = null) {

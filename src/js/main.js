@@ -1,10 +1,13 @@
 import App from './components/App.js'
 import api from './api/index.js';
 import DocList from './components/DocumentList.js';
+import{ initRouter } from './core/Router.js';
 
 const $app = document.querySelector('#app');
 
-new App($app)
+const app = new App($app)
+
+initRouter(app.route)
 
 /*
 const content = [

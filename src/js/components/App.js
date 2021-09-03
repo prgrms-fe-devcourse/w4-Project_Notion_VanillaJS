@@ -4,12 +4,13 @@ import ListPage from './ListPage.js';
 import PostPage from './PostPage.js';
 
 const App = class extends Component{
+  listPage;
+  postPage;
 
-  async init() {
-    this.state = {
-      selectedDocId: ''
-    }
+  init() {
     this.render()
+    this.mount()
+    this.route()
   }
 
   template() {
@@ -23,11 +24,24 @@ const App = class extends Component{
     const $listContainer = this.$target.querySelector('#list-container');
     const $contentContainer = this.$target.querySelector('.js-content-container')
 
-    new ListPage($listContainer)
-    new PostPage($contentContainer)
+    this.listPage = new ListPage($listContainer)
+    this.postPage = new PostPage($contentContainer)
   }
 
+  render() {
+    this.$target.innerHTML = this.template();
+  }
 
+  route() {
+    const { pathname } = window.location
+
+    if (pathname === '/') {
+      this.postPage.init();
+    } else if (pathname.startsWith(`/documents/`)) {
+      const [, ,postId] = pathname.split('/')
+      this.postPage.setState({id: Number(postId)})
+    }
+  } 
 }
 
 export default App

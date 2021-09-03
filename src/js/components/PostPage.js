@@ -5,28 +5,10 @@ import ContentContainer from './ContentContainer.js';
 import EditableBlock from './EditableBlock.js';
 
 const PostPage = class extends Component{
-
-  /**
-   * {
-   *  id: 1
-   *  title: '제목없음' 
-   *  content: [
-   *    {
-   *      class: 'text-block' ,
-   *      placeholder: '내용을 입력해주세요',
-   *      text: '어떤 내용이 들어갈까요.'  
-   *    }
-   *  ]
-   *  documents: []
-   * }
-   * 
-   */
   async init() {
-    const state = api.getAllDocs()
-    console.log(state);
     this.state = {
-      id: 1,
-      title: '제목이 있겠니',
+      id: null,
+      title: '제목 없음',
       content: [
         {
           className: 'basic-text-block',
@@ -36,6 +18,21 @@ const PostPage = class extends Component{
       ]
     }
     this.render();
+    this.mount();
+  } 
+
+  async setState(selectedDocId) {
+    const { id } = selectedDocId 
+    const newState = await api.getDoc(id);
+    const parsedContent = this.parseJson(newState.content)
+    newState.content = parsedContent;
+    this.state = {
+      ...this.state,
+      ...newState,
+    }
+    console.log(this.state)
+    console.log(this.contentContainer)
+    this.contentContainer.setState({content: this.state.content});
   }
 
   template() {
@@ -48,22 +45,57 @@ const PostPage = class extends Component{
     `
   }
 
+  render() {
+    this.$target.innerHTML = this.template();
+  }
+
   mount() {
     const $selectedTitle = this.$target.querySelector('.js-selected-doc-title')
     const $selectedCotent = this.$target.querySelector('.js-selected-doc-content')
     const { content } = this.state;
-    
-    new ContentContainer(
+    console.log('mount is done')
+    this.contentContainer = new ContentContainer(
       $selectedCotent,
       {
         state: {
           content,
-        }
+        },
+        onUpdate: this.updateContent.bind(this)
       }
     )
-
+    console.log(this.contentContainer);
   }
 
+  updateContent(updatedState) {
+    this.state = {
+      ...this.state,
+      ...updatedState
+    }  
+    
+    const {id} = this.state
+    let timer;
+
+    clearTimeout(timer)
+    timer = setTimeout(async () => {
+      //local 등록
+      const localSaveKey = `temp-doc-${id}`
+
+      //api - update document
+      await api.update(id, {
+        title: this.state.title,
+        content: this.convertJsonForm(this.state.content)
+      })
+      
+    }, 1000)
+  }
+
+  convertJsonForm(content) {
+    return JSON.stringify(content)
+  }
+
+  parseJson(jsonData) {
+    return JSON.parse(jsonData)
+  }
 }
 
 export default PostPage

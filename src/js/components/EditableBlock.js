@@ -27,7 +27,7 @@ const EditableBlock = class extends Component{
       const text = target.textContent;
 
       e.stopImmediatePropagation();
-
+      
       if (key === SPACE_KEY && text.length < 4) {
         e.preventDefault();
         onConvert(blockIndex, text)
@@ -42,22 +42,22 @@ const EditableBlock = class extends Component{
       */
 
       if (key === BACK_SPACE_KEY  && text.length === 0) {
-        onEditing(blockIndex, text)
+        //onEditing(blockIndex, text)
         onRemove(blockIndex)
       }
 
       if (key === ENTER_KEY ) {
-        onEditing(blockIndex, text)
-        onCreate(blockIndex);
+        //onEditing(blockIndex, text)
+        onCreate(blockIndex, text);
       }
     })
-    
+    /*
     this.$target.addEventListener('blur', ({target}) => {
       const blockIndex = Number(target.dataset.index);
       const text = target.textContent;
       onEditing(blockIndex, text)
     }, true) 
-    
+    */
   }
 
   render() {
