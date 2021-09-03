@@ -1,7 +1,7 @@
 import { request } from "../utils/api.js";
 import DocumentList from "./DocumentList.js";
 import DocumentListHeader from "./DocumentListHeader.js";
-import UserInfo from "./UserInfo.js";
+import UserProfile from "./UserProfile.js";
 import { push } from "../utils/router.js";
 
 export default function DocumentsPage({ $target }) {
@@ -14,8 +14,9 @@ export default function DocumentsPage({ $target }) {
     this.render();
   };
 
-  new UserInfo({
+  new UserProfile({
     $target: $page,
+    initialState: { name: "다슬" },
   });
 
   new DocumentListHeader({

@@ -5,7 +5,6 @@ export const request = async (url, options = {}) => {
     const res = await fetch(`${API_END_POINT}${url}`, {
       ...options,
       headers: {
-        // "Access-Control-Allow-Origin": `*`,
         "Content-Type": "application/json",
         "x-username": "dasseul",
       },

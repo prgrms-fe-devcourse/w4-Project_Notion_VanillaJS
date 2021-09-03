@@ -1,7 +1,6 @@
 import { request } from "../utils/api.js";
 import { StorageUtils } from "../utils/storage.js";
 import Editor from "./Editor.js";
-import DocumentList from "./DocumentList.js";
 import DocumentsPage from "./DocumentsPage.js";
 
 export default function DocumentEditPage({ $target, initialState }) {
@@ -35,7 +34,6 @@ export default function DocumentEditPage({ $target, initialState }) {
           createdAt: new Date(),
         });
 
-        // new에서 어떤 동작이 일어나면 생성된 document로 바꿔줌
         const isNew = this.state.documentId === "new";
         if (isNew) {
           const createdDocument = await request("/documents", {
@@ -96,24 +94,6 @@ export default function DocumentEditPage({ $target, initialState }) {
     const { documentId } = this.state;
     if (documentId !== "new") {
       const doc = await request(`/documents/${documentId}`);
-
-      // const tempDocument = getItem(documentLocalSaveKey, {
-      //   id: doc.id,
-      //   title: doc.title,
-      //   createdAt: doc.creagtedAt,
-      //   updatedAt: "",
-      // });
-
-      // if (tempDocument.createdAt && tempDocument.createdAt > doc.updatedAt) {
-      //   if (confirm("저장되지 않은 데이터가 있습니다. 불러올까요?")) {
-      //     this.setState({
-      //       ...this.state,
-      //       doc: tempDocument,
-      //     });
-      //     return;
-      //   }
-      // }
-
       this.setState({ ...this.state, doc });
     }
   };

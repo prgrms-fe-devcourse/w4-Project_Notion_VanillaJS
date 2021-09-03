@@ -14,12 +14,11 @@ export default function DocumentList({
     return document
       .map(
         ({ id, title, documents }) => `
-      <li data-id=${id} class="documentItem">
-      ${
-        documents.length > 0
-          ? `<span class="hasChild">${title}</span>`
-          : `${title}`
-      }
+      <li data-id=${id} class="documentItem">${
+          documents.length > 0
+            ? `<span class="hasChild">${title}</span>`
+            : `${title}`
+        }
       <button class="createDoc"><i class="fas fa-folder-plus"></i></button>
       <button class="removeDoc"><i class="fas fa-trash-alt"></i></button>
       ${
@@ -52,23 +51,6 @@ export default function DocumentList({
     if ($li) {
       const { id } = $li.dataset;
       const $button = e.target.closest("button");
-      const $childList = e.target.parentElement.querySelectorAll("ul");
-      // if (
-      //   e.target.className === "documentItem" ||
-      //   e.target.className === "hasChild"
-      // ) {
-      //   onSelect(id);
-      //   if (e.target.className === "hasChild") {
-      //     e.target.parentElement
-      //       .querySelector(".hasChildUl")
-      //       .classList.toggle("active");
-      //     e.target.classList.toggle("hasChildDown");
-      //   }
-      // } else if ($button.className === "createDoc") {
-      //   onCreate(id);
-      // } else if ($button.className === "removeDoc") {
-      //   onRemove(id);
-      // }
       if (e.target.className === "documentItem") {
         onSelect(id);
       } else if (e.target.className === "hasChild") {
