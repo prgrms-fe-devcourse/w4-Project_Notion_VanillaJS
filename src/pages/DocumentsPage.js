@@ -6,13 +6,13 @@ export default function DocumentsPage({ $target }) {
 
   const documentList = new DocumentList({ $target, initialState: [] });
 
-  const fetchDocuments = async () => {
+  this.setState = async () => {
     const documents = await request(`/documents`);
     documentList.setState(documents);
+    this.render();
   };
 
   this.render = async () => {
-    await fetchDocuments();
     $target.appendChild($page);
   };
 }
