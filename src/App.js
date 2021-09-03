@@ -77,7 +77,7 @@ export default function App({ targetElement }) {
 
   const getPayLoadData = () => {
     const title = document.querySelector(".editor-title").textContent;
-    const text = document.querySelector(".editor-text").textContent;
+    const text = document.querySelector(".editor-text").innerHTML;
     const image = document.querySelector(".editor-image").src;
     const icon = document.querySelector(".editor-header-icon").textContent;
     const data = {
