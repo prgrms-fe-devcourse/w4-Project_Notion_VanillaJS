@@ -8,38 +8,38 @@ export default function App({ $target }) {
   const contentPage = new ContentPage({ $target });
 
   this.route = () => {
-    console.log('라우팅 발생!')
+    console.log("라우팅 발생!");
     const { pathname } = window.location;
-    const [, , documentId = '/', parentId = null] = pathname.split('/');
-    const $contentPage = document.querySelector('.contentPage');
-    const $editor = $contentPage.querySelector('.editor');
+    const [, , documentId = "/", parentId = null] = pathname.split("/");
+    const $contentPage = document.querySelector(".contentPage");
+    const $editor = $contentPage.querySelector(".editor");
 
-    if (pathname === '/') {
-      $editor.classList.add('hideDisplay');
+    if (pathname === "/") {
+      $editor.classList.add("hideDisplay");
 
-      contentPage.setState({ 
+      contentPage.setState({
         documentId,
-        parentId
-      })
+        parentId,
+      });
     } else {
-      $editor.classList.remove('hideDisplay')
-     
-      setItem('selectedDocument', [Number(documentId)])
+      $editor.classList.remove("hideDisplay");
 
-      contentPage.setState({ 
+      setItem("selectedDocument", [Number(documentId)]);
+
+      contentPage.setState({
         documentId,
-        parentId
+        parentId,
       });
     }
 
     controlPage.setState();
-  }
+  };
 
   this.route();
 
   initRouter(() => this.route());
-  
-  window.addEventListener('popstate', () =>{
+
+  window.addEventListener("popstate", () => {
     this.route();
-  })
+  });
 }

@@ -4,8 +4,8 @@ import { pushRoute } from "./router.js";
 import { removeItem } from "./storage.js";
 
 export default function ContentPage({ $target }) {
-  const $contentPage = document.createElement('div');
-  $contentPage.className = 'contentPage';
+  const $contentPage = document.createElement("div");
+  $contentPage.className = "contentPage";
 
   $target.appendChild($contentPage);
 
@@ -13,58 +13,58 @@ export default function ContentPage({ $target }) {
   const editor = new Editor({
     $target: $contentPage,
     initialState: {
-      id: '',
-      title: '',
-      content: '',
+      id: "",
+      title: "",
+      content: "",
     },
     onEditing: (document) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
-      timer = setTimeout(async() => {
-          const putDocument = {
-            'title': document.title,
-            'content': document.content
-          }
-          await request(`/documents/${document.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(putDocument)
-          });
-      
+      timer = setTimeout(async () => {
+        const putDocument = {
+          title: document.title,
+          content: document.content,
+        };
+        await request(`/documents/${document.id}`, {
+          method: "PUT",
+          body: JSON.stringify(putDocument),
+        });
+
         const { pathname } = window.location;
-        const [, , documentId] = pathname.split('/');
+        const [, , documentId] = pathname.split("/");
 
         pushRoute(`/documents/${documentId}`);
       }, 1000);
     },
     onDelete: async (id) => {
       await request(`/documents/${id}`, {
-        method: 'DELETE'
+        method: "DELETE",
       });
 
-      removeItem('selectedContent');
-      pushRoute('/')
-    }
-  })
+      removeItem("selectedContent");
+      pushRoute("/");
+    },
+  });
 
   this.setState = async ({ documentId, parentId }) => {
-    if (documentId === 'new') {
-      const newDocument = await request('/documents', {
-        method: 'POST',
+    if (documentId === "new") {
+      const newDocument = await request("/documents", {
+        method: "POST",
         body: JSON.stringify({
-          "title": "",
-          "parent": parentId
-        })
-      })
+          title: "",
+          parent: parentId,
+        }),
+      });
 
       pushRoute(`/documents/${newDocument.id}`);
-    } else if (documentId !== '/') {
+    } else if (documentId !== "/") {
       const document = await request(`/documents/${documentId}`);
 
       editor.setState({
         ...document,
-        content: (document.content ? document.content : '')
+        content: document.content ? document.content : "",
       });
     }
-  }
+  };
 }
