@@ -5,11 +5,15 @@ export default function Editor({
     content: "",
   },
   onEditing,
+  onClick,
 }) {
   const $editor = document.createElement("div");
+  const $documentList = document.createElement("div");
+
   let isinitialize = false;
 
   $target.appendChild($editor);
+  $target.appendChild($documentList);
 
   this.state = initialState;
 
@@ -17,10 +21,10 @@ export default function Editor({
     this.state = nextState;
     $editor.querySelector("[name=title]").value = this.state.title;
     $editor.querySelector("[name=content]").value = this.state.content;
-    this.render();
+    this.render([nextState]);
   };
 
-  this.render = () => {
+  this.render = (nextState) => {
     if (!isinitialize) {
       $editor.innerHTML = `
       <div>
@@ -33,7 +37,32 @@ export default function Editor({
       `;
       isinitialize = true;
     }
+
+    if (!!nextState) {
+      const documentList = documentRecursive(nextState, "");
+      $documentList.innerHTML = `<div style="margin : 20px">선택된 Document의 목록들</div> ${documentList}`;
+    }
   };
+
+  const documentRecursive = (data, text) => {
+    text += `
+      <ul>
+      ${data
+        .map(
+          ({ title, documents, id }) =>
+            `<li data-id="${id}" class="document-item">${title}
+          </li>
+            ${documents
+              .map((document) => documentRecursive([document], text))
+              .join("")}
+            `
+        )
+        .join("")}
+      </ul>
+      `;
+    return text;
+  };
+
   this.render();
 
   $editor.addEventListener("keyup", (e) => {
@@ -44,6 +73,16 @@ export default function Editor({
       const nextState = { ...this.state, [name]: target.value };
       this.setState(nextState);
       onEditing(this.state);
+    }
+  });
+
+  $documentList.addEventListener("click", (e) => {
+    const { className } = e.target;
+    const $li = e.target.closest(".document-item");
+
+    if ($li) {
+      const { id } = $li.dataset;
+      onClick(id);
     }
   });
 }

@@ -17,6 +17,11 @@ export default function NotionEditPage({ $target, selectedId, update }) {
         fetchDocument(post);
       }, 1500);
     },
+    onClick: (id) => {
+      this.state = { id };
+      history.pushState(null, null, `/document/${id}`);
+      selectedDocument();
+    },
   });
 
   this.setState = async (nextState) => {
