@@ -22,7 +22,7 @@ export default function PostList({ $target, initialState, onClickPost }) {
           <span class="displaySubDocument${
             documents.length ? " displayRotate" : ""
           }">▶</span>
-          📄 ${post.title}
+          📄 ${post.title ? `${post.title}` : "제목 없음"}
           <span class="options">•••</span>
           <span class="createSubDocument">+</span>
         </li>`;
@@ -83,7 +83,7 @@ export default function PostList({ $target, initialState, onClickPost }) {
       const createdPost = await request("/documents", {
         method: "POST",
         body: JSON.stringify({
-          title: "제목 없음",
+          title: "",
           parent: null,
         }),
       });
