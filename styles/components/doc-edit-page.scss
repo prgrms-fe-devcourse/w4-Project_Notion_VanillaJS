@@ -1,0 +1,26 @@
+.doc-edit-page {
+  width: 100%;
+  padding: 80px;
+
+  input {
+    width: 100%;
+    padding: $list-button-padding;
+    background-color: #fff;
+    border: transparent;
+    @include text-style(24);
+    font-weight: 500;
+    border-radius: $border-radious;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  div[name='content'] {
+    width: 100%;
+    // height: 100vh;
+    background-color: #fff;
+    border: transparent;
+    line-height: 2.5;
+  }
+}

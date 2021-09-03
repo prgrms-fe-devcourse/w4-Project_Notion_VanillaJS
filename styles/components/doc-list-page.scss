@@ -1,0 +1,113 @@
+.doc-list-page {
+  width: 250px;
+  height: 100vh;
+  flex-shrink: 0;
+  resize: horizontal; // 가로방향 resize
+  overflow: scroll; // resize는 overflow: visible이면 안됨
+  background-color: $list-background-color;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    // width: 10px;
+    // height: 10px;
+    border-radius: $border-radious;
+    background-color: $list-lighter-color;
+  }
+  &::-webkit-resizer {
+    background-color: $list-darker-color;
+    height: 100%;
+  }
+
+  .add-root-button {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    padding: $list-button-padding;
+    background-color: $gray;
+    border: 1px solid transparent;
+    padding-left: $padding-depth;
+    transition: background-color 400ms;
+
+    &:hover {
+      background-color: darken($gray, 5%);
+    }
+  }
+}
+
+.doc-list-item {
+  width: 100%;
+  cursor: pointer;
+
+  &.actived > .doc-list-item-wrapper {
+    padding-right: #{$button-width * 2}; // hover시 패딩 줘서 버튼 위치 말줄임
+    background-color: $gray;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+    button {
+      color: $font-base-color;
+      border: 1px solid $gray;
+      background-color: darken($gray, 10%);
+    }
+  }
+
+  .button-wrapper {
+    @include pos-center-y;
+    right: 0;
+
+    button {
+      width: 20px;
+      transition: background-color 200ms;
+      border: 1px solid transparent;
+      border-radius: $border-radious;
+      color: transparent;
+
+      &:hover {
+        background-color: darken($gray, 20%);
+        border: 1px solid $gray;
+        color: $font-base-color;
+      }
+    }
+  }
+
+  &-wrapper {
+    position: relative;
+    white-space: nowrap; // 텍스트 한 줄 말줄임
+    overflow: hidden; // 텍스트 한 줄 말줄임
+    text-overflow: ellipsis; // 텍스트 한 줄 말줄임
+    transition: background-color 200ms;
+    padding: $list-button-padding;
+
+    .drop-down-arrow {
+      display: inline-block;
+      width: 9px;
+      height: 12px;
+      margin-right: 5px;
+      background: url(/images/drop-down-arrow.png) no-repeat center/contain;
+      transform: rotate(0deg);
+    }
+
+    &.toggled {
+      & > .drop-down-arrow {
+        transform: rotate(-90deg);
+      }
+    }
+
+    &:hover {
+      padding-right: #{$button-width * 2}; // hover시 패딩 줘서 버튼 위치 말줄임
+      background-color: $gray;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      button {
+        color: $font-base-color;
+        border: 1px solid $gray;
+        background-color: darken($gray, 10%);
+      }
+    }
+  }
+}
