@@ -15,7 +15,7 @@ export default function NotionEditPage({ $target, selectedId, update }) {
       if (timer !== null) clearTimeout(timer);
       timer = setTimeout(() => {
         fetchDocument(post);
-      }, 1000);
+      }, 1500);
     },
   });
 
