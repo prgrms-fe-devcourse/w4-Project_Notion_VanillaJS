@@ -34,9 +34,15 @@ export default function SubDocLinks({ $target, initialState }) {
   this.render();
 
   $listContainer.addEventListener('click', (e) => {
-    const $li = e.target.closest('li');
+    const $eventTarget = e.target;
 
-    const { id } = $li.dataset;
+    const $targetDoc = $eventTarget.className === 'table-span' ? $eventTarget : null;
+
+    if (!$targetDoc) {
+      return;
+    }
+
+    const { id } = $targetDoc.dataset;
 
     push(`/documents/${id}`);
   });

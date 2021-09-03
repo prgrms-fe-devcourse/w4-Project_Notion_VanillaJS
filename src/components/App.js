@@ -58,6 +58,8 @@ export default function App({ $target }) {
           id: id === '' ? null : id,
         },
       });
+    } else {
+      history.replaceState(null, null, '/');
     }
   };
 

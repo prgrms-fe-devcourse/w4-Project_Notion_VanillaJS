@@ -20,7 +20,7 @@ export default function DocList({
   };
 
   this.render = () => {
-    if (this.state.length === 0) {
+    if (!this.state || this.state.length === 0) {
       $list.innerHTML = '';
       return;
     }
@@ -47,7 +47,7 @@ export default function DocList({
       <ul class="table-ul">
         ${this.state.map(({ id, title }) => `
           <li class="table-li" data-id="${id}">
-            <span class="table-span">${title}(${id})</span>
+            <span class="table-span" data-id="${id}">${title}(${id})</span>
           </li>
         `).join('')}
       </ul>
