@@ -4,6 +4,7 @@ export default function EditPageImage({
   onSaveImage,
   initialState,
 }) {
+  const defaultImage = "/image/default-white.png";
   const editPageImageContainerElemnet = document.createElement("div");
   const editPageImageElement = document.createElement("img");
   editPageImageElement.className = "editor-image";
@@ -15,18 +16,18 @@ export default function EditPageImage({
     onSaveImage();
   };
   this.state = initialState || {
-    image: "/2048px-Solid_white.svg.png",
+    image: defaultImage,
   };
   this.setState = (nextState) => {
     this.state = nextState || {
-      image: "/2048px-Solid_white.svg.png",
+      image: defaultImage,
     };
     this.render();
   };
   this.render = () => {
     const { image } = this.state;
     targetElement.appendChild(editPageImageContainerElemnet);
-    editPageImageElement.src = image;
+    editPageImageElement.src = image || defaultImage;
   };
 
   const editPageImageChange = new EditPageImageChange({

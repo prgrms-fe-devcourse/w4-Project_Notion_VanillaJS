@@ -1,7 +1,7 @@
 import NavPage from "/src/NavPageComponent/NavPage.js";
 import EditPage from "/src/EditPageComponent/EditPage.js";
 import { toggleWrap, initializeToggle } from "/src/util/toggle.js";
-import { removeStorage } from "/src/util/storage.js";
+import { removeChildStorage } from "/src/util/storage.js";
 import {
   getDocumentById,
   deleteDocument,
@@ -75,7 +75,7 @@ export default function App({ targetElement }) {
     const intendedDeleteElement = document.getElementById(id);
     checkCurrentDocumentDeleted(id);
     intendedDeleteElement.remove();
-    removeStorage(id);
+    removeChildStorage(id);
     await deleteDocument(id);
     loadDocumentsList();
     loadDocumentByUrl();

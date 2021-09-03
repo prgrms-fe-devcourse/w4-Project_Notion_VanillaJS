@@ -15,7 +15,7 @@ export const getItem = (key, defaultValue) => {
   }
 };
 
-export const removeStorage = async (id) => {
+export const removeChildStorage = async (id) => {
   const targetDocument = await getDocumentById(id);
   const childDocuemnts = targetDocument.documents;
   childDocuemnts.forEach((document) => {
