@@ -35,6 +35,19 @@ body{
 .editor{
     padding-left: 300px;
 }
+.refreshButton{
+    font-family: 'Roboto', sans-serif;
+    border: none;
+    background-color: rgba(0,0,0,0);
+    color:#aaaaaa;
+    margin-left: 580px;
+}
+.refreshButton:hover {
+    border: none;
+    background-color:	#dcdcdc;
+    color: #fff;
+    transform: translateY(1px);
+  }
 
 .docsList{
     margin-bottom: 5px;
