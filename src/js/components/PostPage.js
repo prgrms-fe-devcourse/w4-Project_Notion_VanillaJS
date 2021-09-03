@@ -1,29 +1,22 @@
 import api from '../api/index.js';
 import Component from '../core/Component.js';
-import debounce from '../utils/debounce.js';
 import ContentContainer from './ContentContainer.js';
-import EditableBlock from './EditableBlock.js';
 import { setItem } from '../utils/localStorage.js';
 import TitleContiainer from './TitleContainer.js';
 
 const onBoardingState = {
   id: null,
-  title: '환영합니다!',
+  title: '',
   content: [
     {
       className: 'head1-block',
       placeholder: '제목1',
-      text: '노션 클로닝 프로젝트',
+      text: '',
     },
     {
-      className: 'head2-block',
-      placeholder: '제목2',
-      text: '이 페이지는 기본 페이지 입니다!',
-    },
-    {
-      className: 'head3-block',
-      placeholder: '제목3',
-      text: '왼쪽에서 새로운 페이지를 만들어주세요!',
+      className: '',
+      placeholder: '내용을 입력해 주세요.',
+      text: '',
     },
   ]
 }
@@ -36,11 +29,11 @@ const PostPage = class extends Component{
   } 
 
   async setState(selectedDocId) {
-    const { id } = selectedDocId 
-    const newState = await api.getDoc(id);
-    const parsedContent = this.parseJson(newState.content) || onBoardingState.content  
-    console.log(parsedContent);
-    newState.content = parsedContent;
+    const { id } = selectedDocId;
+    if (id === null) return;
+    const newState = await api.getDoc(id)
+    
+    newState.content = newState.content === null ? onBoardingState.content : this.parseJson(newState.content)  
     this.state = newState
     
     this.titleContainer.setState({title: this.state.title})
@@ -65,7 +58,6 @@ const PostPage = class extends Component{
     const $selectedTitle = this.$target.querySelector('.js-selected-doc-title')
     const $selectedCotent = this.$target.querySelector('.js-selected-doc-content')
     const { title, content } = this.state;
-    console.log('mount is done')
 
     this.titleContainer = new TitleContiainer(
       $selectedTitle,
@@ -86,7 +78,6 @@ const PostPage = class extends Component{
         onUpdate: this.updateContent.bind(this)
       }
     )
-    console.log(this.contentContainer);
   }
 
   updateContent(updatedState) {
@@ -111,7 +102,7 @@ const PostPage = class extends Component{
       })
       //api - update document
       //id = null이 아니면 업데이트
-      const res = await api.update(id, {
+      await api.update(id, {
         title: this.state.title,
         content: this.convertJsonForm(this.state.content)
       })

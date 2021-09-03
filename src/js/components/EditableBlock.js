@@ -6,7 +6,7 @@ const BACK_SPACE_KEY = 'Backspace'
 const ENTER_KEY = 'Enter'
 
 const EditableBlock = class extends Component{
-  
+  timer = null;
   template() {
     const { index, className, placeholder, text} = this.state
     return `
@@ -28,32 +28,35 @@ const EditableBlock = class extends Component{
       const text = target.textContent;
 
       e.stopImmediatePropagation();
-      
-      onEditing(blockIndex, text)
+
       if (key === SPACE_KEY && text.length < 4) {
         e.preventDefault();
         onConvert(blockIndex, text)
       }
-  /*
-      if (key === SPACE_KEY && target.textContent === '-') {
-        e.preventDefault()
-        e.target.setAttribute('placeholder', '리스트')
-        e.target.textContent = '';
-        e.target.classList.add('header-block');
-      }
-      */
 
       if (key === BACK_SPACE_KEY && text.length === 0) {
         onRemove(blockIndex, text)
       }
 
-      // if (key === BACK_SPACE_KEY) {
-      //   onEditing(blockIndex, text)
-      // }
-
       if (key === ENTER_KEY ) {
         onCreate(blockIndex, text);
       }
+    })
+
+    this.$target.addEventListener('keyup', (e) => {
+      const {target} = e
+      const blockIndex = Number(target.dataset.index);
+      const text = target.textContent;
+      if (text.startsWith('#') || text.length === 0) return;
+
+      e.stopImmediatePropagation();
+
+        if (this.timer) {
+          clearTimeout(this.timer)
+        }
+        
+        this.timer = setTimeout(() => onEditing(blockIndex, text), 200)  
+        
     })
   }
 

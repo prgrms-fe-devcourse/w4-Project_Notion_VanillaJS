@@ -17,7 +17,7 @@ const DocumentList = class extends Component {
           `<li class="doc-info" data-id="${id}">
               <div style="display: flex;">
                 <i class="bx bxs-right-arrow js-toggle-sub-docs" role="button"></i>
-                <div class="doc-title js-select-doc">${title}</div>
+                <div class="doc-title js-select-doc">${title || '제목 없음' }</div>
                 <button class="js-delete-doc">-</button>
                 <button class="js-create-new-doc">+</button>
               </div>  

@@ -39,11 +39,9 @@ const App = class extends Component{
     const { pathname } = window.location
 
     if (pathname === '/') {
-      this.postPage.init();
+      this.postPage.setState({id: null})
     } else if (pathname.startsWith(`/documents/`)) {
       const [, ,postId] = pathname.split('/')
-      console.log(postId)
-      console.log(this.postPage)
       this.postPage.setState({id: Number(postId)})
     }
   }

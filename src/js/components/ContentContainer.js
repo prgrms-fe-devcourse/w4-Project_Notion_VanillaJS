@@ -21,7 +21,7 @@ const ContentContainer = class extends Component {
           focus: index === content.length - 1,
           onConvert: convertBlock.bind(this),
           onRemove: removeBlock.bind(this),
-          onEditing: () => updateBlock.bind(this),
+          onEditing: updateBlock.bind(this),
           onCreate: createNewBlock.bind(this)
         }  
       )
@@ -31,8 +31,6 @@ const ContentContainer = class extends Component {
   setState(newState) {
     const {onUpdate} = this.props
     this.state = newState;
-    console.log(123)
-    console.log(newState)
     onUpdate(newState)
     this.render();
   }
@@ -44,6 +42,7 @@ const ContentContainer = class extends Component {
       '###': 'head3'
     }
     const blockType = controller[text];
+    console.log(block)
     if(!blockType) return;
     this.convertHeadBlock(index, blockType)
   }
@@ -81,10 +80,10 @@ const ContentContainer = class extends Component {
     ] 
     const newState = { content: newContent }
     this.setState(newState)  
-    
   }
 
   updateBlock(index, newText){
+    console.log(index)
     const newContent = [...this.state.content];
     newContent[index].text = newText
     

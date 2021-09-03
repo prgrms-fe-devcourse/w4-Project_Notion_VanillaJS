@@ -84,16 +84,17 @@ const ListPage= class {
 
   async createDoc(parentId = null) {
     const newDoc = {
-      title: '새 문서',
+      title: '',
       parent: parentId
     }
-    const { newDocId }  = await api.create(newDoc);
+    const { id }  = await api.create(newDoc);
     const updatedRootDocs = await api.getAllDocs() 
     const newState = {
       rootDocuments: updatedRootDocs,
-      selectedId: newDocId
+      selectedId: id
     }
     this.setState(newState);
+    push(`/documents/${id}`)
   }
 
   async deleteDoc(docId) {
@@ -104,8 +105,8 @@ const ListPage= class {
       rootDocuments: updatedRootDocs,
       selectedId: null,
     }
-    console.log(newState)
     this.setState(newState);
+    push(`/`)
   }
 }
 
