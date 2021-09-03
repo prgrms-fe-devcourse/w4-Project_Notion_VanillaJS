@@ -16,15 +16,15 @@ export default function PostPage({
     })
 
     
-const fetchPosts = async() => {
+    const fetchPosts = async() => {
     const posts = await request('/')
     postList.setState(posts)
-  }
+    }
   
-  fetchPosts()
     
 
-    this.render = () => {
+    this.render = async() => {
+        await fetchPosts()
         $target.appendChild($postPage)
 
     }

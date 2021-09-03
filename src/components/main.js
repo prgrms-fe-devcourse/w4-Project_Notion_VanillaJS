@@ -1,10 +1,10 @@
-import PostPage from "./PostPage.js"
+import App from "./App.js"
 
 const $target = document.querySelector('#app')
 
-
-
-new PostPage ({
+new App({
   $target
 })
+
+
 
