@@ -14,10 +14,19 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
     this.state = nextState;
     this.toggledState = nextToggledState;
     this.selectedState = nextSelectedState;
+    console.log(this.selectedState[0])
     this.render();
   }
 
-  function createListTree (documents, toggledDocuments) {
+  function checkSelected(id, selectedId) {
+    if(id === selectedId) {
+      return 'isSelectedText'
+    } else {
+      return ''
+    }
+  }
+
+  function createListTree (documents, toggledDocuments, selectedDocument) {
     return documents.map(document => `
     <ul>
       ${toggledDocuments.includes(document.id) 
@@ -25,7 +34,7 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
         `
           <li id=${document.id}>
             <button class='toggleDocument'>▼</button>
-            <span class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
+            <span id='${checkSelected(document.id, selectedDocument[0])}' class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
             <button class='createChildDocument'>➕</button>
           </li>
             ${document.documents.length ? createListTree(document.documents, toggledDocuments) : '<ul><li class="noChildDocument">하위 Document가 없습니다.</li></ul>'}
@@ -34,7 +43,7 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
         `
           <li id=${document.id}>
             <button class='toggleDocument'>▶</button>
-            <span class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
+            <span id='${checkSelected(document.id, selectedDocument[0])}' class='selectDocument'> ${document.title.length ? document.title : '제목 없음'} </span>
             <button class='createChildDocument'>➕</button>
           </li>
         `}
@@ -44,7 +53,7 @@ export default function DocumentList({ $target, initialState, onToggle, onSelect
   
   this.render = () => {
     $documentList.innerHTML = `
-      ${createListTree(this.state, this.toggledState)}
+      ${createListTree(this.state, this.toggledState, this.selectedState)}
       <button class='createDocument'>새로운 Document 추가하기</button>
     `
 
