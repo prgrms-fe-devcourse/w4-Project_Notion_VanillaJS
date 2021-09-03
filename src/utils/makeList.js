@@ -18,11 +18,7 @@ export const makeList = (documents) => `
       `}).join('')}
 `
 
-// none이거나 '' >, block이면 아래화살표
-// style 코드 정리
-// 코드정리
 const getState = (id) => getItem(`temp-toggle-${id}`, '')
-
 
 const makeChildList = (documents, id) => `
     <ul class="child-${id}" style="display: ${getState(id) ? getState(id).state : 'none'}  " >

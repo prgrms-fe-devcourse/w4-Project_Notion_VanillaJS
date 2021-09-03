@@ -3,8 +3,8 @@ import Header from "./Header.js";
 import DocumentList from "./DocumentList.js";
 import { getItem, setItem, removeItem } from "../utils/storage.js";
 
-
 export default function DocumentPage({ $target, onPostClick }) {
+
   const $page = document.createElement('div')
   $page.setAttribute('class', 'contain-documentPage')
   new Header({
@@ -51,7 +51,6 @@ export default function DocumentPage({ $target, onPostClick }) {
         method: "POST",
         body: JSON.stringify(newPage)
       })
-
       this.setState({ ...this.state })
       onPostClick(newDocument.id)
     },
@@ -67,6 +66,4 @@ export default function DocumentPage({ $target, onPostClick }) {
   this.render = async () => {
     $target.appendChild($page)
   }
-
-  
 }

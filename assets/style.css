@@ -9,6 +9,7 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
 }
 .main-documentPage{
+  width: 300px;
   background-color: #F7F6F3;
   padding: 10px;
 }
@@ -17,22 +18,20 @@ h2 {
 }
 .main-editPage{
   padding: 10px;
-  display: flex;
+  display: grid;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
 }
 .contain-documentPage {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 button {
-  
   border-color: rgba(0, 0, 0, 0);
   background-color: rgba(0, 0, 0, 0);
 }
 button:hover {
-  
   background-color: peachpuff;
   opacity: 1;
 }
@@ -67,7 +66,9 @@ li{
 div.item{
   width: 100%;
 }
-
+.emptyChild{
+  opacity: 0.4;
+}
 
 div.item:hover,
 .add-root-Document:hover{

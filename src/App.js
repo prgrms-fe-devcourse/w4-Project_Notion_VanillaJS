@@ -1,8 +1,6 @@
 import DocumentPage from "./components/DocumentPage.js"
 import PostEditPage from "./components/PostEditPage.js"
 
-
-
 export default function App({ $target }) {
 
   const $documentListContainer = document.createElement('div')
@@ -21,23 +19,19 @@ export default function App({ $target }) {
       this.route()
     }
   })
-  
+
   const postEditPage = new PostEditPage({
     $target: $editContainer,
-    initialState : {
+    initialState: {
       id: '',
       post: {
         title: '',
         content: ''
       }
     },
-    refresh: () => {
-      documentPage.setState()
-    }
+    refresh: () => documentPage.setState()
     })
     
-
-
   this.route = () => {
     const { pathname } = window.location
     if (pathname === '/') {
@@ -46,6 +40,7 @@ export default function App({ $target }) {
     } else if (pathname.indexOf('/documents/') === 0) {
       const[ , , id ] = pathname.split('/')
       documentPage.setState()
+      location.setState({id})
       postEditPage.setState({ id })
     }
   }

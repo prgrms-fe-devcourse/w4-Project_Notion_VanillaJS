@@ -7,13 +7,10 @@ export default function Editor({
   onEditing
 }) {
   const $editor = document.createElement('div')
-  // const $topTitle = document.createElement('div')
-  // $topTitle.setAttribute('class', 'topTitle')
-  // $target.append($topTitle)
   let isInitialize = false
-  
   this.state = initialState
   $target.appendChild($editor)
+
   this.setState = nextState => {
     if (nextState) {
       if (this.state.id !== nextState.id) {
@@ -24,28 +21,24 @@ export default function Editor({
       $editor.getElementsByClassName('content').value = this.state.content
       this.render()
     }
-    
   }
   
   this.render = () => {
     const { title, content } = this.state
-    // $topTitle.innerHTML = `${(title === 'Untitled') ? '' : (title)}`
     if (!isInitialize){
-      // Untitle이거나, New Page이면 placeholder/ 이외에 value
+      // Untitle이거나, New Page이면 placeholder/ 이외에 값이 있다면 value로 추가.
       const defaultTitle = (title) => (title === 'Untitled' || title === 'New Page')? `placeholder="${title ? title : 'Untitled'}"`: `value="${title}"`
-    
+
       $editor.innerHTML = `
-      <input type='text' class="title" ${defaultTitle(title)} autofocus /><br>
-      <textarea class="content" placeholder="내용을 입력하세요.">${content ? content : ''}</textarea>
+        <input type='text' class="title" ${defaultTitle(title)} autofocus /><br>
+        <textarea class="content" placeholder="내용을 입력하세요.">${content ? content : ''}</textarea>
       `
     isInitialize = true
     }
   }
 
-  
   $editor.addEventListener('keyup', (e) => {
     const { target } = e
-    
     const name = target.getAttribute('class')
     if (this.state[name] !== undefined) {
       const nextState = {

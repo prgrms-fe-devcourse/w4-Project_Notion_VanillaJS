@@ -4,7 +4,6 @@ export default function Header({
 }) {
   const $h2 = document.createElement('h2')
   $target.appendChild($h2)
-
   this.state = initialState
 
   this.render = () => {

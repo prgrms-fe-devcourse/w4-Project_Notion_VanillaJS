@@ -5,8 +5,8 @@ import { setItem, getItem, removeItem } from "../utils/storage.js"
 export default function PostEditPage({ $target, initialState, refresh }) {
   const $page = document.createElement('div')
   this.state = initialState
-
-
+  
+  
   let postLocalSaveKey = `temp-post-${this.state.id}`
   let timer = null
   
@@ -17,7 +17,6 @@ export default function PostEditPage({ $target, initialState, refresh }) {
       content: ''
     }, 
     onEditing: (post) => {
-      
       if (timer !== null) {
         clearTimeout(timer)
       }
