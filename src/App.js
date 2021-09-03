@@ -55,6 +55,7 @@ export default function App({
     $target,
     initialState : this.state.selectedDoc,
     childDocClick: async (node) => {
+      console.log('node :>> ', node);
       const {id} = node.dataset
       await fetchDocPage(id)
     }
