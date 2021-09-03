@@ -1,11 +1,9 @@
 import { emit } from '../../utils/emitter.js';
 
-import PageHeader from './PostsPageHeader.js';
 import PageBody from './PostsPageBody.js';
 
 export default function Page({ $target, initialState }) {
 	const $page = $createElement('div');
-	const $pageHeader = $createElement('div', '.page-header');
 	const $pageBody = $createElement('div', '.page-body');
 	addClassAll($page, 'col', 'page-container');
 
@@ -17,14 +15,8 @@ export default function Page({ $target, initialState }) {
 	};
 
 	this.render = () => {
-		pageHeader.render();
 		pageBody.render();
 	};
-
-	const pageHeader = new PageHeader({
-		$target: $pageHeader,
-		initialState,
-	});
 
 	const LIMIT_TIME = 200;
 	let pageBodyUpdateTimer = null;
@@ -59,6 +51,5 @@ export default function Page({ $target, initialState }) {
 	});
 
 	$target.appendChild($page);
-	$page.appendChild($pageHeader);
 	$page.appendChild($pageBody);
 }
