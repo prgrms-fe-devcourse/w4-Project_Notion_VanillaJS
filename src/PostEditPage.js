@@ -38,6 +38,9 @@ export default function PostEditPage({ $target, initialState }) {
 					});
 					history.replaceState(null, null, `/documents/${createdPost.id}`);
 					removeItem(postLocalSaveKey);
+					this.setState({
+						postId: createdPost.id,
+					});
 				} else {
 					await request(`/documents/${post.id}`, {
 						method: "PUT",
@@ -45,7 +48,7 @@ export default function PostEditPage({ $target, initialState }) {
 					});
 					removeItem(postLocalSaveKey);
 				}
-			}, 3000);
+			}, 2000);
 		},
 	});
 
