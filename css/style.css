@@ -1,0 +1,415 @@
+body {
+  background:#fff;
+  display: flex;
+  flex-direction: row;
+}
+
+#initialPage {
+  text-align: center;
+  font-size: 5em;
+  margin-top: 1em;
+}
+
+/* 토스트(공통) */
+
+#toast {
+  position: fixed;
+  width: 10em;
+  height: fit-content;
+  background: rgb(90, 185, 59, 0.2);
+  border-left: 1em solid rgb(90, 185, 59);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 0.25em;
+  top: 1em;
+  right: -12em;
+  visibility: hidden;
+  transition: all 1s;
+}
+
+#toast.show {
+  transform: translateX(-12em);
+  visibility: visible;
+}
+
+/* 에디터(공통) */
+
+#postEditPage {
+  background:rgb(25, 25, 25, 0.1);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index: 10;
+}
+
+#postEditPage #editor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  background:#fff;  
+  box-sizing: border-box;
+  border:1px solid rgb(223, 223, 222);
+  border-radius: 5px;
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 2px 4px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#postEditPage #editor>div{
+  text-align: center;
+  width: 90%;
+  margin: 10px auto;  
+  border-bottom: 1px solid #ddd;
+  padding: 1em 0 1em;
+}
+
+#postEditPage #editor>div:first-child {
+  border:none;
+  padding:none;
+}
+
+#postEditPage #editor #titleBox #editorTitle {
+  width: 100%;
+  height: 2em;
+  font-size: 2em;
+  box-sizing: border-box;
+  border:none;
+  border-bottom: 3px double #000;
+}
+
+#postEditPage #editor #attributeBox #editorattribute {
+  text-align: left;
+}
+
+#postEditPage #editor #attributeBox #editorattribute input {
+  padding: 0.15em;
+  border:none;
+  color: rgb(55, 53, 47);
+}
+
+#postEditPage #editor #attributeBox #editorattribute input::placeholder {
+  color:rgb(25, 25, 25, 0.3)
+}
+
+#postEditPage #editor #attributeBox #editorattribute input:hover {
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#postEditPage #editor #attributeBox #editorattribute [name=attribute] {
+  position: relative;
+  margin: 5px 0 5px 0;
+}
+
+#postEditPage #editor #attributeBox #editorattribute [name=attributeName] {
+  width: 30%;
+  overflow: hidden;
+  text-indent: 1em;
+}
+
+#postEditPage #editor #attributeBox #editorattribute [name=attributeContent] {
+  width: 65%;
+  overflow: hidden;
+}
+
+#postEditPage #editor #attributeBox #editorattribute [name=attributeRemove] {
+  position: absolute;
+  left:0;
+  color: #ff0000;
+  padding: 0.15em;
+}
+
+#postEditPage #editor #attributeBox #editorattribute [data-id=addButton] {
+  width:fit-content;
+  padding:5px;
+  cursor: pointer;
+  color: rgba(25, 23, 17, 0.6);
+}
+
+#postEditPage #editor #attributeBox #editorattribute [data-id=addButton]:hover {
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#postEditPage #editor #contentBox #editorContent {
+  width: 100%;
+  min-height: 10em;
+  border: none;
+}
+
+#postEditPage #editor #contentBox #editorContent::placeholder {
+  color:rgb(25, 25, 25, 0.3)
+}
+
+#postEditPage #editor .closeButton {
+  display: block;
+  margin:0 auto;
+  box-sizing: border-box;
+  border-bottom:1px solid #000;
+  padding:5px;
+  cursor: pointer;
+}
+
+
+/* 사이드메뉴 */
+#sideMenu{
+  display: flex;
+  flex-basis: 20%;  
+  min-width: 20%;
+  background: rgb(247, 246, 243);
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#sideMenu .headerBox .headerTitle {
+  cursor: pointer;
+  color: rgb(55, 53, 47);
+  margin:1em;  
+  font-size: 1.5em;
+  width: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 13rem;
+}
+
+#sideMenu .headerBox .headerTitle:hover {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#sideMenu .newButton{
+  padding:5px;
+  width:fit-content;
+  margin-left: 1em;
+  color: rgba(25, 23, 17, 0.6);
+  cursor:pointer;
+}
+
+#sideMenu .newButton:hover {
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#sideMenu #sideListBox{
+  margin-top: 1em;
+}
+
+#sideMenu #sideListBox #sideListHeader{ 
+  margin: 0.5em 0 0.5em 1.5em;
+}
+
+#sideMenu #sideListBox #sideList{
+  height: 1em;
+}
+
+#sideMenu #sideListBox #sideList .listTitle{
+  list-style-type: disclosure-closed;
+  list-style-position: inside;
+  color: rgba(25, 23, 17, 0.6);
+  padding-left: 1.5em;
+  position: relative;
+  cursor: pointer;
+}
+
+#sideMenu #sideListBox #sideList .listTitle:hover{
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#sideMenu #sideListBox #sideList .listTitle.nowOpened{
+  background: rgba(55, 53, 47, 0.08);
+  color: rgba(55, 53, 47);
+}
+
+#sideMenu #sideListBox #sideList .listTitle .openListButton {
+  padding:5px;
+  cursor: pointer;
+  color: inherit;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10rem;
+}
+
+#sideMenu #sideListBox #sideList .listTitle .removeListButton {
+  cursor: pointer;
+  color: inherit;
+  width: 1.4em;
+  height: 1.4em;
+  position: absolute;
+  top: 50%;
+  right: 1em;
+  margin-top: -0.7em;
+  line-height: 1.4em;
+  border-radius: 5px;
+  color:#ff0000;
+}
+
+#sideMenu #sideListBox #sideList .listTitle .removeListButton:hover{
+  background: #fff;
+  font-weight: 500;
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 1px 2px;
+}
+
+/* 컨테이너 */
+#container {
+  display: flex;
+  flex-direction: column;
+  flex-basis: auto;
+  flex-grow: 1;
+}
+
+/* 헤더 */
+
+#container .headerBox {
+  margin: 1.5em 0 1em 0
+}
+
+#container .headerBox .headerTitle {
+  cursor: pointer;
+  width:75%;
+  margin: auto;
+  font-size: 2em;
+  padding: 0.25em;
+  border-bottom: 3px double #000;
+}
+
+/* 메인페이지 포스트페이지 */
+
+#postPage #postPageButtonBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin:1em
+}
+
+#postPage #postPageButtonBox .newPostButton{
+  padding: 0.5em;
+  font-weight: 500;
+  color:#fff;
+  background: rgb(46, 170, 220);
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+#postPage #postPageButtonBox .newPostButton:hover{
+  background: rgb(6, 156, 205);
+}
+
+#postPage #postListBox .postList {  
+  width: 100%;
+  flex-direction: row;
+}
+
+#postPage #postListBox>.postList {  
+  display: flex;
+  border-top:1px solid rgb(223, 223, 222);
+}
+
+#postPage #postListBox .postList .post {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  border:1px solid rgb(223, 223, 222);
+  border-radius: 5px;
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 2px 4px;
+  margin-bottom: 0.5em;
+  cursor:pointer;
+}
+
+#postPage #postListBox > .postList > .post {  
+  margin:0.25em 1.5em 0.25em 1.5em;
+  width: 360px;
+  border:none;
+  box-shadow: none;
+  cursor: default;
+}
+
+#postPage #postListBox .postList .post:hover {
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+  border-color:rgba(55, 53, 47, 0.08);
+}
+
+#postPage #postListBox > .postList > .post:hover{
+  color: rgb(55, 53, 47);
+  background: #fff;
+}
+
+#postPage #postListBox .postList .post button {
+  margin: 0.2em 0 0.2em 0;
+  padding: 0 5px 0 5px;
+  height: 32px;
+  line-height: 32px;
+  color: rgba(25, 23, 17, 0.6);
+  cursor: pointer;
+}
+
+#postPage #postListBox .postList .post .editPostButton {
+  width:100%;
+  border-radius: 5px;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20rem;
+}
+
+#postPage #postListBox > .postList > .post > .editPostButton {
+  width: fit-content;
+  cursor:pointer;
+}
+
+#postPage #postListBox .postList .post .editPostButton:hover{
+  color: rgb(55, 53, 47);
+}
+
+#postPage #postListBox .postList .post .editPostButton:hover .removePostButton{
+  color: rgb(55, 53, 47);
+  box-sizing: border-box;
+  border:1px solid rgb(223, 223, 222);
+}
+
+#postPage #postListBox > .postList > .post > .editPostButton:hover{
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+}
+
+#postPage #postListBox .postList .post .removePostButton {
+  position: absolute;
+  width: 1.5em;
+  background:#fff;
+  color:#ff0000;
+  top:0;
+  right: 0.25em;
+  border-radius: 5px;  
+  box-sizing: border-box;
+}
+
+#postPage #postListBox .postList .post .removePostButton:hover {
+  font-weight: 500;
+  background: rgba(55, 53, 47, 0.08);
+  border-radius: 5px;
+  box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px, rgb(15 15 15 / 10%) 0px 2px 4px;
+}
+
+#postPage #postListBox .postList .post .newSubpostButton {
+  display: block;
+  width:100%;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+#postPage #postListBox .postList .post .newSubpostButton:hover {
+  color: rgb(55, 53, 47);
+  background: rgba(55, 53, 47, 0.08);
+}
+
+textarea {
+  resize: none;
+}
