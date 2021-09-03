@@ -5,10 +5,11 @@ export default function UserInfo({ $target, initialState }) {
 
   Object.assign($info.style, {
     display: 'flex',
-    'align-items': 'center',
-    height: '45px',
-    'margin-left': '20px',
     color: 'black',
+    height: '45px',
+    'flex-shrink': 0,
+    'align-items': 'center',
+    'margin-left': '20px',
   });
 
   this.state = initialState;

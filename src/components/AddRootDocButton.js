@@ -6,6 +6,7 @@ export default function AddRootDocButton({ $target, onClickAddButton }) {
     height: '45px',
     padding: '2px 14px',
     border: '0',
+    'flex-shrink': 0,
   });
 
   this.render = () => {

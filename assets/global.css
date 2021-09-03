@@ -43,6 +43,7 @@ input:focus {
   text-overflow: ellipsis;
   padding-right: 30px;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .table-ul {
