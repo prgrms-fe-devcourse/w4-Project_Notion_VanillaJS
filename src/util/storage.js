@@ -1,9 +1,13 @@
-import { getDocumentById } from "./api.js";
+import { getDocumentById } from './api.js';
 
 const storage = window.localStorage;
 
 export const setItem = (key, value) => {
-  storage.setItem(key, value);
+  try {
+    storage.setItem(key, value);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const getItem = (key, defaultValue) => {
@@ -14,11 +18,17 @@ export const getItem = (key, defaultValue) => {
     return defaultValue;
   }
 };
-
-export const removeChildStorage = async (id) => {
+export const removeItem = key => {
+  try {
+    storage.removeItem(key);
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const removeChildStorage = async id => {
   const targetDocument = await getDocumentById(id);
   const childDocuemnts = targetDocument.documents;
-  childDocuemnts.forEach((document) => {
+  childDocuemnts.forEach(document => {
     storage.removeItem(document.id);
   });
 };
