@@ -11,7 +11,7 @@ export default function PostsPage({
                                     $target,
                                     initialState = [],
                                     onClick,
-                                    onEraseBtnClick,
+                                    onEraseBtnClick,onAddBtnClick
                                   }) {
   const $postPage = document.createElement("div");
   $postPage.setAttribute("class", "post");
@@ -36,6 +36,9 @@ export default function PostsPage({
         const { target } = e;
         if (target.classList.contains("erase-btn")) {
           onEraseBtnClick(target.closest("li"));
+        }
+        else if(target.classList.contains("add-btn")){
+          onAddBtnClick(target.closest("li"))
         }
         else{
           onClick(target.closest("li"))

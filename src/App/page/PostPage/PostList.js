@@ -21,7 +21,7 @@ export default function PostsList({ $target, initialState = [] }) {
         .map(
           (document) =>
             `<li class="li-tag" id=${document.id} data-is-open="false" >
-                    <span>${document.title}</span><button class="erase-btn">X</button>
+                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                </li>`
         )
         .join("")}
@@ -34,7 +34,7 @@ export default function PostsList({ $target, initialState = [] }) {
       // 닫혀있는 것을 클릭할 때
       if (!JSON.parse($target.dataset.isOpen)) {
         $target.dataset.isOpen = true;
-        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="erase-btn">X</button>`;
+        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
         $target.insertAdjacentHTML(
           "beforeend",
           `
@@ -43,7 +43,7 @@ export default function PostsList({ $target, initialState = [] }) {
             .map(
               (document) =>
                 `<li class="li-tag" id=${document.id} data-is-open="false">
-                    <span>${document.title}</span><button class="erase-btn">X</button>
+                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                     </li>`
             )
             .join("")}
@@ -54,7 +54,7 @@ export default function PostsList({ $target, initialState = [] }) {
       // 열려있는 새로운 것을 열때
       else {
         $target.dataset.isOpen = false;
-        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="erase-btn">X</button>`;
+        $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
       }
     } else if (type === "erase-btn-click") {
       $div.innerHTML = `
@@ -63,7 +63,7 @@ export default function PostsList({ $target, initialState = [] }) {
         .map(
           (document) =>
             `<li class="li-tag" id=${document.id} data-is-open="false" >
-                    <span>${document.title}</span><button class="erase-btn">X</button></li>`
+                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button></li>`
         )
         .join("")}
         </ul>
@@ -71,6 +71,24 @@ export default function PostsList({ $target, initialState = [] }) {
     }
     else if(type === "edit-btn-click"){
       $target.firstElementChild.innerHTML = this.state.title
+    }
+    else if(type === "add-btn-click"){
+      $target.dataset.isOpen = true;
+      $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
+      $target.insertAdjacentHTML(
+        "beforeend",
+        `
+         <ul>
+        ${this.state
+          .map(
+            (document) =>
+              `<li class="li-tag" id=${document.id} data-is-open="false">
+                    <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
+                    </li>`
+          )
+          .join("")}
+        </ul>
+          `)
     }
   };
 

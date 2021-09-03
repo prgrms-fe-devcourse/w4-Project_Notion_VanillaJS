@@ -5,6 +5,7 @@ import {
   getContentDocument,
   deleteDocument,
   putDocument,
+  postDocument
 } from "../api/request.js";
 import { setItem } from "./page/storage.js";
 
@@ -24,6 +25,10 @@ export default function App({ $target, initialState = [] }) {
     else if(type === 'edit-btn-click'){
       const $target = document.getElementById(`${nextState.id}`)
       postsPage.setState({$target , nextState:this.state, type})
+    }
+    else if(type === 'add-btn-click'){
+      postsPage.setState({ $target, nextState: this.state.documents, type });
+      // postsEditPage.setState({ $target, nextState });
     }
 
     this.render();
@@ -45,6 +50,12 @@ export default function App({ $target, initialState = [] }) {
         this.setState({ $target, nextState: initialState, type: "erase-btn-click" });
       }
     },
+    onAddBtnClick : async ($target) => {
+      console.log($target)
+      await postDocument('새로운 문서',$target.id)
+      const result = await getContentDocument($target.id);
+      this.setState({ $target, nextState: result, type: "add-btn-click" });
+    }
   });
 
   let timer = null;
