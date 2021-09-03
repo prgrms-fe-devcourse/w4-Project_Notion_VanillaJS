@@ -11,6 +11,7 @@ import {initRouter, push} from '../utils/router.js'
 import {documentTemplate} from '../templates/documentList.js'
 import DocumentHeader from './document/DocumentHeader.js'
 import {USER_NAME} from '../constants/notion.js'
+import ParentDocumentPath from './editor/main/ParentDocumentPath.js'
 
 export default function App({$target}) {
     const $documentListContainer = $('.document-list-container')
@@ -97,7 +98,6 @@ export default function App({$target}) {
     const onSelect = (id) => {
         push(`/documents/${id}`)
         setItem(CURRENT_EDIT_DOCUMENT_ID, id)
-        fetchEditor(id)
     }
 
     const onAddSubDocument = async (parentId) => {
@@ -156,6 +156,10 @@ export default function App({$target}) {
         onSubmit,
     })
 
+    const parentDocumentPath = new ParentDocumentPath({
+        initialState: this.state,
+    })
+
     const documentList = new DocumentList({
         $target: $documentListContainer,
         initialState: this.state.documents,
@@ -189,6 +193,7 @@ export default function App({$target}) {
 
     const fetchEditor = async (id) => {
         const {title, content} = await request(`/documents/${id}`)
+        console.log(title, content)
         $('title').innerText = title
         this.setState({
             ...this.state,
@@ -200,9 +205,10 @@ export default function App({$target}) {
         })
 
         postEditMainPostEditMain.setState(this.state.selectedDocument)
+        parentDocumentPath.setState(this.state.selectedDocument)
     }
 
-    $('.modal-close').addEventListener('click', async ({target}) => {
+    $('.modal-close').addEventListener('click', async () => {
         const $modalEditor = $('.modal-editor')
         $(`[name='title']`, $modalEditor).value = ''
         $(`[name='content']`, $modalEditor).value = ''
