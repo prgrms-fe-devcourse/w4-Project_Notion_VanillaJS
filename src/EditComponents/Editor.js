@@ -23,20 +23,11 @@ export default function Editor({ $target, initialState, onEditing }) {
   this.render = () => {
     if (!isInitialize) {
       // 렌더링 초기화
-      $editor.innerHTML = `
-					<input 
-						name='title' 
-						type='text' 
-						value='${this.state.title}'
-            placeholder='제목 없음'
-					/>
-				
-					<div 
-            class='textarea'
-					  name='content'
-            contentEditable='true'>${this.state.content}
-        </div>
-					`
+      $editor.innerHTML = `<input name='title' 
+      type='text' 
+      value='${this.state.title}' 
+      placeholder='제목 없음'/>
+      <div class='textarea' name='content' contentEditable='true'>${this.state.content}</div>`
       isInitialize = true
       console.log('editor initialize')
     }
