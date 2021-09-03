@@ -15,6 +15,7 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
   this.render = () => {
     targetElement.appendChild(editPageContentElement);
     editPageContentElement.innerHTML = this.state.text;
+    makeNewBlock();
   };
 
   const giveChildIndexId = (document) => {
@@ -24,10 +25,18 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
       v.dataset.id = index++;
     });
   };
+
+  const setCaret = (targetElement) => {
+    targetElement.focus();
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNode(targetElement);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  };
   const makeNewBlock = () => {
     const newBlock = new TextBlock({ targetElement: editPageContentElement });
     setCaret(newBlock.element);
-    newBlock.element.focus();
     giveChildIndexId(editPageContentElement);
   };
 
@@ -37,12 +46,4 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     e.preventDefault();
     makeNewBlock();
   });
-
-  const setCaret = (targetElement) => {
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNode(targetElement);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  };
 }
