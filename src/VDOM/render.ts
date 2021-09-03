@@ -15,7 +15,7 @@ export const render = (node: VDOMNode): HTMLElement | Text => {
           element.addEventListener(eventType, value as EventListener);
         } else {
           if (typeof value === "string" || typeof value === "boolean") {
-            element.setAttribute(key, value + "");
+            element.setAttribute(key, `${value}`);
           }
           (element as Record<string, any>)[key] = value;
         }
@@ -53,7 +53,7 @@ export const render = (node: VDOMNode): HTMLElement | Text => {
 export function renderDOM(id: string, rootNode: VDOMNode): void {
   const root = document.getElementById(id);
   if (root === null) {
-    throw new Error("rootNode not found");
+    throw new Error("id를 확인해주세요.");
   }
   root.appendChild(render(rootNode));
 }
@@ -103,7 +103,7 @@ function applyAttrs(element: HTMLElement, props: VDOMProps): void {
     } else {
       if (isListener(key)) return;
       if (typeof value === "string" || typeof value === "boolean") {
-        element.setAttribute(key, value + "");
+        element.setAttribute(key, `${value}`);
       }
       (element as Record<string, any>)[key] = value;
     }
