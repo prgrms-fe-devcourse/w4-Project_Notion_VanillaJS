@@ -105,3 +105,19 @@ button.toggle:hover {
 .remove-button:hover .remove-button-text {
     visibility: visible;
 }
+
+.go-parent-document-button {
+    height: 20px;
+    min-width: 10px;
+    border-radius: 4px;
+    outline: 0;
+    border-style: none;
+    cursor: pointer;
+    background-color: white;
+    color: gray;
+}
+
+.go-parent-document-button:hover {
+    background-color: #edece9 !important;
+    color: gray;
+}

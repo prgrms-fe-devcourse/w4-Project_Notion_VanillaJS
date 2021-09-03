@@ -89,3 +89,20 @@ textarea {
 textarea::placeholder {
     color: #d3d1cb;
 }
+
+.path-separation-bar {
+    margin-left: 2px;
+    margin-right: 2px;
+    color: rgba(55, 53, 47, 0.4);
+}
+
+.parent-path {
+    display: flex;
+    align-items: center;
+    line-height: 1.2;
+    font-size: 14px;
+    height: 100%;
+    flex-grow: 0;
+    margin-right: 8px;
+    min-width: 0px;
+}
