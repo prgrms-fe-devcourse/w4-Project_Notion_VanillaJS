@@ -1,0 +1,19 @@
+@mixin text-style($size, $color: false) {
+  @if ($size == 12) {
+    font-size: $font-size-12;
+  }
+  @if ($size == 14) {
+    font-size: $font-size-14;
+  }
+  @if ($size == 16) {
+    font-size: $font-size-16;
+  }
+  @if ($size == 18) {
+    font-size: $font-size-18;
+  }
+  @if ($size == 24) {
+    font-size: $font-size-24;
+  }
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+}
