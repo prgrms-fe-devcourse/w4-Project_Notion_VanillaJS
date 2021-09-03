@@ -12,12 +12,12 @@ const request = async(url, options = {}) => {
             }
         });
         
-        if (response.ok) {
-            const data = await response.json();
-            return data;
+        if (!response.ok) {
+            throw new Error('api error'); 
         }
 
-        throw new Error('api error'); 
+        const data = await response.json();
+        return data;
     } catch(error) {
         console.log(error);
     }

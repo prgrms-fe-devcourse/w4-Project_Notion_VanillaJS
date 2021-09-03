@@ -1,12 +1,9 @@
 import App from './App.js'
-import { getDocument } from './api.js'
+import { getItem } from './storage.js'
 
 const $app = document.querySelector('.app')
 
-const currentState = await getDocument()
-
-const $content = document.createElement('div')
-$content.contentEditable = true
+const currentState = getItem('documents')
 
 new App({
     $target: $app,

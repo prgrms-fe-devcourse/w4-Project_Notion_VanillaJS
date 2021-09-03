@@ -1,4 +1,4 @@
-export default function Documents({ $target, currentState, onGetDocument, onCreateDocument }) {
+export default function Documents({ $target, currentState, onGetDocument, onCreateDocument, onRoute }) {
     const $documents = document.createElement('div');
     this.state = currentState
 
@@ -38,15 +38,21 @@ export default function Documents({ $target, currentState, onGetDocument, onCrea
 
     $documents.addEventListener('click', (event) => {
         const $li = event.target.closest('li')
-        const { id } = $li
-        const { tagName } = event.target
         
+        const { tagName } = event.target
+
         if (!$li) {
+            if (this.state.length === 0) {
+                onCreateDocument()
+                onGetDocument()
+                return 
+            }
+
             throw new Error('근처 li를 찾을 수 없습니다.')
         }
-        
+
         if (tagName === 'BUTTON') {
-            onCreateDocument(id)
+            onCreateDocument($li.id)
             onGetDocument()
         }
     })
