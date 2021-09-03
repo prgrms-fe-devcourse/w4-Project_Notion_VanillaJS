@@ -38,6 +38,16 @@
   color: var(--fontColor);
 }
 
+.document-editor::-webkit-scrollbar {
+  width: 5px;
+  background-color: var(--scrollbarColor);
+}
+
+.document-editor::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbarThumbColor);
+  border-radius: 20px;
+}
+
 .editor-container {
   display: flex;
   width: 85%;

@@ -11,6 +11,8 @@
   --editorBorderColor: #353535;
   --rootDocumentButtonHoverFontColor: #ffffff;
   --rootDocumentButtonHoverColor: #353535;
+  --scrollbarColor: #6e6e6e;
+  --scrollbarThumbColor: #353535;
 }
 
 :root[notion-theme='dark'] {
@@ -26,6 +28,8 @@
   --editorBorderColor: #6e6e6e;
   --rootDocumentButtonHoverFontColor: #353535;
   --rootDocumentButtonHoverColor: #ffffff;
+  --scrollbarColor: #353535;
+  --scrollbarThumbColor: #6e6e6e;
 }
 
 html {
