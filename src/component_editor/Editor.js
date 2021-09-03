@@ -60,12 +60,16 @@ export default function Editor({
           </div>
           `;
 
+        // 문서를 불러온 후 focus를 하려면 이 방식으로 해야함. 이유는 모르겠음
         setTimeout(() => {
             querySelector($editor, '.content').focus();
         });
 
         sel = window.getSelection && window.getSelection();
 
+        // 셀렉션 방어 코드
+        // 문서에 focus가 됐음에도 getSelection()이 안되는 경우가 존재.
+        // 구체적인 이유는 모르겠으나 스택 오버플로우에서 다음과 같은 방어 코드를 제시함.
         if (sel && sel.rangeCount > 0) {
             range = sel.getRangeAt(0);
         }
@@ -156,115 +160,149 @@ export default function Editor({
     let isAutoCompleteExist = false;
     let isSpaceBarEntered = false;
 
-    $editor.addEventListener('keydown', (e) => {
-        if (isAutoCompleteExist === true && getKeyCodeOf(e) === numOfEnter) {
-            e.preventDefault();
-            const $autoComplete = getElementById('autoComplete');
-            const autoCompleteWord = getTextContent($autoComplete);
-            const $autoCompleteParent = $autoComplete.parentNode;
-            const $text = createTextNode(autoCompleteWord);
-             $autoCompleteParent.removeChild($autoComplete);
-
-            sel = window.getSelection();
-            range = sel.getRangeAt(0);
-            range.insertNode($text);
-            range.setStartAfter($text);
-            
-            isAutoCompleteExist = false;
-            isSpaceBarEntered = false;
-            firstString = '';
-        }
-    });
-
+    
     let cursorPosBeforeChar = null;
     let cursorPosAfterChar = null;
-
+    let debugVar = 0;
     $editor.addEventListener('keyup', (e) => {
         switch (getClassName(getTagOf(e))) {
             case 'content':
                 {
+                    
                     tempState.content = getTagOf(e).innerHTML;
                     onEditing(tempState);
                     
                     console.log(tempState.content);
-
+                    
+                    // #, ##, ### 이 들어오는 경우 체크
                     if (isMarkDownInput(tempState.content)) {
                         this.setState(tempState);
                         return;
                     }
-
+                    
+                    // 스페이스바가 입력된 경우,
+                    // AutoComplete 로직을 실행시키기 위해 isSpaceBarEntered를 true로 만듬
                     if (getKeyCodeOf(e) === numOfSpaceBar) {
                         isSpaceBarEntered = true;
+                        
+                        // 초기환
                         cursorPosBeforeChar = null;
                         firstString = '';
                     }
-                    
+                    console.log('동작체크2');
+                    // 스페이스바가 입력된 경우, 즉 AutoComplete을 체크할 준비가 된경우
                     if (isSpaceBarEntered) {
+                        // 커서 정보 획득
                         sel = window.getSelection();
                         range = sel.getRangeAt(0);
                         
+                        // 커서 정보가 지정되지 않은 경우,
                         if (!cursorPosBeforeChar) {
+                            
+                            // 첫 글자 이전 커서 위치 및 이후 위치 획득
                             cursorPosBeforeChar = range.startOffset;
                             cursorPosAfterChar = range.startOffset + 1;
                         }
+                        
                         const cloned = range.cloneRange();
                         
                         cloned.selectNodeContents(querySelector($editor, '.content'));
-
+                        
                         cloned.setStart(range.startContainer, cursorPosBeforeChar);
 
                         if (range.startContainer.length >= cursorPosAfterChar) {
                             cloned.setEnd(range.startContainer, cursorPosAfterChar);
-
+                            
+                            // 뛰어쓰기 이후 첫 글자를 획득함
                             if (cloned.toString().length === 1) {
                                 firstString = cloned.toString();
                             }
                         }
                     }
-                    
-                    if (trie.getAllWords(firstString).length !== 0) {
-                        deleteAutoComplete();
 
+                    // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter가 아닌 경우(커서가 앞이나 뒤로 이동하는 경우 === 글자가 입력된 경우)
+                    // 자동완성을 삭제함
+                    if (isAutoCompleteExist && (range.startOffset <= cursorPosBeforeChar || range.startOffset > cursorPosAfterChar)) {
+                        deleteAutoComplete();
+                        isAutoCompleteExist = false;
+                        isSpaceBarEntered = false;
+                        firstString = '';
+                    }
+
+                    // trie에 획득된 첫 글자를 던져주고, 등록된 키워드가 있는지 확인하는 절차
+                    if (trie.getAllWords(firstString).length !== 0) {
+                        
+                        // 이미 입력된 자동 완성이 있다면 삭제함
+                        deleteAutoComplete();
+                        
+                        // firstString이 '프'인 경우, autoCompleteWord는 '로그래머스'가 됨
                         const autoCompleteWord = revisedReduce(
                             trie.getAllWords(firstString),
                             lazyMap((similarWord) => similarWord.replace(firstString, '')),
                             head
-                        );
+                            );
+                            
+                            // 프로그래머스에서 '로그래머스'는 자동 완성 글자인데, 이 글자를 span태그 안에 넣어서 색깔을 추가함
+                            const $temp = revisedReduce(
+                                'span',
+                                createElement,
+                                setAttribute([['id', 'autoComplete']]),
+                                setStyle([['display', 'inline']]),
+                                setTextContent(autoCompleteWord)
+                                );
+                                
+                                // $temp를 사용자에게 보여줌
+                                autoComplete('preview', $temp);
 
-                        const $temp = revisedReduce(
-                            'span',
-                            createElement,
-                            setAttribute([['id', 'autoComplete']]),
-                            setStyle([['display', 'inline']]),
-                            setTextContent(autoCompleteWord)
-                        );
-
-                        autoComplete('preview', $temp);
+                                // 현재 자동 완성된 텍스트가 존재하고 있음을 true로 만듬
                         isAutoCompleteExist = true;
+                        // 이후에는 1. 엔터가 입력되는 경우, 2. 엔터 이외의 입력이 일어나는 경우로 나뉨
                     }
+                    
                 }
                 break;
-
-            case 'title-input':
-                {
+                
+                case 'title-input':
+                    {
                     const [docTitle, _] = this.state.title.split('/');
                     tempState.title = docTitle + '/' + getInputValue(getTagOf(e));
                     onEditing(tempState);
                 }
                 break;
+                
+                default:
+                    break;
+                }
+            });
 
-            default:
-                break;
-        }
-    });
-
+            $editor.addEventListener('keydown', (e) => {
+                // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter인 경우, 자동완성 실행
+                if (isAutoCompleteExist === true && getKeyCodeOf(e) === numOfEnter) {
+                    e.preventDefault();
+                    const $autoComplete = getElementById('autoComplete');
+                    const $autoCompleteParent = $autoComplete.parentNode;
+                    const autoCompleteWord = getTextContent($autoComplete);
+                    const $text = createTextNode(autoCompleteWord);
+                     $autoCompleteParent.removeChild($autoComplete);
+        
+                    sel = window.getSelection();
+                    range = sel.getRangeAt(0);
+                    range.insertNode($text);
+                    range.setStartAfter($text);
+                    
+                    isAutoCompleteExist = false;
+                    isSpaceBarEntered = false;
+                    firstString = '';
+                }
+            });
+            
     const trie = new Trie();
-
+    
     trie.insert('안녕하세요');
     trie.insert('데브코스');
     trie.insert('프로그래머스');
     trie.insert('노션 클로닝');
-
+    
     const autoComplete = (decision, $temp) => {
         sel = window.getSelection();
         range = sel.getRangeAt(0);
@@ -276,7 +314,6 @@ export default function Editor({
     };
 
     const deleteAutoComplete = () => {
-        // const $contentContainer = querySelector($editor, '.content');
         const $autoComplete = getElementById('autoComplete');
         const $autoCompleteParent = $autoComplete?.parentNode || null;
 
