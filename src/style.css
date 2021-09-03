@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+main#app {
+  display: flex;
+  flex-direction: row;
+}
+
+.listBar {
+  min-height: 100vh;
+  padding: 10px 10px 10px 20px;
+  box-sizing: border-box;
+  background-color: #f7f6f3;
+  width: 250px;
+  overflow-y: auto;
+  position: sticky;
+  align-self: flex-start;
+  top: 0;
+}
+
+.editSection {
+  flex: 1;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+input[name="title"] {
+  font-size: 36px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border: none;
+  padding: 10px;
+}
+
+textarea[name="content"] {
+  height: 70vh;
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 300;
+  font-size: 24px;
+  padding: 10px;
+}
+
+ul {
+  padding-left: 20px;
+}

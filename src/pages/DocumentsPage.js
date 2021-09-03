@@ -2,7 +2,7 @@ import DocumentList from "../components/DocumentList.js";
 import { request } from "../api.js";
 
 export default function DocumentsPage({ $target }) {
-  const $page = document.createElement("div");
+  const $page = document.createElement("section");
 
   const documentList = new DocumentList({ $target, initialState: [] });
 

@@ -3,7 +3,8 @@ export default function DocumentList({
   initialState,
   onDocumentClick,
 }) {
-  const $documentList = document.createElement("div");
+  const $documentList = document.createElement("aside");
+  $documentList.className = "listBar";
   $target.appendChild($documentList);
 
   this.state = initialState;
