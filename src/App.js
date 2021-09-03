@@ -45,17 +45,9 @@ class App extends Component {
       const sidebar = await request();
       this.setState({ sidebar, content: data });
     };
-    const changeContent = async (data) => {
-      this.setState({ content: data });
-    };
-    new SidebarContainer(qs(".notion-sidebar-container"), { state: this.state.sidebar, createNewContent, changeContent, updateSidebar });
+
+    new SidebarContainer(qs(".notion-sidebar-container"), { state: this.state.sidebar, createNewContent, updateSidebar });
     new ContentContainer(qs(".notion-content-container"), { state: this.state.content, updateSidebar });
-
-    this.mount();
-  }
-
-  mount() {
-    on(qs(".notion-sidebar-container"), "@changeState", (e) => this.setState({ content: e.detail }));
   }
 }
 

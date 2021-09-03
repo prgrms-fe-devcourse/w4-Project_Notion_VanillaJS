@@ -9,10 +9,18 @@ class ContentContainer extends Component {
   state;
   constructor(...rest) {
     super(...rest);
+
     this.state = this.props.state;
     this.state && this.render();
+    this.initialEvent();
   }
-
+  initialEvent() {
+    on(this.$target, "@changeContent", ({ detail }) => this.setState(detail));
+  }
+  setState(nextState) {
+    this.state = nextState;
+    this.render();
+  }
   template() {
     return `
     <div class="editor">
@@ -36,14 +44,19 @@ class ContentContainer extends Component {
     let timer;
     on(this.$target, "keyup", (e) => {
       handleAutoSaveContent(e);
-      if (e.target.className === "content-header") {
-        emit(qs(".viewer"), "@reflectHeaderToViewer", e.target.innerText);
-      }
+      // if (e.target.className === "content-header") {
+      //   emit(qs(".viewer"), "@reflectHeaderToViewer", e.target.innerText);
+      // }
+      // else if (e.target.className === "content-body") {
+      //   console.log("yes");
+      // }
     });
 
     const handleAutoSaveContent = (e) => {
-      const title = qs(".content-header").innerText;
-      const content = qs(".content-body").innerText;
+      const title = qs(".editor .content-header").innerText;
+      const content = qs(".editor .content-body").innerText;
+      console.log(title);
+      console.log(this.state);
       if (timer) {
         clearTimeout(timer);
       }

@@ -1,6 +1,6 @@
 import { request } from "../../util/api.js";
 import { HTTP_METHOD, NODE_NAME } from "../../util/constant.js";
-import { customCreateNode, on, qs, qsAll } from "../../util/util.js";
+import { customCreateNode, emit, on, qs, qsAll } from "../../util/util.js";
 import Component from "../Component.js";
 import { SidebarEmpty, ToggleTriangle, Trash } from "../util/utilComponent.js";
 import { hideChildNode, showChildNode } from "./util.js";
@@ -63,7 +63,7 @@ class SidebarBlock extends Component {
   }
 
   async handleSideBarClick(e) {
-    const { createNewContent, changeContent, updateSidebar } = this.props;
+    const { createNewContent, updateSidebar } = this.props;
     const { nodeName: targetNode } = e.target;
     if (e.target.classList[0] === "toggle") {
       this.styleToggleBtn(e);
@@ -88,7 +88,8 @@ class SidebarBlock extends Component {
     } else if (e.target.closest("div").classList[0] === "notion-sidebar-block") {
       const { id } = e.target.closest("div").dataset;
       const data = await request(id, HTTP_METHOD.GET);
-      changeContent(data);
+      console.log(data, "sidebar request");
+      emit(qs(".notion-content-container"), "@changeContent", { id: data.id, title: data.title, content: data.content });
       history.pushState(null, "", `/documents/${id}`);
     }
   }
