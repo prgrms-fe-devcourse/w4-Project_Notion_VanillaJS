@@ -48,6 +48,11 @@ export default function DocumentEditPage({ $target, initialState }) {
     },
   });
 
+  const $deleteButton = document.createElement("button");
+  $deleteButton.className = "deleteButton";
+  $deleteButton.textContent = "삭제";
+  $page.appendChild($deleteButton);
+
   this.setState = async (nextState) => {
     if (this.state.documentId !== nextState.documentId) {
       tempLocalSaveKey = `temp-doc-${nextState.documentId}`;

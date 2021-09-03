@@ -15,7 +15,7 @@ main#app {
 }
 
 .listBar {
-  min-height: 100vh;
+  min-height: calc(100vh - 30px);
   padding: 10px 10px 10px;
   box-sizing: border-box;
   background-color: #f7f6f3;
@@ -25,6 +25,7 @@ main#app {
   position: sticky;
   align-self: flex-start;
   top: 0;
+  left: 0;
 }
 
 .listBar ul li {
@@ -40,6 +41,8 @@ main#app {
 
 .editSection {
   flex: 1;
+  order: 1;
+  padding-bottom: 0;
 }
 
 .editor {
@@ -59,7 +62,7 @@ input[name="title"] {
 }
 
 textarea[name="content"] {
-  height: 70vh;
+  height: 65vh;
   font-family: "Noto Sans KR", sans-serif;
   font-weight: 300;
   font-size: 24px;
@@ -81,4 +84,32 @@ svg {
   transition: transform 200ms ease-out 0s;
   transform: rotateZ(90deg);
   opacity: 1;
+}
+
+.addBtn {
+  border: 0;
+  width: 100%;
+  margin: 0;
+  height: 30px;
+  cursor: pointer;
+  background-color: lightsalmon;
+}
+
+.addBtn:hover {
+  background-color: coral;
+}
+
+.deleteButton {
+  border: 0;
+  width: 100px;
+  margin: 0;
+  height: 30px;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  margin-left: 40px;
+}
+
+.deleteButton:hover {
+  background-color: red;
 }
