@@ -1,5 +1,21 @@
 # 노션 클로닝 프로젝트
 
+## DEMO
+
+### 즐겨찾기(Bookmark) 기능 / Toast 저장 완료 안내 기능
+
+<span><img src="./DEMO/bookmark.gif" style="width:400px;"/></span>
+<span><img src="./DEMO/toast.gif" style="width:400px;"/></span>
+
+### 하위 컴포넌트 링크 렌더링 / 삭제 및 생성 Modal 구현
+
+<span><img src="./DEMO/lowDocument.gif" style="width:400px;"/></span>
+<span><img src="./DEMO/createRemove.gif" style="width:400px;"/></span>
+
+## 프로젝트 기간
+
+- 8월 28일 ~ 9월 3일, 7일
+
 ## 기본 요구사항
 
 - [x] 글 단위를 Document라고 합니다. Document는 Document 여러개를 포함할 수 있습니다.
