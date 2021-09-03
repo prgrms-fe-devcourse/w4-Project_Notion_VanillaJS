@@ -10,7 +10,6 @@ export default function Page({ $target, initialState }) {
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
-		pageHeader.setState(this.state);
 		pageBody.setState(this.state);
 	};
 

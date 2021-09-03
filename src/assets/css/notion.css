@@ -9,6 +9,7 @@ button {
 	border: none;
 }
 button {
+	cursor: pointer;
 	padding: none;
 	background-color: #1fe0;
 }
@@ -39,20 +40,20 @@ button {
 	color: rgb(55, 53, 47);
 }
 .nav-item {
-	cursor: pointer;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
+	padding: 2px 15px;
 	min-height: 27px;
 	font-size: 1.4rem;
-	padding: 2px 15px;
 }
 .tree:not(:first-child) p {
 	padding-left: 30px;
 }
 p.blank {
 	margin-left: 20px;
-	font-size: 1.4rem;
 	padding: 8px;
+	font-size: 1.4rem;
 	color: rgba(55, 53, 47, 0.4);
 }
 
@@ -74,6 +75,27 @@ p.blank {
 	background: rgba(55, 53, 47, 0.08);
 	color: rgb(55, 53, 47);
 	font-weight: 700;
+}
+
+.sidebar-body .create-btn {
+	cursor: pointer;
+	padding: 1rem 1.5rem;
+}
+
+.sidebar-footer {
+	box-shadow: rgb(55 53 47 / 9%) 0px -1px 0px;
+	cursor: pointer;
+	position: fixed;
+	bottom: 0;
+	padding: 2rem 0;
+	width: 240px;
+	color: rgba(55, 53, 47, 0.6);
+}
+.sidebar-footer:hover {
+	background: rgba(55, 53, 47, 0.08);
+}
+.sidebar-footer .create-btn {
+	padding: 2rem;
 }
 
 /* page */
