@@ -5,7 +5,7 @@ import DarkModeToggle from './DarkModeToggle.js';
 import { initRouter, initBrowserRouter, initEditorDataChangedListener } from '../utils/eventListeners.js';
 import { checkUseConstructorFunction } from '../utils/validator.js';
 import { fetchAddDocuments } from '../utils/api.js';
-import { movePage } from '../utils/eventListeners.js';
+import { dispatchMovePage } from '../utils/eventListeners.js';
 
 export default function App({ $target }) {
   const validate = () => {
@@ -39,7 +39,7 @@ export default function App({ $target }) {
       const { id: createdId } = await fetchAddDocuments(body);
 
       if (createdId) {
-        movePage(`/document/${createdId}`);
+        dispatchMovePage(`/document/${createdId}`);
         documentsPage.setState();
       }
     },

@@ -1,7 +1,7 @@
 import { createElement } from '../utils/dom.js';
 import { checkIsEmptyThrowError, checkUseConstructorFunction, isEmptyArray } from '../utils/validator.js';
 import { makeChildDocumentLinkTemplate } from '../utils/template.js';
-import { movePage } from '../utils/eventListeners.js';
+import { dispatchMovePage } from '../utils/eventListeners.js';
 import { CLASS_NAME } from '../utils/constants.js';
 
 export default function ChildDocumentLink({ $target, initialState }) {
@@ -38,7 +38,7 @@ export default function ChildDocumentLink({ $target, initialState }) {
       const { className, dataset } = e.target;
 
       if (className === CLASS_NAME.CHILD_DOCUMENT_LINK) {
-        movePage(`/document/${dataset.id}`);
+        dispatchMovePage(`/document/${dataset.id}`);
       }
     });
     isInit = true;

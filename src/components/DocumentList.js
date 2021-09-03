@@ -1,7 +1,7 @@
 import { makeDocumentList, makeLogoContainer } from '../utils/template.js';
 import { checkCorrectTypeThrowError, checkIsArrayThrowError } from '../utils/validator.js';
 import { fetchDeleteDocument } from '../utils/api.js';
-import { movePage } from '../utils/eventListeners.js';
+import { dispatchMovePage } from '../utils/eventListeners.js';
 import { checkUseConstructorFunction } from '../utils/validator.js';
 import { createElement } from '../utils/dom.js';
 import { CLASS_NAME, MESSAGE } from '../utils/constants.js';
@@ -52,7 +52,7 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
           break;
 
         case CLASS_NAME.LOGO_IMAGE:
-          movePage(`/`);
+          dispatchMovePage(`/`);
           break;
 
         default:
@@ -82,12 +82,12 @@ export default function DocumentList({ $target, initialState, onOpenModal }) {
           if (confirm(MESSAGE.CONFIRM_DELETE)) {
             await fetchDeleteDocument(documentId);
             history.replaceState(null, null, '/');
-            movePage(`/`);
+            dispatchMovePage(`/`);
           }
           break;
 
         case CLASS_NAME.DOCUMENT_ITEM:
-          movePage(`/document/${documentId}`);
+          dispatchMovePage(`/document/${documentId}`);
           break;
 
         default:

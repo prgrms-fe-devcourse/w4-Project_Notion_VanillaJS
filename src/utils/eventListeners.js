@@ -17,7 +17,7 @@ export const initBrowserRouter = onRoute => {
   });
 };
 
-export const movePage = nextUrl => {
+export const dispatchMovePage = nextUrl => {
   window.dispatchEvent(
     new CustomEvent(GENERAL.ROUTE_CHANGE_EVENT_NAME, {
       detail: {
@@ -25,6 +25,10 @@ export const movePage = nextUrl => {
       },
     })
   );
+};
+
+export const dispatchEditorTitleChanged = () => {
+  window.dispatchEvent(new CustomEvent(GENERAL.EDITOR_DATA_CHANGED));
 };
 
 export const initEditorDataChangedListener = onChange => {
