@@ -60,10 +60,10 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
                     if (!isExistInputTag) {
                         const $docNameInput = createElement('input');
                         
-                        setStyle($docNameInput, [
+                        setStyle([
                             ['display', 'block'],
-                            ['margin', '0.5rem 0'],
-                        ]);
+                            ['margin', '0.5rem 0']
+                        ],$docNameInput);
 
                         $docNameInput.addEventListener('blur', (e) => {
                             addDoc(getInputValue(getTagOf(e)), id);
