@@ -1,11 +1,11 @@
-import { modifyDocument } from "../../utils/api.js";
+import { getDocument, modifyDocument } from "../../utils/api.js";
 import { getItem, removeItem, setItem } from "../../utils/storage.js";
 import { createElement } from "../../utils/util.js";
 import Editor from "./Editor.js";
 
 export default function EditorPage({
   $target,
-  initialState = { title: "", content: "" },
+  initialState = { id: "", title: "", content: "" },
 }) {
   const $page = createElement("div", "notion-editor");
 
@@ -25,7 +25,7 @@ export default function EditorPage({
 
       timer = setTimeout(async () => {
         const data = getItem(this.state.id, post);
-        
+
         await modifyDocument(this.state.id, data);
         removeItem(this.state.id);
       }, 2000);
@@ -39,7 +39,7 @@ export default function EditorPage({
     this.render();
   };
 
-  this.render = () => {
+  this.render = async () => {
     $target.appendChild($page);
   };
 
