@@ -1,5 +1,5 @@
-import PostsEditPage from "./page/PostEditPage.js";
-import PostsPage from "./page/PostsPage.js";
+import PostsEditPage from "./page/EditPage/PostEditPage.js";
+import PostsPage from "./page/PostPage/PostsPage.js";
 import {
   getRootDocument,
   getContentDocument,
@@ -20,6 +20,10 @@ export default function App({ $target, initialState = [] }) {
       $target = document.querySelector("#app");
       postsPage.setState({ $target, nextState: this.state, type });
       // postsEditPage.setState({ $target, nextState });
+    }
+    else if(type === 'edit-btn-click'){
+      const $target = document.getElementById(`${nextState.id}`)
+      postsPage.setState({$target , nextState:this.state, type})
     }
 
     this.render();
@@ -60,9 +64,10 @@ export default function App({ $target, initialState = [] }) {
         this.state = post;
       }, 1000);
     },
-    onPosting: async (post) => {
-      const { title, id, content } = post;
+    onPosting: async ({$target , nextState , type}) => {
+      const { title, id, content } = nextState;
       await putDocument(title, id, content);
+      this.setState({$target, nextState, type})
       // 해야할 것 : title은 Post 후에 바뀌지 않으니 이를 this.setState를 통해 다시 렌더처리
     },
   });

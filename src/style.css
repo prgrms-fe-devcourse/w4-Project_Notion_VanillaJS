@@ -1,0 +1,32 @@
+
+.post{
+    display : inline-block;
+    border :1px solid black;
+    width: 40%;
+    float:left;
+    margin : 10px;
+    padding : 20px;
+}
+
+.edit{
+    display:inline-block;
+    border :1px solid black;
+    width: 40%;
+    float:right;
+    margin : 10px;
+    padding : 20px
+}
+
+#edit-btn{
+
+}
+
+#text-input{
+    width:600px;
+}
+
+#textarea{
+    width:600px;
+    height:400px;
+}
+

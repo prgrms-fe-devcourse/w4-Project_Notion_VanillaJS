@@ -4,7 +4,7 @@ import {
   postDocument,
   putDocument,
   deleteDocument,
-} from "../../api/request.js";
+} from "../../../api/request.js";
 import PostList from "./PostList.js";
 
 export default function PostsPage({
@@ -34,9 +34,11 @@ export default function PostsPage({
     if (isFirst) {
       $postPage.addEventListener("click", (e) => {
         const { target } = e;
-        if (target.classList.contains("li-tag")) onClick(target);
-        else if (target.classList.contains("btn")) {
+        if (target.classList.contains("btn")) {
           onEraseBtnClick(target.closest("li"));
+        }
+        else{
+          onClick(target.closest("li"))
         }
       });
 

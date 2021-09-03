@@ -1,5 +1,5 @@
-import { postDocument } from "../../api/request.js";
-import { getItem, setItem } from "./storage.js";
+import { postDocument } from "../../../api/request.js";
+import { getItem, setItem } from "../storage.js";
 import Editor from "./Editor.js";
 
 export default function PostEditPage({
@@ -59,7 +59,7 @@ export default function PostEditPage({
   $page.addEventListener("click", (e) => {
     const { target } = e;
     if (target.id === "edit-btn") {
-      onPosting(this.state);
+      onPosting({$target : target,nextState : this.state , type : 'edit-btn-click'});
     }
   });
 

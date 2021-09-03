@@ -17,9 +17,9 @@ export default function Editor({ $page: $target, initialState = "" }) {
   this.render = () => {
     if (!isinitialize) {
       $editor.innerHTML = `
-        <button id="edit-btn">포스팅</button>
-        <input type="text" name="title" style="width:600px" value="${this.state.title}"/>
-        <textarea name="content" style="width:600px;height:400px">${this.state.content}</textarea>
+        <button id="edit-btn">포스팅</button><br>
+        <input type="text" name="title" id="text-input"  value="${this.state.title}"/>
+        <textarea name="content" id="textarea" >${this.state.content}</textarea>
         `;
       isinitialize = true;
     }
