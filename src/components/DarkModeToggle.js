@@ -1,6 +1,7 @@
 import { createElement } from '../utils/dom.js';
 import { checkUseConstructorFunction } from '../utils/validator.js';
 import { CLASS_NAME, GENERAL } from '../utils/constants.js';
+import { storageUtils } from '../utils/storageUtils.js';
 
 export default function DarkModeToggle({ $target }) {
   const validate = () => {
@@ -10,7 +11,7 @@ export default function DarkModeToggle({ $target }) {
   validate();
 
   const $darkModeToggleButtonIcon = createElement('i');
-  const userTheme = localStorage.getItem(GENERAL.STORAGE_KEY_NOTION_THEME);
+  const userTheme = storageUtils.getItem(GENERAL.STORAGE_KEY_NOTION_THEME);
   const osTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? GENERAL.DARK : GENERAL.LIGHT;
   const changeToggleButtonClass = state => {
     const classListOption = {
@@ -26,7 +27,7 @@ export default function DarkModeToggle({ $target }) {
       $darkModeToggleButtonIcon.classList.remove(...classListOption[GENERAL.LIGHT]);
     }
 
-    localStorage.setItem(GENERAL.STORAGE_KEY_NOTION_THEME, state);
+    storageUtils.setItem(GENERAL.STORAGE_KEY_NOTION_THEME, state);
     document.documentElement.setAttribute(GENERAL.STORAGE_KEY_NOTION_THEME, state);
   };
 
