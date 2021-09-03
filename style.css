@@ -77,9 +77,8 @@ main {
   margin-top: 50px;
 }
 
-
 .editor textarea[name="content"] {
-  height: 70vh;
+  min-height: 200px;
   resize: none;
 }
 
@@ -136,7 +135,13 @@ span.createRootDocument::first-letter {
 
 .postList > .header {
   padding: 10px 10px 15px;
+  margin-bottom: 3px;
   color: #464541;
+  cursor: pointer;
+}
+
+div.header:hover {
+  background-color: #e8e7e4;
 }
 
 span.username {
@@ -151,4 +156,10 @@ span.username {
 
 span.notion {
   font-weight: bold;
+}
+
+div.subDocuments ul {
+  position: relative;
+  text-align: left;
+  left: 10%;
 }
