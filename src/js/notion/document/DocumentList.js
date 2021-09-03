@@ -2,7 +2,7 @@ import {REMOVE_CONFIRM_MESSAGE} from '../../constants/message.js'
 import {documentListTemplate} from '../../templates/documentList.js'
 
 export default function DocumentList({$target, initialState, onToggle, onSelect, onAddSubDocument, onRemove}) {
-    const $documentList = document.createElement('div')
+    const $documentList = document.createElement('ul')
     $documentList.className = 'document-list'
     $target.appendChild($documentList)
 

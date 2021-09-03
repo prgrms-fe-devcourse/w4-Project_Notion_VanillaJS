@@ -18,6 +18,15 @@
     color: gray;
 }
 
+.add-button {
+    font-weight: 700;
+    opacity: 0.5;
+}
+
+.add-button:hover {
+    opacity: 1;
+}
+
 .add-button .add-button-text {
     visibility: hidden;
     width: 170px;
@@ -70,10 +79,7 @@ button.toggle:hover {
 }
 
 .remove-button {
-    background-image: url('../../../img/trash-can.svg');
-    background-size: cover;
-    height: 12px;
-    width: 12px;
+    font-weight: 700;
     opacity: 0.5;
 }
 

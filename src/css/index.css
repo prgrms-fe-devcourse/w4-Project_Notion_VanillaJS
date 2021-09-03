@@ -13,6 +13,10 @@ body {
     font-size: 5px;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .username {
     margin: 10px;
     font-size: small;
@@ -33,6 +37,15 @@ body {
 
 .container {
     height: 753px;
+}
+
+.document-list {
+    padding-left: inherit;
+}
+
+.document-element {
+    display: flex;
+    justify-content: space-between;
 }
 
 .document-list-container {
