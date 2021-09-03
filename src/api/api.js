@@ -24,6 +24,13 @@ const options = (method, data) => {
 };
 
 export const createDocument = (data) => {
+  if (!data) {
+    const newDoc = { title: "제목을 입력하세요", parent: null };
+    return fetch(`${API_ENDPOINT}`, options("POST", newDoc)).then((res) =>
+      res.json()
+    );
+  }
+
   return fetch(`${API_ENDPOINT}`, options("POST", data)).then((res) =>
     res.json()
   );

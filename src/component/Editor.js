@@ -38,7 +38,3 @@ export default function Editor({ $target, initialState, onEditing }) {
     this.setState(nextState);
   });
 }
-
-// 1. Document 추가시 EditPage는 빈 Editor 생성
-// 2. storage API 사용해서 상태업데이트
-// 3. Document Save API 사용해서 실시간 데이터 업데이트

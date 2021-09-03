@@ -1,4 +1,4 @@
-import { getDocument, modifyDocument } from "../api/api.js";
+import { modifyDocument } from "../api/api.js";
 import { getItem, removeItem, setItem } from "../api/storage.js";
 import Editor from "./Editor.js";
 

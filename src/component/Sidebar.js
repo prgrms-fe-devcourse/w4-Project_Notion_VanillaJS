@@ -1,41 +1,46 @@
 import { createDocument, getDocument } from "../api/api.js";
 import Header from "./Header.js";
 import DocumentList from "./DocumentList.js";
+import { createElement } from "../util.js";
 
-export default function Sidebar({ $target, onCeatedDocument }) {
+//Sidebar 렌더시 Header, DocumentList 컴포넌트 렌더
+// DocumentList 데이터를 관리
+export default function Sidebar({
+  $target,
+  onCeatedDocument,
+  onSelectedDocument,
+}) {
   if (!new.target) {
     throw new Error("Sidebar new 연산자 누락!");
   }
 
-  const $sidebar = document.createElement("div");
-  $sidebar.className = "notion-sidebar";
+  const $sidebar = createElement("div", "notion-sidebar");
 
   $target.appendChild($sidebar);
 
-  this.state = [];
-
-  new Header({ $target: $sidebar });
+  new Header({ $target: $sidebar, title: "Notion Clone" });
 
   const documentList = new DocumentList({
     $target: $sidebar,
-    initialState: this.state,
-    addDocument: async (id) => {
-      const data = { title: "페이지 제목을 입력해주세요", parent: id };
-      const createdDocument = await createDocument(data);
-      // onCeatedDocument(createdDocument);
+    initialState: null,
+    onAdd: async (id) => {
+      const data = { title: "제목을 입력해주세요", parent: id };
+      const createdInfo =
+        id === "new" ? await createDocument() : await createDocument(data);
+
+      onCeatedDocument(createdInfo);
+
+      // 생성후 API 로직 이후 상태변경
       this.render();
     },
   });
 
-  this.setState = (nextState) => {
-    this.state = nextState;
-    this.render();
-  };
-
   this.render = async () => {
-    const nextState = await getDocument();
+    const rootDocument = await getDocument();
 
-    documentList.setState(nextState);
+    if (rootDocument.length === 0) return;
+
+    documentList.setState(rootDocument);
   };
 
   this.render();

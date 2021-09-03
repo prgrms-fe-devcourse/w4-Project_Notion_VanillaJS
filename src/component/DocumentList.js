@@ -1,8 +1,11 @@
+import { push } from "../router.js";
+import { createElement } from "../util.js";
+
 const getDocument = (data) => {
   const { id, title, documents } = data;
 
   return /*html*/ `
-    <ul id = 'document-${id}'>
+    <ul data-id=${id}>
       <div class="document">${title}<button class="add-btn">+</button></div>
       <li>${
         documents.length === 0
@@ -12,10 +15,27 @@ const getDocument = (data) => {
     </ul>`;
 };
 
-export default function DocumentList({ $target, initialState, addDocument }) {
-  const $documentContainer = document.createElement("div");
-  $documentContainer.className = "document-container";
+//Root Document 데이터를 활용해서 렌더링함
+//initialState set [{id: '', title: '', createdAt: '', documents: [](배열)} ] 배열
+
+export default function DocumentList({ $target, initialState, onAdd }) {
+  const $documentContainer = createElement("div", "document-container");
+
   $target.appendChild($documentContainer);
+
+  $documentContainer.addEventListener("click", (e) => {
+    if (e.target.className === "document-container") return;
+
+    const $document = e.target.closest("ul");
+    const $addButton = $document.querySelector(".add-btn");
+    const text = $document.querySelector(".document");
+
+    if (e.target === $addButton) {
+      const { id } = $document.dataset;
+
+      onAdd(id);
+    }
+  });
 
   this.state = initialState;
 
@@ -24,23 +44,14 @@ export default function DocumentList({ $target, initialState, addDocument }) {
     this.render();
   };
 
+  //조건부 렌더링 this.state가 없으면 아무것도 렌더하지 않음
   this.render = () => {
-    $documentContainer.innerHTML = `${this.state
-      .map((document) => getDocument(document))
-      .join("")}`;
+    $documentContainer.innerHTML = `${
+      this.state
+        ? this.state.map((document) => getDocument(document)).join("")
+        : ""
+    }<ul data-id="new"><div><button class="add-btn">+</button> Add a Page</div></ul>`;
   };
-
-  $documentContainer.addEventListener("click", (e) => {
-    if (e.target.className === "document-container") return;
-
-    const $document = e.target.closest("ul");
-    const addButton = $document.querySelector(".add-btn");
-
-    if (e.target === addButton) {
-      const [, id] = $document.id.split("-");
-      addDocument(id);
-    }
-  });
 
   this.render();
 }
