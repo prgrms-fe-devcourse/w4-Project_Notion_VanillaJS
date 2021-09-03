@@ -1,5 +1,6 @@
 import Editor from "./Editor.js";
-// import EditorTitle from "./EditorTitle.js";
+import { request } from "../api.js";
+import { push } from "../router.js";
 import SubDocumentList from "./SubDocumentList.js";
 export default function Modal({ $target, init }) {
   const $modalPage = document.createElement("div");

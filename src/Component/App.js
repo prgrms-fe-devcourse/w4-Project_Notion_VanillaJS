@@ -5,16 +5,17 @@ import GuidePage from "./MainPanel/GuidePage.js";
 export default function App({ $target }) {
   const sidePage = new SidePage({ $target });
   const mainPage = new MainPage({ $target });
-  this.route = () => {
+  this.route = (type = "") => {
     const { pathname } = location;
+    console.log(location);
     if (pathname === "/") {
       mainPage.setState();
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , documentId] = pathname.split("/");
-      mainPage.setState({ id: documentId });
+      mainPage.setState({ id: documentId, type });
     }
   };
 
   this.route();
-  initRouter(() => this.route());
+  initRouter((type) => this.route(type));
 }

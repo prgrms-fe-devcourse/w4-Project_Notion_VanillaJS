@@ -61,7 +61,7 @@ export default function DocumentList({
         <ul class="${type === "basic" ? "root document" : "root bookmark"}">
         ${this.state.length > 0 ? renderDocuments(this.state) : ""}
         </ul>
-        `;
+      `;
   };
 
   // mouse over 및 out 시 문서 추가버튼 구현

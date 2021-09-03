@@ -1,8 +1,7 @@
 import { request } from "../api.js";
 import { push } from "../router.js";
-import { getItem } from "../storage.js";
+import ToastNotice from "./ToastNotice.js";
 import Editor from "./Editor.js";
-// import EditorTitle from "./EditorTitle.js";
 import GuidePage from "./GuidePage.js";
 import Modal from "./Modal.js";
 import SubDocumentList from "./SubDocumentList.js";
@@ -18,7 +17,10 @@ export default function MainPage({ $target }) {
     content: "",
     documents: [],
   };
-
+  const toastNotice = new ToastNotice({
+    $target: $mainPageContainer,
+    init: { text: "저장완료" },
+  });
   const guidePage = new GuidePage({ $target: $mainPageContainer });
   const modalPage = new Modal({
     $target: $mainPageContainer,
@@ -32,7 +34,10 @@ export default function MainPage({ $target }) {
       guidePage.remove();
       const contentList = await request(`/documents/${nextState.id}`);
       this.state = contentList;
-      modalPage.setState(this.state);
+      console.log(nextState);
+      if (nextState.type === "create") {
+        modalPage.setState(this.state);
+      }
       editor.setState(this.state);
       editor.appendChild();
       subDocumentList.setState(this.state);
@@ -68,6 +73,7 @@ export default function MainPage({ $target }) {
         });
         console.log(`저장완료! ${selectState.id}`);
         push(`/documents/${selectState.id}`);
+        toastNotice.render();
       }, 2000);
     },
   });

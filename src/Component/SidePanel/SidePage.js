@@ -89,7 +89,7 @@ export default function SidePage({ $target }) {
           parent: documentId,
         }),
       });
-      push(`/documents/${response.id}`);
+      push(`/documents/${response.id}`, "create");
       this.render();
     },
     onRemove: async (documentId) => {

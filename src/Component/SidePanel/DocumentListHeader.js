@@ -6,7 +6,11 @@ export default function DocumentListHeader({ $target, text = "", onCreate }) {
   this.render = () => {
     $header.innerHTML = `
       <h2 class="document-list-container__title">${text} 페이지</h2>
-      <button class="document-item__button rootAddDocument">+</button>
+      ${
+        text === "개인"
+          ? `<button class="document-item__button rootAddDocument">+</button>`
+          : ""
+      }
     `;
   };
   this.render();
