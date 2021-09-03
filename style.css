@@ -1,0 +1,154 @@
+body, div > ul, input, textarea, span {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+ul {
+	list-style: none;
+  white-space:nowrap;
+  padding-left: 15px;
+}
+
+.invisible {
+  display: none;
+}
+
+li {
+  padding: 3px 0 3px 10px;
+  cursor: pointer;
+}
+
+li:hover,
+li:hover span {
+  background-color: #e8e7e4;
+}
+
+li.selected {
+  background-color: #e8e7e4;
+  color: #37352f;
+}
+
+li.selected:hover {
+  background-color: #dad9d6;
+}
+
+main {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.postList {
+  position: relative;
+  left: 0;
+  top: 0;
+  background-color: #f7f6f3;
+  resize: horizontal;
+  width: 20%;
+  overflow: hidden;
+  box-shadow: rgba(149, 157, 165, 0.2) 1px 0px 24px;
+  color: #797772;
+  font-size: 14px;
+}
+
+.editor {
+  position: relative;
+  width: 80%;
+  text-align: center;
+}
+
+.editor input[name="title"],
+.editor textarea[name="content"] {
+  margin: 3px auto;
+  padding: 5px;
+  width: 80%;
+  box-sizing: border-box;
+  color: #37352f;
+}
+
+.editor input[name="title"] {
+  font-size: 200%;
+  font-weight: bold;
+  height: 10vh;
+  margin-top: 50px;
+}
+
+
+.editor textarea[name="content"] {
+  height: 70vh;
+  resize: none;
+}
+
+span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+li span:hover:not(.createRootDocument) {
+  background-color: #dddcda;
+}
+
+ul li:hover span.createSubDocument,
+ul li:hover span.options {
+  display: inline-block;
+}
+
+span.createSubDocument {
+  border: 1px solid #cccbc7;
+  font-weight: bolder;
+  font-size: 16px;
+  line-height: 15px;
+  position:absolute;
+  right: 10px;
+  display: none;
+}
+
+span.options {
+  position: absolute;
+  display: none;
+  right: 40px;
+}
+
+span.displaySubDocument {
+  transform: rotate(90deg);
+}
+
+span.displaySubDocument.displayRotate {
+  transform: rotate(0deg);
+}
+
+span.createRootDocument {
+  width: 100%;
+  text-align: left;
+}
+
+span.createRootDocument::first-letter {
+  font-size: 24px;
+  line-height: 12px;
+}
+
+.postList > .header {
+  padding: 10px 10px 15px;
+  color: #464541;
+}
+
+span.username {
+  background-color: #004d40;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding: 3px;
+  margin-right: 10px;
+}
+
+span.notion {
+  font-weight: bold;
+}
