@@ -66,7 +66,7 @@ export default function PostEditPage({
       this.subDocumentRender(subDocuments.reverse().slice(1));
     }
   };
-  
+
   const findSubDocuments = (currentPosts, findId) => {
     for (const document of currentPosts) {
       if (document.id === parseInt(findId)) {
