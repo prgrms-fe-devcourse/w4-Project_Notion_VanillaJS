@@ -16,14 +16,26 @@ main#app {
 
 .listBar {
   min-height: 100vh;
-  padding: 10px 10px 10px 20px;
+  padding: 10px 10px 10px;
   box-sizing: border-box;
   background-color: #f7f6f3;
-  width: 250px;
+  min-width: 200px;
+  max-width: 200px;
   overflow-y: auto;
   position: sticky;
   align-self: flex-start;
   top: 0;
+}
+
+.listBar ul li {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listBar ul li::before {
+  content: " ";
+  display: inline-block;
 }
 
 .editSection {
@@ -55,5 +67,18 @@ textarea[name="content"] {
 }
 
 ul {
-  padding-left: 20px;
+  padding-left: 15px;
+  line-height: 28px;
+}
+
+svg {
+  width: 0.6875em;
+  height: 0.6875em;
+  display: inline-block;
+  fill: rgba(55, 53, 47, 0.4);
+  flex-shrink: 0;
+  backface-visibility: hidden;
+  transition: transform 200ms ease-out 0s;
+  transform: rotateZ(90deg);
+  opacity: 1;
 }

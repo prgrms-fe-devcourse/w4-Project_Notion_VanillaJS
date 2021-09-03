@@ -14,6 +14,10 @@ export default function DocumentList({
     this.render();
   };
 
+  const makeArrow = () => {
+    return `<svg viewBox="0 0 100 100"><polygon points="5.9,88.2 50,11.8 94.1,88.2 "></polygon></svg>`;
+  };
+
   const renderSubDocsList = (doc) => {
     if (!doc.documents.length) {
       return ``;
@@ -22,9 +26,9 @@ export default function DocumentList({
     while (doc.documents.length > 0) {
       return `<ul>${doc.documents
         .map((subdoc) => {
-          return `<li data-id="${subdoc.id}">${subdoc.title}${renderSubDocsList(
-            subdoc
-          )}</li>`;
+          return `<li data-id="${subdoc.id}">${makeArrow()} ${
+            subdoc.title
+          }${renderSubDocsList(subdoc)}</li>`;
         })
         .join("")}</ul>`;
     }
@@ -35,7 +39,7 @@ export default function DocumentList({
       <ul>
         ${this.state
           .map(
-            (doc) => `<li data-id="${doc.id}">${doc.title}
+            (doc) => `<li data-id="${doc.id}">${makeArrow()} ${doc.title}
             ${renderSubDocsList(doc)}
           </li>`
           )
