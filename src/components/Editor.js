@@ -15,14 +15,16 @@ export default function Editor({
 
     this.setState = (nextState) => {
         this.state = nextState
+        $editor.querySelector('[name = title]').value = this.state.title
+        $editor.querySelector('[name = content]').value = this.state.content
         this.render()
     }
 
     this.render = () => {
         if(!isinitialize){
             $editor.innerHTML = `
-            <input type ="text" name = "title" class="editor-title" value = "${this.state.title}"/>
-            <textarea name ="content" class="editor-content">${this.state.content}</textarea>
+            <input type ="text" name = "title" style ="width:600px;"class="editor-title" value = "${this.state.title}"/>
+            <textarea name ="content" style ="width:600px;height:600px;"class="editor-content">${this.state.content}</textarea>
         `
         }
         isinitialize = true

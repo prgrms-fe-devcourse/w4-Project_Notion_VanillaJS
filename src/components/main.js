@@ -1,6 +1,5 @@
+import DocumentEditPage from "./DocumentEditPage.js";
 import App from "./App.js";
-import Editor from "./Editor.js";
-import { setItem, getItem } from "../utils/storage.js";
 
 const $target = document.querySelector("#app");
 
@@ -8,31 +7,17 @@ const $target = document.querySelector("#app");
 //   $target
 // })
 
-const TEMP_DOCUMENT_SAVE_KEY = "temp-document";
 
-const tempDocument = getItem(TEMP_DOCUMENT_SAVE_KEY, {
-  titile: "",
-  content: "",
-});
-
-let timer = null;
-
-new Editor({
+const documentEditPage = new DocumentEditPage({
   $target,
-  initialState: tempDocument || {
-    title: "",
-    content: "",
-  },
-  onEditing: (document) => {
-    if (timer !== null) {
-      clearTimeout(tiemr);
+  initialState : {
+    documentId : 'new',
+    document : {
+      title :'',
+      content : ''
     }
+  }
+})
 
-    timer = setTimeout(() => {
-      setItem(TEMP_DOCUMENT_SAVE_KEY, {
-        ...document,
-        tempSaveData : new Date()
-      })
-    }, 1000);
-  },
-});
+documentEditPage.render()
+
