@@ -40,7 +40,7 @@ ul {
 }
 
 .document-list {
-    padding-left: inherit;
+    padding-left: 10px;
 }
 
 .document-element {
