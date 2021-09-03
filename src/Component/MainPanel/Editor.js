@@ -21,7 +21,7 @@ export default function Editor({ $target, init, onEdit }) {
     if (!isInit) {
       $editor.innerHTML = `
         <input class="main-page-container__titleEditor" type='text' name='title' value="${this.state.title}"></input>
-        <textarea class="main-page-container__contentEditor" name="content">${this.state.content}</textarea>
+        <textarea class="main-page-container__contentEditor" placeholder="내용을 입력해주세요." name="content">${this.state.content}</textarea>
       `;
       isInit = true;
     }

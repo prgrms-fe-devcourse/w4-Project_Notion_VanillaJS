@@ -13,15 +13,10 @@
 - [x] 편집기에는 기본적으로 저장 버튼이 없습니다. Document Save API를 이용해 지속적으로 서버에 저장되도록 합니다.
 
 - [x] History API를 이용해 SPA 형태로 만듭니다.
-  - [ ] 루트 URL 접속 시엔 별다른 편집기 선택이 안 된 상태입니다.
+  - [x] 루트 URL 접속 시엔 별다른 편집기 선택이 안 된 상태입니다.
   - [x] `/documents/{documentId}` 로 접속시, 해당 Document 의 content를 불러와 편집기에 로딩합니다.
 
 ## 추가 기능 구현사항
 
-- div - contentEditable을 활용한 에디터 구현
-- Editor markdown 문법 자동 변환 기능 추가하기
-  - [] `#, ##, ###` 헤더 기능 추가
-  - [] `>` 인용문 기능 추가
-  - [] `** **` 강조 효과 기능 추가
-- [] 즐겨찾기 페이지 목록 추가하기 (favoriteDocumentList)
-- [] 편집기 내에서 다른 Document name을 적은 경우, 자동으로 해당 Document의 편집 페이지로 이동하는 링크를 거는 기능을 추가합니다.
+- [x] 즐겨찾기 페이지 목록 추가하기 (BookmarkList) - localstorage 구현
+- [x] 자동 저장 시 Toast Message 추가하기
