@@ -62,6 +62,7 @@ export default function App({$target}) {
         })
 
         $('.document-list').insertAdjacentHTML('beforeend', documentTemplate(id, title))
+        push(`/documents/${id}`)
         fetchEditor(id)
     }
 
