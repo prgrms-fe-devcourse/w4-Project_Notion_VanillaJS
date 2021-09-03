@@ -1,6 +1,7 @@
 import Editor from "./Editor.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { request } from "../api/api.js";
+import { initRoute } from "../utils/router.js";
 
 
 export default function DocumentEditPage({ $target, initialState }) {
@@ -121,4 +122,16 @@ export default function DocumentEditPage({ $target, initialState }) {
           console.log(this.state)
         }
   }
+  this.route = () => {
+    const {pathname} = window.location
+    const [, id] = pathname.split('/')
+    this.setState({
+        documentId : id
+    })
+    editor.render()
+  }
+  
+  initRoute(() => this.route())
+
+
 }

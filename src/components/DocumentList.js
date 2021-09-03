@@ -7,6 +7,7 @@ export default function PostList({
     
 }) {
     const $documentList = document.createElement('div')
+    $documentList.className = 'document-list'
     $target.appendChild($documentList)
     
     this.state = initialState
@@ -18,7 +19,7 @@ export default function PostList({
 
     this.render = () => {
         $documentList.innerHTML = `
-            <button name ="add-btn" data-id = "null">Add</button>
+            <button name ="add-btn parent-document-add" data-id = "null"><i class="fas fa-plus"></i> 페이지 추가</button>
             ${displayDocumentList(this.state)}
         `
     }

@@ -6,11 +6,14 @@ export const initRoute = (onRoute) => {
     window.addEventListener(ROUTE_EVENT_NAME,async( e) => {
         const { type } = e.detail
         const {id} = e.detail
-        console.log(id)
-        if(type === 'list'){
+        const {pathname} = window.location
+        const [ ,documentId] = pathname.split('/')
+        console.log(documentId, id)
+        if(type === 'list'&& documentId !== id){
             history.pushState(null, null, `/${id}`)
-            onRoute(null)
-        }else if(type === 'remove-btn'){
+            onRoute()
+        }
+        else if(type === 'remove-btn'){
             await request(`/${id}`, {
                 method : 'DELETE'
             })

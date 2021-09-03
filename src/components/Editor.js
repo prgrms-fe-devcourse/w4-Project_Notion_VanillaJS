@@ -7,7 +7,7 @@ export default function Editor({
     onEditing
 }) {
     const $editor = document.createElement('div')
-
+    $editor.className = 'editor'
     $target.appendChild($editor)
     let isinitialize = false
 
@@ -23,14 +23,14 @@ export default function Editor({
     this.render = () => {
         if(!isinitialize){
             $editor.innerHTML = `
-            <input type ="text" name = "title" style ="width:600px;"class="editor-title" value = "${this.state.title}"/>
-            <textarea name ="content" style ="width:600px;height:600px;"class="editor-content">${this.state.content}</textarea>
+            <input type ="text" name = "title" class="editor-title" placeholder ="제목없음" value = "${this.state.title}"/>
+            <textarea name ="content" class="editor-content" placeholder ="여기에 내용을 입력해 주세요.">${this.state.content}</textarea>
         `
         }
         isinitialize = true
     }
+    
 
-    this.render()
 
     $editor.addEventListener('keyup', e=>{
         const {target} = e

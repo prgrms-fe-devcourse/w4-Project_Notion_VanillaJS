@@ -19,22 +19,15 @@ export default function App({ $target }) {
     }
   })
 
-  this.route = () => {
-    //   console.log(currentId)
+  this.render = () => {
     $target.innerHTML = ''
     const {pathname} = window.location
     const [ , id ] = pathname.split('/')
     documentPage.render()
-    if(!(pathname === '/')){
-        console.log('hi')
-        documentEditPage.setState({
-            documentId : id  ,
-          })
-    }
+    documentEditPage.render()
   }
 
-  this.route()
-  initRoute(() => this.route())
+  this.render()
 
 
 
