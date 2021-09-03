@@ -103,11 +103,9 @@ h1.editor-title {
 }
 
 div.editor-text {
-  position: relative;
   outline: 0px solid transparent;
   border-left: 1px solid antiquewhite;
   border-right: 1px solid antiquewhite;
-  height: 200px;
 }
 
 ul.editor-child-document {
