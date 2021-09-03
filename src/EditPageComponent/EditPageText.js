@@ -18,16 +18,15 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     onSave(this.state.id);
     if (e.key !== "Enter" || e.shiftKey) return;
     e.preventDefault();
-    console.log("maked");
     const newBlock = new TextBlock({ targetElement: editPageContentElement });
     newBlock.block.focus();
     giveChildIndexId(editPageContentElement);
   });
-
   const giveChildIndexId = (document) => {
-    document.childNodes.forEach((v, index) => {
+    let index = 0;
+    document.childNodes.forEach((v) => {
       if (v.className !== "editor-text-block") return;
-      v.dataset.id = index;
+      v.dataset.id = index++;
     });
   };
 }
