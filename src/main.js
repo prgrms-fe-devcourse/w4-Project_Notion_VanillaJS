@@ -11,7 +11,6 @@ import App from "./App/App.js";
 const doApp = async () => {
   const $target = document.querySelector("#app");
   const initialState = await getRootDocument();
-  console.log($target, initialState);
   new App({ $target, initialState });
 };
 

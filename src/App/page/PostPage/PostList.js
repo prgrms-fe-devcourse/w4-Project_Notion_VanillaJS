@@ -12,7 +12,6 @@ export default function PostsList({ $target, initialState = [] }) {
   };
 
   this.render = ({ $target, type }) => {
-    // console.log($target, type);
     // 처음 render될때
     if (isFirst) {
       $div.innerHTML = `<button class="root-add-btn" class="root-add-btn"> Root ➕</button>
@@ -90,7 +89,6 @@ export default function PostsList({ $target, initialState = [] }) {
           `
       );
     } else if (type === "root-add-btn-click") {
-      console.log($target, this.state);
       $target.insertAdjacentHTML(
         "beforeend",
         `<li class="li-tag" id=${this.state.id} data-is-open="false">

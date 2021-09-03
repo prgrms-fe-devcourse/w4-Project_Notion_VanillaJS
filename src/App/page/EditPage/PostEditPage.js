@@ -27,7 +27,6 @@ export default function PostEditPage({
   });
 
   this.setState = async ({ $target, nextState }) => {
-    console.log($target, nextState, $page);
     this.state = nextState;
     this.render();
     editor.setState({ $target, nextState });

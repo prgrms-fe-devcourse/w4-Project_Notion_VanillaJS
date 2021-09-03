@@ -12,7 +12,7 @@ import { setItem } from "./page/storage.js";
 export default function App({ $target, initialState = [] }) {
   this.state = initialState;
   this.setState = ({ $target, nextState, type }) => {
-    // console.log($target, nextState, type);
+    console.log($target);
     this.state = nextState;
     if (type === "li-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });
@@ -20,7 +20,6 @@ export default function App({ $target, initialState = [] }) {
     } else if (type === "erase-btn-click") {
       $target = document.querySelector("#app");
       postsPage.setState({ $target, nextState: this.state, type });
-      // postsEditPage.setState({ $target, nextState });
     } else if (type === "edit-btn-click") {
       const $target = document.getElementById(`${nextState.id}`);
       postsPage.setState({ $target, nextState: this.state, type });
@@ -51,7 +50,6 @@ export default function App({ $target, initialState = [] }) {
       if (confirm("정말 삭제하시겠습니까?")) {
         await deleteDocument($target.id);
         const initialState = await getRootDocument();
-        console.log($target, initialState);
         this.setState({
           $target,
           nextState: initialState,
@@ -60,7 +58,6 @@ export default function App({ $target, initialState = [] }) {
       }
     },
     onAddBtnClick: async ($target) => {
-      console.log($target);
       await postDocument(`새로운 문서 ${++addDocCount}`, $target.id);
       const result = await getContentDocument($target.id);
       this.setState({ $target, nextState: result, type: "add-btn-click" });
