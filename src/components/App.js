@@ -1,7 +1,7 @@
 import DocumentsPage from "./DocumentsPage.js";
 import DocumentEditPage from "./DocumentEditPage.js";
 import DocumentList from "./documentList.js";
-import { initRouter } from "./router.js";
+import { initRouter } from "../utils/router.js";
 
 export default function App({ $target }) {
   // const documentsPage = new DocumentsPage({

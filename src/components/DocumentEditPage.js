@@ -1,5 +1,5 @@
-import { request } from "./api.js";
-import { StorageUtils } from "./storage.js";
+import { request } from "../utils/api.js";
+import { StorageUtils } from "../utils/storage.js";
 import Editor from "./Editor.js";
 import DocumentList from "./DocumentList.js";
 import DocumentsPage from "./DocumentsPage.js";

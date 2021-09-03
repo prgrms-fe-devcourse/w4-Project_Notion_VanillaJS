@@ -1,8 +1,8 @@
-import { request } from "./api.js";
+import { request } from "../utils/api.js";
 import DocumentList from "./DocumentList.js";
 import DocumentListHeader from "./DocumentListHeader.js";
 import UserInfo from "./UserInfo.js";
-import { push } from "./router.js";
+import { push } from "../utils/router.js";
 
 export default function DocumentsPage({ $target }) {
   const $page = document.createElement("div");
@@ -55,7 +55,7 @@ export default function DocumentsPage({ $target }) {
         await request(`/documents/${id}`, {
           method: "DELETE",
         });
-        history.replaceState(null, null, `/documents`);
+        history.replaceState(null, null, `/`);
         this.render();
       }
       return;
