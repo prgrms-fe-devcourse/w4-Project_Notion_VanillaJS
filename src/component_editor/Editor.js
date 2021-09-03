@@ -39,9 +39,13 @@ export default function Editor({
     let sel = null;
     let range = null;
     let headerIndex = null;
+    
+    let trie = null;
 
     this.setState = (nextState) => {
+        if(nextState.content === this.state.content) this.state.trie = nextState.trie;
         this.state = nextState;
+        trie = this.state.trie;
         tempState = { ...this.state };
         this.render();
     };
@@ -163,7 +167,6 @@ export default function Editor({
     
     let cursorPosBeforeChar = null;
     let cursorPosAfterChar = null;
-    let debugVar = 0;
     $editor.addEventListener('keyup', (e) => {
         switch (getClassName(getTagOf(e))) {
             case 'content':
@@ -189,9 +192,10 @@ export default function Editor({
                         cursorPosBeforeChar = null;
                         firstString = '';
                     }
-                    console.log('동작체크2');
+
                     // 스페이스바가 입력된 경우, 즉 AutoComplete을 체크할 준비가 된경우
                     if (isSpaceBarEntered) {
+
                         // 커서 정보 획득
                         sel = window.getSelection();
                         range = sel.getRangeAt(0);
@@ -296,12 +300,12 @@ export default function Editor({
                 }
             });
             
-    const trie = new Trie();
+    // const trie = new Trie();
     
-    trie.insert('안녕하세요');
-    trie.insert('데브코스');
-    trie.insert('프로그래머스');
-    trie.insert('노션 클로닝');
+    // trie.insert('안녕하세요');
+    // trie.insert('데브코스');
+    // trie.insert('프로그래머스');
+    // trie.insert('노션 클로닝');
     
     const autoComplete = (decision, $temp) => {
         sel = window.getSelection();
@@ -320,9 +324,5 @@ export default function Editor({
         if ($autoComplete && $autoCompleteParent) {
             $autoCompleteParent.removeChild($autoComplete);
         }
-    };
-
-    const cursorPosAfterAutoComplete = (offset, autoCompleteStrLen) => {
-        return offset + autoCompleteStrLen;
     };
 }
