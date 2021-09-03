@@ -1,0 +1,73 @@
+body {
+  margin: 0;
+  font-size: 0.9em;
+}
+
+#app {
+  display: flex;
+  flex-flow: row nowrap;
+  height: 100vh;
+}
+
+#sidebar {
+  min-width: 200px;
+  background: #f7f6f3;
+  overflow: hidden;
+}
+
+.flex-cc {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#editor {
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+}
+
+#editor-title {
+  width: 80%;
+  height: 60px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  border: none;
+}
+
+#editor-title[type="text"] {
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+#editor-content {
+  width: 80%;
+  min-height: 30%;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  font-size: 1.1em;
+  font-family: 맑은고딕, Malgun Gothic;
+}
+
+ul {
+  padding-left: 1rem;
+}
+
+li {
+  list-style: none;
+  line-height: 2;
+}
+
+li:hover {
+  background: #e8e7e4;
+  cursor: pointer;
+}
+
+#sub-doc {
+  width: 80%;
+}
+
+.hide {
+  display: none;
+}
