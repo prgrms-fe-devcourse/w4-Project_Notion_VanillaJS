@@ -5,6 +5,8 @@ export default function ChildDocumentList({
 }) {
   const $childDocList = document.createElement('div')
   $target.appendChild($childDocList)
+  $childDocList.className = 'child-doc-container'
+
   this.state = initialState
 
   this.setState = (nextState)=>{

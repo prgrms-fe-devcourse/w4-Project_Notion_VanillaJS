@@ -14,7 +14,6 @@ body {
   min-height: 100vh;
 }
 .menu-container {
-  padding: 20px 0;
   min-width: 360px;
   border-right: 1px solid rgb(216, 216, 216);
 }
@@ -38,15 +37,20 @@ body {
   border-bottom: 1px solid rgb(216, 216, 216);;
 }
 .root-document-menu h2 {
-  font-size: 18px;
-  height: 32px;
+  font-size: 24px;
+  height: 60px;
   margin: 0;
-  line-height: 32px;
+  line-height: 60px;
 }
 .root-document-menu .new-doc-btn {
   right: 0;
-}
-.document-menu {
+  width: 60px;
+  height: 60px;
+  border: none;
+  background-color: #242424;
+  color: #fff;
+  font-size: 24px;
+  
 }
 .document-menu ul {
   padding: 0;
@@ -85,7 +89,7 @@ body {
 }
 
 .document-page {
-  padding: 20px;
+  padding: 60px 20px;
   width: 100%;
 }
 .document-page .doc-page-editor input {
@@ -93,7 +97,7 @@ body {
   height: 32px;
   padding: 10px;
   border: 1px solid rgb(216, 216, 216);
-  font-size: 16px
+  font-size: 16px;
 }
 .document-page .doc-page-editor textarea {
   width: 100%;
@@ -101,5 +105,8 @@ body {
   padding: 10px;
   margin-top: 20px;
   border: 1px solid rgb(216, 216, 216);
-  font-size: 16px
+  font-size: 16px;
+}
+.child-doc-container {
+  
 }
