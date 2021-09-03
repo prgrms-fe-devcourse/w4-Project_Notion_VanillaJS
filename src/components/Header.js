@@ -1,4 +1,4 @@
-import {push} from "../utils/router.js"
+import { push } from "../utils/router.js";
 
 export default function Header({ $target, initialState }) {
   const $header = document.createElement("h3");
@@ -7,17 +7,17 @@ export default function Header({ $target, initialState }) {
 
   this.render = () => {
     $header.innerHTML = `${this.state}의 Notion`;
-  }
+  };
 
-  this.render()
+  this.render();
 
-  $header.addEventListener('click', e => {
-      const {target} = e
-      if(target) {
-          push({
-              type : 'header',
-              id : null
-          })
-      }
-  })
+  $header.addEventListener("click", (e) => {
+    const { target } = e;
+    if (target) {
+      push({
+        type: "header",
+        id: null,
+      });
+    }
+  });
 }
