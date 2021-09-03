@@ -52,17 +52,31 @@ export default function DocumentList({
     if ($li) {
       const { id } = $li.dataset;
       const $button = e.target.closest("button");
-      if (
-        e.target.className === "documentItem" ||
-        e.target.className === "hasChild"
-      ) {
+      const $childList = e.target.parentElement.querySelectorAll("ul");
+      // if (
+      //   e.target.className === "documentItem" ||
+      //   e.target.className === "hasChild"
+      // ) {
+      //   onSelect(id);
+      //   if (e.target.className === "hasChild") {
+      //     e.target.parentElement
+      //       .querySelector(".hasChildUl")
+      //       .classList.toggle("active");
+      //     e.target.classList.toggle("hasChildDown");
+      //   }
+      // } else if ($button.className === "createDoc") {
+      //   onCreate(id);
+      // } else if ($button.className === "removeDoc") {
+      //   onRemove(id);
+      // }
+      if (e.target.className === "documentItem") {
         onSelect(id);
-        if (e.target.className === "hasChild") {
-          e.target.parentElement
-            .querySelector(".hasChildUl")
-            .classList.toggle("active");
-          e.target.classList.toggle("hasChildDown");
-        }
+      } else if (e.target.className === "hasChild") {
+        onSelect(id);
+        e.target.parentElement
+          .querySelector(".hasChildUl")
+          .classList.toggle("active");
+        e.target.classList.toggle("hasChildDown");
       } else if ($button.className === "createDoc") {
         onCreate(id);
       } else if ($button.className === "removeDoc") {
