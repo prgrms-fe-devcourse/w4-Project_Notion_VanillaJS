@@ -26,7 +26,7 @@ export default function App({ $target }) {
       subDocuments = [];
       findSubDocuments(currentPosts, currentId);
       postEditPage.subDocumentRender(subDocuments.reverse().slice(1));
-    }
+    },
   });
 
   const postEditPage = new PostEditPage({
