@@ -1,8 +1,20 @@
+import AddRootDocumentButton from './AddRootDocumentButton.js';
 import DocumentEditor from './DocumentEditor.js';
 import DocumentList from './DocumentList.js';
-import { request } from './api.js';
 
 export default function App({ $target, initialState }) {
+  new AddRootDocumentButton({
+    $target,
+    initialState: {
+      title: 'Add New Document'
+    },
+    onClick: e => {
+      if (e.target.className === 'add-new-root-document') {
+        setNewDocumentEditor();
+      }
+    }
+  });
+
   const documentList = new DocumentList({
     $target,
     inititalState: initialState,
@@ -12,13 +24,7 @@ export default function App({ $target, initialState }) {
       const documentId = target.closest('li').dataset.id;
 
       if (className === 'add-document') {
-        const newDoucmentId = await documentList.addDocument(+documentId);
-        documentEditor.setState({
-          title: '',
-          content: '',
-          isLoad: true,
-          documentId: newDoucmentId
-        });
+        setNewDocumentEditor(documentId);
       } else if (className === 'delete-document') {
         documentList.deleteDocument(+documentId);
       }
@@ -59,4 +65,14 @@ export default function App({ $target, initialState }) {
   });
 
   this.render();
+
+  const setNewDocumentEditor = async (documentId = null) => {
+    const newDoucmentId = await documentList.addDocument(documentId ? +documentId : documentId);
+    documentEditor.setState({
+      title: '',
+      content: '',
+      isLoad: true,
+      documentId: newDoucmentId
+    });
+  };
 }
