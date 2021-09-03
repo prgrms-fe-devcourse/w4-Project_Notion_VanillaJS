@@ -1,6 +1,6 @@
 import DocumentList from "./DocumentList.js";
 import { request } from "./api.js";
-import { getItem, setItem } from "./storage.js";
+import { getItem, setItem, removeItem } from "./storage.js";
 import { pushRoute } from "./router.js";
 
 export default function ControlPage({ $target }) {
@@ -22,28 +22,37 @@ export default function ControlPage({ $target }) {
     onToggle: id => {
       this.toggledState = getItem('toggledDocument', this.toggledState)
       
-      if (this.toggledState.includes(parseInt(id))) {
-        this.toggledState.splice(this.toggledState.indexOf(parseInt(id)), 1);
+      if (this.toggledState.includes(Number(id))) {
+        this.toggledState.splice(this.toggledState.indexOf(Number(id)), 1);
       } else {
-        this.toggledState.push(parseInt(id));
+        this.toggledState.push(Number(id));
       }
       
       setItem('toggledDocument', this.toggledState)
       this.setState();
     },
     onSelect: id => {
-      if(!this.selectedState.length) {
-        this.selectedState.push(parseInt(id));
-      } else if (this.selectedState[0] !== parseInt(id)) {
-        this.selectedState.splice(0, 1, parseInt(id));
+      // setItem('selectedDocument', [id])
+      console.log('current: ', id, typeof id)
+
+      const prevSelectedId = getItem('selectedDocument')[0];
+
+      if(prevSelectedId !== Number(id)) {
+        setItem('selectedDocument', [Number(id)])
       }
 
-      setItem('selectedDocument', this.selectedState)
+      // if(!this.selectedState.length) {
+      //   this.selectedState.push(Number(id));
+      // } else if (this.selectedState[0] !== Number(id)) {
+      //   this.selectedState.splice(0, 1, Number(id));
+      // }
+
+      // setItem('selectedDocument', this.selectedState)
       pushRoute(`/documents/${id}`)
     },
     onCreateChild: id => {
-      if (!this.toggledState.includes(parseInt(id))) {
-        this.toggledState.push(parseInt(id));
+      if (!this.toggledState.includes(Number(id))) {
+        this.toggledState.push(Number(id));
         setItem('toggledDocument', this.toggledState);
       }
 
@@ -71,9 +80,10 @@ export default function ControlPage({ $target }) {
   this.setState = async () => {
     // 만약 nextState 가 빈값이라면? validation. 초기 디폴트값 필요
     const nextState = await request('/documents');
+    const selectedState = getItem('selectedDocument');
+    
+    this.state = nextState;    
 
-    this.state = nextState;
-
-    documentList.setState(this.state, this.toggledState, this.selectedState);
+    documentList.setState(this.state, this.toggledState, selectedState);
   }
 }

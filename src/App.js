@@ -1,6 +1,7 @@
 import ControlPage from "./ControlPage.js";
 import ContentPage from "./ContentPage.js";
 import { initRouter } from "./router.js";
+import { setItem } from "./storage.js";
 
 export default function App({ $target }) {
   const controlPage = new ControlPage({ $target });
@@ -23,6 +24,8 @@ export default function App({ $target }) {
     } else {
       $editor.classList.remove('hideDisplay')
      
+      setItem('selectedDocument', [Number(documentId)])
+
       contentPage.setState({ 
         documentId,
         parentId
