@@ -9,6 +9,7 @@ export default function SubDocLinks({ $target, initialState }) {
 
   Object.assign($listContainer.style, {
     overflow: 'auto',
+    'margin-bottom': '20px',
   });
 
   this.state = initialState;

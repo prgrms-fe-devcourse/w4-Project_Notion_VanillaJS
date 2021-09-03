@@ -27,6 +27,8 @@ export default function EditorPage({ $target, initialState }) {
   Object.assign($page.style, {
     margin: '10px 20px',
     height: '100%',
+    display: 'flex',
+    'flex-direction': 'column',
   });
 
   this.state = initialState;
