@@ -257,7 +257,8 @@
     height: 100%;
     width: 100%;
     grid-area: editor;
-    overflow-y: scroll;
+    caret-color: rgb(177, 172, 128);
+
 
 
 
@@ -292,7 +293,8 @@
     font-size: large;
     font-weight: 400;
     resize:none;
-    caret-color: rgb(177, 172, 128);
+    overflow-y: scroll;
+
 }
 .content-page__editor div[name=content]:focus{
     outline: none;

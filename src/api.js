@@ -1,6 +1,7 @@
 const API_END_POINT = "https://kdt.roto.codes";
-const USER_NAME = "AlangGY";
+export let USER_NAME = "AlangGY";
 const ROUTE = "/documents";
+USER_NAME = window.prompt("유저 명을 입력해주세요");
 
 const api = {
   // Root Documents 가져오기

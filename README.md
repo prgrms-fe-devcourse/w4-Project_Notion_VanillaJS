@@ -72,7 +72,7 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
     - [x] h1, h2, h3 태그 만들기
     - [x] / 로 페이지 탐색
   - [x] 편집기 내에서 하위 Document 링크 렌더링
-  - [ ] 편집기 내에서 다른 Document name을 적을 시 자동으로 해당 Document의 편집 페이지로 이동하는 링크 기능 추가
+  - [x] 편집기 내에서 다른 Document name을 적을 시 자동으로 해당 Document의 편집 페이지로 이동하는 링크 기능 추가
   - [x] document 삭제기능
   - [x] XSS 공격 방지
   - [ ] 하위 Document 옮기기 기능
