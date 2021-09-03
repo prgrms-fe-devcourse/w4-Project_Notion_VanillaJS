@@ -12,7 +12,6 @@ export default function TextBlock({ targetElement }) {
   });
 
   textBlockElement.addEventListener("dragend", (e) => {
-    console.log(e);
     e.target.style.opacity = "";
   });
 }
