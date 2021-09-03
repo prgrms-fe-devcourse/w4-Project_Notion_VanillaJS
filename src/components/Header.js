@@ -7,7 +7,7 @@ export default function Header({
   this.state = initialState
 
   this.render = () => {
-    $h2.innerHTML = `${this.state.name}의 Simple Notion`
+    $h2.innerHTML = `${this.state.name} Simple Notion`
   }
 
   this.render()

@@ -10,7 +10,7 @@ export default function DocumentPage({ $target, onPostClick }) {
   new Header({
     $target: $page,
     initialState: {
-      name: 'jin'
+      name: '4주차'
     }
   })
 
