@@ -1,0 +1,103 @@
+body {
+  margin: 0px;
+}
+#app {
+  display: flex;
+}
+.docList {
+  position: relative;
+  padding: 10px;
+  width: 200px;
+  height: 100vh;
+  font-size: 1em;
+  background-color: rgba(192, 224, 188, 80);
+  overflow-y: auto;
+}
+.docList hr {
+  border: solid white 0.25px;
+  width: 100%;
+}
+.docList h1 {
+  margin: 0;
+}
+.docList .fold {
+  color: gray;
+  position: absolute;
+  left: 0;
+}
+.docList button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 0 5px;
+  vertical-align: 0.1em;
+}
+.docList button:hover {
+  color: antiquewhite;
+  background-color: #005500;
+}
+.docList ul {
+  list-style-type: none;
+  padding: 0 0 0 5px;
+}
+.newDocLi {
+  color: gray;
+}
+/* Document Page */
+.docPage {
+  width: 70vw;
+  padding-left: 1em;
+}
+.editor {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+/* Contents title */
+#docTitle {
+  width: 100%;
+  height: 5%;
+  font-size: 2em;
+  border: none;
+  padding: 0.5em 0;
+}
+#docTitle:focus {
+  outline: none;
+}
+/* Contents box */
+#docContent {
+  width: 100%;
+  height: 95%;
+  font-size: 1.5em;
+  border: none;
+  border-top: solid 3px;
+  padding-top: 0.5em;
+}
+#docContent {
+  outline: none;
+}
+.removeBtn {
+  margin-top: 5px;
+  border: none;
+  position: relative;
+  left: 92%;
+  font-weight: 700;
+  color: rgb(0, 0, 0);
+  background-color: #f3d7dc;
+}
+.removeBtn:hover {
+  background-color: #f18095;
+}
+.removeBtn:active {
+  color: white;
+  background-color: #ec3053;
+}
+.popUpMessageBox {
+  position: fixed;
+  left: 60%;
+  top: 20px;
+  font-weight: 600;
+  background-color: rgb(192, 224, 188);
+  border-radius: 3px;
+  padding: 0 5px;
+}
