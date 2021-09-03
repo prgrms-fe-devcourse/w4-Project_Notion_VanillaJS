@@ -1,4 +1,4 @@
-import BrowserStorage from "@/utils/storage/BrowserStoarge";
+import BrowserStorage from "@/utils/storage/BrowserStorage";
 
 const PREFIX_KEY = "DOCUMENT_";
 

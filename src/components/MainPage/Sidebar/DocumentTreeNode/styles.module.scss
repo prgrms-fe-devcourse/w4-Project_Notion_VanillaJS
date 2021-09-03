@@ -5,12 +5,15 @@
   margin-top: 10px;
   max-width: 100%;
   white-space: nowrap;
+
   &:hover {
     background: rgba(55, 53, 47, 0.08);
   }
+
   & + * {
     display: none;
   }
+
   &.open + * {
     display: block;
   }
