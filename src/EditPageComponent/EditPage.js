@@ -1,8 +1,8 @@
 import EditPageHeader from "./EditPageHeaderComponent/EditpageHeader.js";
 import EditPageImage from "./EditPageImageComponent/EditPageImage.js";
 import EditPageIcon from "./EditpageIconComponent/EditPageIcon.js";
-import EditPageTitle from "./EditPageTitle.js";
-import EditPageText from "./EditPageText.js";
+import EditPageTitle from "./EditPageTextComponent/EditPageTitle.js";
+import EditPageText from "./EditPageTextComponent/EditPageText.js";
 import ChildDocuemnts from "./ChildDocumentsComponent/ChildDocuments.js";
 export default function EditPage({
   targetElement,
