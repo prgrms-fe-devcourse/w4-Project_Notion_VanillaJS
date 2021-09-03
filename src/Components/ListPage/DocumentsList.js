@@ -46,6 +46,7 @@ export default function DocumentsList({
     <ul class="documents-list__ul">
        ${documents
          .map(({ id, title, documents: underDocuments }) => {
+           console.log(id, title);
            const isSelected = selectedId === id ? "selected" : "";
            const renderToggleButton =
              underDocuments.length > 0
@@ -64,7 +65,7 @@ export default function DocumentsList({
              style="padding-left:${depth * 20}px">
               ${renderToggleButton}
               <span class="documents-list__title" >
-                ${title.length > 0 ? title : "Untitled"}
+                ${title ? title : "Untitled"}
               </span>
               <button class="create-document-button" tabindex = "0"> 📄 </button>
             </div>

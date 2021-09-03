@@ -21,6 +21,8 @@
     max-width: 300px;
     min-width: 300px;
     height: inherit;
+    display: flex;
+    flex-direction: column;
     transition: margin 0.5s ease-in-out;
 
 
@@ -54,6 +56,7 @@
 .list-page__documents-list{
     padding-top: 10px;
     border-top: 1px solid rgba(212, 202, 190, 0.63);
+    overflow-y: hidden;
 }
 .list-page__documents-list,.favorite-list{
     display: flex;
@@ -64,6 +67,9 @@
 
 .list-page__documents-list > .documents-list__ul{
     padding-left: 0px;
+    overflow-y: scroll;
+    
+
 }
 .favorite-list > .favorite-list__ul{
     padding-left: 0px;
@@ -96,6 +102,7 @@
 
 .documents-list__ul {
     padding-left : 0px;
+
 }
 .documents-list__ul .hidden {
      visibility: hidden; 
@@ -192,12 +199,6 @@
     opacity: 1;
 }
 
-
-
-
-
-
-
 .content-page{
     width: 100%;
     height: inherit;
@@ -209,6 +210,7 @@
     "nav";
     padding-left: 20px;
     position: relative;
+    overflow-y: hidden;
 
 }
 
@@ -258,6 +260,7 @@
     width: 100%;
     grid-area: editor;
     caret-color: rgb(177, 172, 128);
+    overflow: hidden;
 
 
 
@@ -292,7 +295,6 @@
     border:none;
     font-size: large;
     font-weight: 400;
-    resize:none;
     overflow-y: scroll;
 
 }
