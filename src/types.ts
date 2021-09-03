@@ -6,3 +6,8 @@ export interface Document {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Action {
+  type: string;
+  payload?: any;
+}
