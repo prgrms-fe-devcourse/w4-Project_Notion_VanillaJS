@@ -39,7 +39,6 @@ export default function PostEditPage({
       timer = setTimeout(async () => {
         let stringifiedEdited = stringifyBody(edited);
         parseRes(edited);
-        console.log(this.state);
         const isNew = this.state.postId === "new";
         if (isNew) {
           const createdPost = await request("/documents", {

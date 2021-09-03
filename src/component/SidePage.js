@@ -45,7 +45,6 @@ export default function SidePage({ $target, mainPageId, onClick }) {
         const clickedComponent = (await request("/documents")).filter(
           (list) => list.id == clicked
         )[0];
-        console.log(clicked);
 
         let thisPage = getItem("mainPageId");
 

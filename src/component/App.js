@@ -47,21 +47,18 @@ export default function App({ $target, mainPageId, refreshList }) {
         : null;
     }
 
+    mainPageId = getItem("mainPageId", false);
+
     const { pathname } = window.location;
 
     if (pathname === "/") {
-      mainPageId = getItem("mainPageId", false);
+      if (mainPageId != "initialPage") {
+        const mainPageInfo = (
+          await request(`/documents`, { method: "GET" })
+        ).filter((list) => list.id == mainPageId)[0];
 
-      if (mainPageId == "initialPage") {
-        console.log("!!!!!!!!!!!!!");
-        return;
+        postsPage.setState(mainPageInfo);
       }
-
-      const mainPageInfo = (
-        await request(`/documents`, { method: "GET" })
-      ).filter((list) => list.id == mainPageId)[0];
-
-      postsPage.setState(mainPageInfo);
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
       let getPost = { title: "", content: defaultContent };
@@ -70,10 +67,7 @@ export default function App({ $target, mainPageId, refreshList }) {
           await request(`/documents/${postId}`, { method: "GET" })
         );
       }
-      console.log(postId);
-      if (postId == "initialPage") {
-        console.log("!!!!!!!!!!!!!");
-      } else {
+      if (postId != "initialPage") {
         postEditPage.setState({
           postId,
           btnType,
