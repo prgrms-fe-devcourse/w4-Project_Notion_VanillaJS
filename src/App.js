@@ -1,5 +1,5 @@
 import Header from "./Header.js";
-import PostsPage from "./PostsPaga.js";
+import PostsPage from "./PostsPage.js";
 import PostEditPage from "./PostEditPage.js";
 import { initRouter } from "./router.js";
 
