@@ -39,6 +39,7 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
     if(className === 'removeBtn'){
       if(confirm("삭제하실건가요?")) {
         removeDocument(id)
+        history.go(0)
       }
     } else{
       fetchDocument(onDocsClick)

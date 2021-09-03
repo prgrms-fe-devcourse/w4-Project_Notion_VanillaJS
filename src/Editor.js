@@ -43,13 +43,19 @@ export default function Editor({ $target, initialState, fetchDocument
       const newTitle = document.getElementById('newTitle').value
       console.log("creatBtnTest")
       console.log(this.state.id);
-      newDocument(newTitle, this.state.id)
+      if(newTitle){
+       newDocument(newTitle, this.state.id)
+       history.go(0)
+      } else alert("제목을 입력하세요")
     } else if (className === 'editBtn') {
       if(confirm("수정 후 되돌릴 수 없습니다. 수정하실건가요?")) {
         const newArticleTitle = document.getElementById('newArticleTitle').value
         const newArticleContent = document.getElementById('newArticleContent').value
         editDocument(newArticleTitle, newArticleContent, this.state.id)
+        history.go(0)
       }
+    } else if (className === 'cancelBtn'){
+      history.go(0)
     }
   }
   )
