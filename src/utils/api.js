@@ -11,7 +11,7 @@ export const request = async (url, options = {}) => {
     })
 
     if (res.ok) {
-      return res.json()
+      return await res.json()
     }
   } catch (e) {
     console.log(e)

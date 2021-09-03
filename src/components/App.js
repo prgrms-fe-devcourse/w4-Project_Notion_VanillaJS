@@ -1,53 +1,32 @@
+import Editor from './Editor/index.js'
+import Header from '/src/components/Header/index.js'
+import TreeMenu from '/src/components/TreeMenu/index.js'
 import {
   requestDELETE,
   requestGET,
   requestPOST,
   requestPUT,
-} from '../utils/api.js'
-import Editor from './Editor/index.js'
-import Sidebar from './Sidebar/index.js'
-
-/*
-{
-  documents: Array,
-  selectedDocumentId: number,
-  title: string,
-  content: string
-}
-*/
+} from '/src/utils/api.js'
 
 export default function App({ $target }) {
   this.state = {
     documents: [],
     selectedDocumentId: null,
-    title: '',
-    content: '',
   }
 
-  this.setState = async (nextState) => {
-    if (this.state.selectedDocumentId !== nextState.selectedDocumentId) {
-      const selectedDocument = await requestGET(
-        `/documents/${nextState.selectedDocumentId}`,
-      )
+  const $sidebar = document.createElement('div')
+  $sidebar.className = 'Sidebar'
 
-      const { id, title, content } = selectedDocument
-      editor.setState({
-        title,
-        content,
-        selectedDocumentId: id,
-      })
-    }
+  $target.appendChild($sidebar)
 
-    this.state = nextState
-    const { documents } = this.state
+  new Header({
+    $target: $sidebar,
+  })
 
-    sidebar.setState(documents)
-  }
-
-  const sidebar = new Sidebar({
-    $target,
-    initialState: this.state.documents,
-    onDocumentClick: async (selectedDocumentId) => {
+  const treeMenu = new TreeMenu({
+    $target: $sidebar,
+    initialState: this.state,
+    onDocumentClick: (selectedDocumentId) => {
       history.pushState(null, null, `/documents/${selectedDocumentId}`)
 
       this.setState({
@@ -60,24 +39,30 @@ export default function App({ $target }) {
 
       const createdDocument = await requestPOST('/documents', document)
 
+      const { id } = createdDocument
+
       this.setState({
         ...this.state,
-        selectedDocumentId: createdDocument.id,
+        selectedDocumentId: id,
       })
 
-      history.replaceState(null, null, `/documents/${createdDocument.id}`)
+      history.replaceState(null, null, `/documents/${id}`)
 
       await fetchDocuments()
     },
     onDeleteDocument: async (id) => {
       await requestDELETE(`/documents/${id}`)
-
       await fetchDocuments()
     },
   })
 
+  const $editorScrollArea = document.createElement('div')
+  $editorScrollArea.className = 'EditorContainer'
+
+  $target.appendChild($editorScrollArea)
+
   const editor = new Editor({
-    $target,
+    $target: $editorScrollArea,
     initialState: {
       selectedDocumentId: this.state.selectedDocumentId,
       title: 'Untitled',
@@ -85,23 +70,46 @@ export default function App({ $target }) {
     },
     onEdit: async (id, document) => {
       await requestPUT(`/documents/${id}`, document)
+
       this.setState({
         ...this.state,
         selectedDocumentId: id,
       })
+
       await fetchDocuments()
     },
   })
 
+  function addDepth(arr, depth = 0) {
+    arr.forEach((document) => {
+      document.depth = depth
+      addDepth(document.documents, depth + 1)
+    })
+  }
+
+  this.setState = (nextState) => {
+    if (this.state.selectedDocumentId !== nextState.selectedDocumentId) {
+      editor.setState({
+        selectedDocumentId: nextState.selectedDocumentId,
+      })
+    }
+
+    const { documents } = nextState
+    addDepth(documents)
+    this.state = nextState
+    treeMenu.setState({ ...this.state })
+  }
+
   const fetchDocuments = async () => {
     const documents = await requestGET('/documents')
+
     this.setState({
       ...this.state,
       documents,
     })
   }
 
-  const init = async () => {
+  this.route = () => {
     const { pathname } = location
     const [, , selectedDocumentId] = pathname.split('/')
 
@@ -111,7 +119,14 @@ export default function App({ $target }) {
         selectedDocumentId,
       })
     }
+  }
 
+  const init = async () => {
+    window.addEventListener('popstate', () => {
+      this.route()
+    })
+
+    this.route()
     await fetchDocuments()
   }
 

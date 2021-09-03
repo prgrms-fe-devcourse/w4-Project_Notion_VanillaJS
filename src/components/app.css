@@ -1,2 +1,42 @@
-@import './Sidebar/sidebar.css';
+@import './TreeMenu/tree-menu.css';
 @import './Editor/editor.css';
+@import './Header/header.css';
+
+:root {
+  --sidebar-bg-color: #f7f6f3;
+  --sidebar-document-hover-color: #d9d8d5;
+  --sidebar-document-font-color: #7b7a75;
+  --sidebar-btn-hover-color: #cdccc9;
+  --sidebar-btn-icon-color: #666560;
+
+  --editor-font-color: #37352f;
+}
+
+#app {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+}
+
+i {
+  pointer-events: none;
+  font-size: 14px;
+}
+
+.Sidebar {
+  position: sticky;
+  flex: 0 0 240px;
+  height: 100%;
+  background: var(--sidebar-bg-color);
+  overflow: visible;
+}
+
+.EditorContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  align-items: center;
+}
