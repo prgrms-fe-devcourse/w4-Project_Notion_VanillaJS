@@ -1,3 +1,4 @@
+import {editorTemplate} from '../../../templates/editor.js'
 import {$} from '../../../utils/DOM.js'
 
 export default function MainEditor({
@@ -29,10 +30,7 @@ export default function MainEditor({
     this.render = () => {
         if (!isInitialize) {
             const {title, content} = this.state
-            $editor.innerHTML = `
-                <input type="text" name="title" style="width:800px; height: 50px; border:none; value="${title}" placeholder="제목없음"/>
-                <textarea name="content" style="width:800px; height:600px; border:none" placeholder="내용을 입력해주세요.">${content}</textarea>    
-            `
+            $editor.innerHTML = editorTemplate(title, content)
             isInitialize = true
         }
     }
