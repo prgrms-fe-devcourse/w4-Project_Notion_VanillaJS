@@ -1,6 +1,7 @@
 import Editor from "./Editor.js";
-import { setItem, getItem } from "../utils/storage.js";
+import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { request } from "../api/api.js";
+
 
 export default function DocumentEditPage({ $target, initialState }) {
   const $editPage = document.createElement('div')
@@ -20,7 +21,7 @@ export default function DocumentEditPage({ $target, initialState }) {
   let timer = null;
 
   const editor = new Editor({
-    $target,
+    $target : $editPage,
     initialState: tempDocument || {
         title: "",
       content: "",
@@ -31,12 +32,37 @@ export default function DocumentEditPage({ $target, initialState }) {
         clearTimeout(timer);
       }
 
-      timer = setTimeout(() => {
+      timer = setTimeout(async() => {
         console.log(document)
         setItem(documentLocalSaveKey, {
           ...document,
           tempSaveData: new Date(),
         });
+
+        const isNew = this.state.documentId === 'new'
+        if(isNew){
+            const createdDocument =  await request('/', {
+                method : 'POST',
+                body: JSON.stringify({
+                    title : document.title,
+                    parent: null
+                })
+            })
+            history.replaceState(null, null, `/${createdDocument.id}`)
+            await request(`/${createdDocument.id}`, {
+                method : 'PUT',
+                body : JSON.stringify(document)
+            })
+            
+            removeItem(documentLocalSaveKey)
+
+        }else{
+            await request(`/${this.state.documentId}`, {   //오류뜰 때 원래는 post.id라고 썼었는데 post라고 쓴게 로컬데이터랑 타이핑 밖에 없었음!
+                method : 'PUT',
+                body : JSON.stringify(document)
+            })
+            removeItem(documentLocalSaveKey)
+        }
 
      
       }, 1000);
@@ -46,7 +72,7 @@ export default function DocumentEditPage({ $target, initialState }) {
   
   this.setState = async nextState => {
       if(this.state.documentId !== nextState.documentId){
-    documentLocalSaveKey = `temp-document-${this.state.documentId}`;
+      documentLocalSaveKey = `temp-document-${this.state.documentId}`;
 
         this.state = nextState
         

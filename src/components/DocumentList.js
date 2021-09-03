@@ -1,4 +1,5 @@
 import { displayDocumentList } from "../utils/displayList.js"
+import {push} from "../utils/router.js"
 
 export default function PostList({
     $target,
@@ -17,9 +18,21 @@ export default function PostList({
 
     this.render = () => {
         $documentList.innerHTML = `
-            <button name ="button" data-id = "null">Add</button>
+            <button name ="add-btn" data-id = "null">Add</button>
             ${displayDocumentList(this.state)}
         `
     }
+
+    $documentList.addEventListener('click', e=> {
+        const {target} = e
+        const name = target.getAttribute('name')
+        // console.log(target.dataset.id)
+        if(name){
+            push({
+                type : name,
+                id : target.dataset.id
+            })
+        }
+    })
 
 }

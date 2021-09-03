@@ -1,5 +1,6 @@
 import DocumentPage from "./DocumentPage.js"
 import DocumentEditPage from "./DocumentEditPage.js";
+import { initRoute } from "../utils/router.js";
 
 
 export default function App({ $target }) {
@@ -17,10 +18,25 @@ export default function App({ $target }) {
       }
     }
   })
-  
-  documentPage.render()
-  documentEditPage.setState({
-      documentId : 11006
-  })
+
+  this.route = () => {
+    //   console.log(currentId)
+    $target.innerHTML = ''
+    const {pathname} = window.location
+    const [ , id ] = pathname.split('/')
+    documentPage.render()
+    if(!(pathname === '/')){
+        console.log('hi')
+        documentEditPage.setState({
+            documentId : id  ,
+          })
+    }
+  }
+
+  this.route()
+  initRoute(() => this.route())
+
+
+
 
 }

@@ -11,12 +11,12 @@ export default function documentPage({
     
     
     new Header ({
-        $target,
+        $target : $documentPage,
         initialState : '신효정'
     })
     
     const documentList = new DocumentList({
-        $target,
+        $target: $documentPage,
         initialState :[]
     })
 
