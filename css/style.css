@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200;400&display=swap');
+
+* {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+.notion_list {
+    width: 30%;
+    float: left;
+    padding-right: 10px;
+    height: 100%;
+}
+
+li {
+    padding-bottom: 10px;
+}
+
+.addBtn,
+.removeBtn {
+    width: 60px;
+    height: 30px;
+}
+
+.addRootBtn {
+    float: right;
+}
+
+span {
+    display: inline-block;
+    width: 100px;
+}
+
+.card-header {
+    width: 103%;
+}
