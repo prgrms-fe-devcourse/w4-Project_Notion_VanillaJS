@@ -18,7 +18,9 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     onSave(this.state.id);
     if (e.key !== "Enter" || e.shiftKey) return;
     e.preventDefault();
+    console.log("maked");
     const newBlock = new TextBlock({ targetElement: editPageContentElement });
+    newBlock.block.focus();
     giveChildIndexId(editPageContentElement);
   });
 

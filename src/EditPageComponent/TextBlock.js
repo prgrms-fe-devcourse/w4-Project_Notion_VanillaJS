@@ -1,9 +1,9 @@
 export default function TextBlock({ targetElement }) {
   const textBlockElement = document.createElement("div");
+  textBlockElement.tabIndex = 0;
   textBlockElement.contentEditable = true;
   textBlockElement.className = "editor-text-block";
   targetElement.appendChild(textBlockElement);
-  textBlockElement.textContent = "new";
   textBlockElement.draggable = true;
   this.block = textBlockElement;
 
@@ -12,6 +12,7 @@ export default function TextBlock({ targetElement }) {
   });
 
   textBlockElement.addEventListener("dragend", (e) => {
+    console.log(e);
     e.target.style.opacity = "";
   });
 }
