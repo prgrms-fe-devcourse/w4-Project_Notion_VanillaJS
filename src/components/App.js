@@ -15,6 +15,17 @@ const addToggleAttribute = documents => {
   });
 };
 
+const toggleDocument = (rootDocuments, documentId) => {
+  return rootDocuments.map(obj => {
+    if (obj.id === documentId) {
+      obj.isToggled = !obj.isToggled;
+      return obj;
+    }
+    toggleDocument(obj.documents, documentId);
+    return obj;
+  });
+};
+
 export default function App({ $target }) {
   this.state = {
     rootDocuments: []
@@ -22,41 +33,32 @@ export default function App({ $target }) {
 
   this.setState = async () => {
     const documents = await request('/documents/');
-    const modifiedDocuments = addToggleAttribute(documents);
+    const nextState = addToggleAttribute(documents);
 
-    this.state.rootDocuments = modifiedDocuments;
-    sidebar.setState(this.state.rootDocuments);
+    this.state.rootDocuments = nextState;
+    sidebar.setState(nextState);
   };
 
   this.setState();
+
   const sidebar = new Sidebar({
     $target,
     intialState: [],
-    addList: async id => {
+    createList: async id => {
       await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
           title: '제목 없음',
           parent: id
         })
-      }),
-        this.setState();
+      });
+
+      this.setState();
     },
     showDocument: documentId => {
       push(`/documents/${documentId}`);
     },
-    foldList: ({ rootDocuments, documentId }) => {
-      console.log(rootDocuments);
-      const toggleDocument = (rootDocuments, documentId) => {
-        return rootDocuments.map(obj => {
-          if (obj.id === documentId) {
-            obj.isToggled = !obj.isToggled;
-            return obj;
-          }
-          toggleDocument(obj.documents, documentId);
-          return obj;
-        });
-      };
+    toggleList: ({ rootDocuments, documentId }) => {
       const nextState = toggleDocument(rootDocuments, documentId);
       sidebar.setState(nextState);
     },
@@ -70,8 +72,7 @@ export default function App({ $target }) {
       });
 
       sidebar.setState(nextState);
-      editor.render();
-      editor.addEvent();
+      editor.setState();
       push('/');
     }
   });
@@ -125,7 +126,12 @@ export default function App({ $target }) {
         }
 
         removeItem({ key: localSaveKey });
-        sidebar.render();
+
+        const nextState = await request('/documents', {
+          method: 'GET'
+        });
+
+        sidebar.setState(nextState);
       }, 2000);
     }
   });
@@ -136,7 +142,6 @@ export default function App({ $target }) {
     if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
 
-      sidebar.setState();
       editor.setState({
         ...editor.state,
         id: documentId
