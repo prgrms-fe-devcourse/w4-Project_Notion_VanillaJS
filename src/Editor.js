@@ -33,7 +33,7 @@ export default function Editor({
         <input type="text" name="title" style="width:500px;"  value="${this.state.title}"/>
       </div>
       <div>
-        <textarea name="content" style="width:500px; height:400px;">${this.state.content}
+        <textarea name="content" style="width:500px; height:300px;">${this.state.content}
         </textarea>
       </div>
       `;
