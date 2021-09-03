@@ -112,10 +112,10 @@ export default function PostList({ $target, initialState, onClickPost }) {
     } else if (className === "createSubDocument") {
       const { id } = e.target.closest("li").dataset;
 
-      await request("/documents", {
+      const createPost = await request("/documents", {
         method: "POST",
         body: JSON.stringify({
-          title: "제목 없음",
+          title: "",
           parent: id,
         }),
       });
@@ -123,8 +123,8 @@ export default function PostList({ $target, initialState, onClickPost }) {
       const nextState = await request("/documents", {
         method: "GET",
       });
-
       this.setState(nextState);
+      push(`/documents/${createPost.id}`);
     } else {
       const $li = e.target.closest("li");
       if ($li) {
