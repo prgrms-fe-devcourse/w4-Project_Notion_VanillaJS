@@ -11,9 +11,11 @@ import {
   removeDocument,
 } from "@/utils/api/documents";
 import styles from "@/components/MainPage/Sidebar/DocumentTreeNode/styles.module.scss";
+import DocumentsStorage from "@/utils/storage/DocumentsStorage";
 
 interface DocumentTreeNodeState {
   isOpen: boolean;
+  documentStorage: DocumentsStorage;
 }
 interface DocumentTreeNodeProps {
   document: Document;
@@ -26,6 +28,7 @@ const DocumentTreeNode = createComponent(
   class extends Component<DocumentTreeNodeProps, DocumentTreeNodeState> {
     state = {
       isOpen: false,
+      documentStorage: DocumentsStorage.getInstance(),
     };
 
     toggleOpen(event: Event) {
@@ -79,8 +82,11 @@ const DocumentTreeNode = createComponent(
         changeRoute,
         currentDocumentId,
       } = this.props;
+      const { documentStorage } = this.state;
 
       await removeDocument(documentId);
+
+      documentStorage.clearDocument(currentDocumentId);
 
       if (currentDocumentId === `${documentId}`) {
         changeRoute("/");
