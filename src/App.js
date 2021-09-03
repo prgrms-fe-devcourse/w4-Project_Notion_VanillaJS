@@ -40,7 +40,6 @@ export default function App({ $target }) {
     } else if (pathname.indexOf('/documents/') === 0) {
       const[ , , id ] = pathname.split('/')
       documentPage.setState()
-      location.setState({id})
       postEditPage.setState({ id })
     }
   }
