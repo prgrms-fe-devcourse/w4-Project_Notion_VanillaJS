@@ -84,6 +84,10 @@ export default function EditorPage({ $target, initialState }) {
 
     const doc = await request(`/documents/${id}`);
 
+    if (!doc) {
+      return;
+    }
+
     const tempSavedDoc = getItem(docTempSaveKey(id) || {});
 
     if (tempSavedDoc && tempSavedDoc.tempSaveDate > doc.updatedAt) {

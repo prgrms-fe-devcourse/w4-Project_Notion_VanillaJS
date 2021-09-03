@@ -1,6 +1,7 @@
 import Toast, { TOAST_FAIL_TYPE } from '../components/Toast.js';
 
 const API_END_POINT = 'https://kdt.roto.codes';
+const API_FAIL_MESSAGE = 'API 호출 오류';
 
 export const request = async (url, options = {}) => {
   try {
@@ -18,11 +19,12 @@ export const request = async (url, options = {}) => {
 
     new Toast({
       type: TOAST_FAIL_TYPE,
-      message: 'API 호출 오류',
+      message: API_FAIL_MESSAGE,
     });
 
-    throw new Error('API 호출 오류');
+    throw new Error(API_FAIL_MESSAGE);
   } catch (e) {
-    throw new Error(e.message);
+    // eslint-disable-next-line no-restricted-globals
+    console.log(API_FAIL_MESSAGE);
   }
 };
