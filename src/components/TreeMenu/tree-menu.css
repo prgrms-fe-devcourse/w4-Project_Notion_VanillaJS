@@ -1,0 +1,91 @@
+.PageBlock__buttons {
+  display: flex;
+}
+
+.PageBlock__column {
+  display: flex;
+  align-items: center;
+}
+
+.PageBlock__buttons .Sidebar__RemoveButton {
+  margin-right: 2px;
+}
+
+.Sidebar__Document,
+.Sidebar__DocumentAdd {
+  font-size: 14px;
+  padding: 5px 14px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--sidebar-document-font-color);
+  cursor: pointer;
+}
+
+.Sidebar__Document:hover {
+  background: var(--sidebar-document-hover-color);
+}
+
+.Sidebar__Document--selected {
+  background: rgba(55, 53, 47, 0.08);
+}
+
+.Sidebar__Document--disable {
+  font-size: 14px;
+  padding: 5px 14px;
+  display: flex;
+  color: rgba(55, 53, 47, 0.4);
+}
+
+.Sidebar__Document button,
+.Sidebar__DocumentAdd button {
+  border: 0;
+  outline: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 3px;
+}
+
+.Sidebar__Document button i,
+.Sidebar__DocumentAdd button i {
+  color: var(--sidebar-btn-icon-color);
+}
+
+.Sidebar__AddButton span {
+  margin-left: 10px;
+  pointer-events: none;
+}
+
+.Sidebar__AddButton i,
+.Sidebar__RemoveButton i {
+  color: var(--sidebar-btn-icon-color);
+}
+
+.Sidebar__Document button:hover {
+  background: var(--sidebar-btn-hover-color);
+}
+
+/* TODO: 일단 add하는 블록은 별도 안에서 찾아서 처리중, 나중에 다시 찾아내서 별도로 분리해주기*/
+.Sidebar__DocumentAdd {
+  padding: 0px;
+}
+
+.Sidebar__DocumentAdd .Sidebar__AddButton {
+  width: 100%;
+  display: flex;
+  padding: 8px 0px;
+  padding-left: 19px;
+}
+
+.Sidebar__DocumentAdd .Sidebar__AddButton:hover {
+  background: var(--sidebar-document-hover-color);
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+input[type='checkbox']:checked ~ ul {
+  display: none;
+}
