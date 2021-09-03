@@ -46,8 +46,12 @@ export default function PostList({ $target, initialState, onAttach, onDelete }) 
             (post) => `
             <li class="dataList"data-id="${post.id}">
               🗒  ${post.title}
-              <button class="addBtn" data-id="${post.id}">+</button>
-              <button class="delBtn" data-id="${post.id}">x</button>
+              <button class="addBtn" data-id="${post.id}">
+                +
+              </button>
+              <button class="delBtn" data-id="${post.id}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </li>
             ${post.documents ? `<ul>${this.createTreeView(post.documents)}</ul>` : ''}
             `,

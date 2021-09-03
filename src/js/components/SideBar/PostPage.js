@@ -7,7 +7,21 @@ import PostList from './PostList.js'
 // 사이드바를  담당하는 페이지
 export default function PostPage({ $target }) {
   const $page = $creEle('div')
-  $page.className = 'documentList'
+  $page.className = 'documentDiv'
+
+  const $checkBox = $creEle('input')
+  $checkBox.className = 'check'
+  $checkBox.type = 'checkbox'
+  $page.appendChild($checkBox)
+
+  $checkBox.addEventListener('click', (e) => {
+    console.log(e.target.checked)
+    if (e.target.checked) {
+      document.documentElement.setAttribute('color-theme', 'dark')
+    } else {
+      document.documentElement.setAttribute('color-theme', 'light')
+    }
+  })
 
   // 실제로는 Api에서 데이터 불러서 보여주는게 맞을듯
   const $userInfo = $creEle('div')

@@ -8,6 +8,8 @@
   border: none;
   font-size: 40px;
   width: 1000px;
+  color: var(--text-color);
+  background-color: var(--background);
 }
 
 .editorTitle ::placeholder {
@@ -23,4 +25,6 @@
   font-size: 16px;
   resize: none;
   outline: none;
+  color: var(--text-color);
+  background-color: var(--background);
 }
