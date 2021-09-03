@@ -1,6 +1,8 @@
 import { request } from "./api.js";
 import Header from "./Header.js";
 import DocumentList from "./DocumentList.js";
+import { getItem, setItem, removeItem } from "./storage.js";
+
 
 
 
@@ -14,49 +16,32 @@ export default function DocumentPage({ $target, onPostClick, renderNewEditPage }
     }
   })
 
+  const tempToggleItem = (id) => `temp-toggle-${id}`
   
   const documentList = new DocumentList({
     $target: $page,
     initialState: [],
     onAddChild: async (id) => {
-      const bodys = {
+      const newChild = {
         title: `New Page`,
-        parent: id,
-        content: ''
+        parent: id
       }
       const newDocument = await request(`/documents`, {
         method: "POST",
-        body: JSON.stringify(bodys)
+        body: JSON.stringify(newChild)
       })
-      this.setState({
-        ...this.state
-      })
+      setItem(tempToggleItem(id), {state: 'block'})
+      this.setState({ ...this.state })
       renderNewEditPage(newDocument.id)
     },
     onDelete: async (id) => {
-      if (confirm('지우시겠습니까?')) {
-        const selectedDocument = await request(`/documents/${id}`)
 
-        if (selectedDocument.documents.length > 0 ) {
-          const { documents, id } = selectedDocument
-          
-          // 끌어올리기 기능을 구현하려고 했지만, api때문에 불가
-          await request(`/documents/${id}`, {
-            method: "DELETE"
-          }) 
-          this.setState({
-            ...this.state,
-            ...documents
-          })
-        } else {
-          await request(`/documents/${id}`, {
-            method: "DELETE"
-          }) 
-          this.setState({
-            ...this.state
-          })
-        }
-        
+      if (confirm('지우시겠습니까?')) {
+        await request(`/documents/${id}`, {
+          method: "DELETE"
+        })
+        getItem(tempToggleItem(id)) ? removeItem(tempToggleItem(id)) : ''; 
+        this.setState({ ...this.state })
       }
     },
     onAddRoot: async () => {
@@ -64,13 +49,13 @@ export default function DocumentPage({ $target, onPostClick, renderNewEditPage }
         title: "Untitled",
         parent: null
       }
-      await request('/documents', {
+      const newDocument = await request('/documents', {
         method: "POST",
         body: JSON.stringify(newPage)
       })
-      this.setState({
-        ...this.state
-      })
+
+      this.setState({ ...this.state })
+      renderNewEditPage(newDocument.id)
     },
     onPostClick
   })

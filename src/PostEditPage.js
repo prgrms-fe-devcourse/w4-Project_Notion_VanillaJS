@@ -2,7 +2,7 @@ import { request } from "./api.js"
 import Editor from "./Editor.js"
 import { setItem, getItem, removeItem } from "./storage.js"
 
-export default function PostEditPage({ $target, initialState, refreshing }) {
+export default function PostEditPage({ $target, initialState, refresh }) {
   const $page = document.createElement('div')
   this.state = initialState
 
@@ -16,7 +16,6 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
       content: ''
     }, 
     onEditing: (post) => {
-      
       if (timer !== null) {
         clearTimeout(timer)
       }
@@ -25,27 +24,27 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
           ...post,
           tempSavedDate: new Date()
         })
-      }, 2000)
+      }, 1000)
+      
       timer = setTimeout(async() => {
         await request(`/documents/${post.id}`, {
           method: 'PUT',
           body: JSON.stringify(post)
         })
-        console.log(post)
         removeItem(postLocalSaveKey)
-        refreshing()
-      },5000)
+        refresh()
+      },2000)
     }
   })
 
   this.setState = async nextState => {
-
     if (this.state.id !== nextState.id) {
       postLocalSaveKey = `temp-post-${nextState.id}`
       this.state = nextState
       await fetchPost()
       return
      } 
+
     this.state = nextState
     this.render()
     editor.setState(this.state.post)
@@ -55,9 +54,7 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
     $target.appendChild($page)
   }
   
-
   const fetchPost = async () => {
-    
     const { id } = this.state
     const post = await request(`/documents/${id}`)
     const tempPost = getItem(postLocalSaveKey, {
@@ -80,11 +77,4 @@ export default function PostEditPage({ $target, initialState, refreshing }) {
     })
   }
 
-
-  const $moveListButton = document.createElement('button')
-  $moveListButton.innerHTML = '여기에 뭐 만들지'
-  $page.appendChild($moveListButton)
-  $moveListButton.addEventListener('click', (e) => {
-    console.log(e)
-  })
 }

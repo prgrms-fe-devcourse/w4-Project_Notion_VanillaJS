@@ -37,7 +37,11 @@ li{
 div.item{
   width: 100%;
 }
-div.item:hover {
+div.item:hover  {
+  
+  background-color: silver;
+}
+.add-root-Document:hover  {
   
   background-color: silver;
 }

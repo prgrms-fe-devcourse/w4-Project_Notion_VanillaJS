@@ -5,33 +5,31 @@ export const makeList = (documents) => `
     const {id, title, documents} = document
     return `
     <li data-id=${id} class="documents-list"  >
-    <div class="item" style="display: '' ">
-      <span class="ontoggle"> 	&#10148;  </span>   
+    <div class="item">
+      <span class="ontoggle">&#10148;</span>   
       <span class="document-list">${title}</span>
       <button class="add-child">&#43;</button>
       <button class="delete">&#10006;</button>
     </div>
-      ${documents.length > 0 ? childrenMakeList(documents) : noChild()}
+      ${documents.length > 0 ? makeChildList(documents, id) : hasNoChild()}
     </li>
       `}).join('')}
 `
 // style 코드 정리
 // 코드정리
-const getState = (i) => {
-  const cc = getItem(`temp-toggle-${i}`, '')
-  return cc ? cc.state : ''
+const getState = (id) => {
+  const hasState = getItem(`temp-toggle-${id}`, '')
+  return hasState ? hasState.state : 'none'
 }
 
-let i = 0
-const childrenMakeList = (documents) =>{
-  i++
-  return `
-  <ul class="child-${i}" style="display: ${getState(i) ? 'none' : ''}  " >
-  ${makeList(documents)}
-  </ul>
-`}
 
-const noChild = () => `
+const makeChildList = (documents, id) => `
+    <ul class="child-${id}" style="display: ${getState(id)}  " >
+      ${makeList(documents)}
+    </ul>
+  `
+
+const hasNoChild = () => `
     <ul class="emptyChild" style="display: none" >
       <li>No pages inside</li>
     </ul>
