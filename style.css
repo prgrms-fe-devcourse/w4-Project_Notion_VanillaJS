@@ -1,0 +1,102 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: start;
+    margin-top: -10px;
+    margin-left: -10px;
+}
+textarea{
+    display: block;
+}
+.pages-lists{
+    width: inherit;
+}
+nav{
+    text-align: start;
+    width: 25vw;
+    height: 100vh;
+    padding:0px;
+    margin: 0px;
+    background-color:#f5f4ed;
+    overflow: scroll;
+    
+}
+ul{
+    display: block;
+    font-size: 10px;
+    width: inherit;
+    margin: 0px;
+    padding: 0px;
+}
+li{
+    margin: 0px;
+    list-style: none;
+    width: calc(25vw - 40px);
+    padding: 1px 20px;
+    display:flex;
+    justify-content: space-between;
+   
+}
+li:hover{
+    background-color: #e3e3de;
+    
+}
+li button {
+    border: none;
+    padding: 0px 3px;
+    font-size: 10px;
+    background-color: transparent;
+}
+
+article{
+    padding: 0px;
+    margin: 0px;
+    width: 75vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+a{
+    text-decoration: none;
+    color: black
+}
+.editor{
+    display: block;
+    margin-top: 30px;
+}
+.main-header{
+    margin: 0px;
+    padding: 10px 0px 5px 20px;
+    width: inherit;
+}
+.main-header:hover{
+    background-color: #e3e3de;
+}
+.addNewButton{
+    width: inherit;
+    display: felx;
+    justify-content: start;
+}
+.addNewButton input{
+    margin: 0px 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 10px;
+    
+}
+.addNewButton :focus{
+    outline: none;
+}
+.inherit-input{
+    margin: 0px 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 10px;
+    background-color: #e3e3de;
+}
