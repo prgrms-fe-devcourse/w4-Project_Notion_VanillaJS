@@ -1,7 +1,7 @@
 import DocumentList from "./DocumentList.js"
 import { request } from "./api.js"
 import DocumentContentsPage from "./DocumentContentsPage.js"
-import PopUpMessageBox from "./PopUpMessagebox.js"
+import PopUpMessageBox from "./PopUpMessageBox.js"
 import { changeSelectedList } from "./listHandler.js"
 import { setItem, getItem, removeItem } from "./storage.js"
 export default function App({ $target }) {
