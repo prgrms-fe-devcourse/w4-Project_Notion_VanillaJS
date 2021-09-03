@@ -4,7 +4,7 @@ import { push } from "./router.js";
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");
   const $subDocuments = document.createElement("div");
-  $subDocuments.className = "subDocuments"
+  $subDocuments.className = "subDocuments";
   $target.appendChild($editor);
   $target.appendChild($subDocuments);
 
@@ -36,17 +36,19 @@ export default function Editor({ $target, initialState, onEditing }) {
     let subDocuments = [];
     for (const documentId of documentsId) {
       const document = await request(`/documents/${documentId}`, {
-        method: "GET"
-      })
+        method: "GET",
+      });
       subDocuments.push(document);
     }
-    
+
     if (subDocuments) {
       $subDocuments.innerHTML = `
       <ul>
-        ${subDocuments.map((post) => `<li data-id="${post.id}">📄 ${post.title}</li>`).join("")}
+        ${subDocuments
+          .map((post) => `<li data-id="${post.id}">📄 ${post.title}</li>`)
+          .join("")}
       </ul>
-      `
+      `;
     }
   };
 
