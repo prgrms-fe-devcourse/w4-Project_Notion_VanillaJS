@@ -3,11 +3,11 @@ import { getItem, setItem } from "../storage.js";
 import Editor from "./Editor.js";
 
 export default function PostEditPage({
-                                       $target,
-                                       initialState,
-                                       onEditing,
-                                       onPosting,
-                                     }) {
+  $target,
+  initialState,
+  onEditing,
+  onPosting,
+}) {
   const $page = document.createElement("div");
   $page.setAttribute("class", "edit");
   this.state = initialState;
@@ -59,7 +59,7 @@ export default function PostEditPage({
   $page.addEventListener("click", (e) => {
     const { target } = e;
     if (target.id === "edit-btn") {
-      onPosting({$target : target,nextState : this.state });
+      onPosting({ $target: target, nextState: this.state });
     }
   });
 

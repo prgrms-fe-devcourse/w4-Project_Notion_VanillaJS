@@ -6,13 +6,13 @@ import {
   deleteDocument,
 } from "../../../api/request.js";
 import PostList from "./PostList.js";
-
 export default function PostsPage({
-                                    $target,
-                                    initialState = [],
-                                    onClick,
-                                    onEraseBtnClick,onAddBtnClick
-                                  }) {
+  $target,
+  initialState = [],
+  onClick,
+  onEraseBtnClick,
+  onAddBtnClick,
+}) {
   const $postPage = document.createElement("div");
   $postPage.setAttribute("class", "post");
   $target.appendChild($postPage);
@@ -36,12 +36,10 @@ export default function PostsPage({
         const { target } = e;
         if (target.classList.contains("erase-btn")) {
           onEraseBtnClick(target.closest("li"));
-        }
-        else if(target.classList.contains("add-btn")){
-          onAddBtnClick(target.closest("li"))
-        }
-        else{
-          onClick(target.closest("li"))
+        } else if (target.classList.contains("add-btn")) {
+          onAddBtnClick(target.closest("li"));
+        } else {
+          onClick(target.closest("li"));
         }
       });
 

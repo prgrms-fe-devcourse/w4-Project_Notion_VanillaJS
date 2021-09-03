@@ -15,16 +15,16 @@ export default function PostsList({ $target, initialState = [] }) {
     // console.log($target, type);
     // 처음 render될때
     if (isFirst) {
-      $div.innerHTML = `
+      $div.innerHTML = `<button> Root ➕</button>
          <ul>
         ${this.state
-        .map(
-          (document) =>
-            `<li class="li-tag" id=${document.id} data-is-open="false" >
+          .map(
+            (document) =>
+              `<li class="li-tag" id=${document.id} data-is-open="false" >
                     <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                </li>`
-        )
-        .join("")}
+          )
+          .join("")}
         </ul>
           `;
       isFirst = false;
@@ -40,13 +40,13 @@ export default function PostsList({ $target, initialState = [] }) {
           `
          <ul>
         ${this.state
-            .map(
-              (document) =>
-                `<li class="li-tag" id=${document.id} data-is-open="false">
+          .map(
+            (document) =>
+              `<li class="li-tag" id=${document.id} data-is-open="false">
                     <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                     </li>`
-            )
-            .join("")}
+          )
+          .join("")}
         </ul>
           `
         );
@@ -60,19 +60,17 @@ export default function PostsList({ $target, initialState = [] }) {
       $div.innerHTML = `
          <ul>
         ${this.state
-        .map(
-          (document) =>
-            `<li class="li-tag" id=${document.id} data-is-open="false" >
+          .map(
+            (document) =>
+              `<li class="li-tag" id=${document.id} data-is-open="false" >
                     <span>${document.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button></li>`
-        )
-        .join("")}
+          )
+          .join("")}
         </ul>
           `;
-    }
-    else if(type === "edit-btn-click"){
-      $target.firstElementChild.innerHTML = this.state.title
-    }
-    else if(type === "add-btn-click"){
+    } else if (type === "edit-btn-click") {
+      $target.firstElementChild.innerHTML = this.state.title;
+    } else if (type === "add-btn-click") {
       $target.dataset.isOpen = true;
       $target.innerHTML = `<span>${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
       $target.insertAdjacentHTML(
@@ -88,7 +86,8 @@ export default function PostsList({ $target, initialState = [] }) {
           )
           .join("")}
         </ul>
-          `)
+          `
+      );
     }
   };
 
