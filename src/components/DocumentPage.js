@@ -4,9 +4,7 @@ import DocumentList from "./DocumentList.js";
 import { getItem, setItem, removeItem } from "../utils/storage.js";
 
 
-
-
-export default function DocumentPage({ $target, onPostClick, renderNewEditPage }) {
+export default function DocumentPage({ $target, onPostClick }) {
   const $page = document.createElement('div')
   $page.setAttribute('class', 'contain-documentPage')
   new Header({
@@ -32,7 +30,7 @@ export default function DocumentPage({ $target, onPostClick, renderNewEditPage }
       })
       setItem(tempToggleItem(id), {state: 'block'})
       this.setState({ ...this.state })
-      renderNewEditPage(newDocument.id)
+      onPostClick(newDocument.id)
     },
     onDelete: async (id) => {
 
@@ -55,7 +53,7 @@ export default function DocumentPage({ $target, onPostClick, renderNewEditPage }
       })
 
       this.setState({ ...this.state })
-      renderNewEditPage(newDocument.id)
+      onPostClick(newDocument.id)
     },
     onPostClick
   })

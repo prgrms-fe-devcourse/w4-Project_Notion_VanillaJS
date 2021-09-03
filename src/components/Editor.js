@@ -7,6 +7,9 @@ export default function Editor({
   onEditing
 }) {
   const $editor = document.createElement('div')
+  // const $topTitle = document.createElement('div')
+  // $topTitle.setAttribute('class', 'topTitle')
+  // $target.append($topTitle)
   let isInitialize = false
   
   this.state = initialState
@@ -26,9 +29,13 @@ export default function Editor({
   
   this.render = () => {
     const { title, content } = this.state
+    // $topTitle.innerHTML = `${(title === 'Untitled') ? '' : (title)}`
     if (!isInitialize){
+      // Untitle이거나, New Page이면 placeholder/ 이외에 value
+      const defaultTitle = (title) => (title === 'Untitled' || title === 'New Page')? `placeholder="${title ? title : 'Untitled'}"`: `value="${title}"`
+    
       $editor.innerHTML = `
-      <input type='text' class="title" placeholder="${title}" value=""/><br>
+      <input type='text' class="title" ${defaultTitle(title)} autofocus /><br>
       <textarea class="content" placeholder="내용을 입력하세요.">${content ? content : ''}</textarea>
       `
     isInitialize = true
@@ -45,9 +52,7 @@ export default function Editor({
         ...this.state,
         [name]: target.value
       }
-      
       this.setState(nextState)
-      
       onEditing(this.state)
     }
   })

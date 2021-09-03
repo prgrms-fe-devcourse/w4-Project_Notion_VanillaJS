@@ -7,7 +7,7 @@ export const makeList = (documents) => `
     <li data-id=${id} class="documents-list"  >
     <div class="item">
       <span class="ontoggle">▶</span>   
-      <span class="document-list">${title}</span>
+      <span class="document-list">${title.replace(/ /gi, "") ? title : 'Untitled'}</span>
       <button class="add-child">&#43;</button>
       <button class="delete">&#10006;</button>
     </div>
