@@ -1,6 +1,12 @@
+import { request } from "./api.js";
+import { push } from "./router.js";
+
 export default function Editor({ $target, initialState, onEditing }) {
   const $editor = document.createElement("div");
+  const $subDocuments = document.createElement("div");
+  $subDocuments.className = "subDocuments"
   $target.appendChild($editor);
+  $target.appendChild($subDocuments);
 
   this.state = initialState;
 
@@ -26,6 +32,24 @@ export default function Editor({ $target, initialState, onEditing }) {
 
   this.render();
 
+  this.subDocumentsRender = async (documentsId) => {
+    let subDocuments = [];
+    for (const documentId of documentsId) {
+      const document = await request(`/documents/${documentId}`, {
+        method: "GET"
+      })
+      subDocuments.push(document);
+    }
+    
+    if (subDocuments) {
+      $subDocuments.innerHTML = `
+      <ul>
+        ${subDocuments.map((post) => `<li data-id="${post.id}">📄 ${post.title}</li>`).join("")}
+      </ul>
+      `
+    }
+  };
+
   $editor.addEventListener("keyup", (e) => {
     const { name } = e.target;
     if (this.state[name] !== undefined) {
@@ -37,5 +61,19 @@ export default function Editor({ $target, initialState, onEditing }) {
       this.setState(nextState);
       onEditing(nextState);
     }
+  });
+
+  const textArea = document.querySelector("textarea[name=content]");
+  textArea.addEventListener("keyup", () => {
+    let scrollHeight = textArea.scrollHeight;
+    let height = textArea.clientHeight;
+    if (scrollHeight > height) {
+      textArea.style.height = `${scrollHeight}px`;
+    }
+  });
+
+  $subDocuments.addEventListener("click", (e) => {
+    const { id } = e.target.dataset;
+    push(id);
   });
 }
