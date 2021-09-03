@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+button{
+  background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+}
 body {
   margin: 0;
   padding: 0;
@@ -10,11 +13,40 @@ body {
   display: flex;
   min-height: 100vh;
 }
+.menu-container {
+  padding: 20px 0;
+  max-width: 400px;
+  border-right: 1px solid rgb(216, 216, 216);
+}
 
+.new-doc-btn, .delete-doc-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #f2f2f2;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.new-doc-btn {
+  right: 32px;
+  background-color: #f2f2f2;
+}
+
+.root-document-menu {
+  position: relative;
+  padding-left: 10px;
+  border-bottom: 1px solid rgb(216, 216, 216);;
+}
+.root-document-menu h2 {
+  font-size: 18px;
+  height: 32px;
+  margin: 0;
+  line-height: 32px;
+}
+.root-document-menu .new-doc-btn {
+  right: 0;
+}
 .document-menu {
-  padding: 40px;
-  width: 360px;
-  border-right: 1px solid #999;
 }
 .document-menu ul {
   padding: 0;
@@ -22,35 +54,52 @@ body {
 }
 
 .document-menu ul li {
-  padding: 4px;
-  padding-left: 10px;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+  position: relative;
 }
 .document-menu > ul > li {
-  padding: 10px 0;
+  padding-left: 0;
+  border-bottom: 1px solid #f2f2f2;
 }
+
 .document-menu ul li a {
+  display: block;
+  width: calc(100% - 60px);
+  height: 32px;
+  color: #242424;
   text-decoration: none;
-  color: #333;
+  line-height: 32px;
+  overflow: hidden; 
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 10px;
 }
 .document-menu ul li.active > a {
-  text-decoration: underline;
+  background-color: #f2f2f2;
 }
 .document-menu .new-doc-btn, .document-menu .delete-doc-btn {
   margin-left: 4px;
 }
 
 .document-page {
-  padding: 40px;
+  padding: 20px;
   width: 100%;
 }
 .document-page .doc-page-editor input {
   width: 100%;
-  height: 40px;
+  height: 32px;
   padding: 10px;
+  border: 1px solid rgb(216, 216, 216);
+  font-size: 16px
 }
 .document-page .doc-page-editor textarea {
   width: 100%;
   height: 400px;
   padding: 10px;
   margin-top: 20px;
+  border: 1px solid rgb(216, 216, 216);
+  font-size: 16px
 }

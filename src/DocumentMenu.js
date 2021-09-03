@@ -7,8 +7,9 @@ export default function DocumentMenu({$target, initialState, menuClick, newDoc, 
   $target.appendChild($menu)
 
   const $projectTitle = document.createElement('div')
+  $projectTitle.className = 'root-document-menu'
   $projectTitle.innerHTML=`
-    <h2>소정의 프로그래머스 노션</h2>
+    <h2>소정의 노션 클로닝</h2>
     <button class="new-doc-btn">+</button>
     `
   $menu.appendChild($projectTitle)
@@ -39,7 +40,7 @@ export default function DocumentMenu({$target, initialState, menuClick, newDoc, 
       documentNode.className = `menu-${doc.id}`
 
       wrapperNode.appendChild(documentNode)
-      documentNode.innerHTML=`<a href="">${doc.title}</a><button class="new-doc-btn">+</button><button class="delete-doc-btn">x</button>`
+      documentNode.innerHTML=`<a href=""> 👉 ${doc.title}</a><button class="new-doc-btn">+</button><button class="delete-doc-btn">x</button>`
       parentNode.appendChild(wrapperNode)
       if (doc.documents.length !== 0) {
         menuTree(doc.documents, doc.id)

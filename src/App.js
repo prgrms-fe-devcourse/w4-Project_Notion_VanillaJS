@@ -18,6 +18,7 @@ export default function App({
     menuClick: async (node) => {
       const {id} = node.dataset
       await history.pushState(null, null, `/?selectedDocId=${id}`)
+      await fetchDocList()
       await fetchDocPage(id)
     },
     newDoc: async (id = null) => {
