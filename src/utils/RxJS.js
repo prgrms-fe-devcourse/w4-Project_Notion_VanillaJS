@@ -37,13 +37,8 @@ export const length = (iter) => {
 };
 
 export const map = canGetElementsLater(function (appliedFunc, iter) {
-    let count = 1;
     const res = [];
-    
-    const modified = Object.assign(iter, Object.Array);
-
-    for (const value of modified) {
-        console.log('꺼내지는 횟수', count++);
+    for (const value of iter) {
         res.push(appliedFunc(value));
     }
     return res;

@@ -78,19 +78,22 @@ export default function Editor({
 
     const findMarkDown = (str, content) => {
         return (
-            ((str.indexOf('# ') === 0 || content.indexOf('# ') === 0) && 'hashOne') ||
-            ((str.indexOf('## ') === 0 || content.indexOf('## ') === 0) && 'hashTwo') ||
-            ((str.indexOf('### ') === 0 || content.indexOf('### ') === 0) && 'hashThree') ||
+            // str.indexOf('# ') === 0은, 12345라는 글내용을 작성하고 # 12345 를 작성하는 경우 캐치
+            // str.indexOf('#&nbsp;') === 0은, # 으로 시작하는 경우 #nbsp;로 입력되는 것을 캐치
+            ((str.indexOf('# ') === 0 || str.indexOf('#&nbsp;') === 0) && 'hashOne') ||
+            ((str.indexOf('## ') === 0 || str.indexOf('##&nbsp;') === 0) && 'hashTwo') ||
+            ((str.indexOf('### ') === 0 || str.indexOf('###&nbsp;') === 0) && 'hashThree') ||
             false
         );
     };
 
     const isMarkDownInput = (content) => {
         return revisedReduce(
-            content.split('<div>'),
-            lazyFilter((str) => findMarkDown(str, content)),
-            take(1),
-            head
+            // content = '안녕하세요<div>저는 김영후 입니다</div><div>전자통신공학과를 졸업했습니다</div><div># 현재는 데브코스를 수강중입니다.</div>
+            content.split('<div>'), 
+            lazyFilter((str) => findMarkDown(str, content)), // split = ['안녕하세요', '저는 김영후입니다</div>', '# 전자통신공학과를 졸업했습니다</div>']
+            take(1), // [' # 전자통신공학과를 졸업했습니다</div>'];
+            head // '# 전자통신공학과를 졸업했습니다</div>'
         )
             ? true
             : false;
@@ -109,10 +112,10 @@ export default function Editor({
                         headerIndex = index;
 
                         revisedReduce(
-                            str.replace('</div>', ''), // # 안녕하세요 저는 김영후 입니다</div> ==> 안녕하세요 저는 김영후 입니다
+                            str.replace('</div>', '').replace('&nbsp;', ''), // # 안녕하세요 저는 김영후 입니다</div> ==> 안녕하세요 저는 김영후 입니다
                             wrappedByArr, // ['# 안녕하세요 저는 김영후 입니다']
-                            map((str) => str.slice(2, str.length)), // ['안녕하세요 저는 김영후 입니다']
-                            map((onlyContent) => (temp.innerHTML += `<h1 class='header${index}'>${onlyContent}</h1>`))
+                            map((str) => str.slice(1, str.length)), // ['안녕하세요 저는 김영후 입니다']
+                            map((onlyContent) => (temp.innerHTML += `<h1 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h1>`))
                         );
                     }
                     break;
@@ -121,10 +124,10 @@ export default function Editor({
                         headerIndex = index;
 
                         revisedReduce(
-                            str.replace('</div>', ''),
+                            str.replace('</div>', '').replace('&nbsp;', ''), 
                             wrappedByArr,
                             map((str) => str.slice(3, str.length)),
-                            map((onlyContent) => (temp.innerHTML += `<h2 class='header${index}'>${onlyContent}</h2>`))
+                            map((onlyContent) => (temp.innerHTML += `<h2 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h2>`))
                         );
                     }
                     break;
@@ -133,10 +136,10 @@ export default function Editor({
                         headerIndex = index;
 
                         revisedReduce(
-                            str.replace('</div>', ''),
+                            str.replace('</div>', '').replace('&nbsp;', ''), 
                             wrappedByArr,
                             map((str) => str.slice(4, str.length)),
-                            map((onlyContent) => (temp.innerHTML += `<h3 class='header${index}'>${onlyContent}</h3>`))
+                            map((onlyContent) => (temp.innerHTML += `<h3 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h3>`))
                         );
                     }
                     break;
@@ -182,6 +185,8 @@ export default function Editor({
                 {
                     tempState.content = getTagOf(e).innerHTML;
                     onEditing(tempState);
+                    
+                    console.log(tempState.content);
 
                     if (isMarkDownInput(tempState.content)) {
                         this.setState(tempState);
