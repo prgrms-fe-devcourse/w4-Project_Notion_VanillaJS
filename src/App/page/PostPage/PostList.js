@@ -15,7 +15,7 @@ export default function PostsList({ $target, initialState = [] }) {
     // console.log($target, type);
     // 처음 render될때
     if (isFirst) {
-      $div.innerHTML = `<button> Root ➕</button>
+      $div.innerHTML = `<button class="root-add-btn" class="root-add-btn"> Root ➕</button>
          <ul>
         ${this.state
           .map(
@@ -58,6 +58,7 @@ export default function PostsList({ $target, initialState = [] }) {
       }
     } else if (type === "erase-btn-click") {
       $div.innerHTML = `
+        <button class="root-add-btn"> Root ➕</button>
          <ul>
         ${this.state
           .map(
@@ -87,6 +88,14 @@ export default function PostsList({ $target, initialState = [] }) {
           .join("")}
         </ul>
           `
+      );
+    } else if (type === "root-add-btn-click") {
+      console.log($target, this.state);
+      $target.insertAdjacentHTML(
+        "beforeend",
+        `<li class="li-tag" id=${this.state.id} data-is-open="false">
+                    <span>${this.state.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
+                    </li>`
       );
     }
   };

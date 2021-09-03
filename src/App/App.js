@@ -30,6 +30,8 @@ export default function App({ $target, initialState = [] }) {
         $target: $target.lastElementChild.lastElementChild,
         nextState: this.state.documents[this.state.documents.length - 1],
       });
+    } else if (type === "root-add-btn-click") {
+      postsPage.setState({ $target, nextState: this.state, type });
     }
 
     this.render();
@@ -62,6 +64,17 @@ export default function App({ $target, initialState = [] }) {
       await postDocument(`새로운 문서 ${++addDocCount}`, $target.id);
       const result = await getContentDocument($target.id);
       this.setState({ $target, nextState: result, type: "add-btn-click" });
+    },
+    onRootAddBtnClick: async ($target) => {
+      const result = await postDocument(
+        `새로운 루트 문서 ${++addDocCount}`,
+        ""
+      );
+      this.setState({
+        $target: $target.nextElementSibling,
+        nextState: result,
+        type: "root-add-btn-click",
+      });
     },
   });
 

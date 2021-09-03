@@ -12,6 +12,7 @@ export default function PostsPage({
   onClick,
   onEraseBtnClick,
   onAddBtnClick,
+  onRootAddBtnClick,
 }) {
   const $postPage = document.createElement("div");
   $postPage.setAttribute("class", "post");
@@ -34,10 +35,13 @@ export default function PostsPage({
     if (isFirst) {
       $postPage.addEventListener("click", (e) => {
         const { target } = e;
+        console.log(target);
         if (target.classList.contains("erase-btn")) {
           onEraseBtnClick(target.closest("li"));
         } else if (target.classList.contains("add-btn")) {
           onAddBtnClick(target.closest("li"));
+        } else if (target.classList.contains("root-add-btn")) {
+          onRootAddBtnClick(target);
         } else {
           onClick(target.closest("li"));
         }
