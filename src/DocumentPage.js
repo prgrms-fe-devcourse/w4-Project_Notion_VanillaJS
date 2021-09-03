@@ -12,7 +12,6 @@ export default function DocumentPage({$target, initialState, childDocClick, titl
   this.setState = nextState => {
     this.state = nextState
     this.render()
-    console.log('nextState :>> ', nextState);
     const currentNode = document.querySelector(`.menu-${nextState.id}`)
     if (currentNode) {
       currentNode.classList.add('active')

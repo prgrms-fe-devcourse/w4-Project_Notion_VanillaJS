@@ -32,7 +32,6 @@ export default function App({
         )
       })
       await fetchDocList()
-      console.log('res.id :>> ', res.id);
       await fetchDocPage(res.id)
 
     },
