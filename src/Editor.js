@@ -45,7 +45,7 @@ export default function Editor({ $target, initialState, onEditing }) {
       $subDocuments.innerHTML = `
       <ul>
         ${subDocuments
-          .map((post) => `<li data-id="${post.id}">📄 ${post.title}</li>`)
+          .map((post) => `<li data-id="${post.id}">📄 ${post.title ? `${post.title}` : "제목 없음"}</li>`)
           .join("")}
       </ul>
       `;
