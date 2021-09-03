@@ -1,12 +1,12 @@
-import { displayPostList } from "../utils/displayList.js"
+import { displayDocumentList } from "../utils/displayList.js"
 
 export default function PostList({
     $target,
     initialState,
     
 }) {
-    const $postList = document.createElement('div')
-    $target.appendChild($postList)
+    const $documentList = document.createElement('div')
+    $target.appendChild($documentList)
     
     this.state = initialState
 
@@ -16,9 +16,9 @@ export default function PostList({
     }
 
     this.render = () => {
-        $postList.innerHTML = `
+        $documentList.innerHTML = `
             <button name ="button" data-id = "null">Add</button>
-            ${displayPostList(this.state)}
+            ${displayDocumentList(this.state)}
         `
     }
 

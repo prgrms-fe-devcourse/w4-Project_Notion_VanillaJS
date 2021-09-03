@@ -1,10 +1,10 @@
-import PostPage from "./PostPage.js"
+import DocumentPage from "./DocumentPage.js"
 
 
 export default function App({ $target }) {
-  const postPage = new PostPage({
+  const documentPage = new DocumentPage({
     $target,
   });
 
-  postPage.render()
+  documentPage.render()
 }

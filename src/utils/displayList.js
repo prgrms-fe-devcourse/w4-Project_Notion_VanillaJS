@@ -1,11 +1,11 @@
-export const displayPostList = (posts) => {
+export const displayDocumentList = (documents) => {
 
     return `<ul>
-                ${posts.map( post => 
-                        `<li data-id = "${post.id}" name = "list">
-                            ${post.title}
-                            <button name = "button" data-id ="${post.id}"${post.id}">Add</button>
-                            ${post.documents.length ? displayPostList(post.documents): ''}
+                ${posts.map( document => 
+                        `<li data-id = "${document.id}" name = "list">
+                            ${document.title}
+                            <button name = "button" data-id ="${document.id}"${document.id}">Add</button>
+                            ${document.documents.length ? displayPostList(document.documents): ''}
                         </li>`
                         ).join('')}
                         

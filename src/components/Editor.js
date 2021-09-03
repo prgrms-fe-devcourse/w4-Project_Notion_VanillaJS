@@ -33,7 +33,7 @@ export default function Editor({
     $editor.addEventListener('keyup', e=>{
         const {target} = e
         const name = target.getAttribute('name')
-        if(this.state[name]){
+        if(this.state[name]!==undefined){
             const nextState = {
                 ...this.state,
                 [name] : target.value
