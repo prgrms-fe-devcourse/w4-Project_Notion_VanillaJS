@@ -22,8 +22,8 @@ export default function Editor({ $target, initialState, fetchDocument
         </div>
         <textarea id="newArticleTitle" class="articleTitle"> ${this.state.title}</textarea>
         <div "articleDate">
-          <span class="articleCreatedDate">작성: ${this.state.createdAt}</span>
-          <span class="articleEditedDate">수정: ${this.state.updatedAt}</span>
+          <span class="articleCreatedDate">${this.state.createdAt ? '작성: ' + this.state.createdAt.slice(0,10) : ''}</span>
+          <span class="articleEditedDate">${this.state.createdAt ? '수정: ' + this.state.updatedAt.slice(0,10) : ''}</span>
         </div>
         <textarea id="newArticleContent" class="articleContent">${this.state.content}</textarea>
       </article>

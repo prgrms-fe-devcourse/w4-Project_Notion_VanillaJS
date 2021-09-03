@@ -40,12 +40,11 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
       removeDocument(id)
     } else{
       fetchDocument(onDocsClick)
-
-      const originTitle = this.state.filter(obj=>obj.id==id)[0]
+      const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
       if(originTitle){
-        $li.innerHTML = originTitle.title + `
-        ${docsTreeToArray(this.state.filter(obj=>obj.id==id)[0].documents).map(doc => `
-        <li data-id="${doc.id}" class="spreadTitle">${doc.title}</li>
+        $li.innerHTML = `${originTitle.title} <button class="removeBtn">삭제</button>
+        ${originTitle.documents.map(doc => `
+        <li data-id="${doc.id}" class="spreadTitle">${doc.title} <button class="removeBtn">삭제</button></li>
       `).join('')}
       `}
       }
