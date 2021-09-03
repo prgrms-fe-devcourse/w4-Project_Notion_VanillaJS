@@ -1,5 +1,6 @@
 import Editor from './Editor.js';
 import ChildDocumentList from './ChildDocumentList.js';
+import {request} from './api.js';
 
 export default function DocumentPage({$target, initialState, childDocClick}) {
   const $page = document.createElement('div')
@@ -23,11 +24,32 @@ export default function DocumentPage({$target, initialState, childDocClick}) {
     childDocumentList.setState(nextState)
   }
 
+  let timer = null
+
   const editor = new Editor({
     $target: $page,
     initialState: {
       title: '',
       content: ''
+    },
+    onEditing: (editDoc) => {
+      console.log('editDoc :>> ', editDoc);
+      console.log('this.state.id :>> ', this.state.id);
+      const {title, content} = editDoc
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(async() => {
+        await request(`/documents/${this.state.id}`, {
+          method:'PUT',
+          body: JSON.stringify(
+            {
+              "title" : title,
+              "content" : content
+            }
+          )
+        })
+      }, 2000)
     }
   })
 

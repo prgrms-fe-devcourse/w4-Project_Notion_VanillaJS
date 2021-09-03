@@ -13,14 +13,14 @@ export default function ChildDocumentList({
   }
   this.render = () => {
     $childDoclist.innerHTML = `
+      <h3>[${this.state.title}]의 하위 페이지</h3>
       <ul class="child-doc-list">
-        ${this.state.documents? this.state.documents.map(doc => `
+        ${!this.state.documents.length?`<li>하위 페이지가 없습니다</li>`: this.state.documents.map(doc => `
           <li><a href="">${doc.title}</a></li>
-        `).join('') : ''}
+        `).join('')}
       </ul>
     `
   }
-  this.render()
 
   // $childDocList.addEventListener('click', (e) => {
   //   e.preventDefault()

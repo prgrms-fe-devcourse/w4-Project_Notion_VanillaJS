@@ -1,6 +1,7 @@
 export default function Editor({
   $target,
-  initialState
+  initialState,
+  onEditing
 }) {
   const $editor = document.createElement('div')
   $editor.className = 'doc-page-editor'
@@ -19,4 +20,19 @@ export default function Editor({
       <textarea name="content" placeholder="내용을 입력해주세요">${this.state.content? this.state.content : ''}</textarea>
     `
   }
+
+  $editor.addEventListener('keyup', e => {
+    const {target} = e
+    const name = target.getAttribute('name')
+
+    //js 특성상 []사이가 빈 문자열이면 false로 인식함
+    if (this.state[name] !== undefined) {
+      const nextState = {
+          ...this.state,
+        [name] : target.value
+      }
+      this.state = nextState
+      onEditing(this.state)
+    }
+  })
 };
