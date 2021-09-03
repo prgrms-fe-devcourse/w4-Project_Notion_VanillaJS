@@ -1,4 +1,5 @@
 import Component from '../core/Component.js';
+import debounce from '../utils/debounce.js';
 
 const SPACE_KEY = ' ';
 const BACK_SPACE_KEY = 'Backspace'
@@ -27,7 +28,7 @@ const EditableBlock = class extends Component{
       const text = target.textContent;
 
       e.stopImmediatePropagation();
-      
+    
       if (key === SPACE_KEY && text.length < 4) {
         e.preventDefault();
         onConvert(blockIndex, text)
@@ -52,12 +53,14 @@ const EditableBlock = class extends Component{
       }
     })
     /*
-    this.$target.addEventListener('blur', ({target}) => {
+    this.$target.addEventListener('blur', (e) => {
+      e.stopImmediatePropagation();
+      const {target} = e;
       const blockIndex = Number(target.dataset.index);
       const text = target.textContent;
       onEditing(blockIndex, text)
     }, true) 
-    */
+    */  
   }
 
   render() {
