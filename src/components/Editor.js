@@ -4,10 +4,13 @@ export default function Editor({ $target, initialState, onEditSave }) {
   const $editor = document.createElement('section');
   $target.appendChild($editor);
 
+  console.log(initialState);
   this.state = initialState;
 
   this.setState = async nextState => {
-    this.state = await request(`/documents/${nextState.id}`);
+    if (nextState) {
+      this.state = await request(`/documents/${nextState.id}`);
+    }
     this.render();
   };
 
@@ -35,21 +38,17 @@ export default function Editor({ $target, initialState, onEditSave }) {
       ${content === null ? '' : content}
     </div>
     `;
+
+    this.addEventListener();
   };
 
-  this.addEvent = () => {
+  this.addEventListener = () => {
     $editor.querySelector('.editor__title').addEventListener('keyup', e => {
       const documentId = parseInt(e.target.dataset.id)
         ? parseInt(e.target.dataset.id)
         : 'new';
 
-      const nextState = {
-        ...this.state,
-        id: documentId,
-        title: e.target.value
-      };
-
-      onEditSave(nextState);
+      onEditSave({ id: documentId, title: e.target.value });
     });
 
     $editor.querySelector('.editor__content').addEventListener('input', e => {
@@ -57,16 +56,9 @@ export default function Editor({ $target, initialState, onEditSave }) {
         ? parseInt(e.target.dataset.id)
         : 'new';
 
-      const nextState = {
-        ...this.state,
-        id: documentId,
-        content: e.target.innerHTML
-      };
-
-      onEditSave(nextState);
+      onEditSave({ id: documentId, content: e.target.innerHTML });
     });
   };
 
   this.render();
-  this.addEvent();
 }

@@ -2,7 +2,7 @@ import Sidebar from './Sidebar.js';
 import Editor from './Editor.js';
 import { request } from '../api.js';
 import { initRouter, push } from '../router.js';
-import { removeItem, setItem } from '../storage.js';
+import { getItem, removeItem, setItem } from '../storage.js';
 
 const addToggleAttribute = documents => {
   return documents.map(obj => {
@@ -77,24 +77,41 @@ export default function App({ $target }) {
     }
   });
 
-  let timer = null; // debounce를 위한 초기값
+  // Editor에서 onEditSave 중 에러 발생 대비
+  const editingDocument = getItem({
+    key: 'temp-document-new',
+    defaultValue: {
+      id: 'new',
+      title: '제목 없음',
+      content: ''
+    }
+  });
+
+  // onEditSave 중 debounce를 위한 초기값
+  let timer = null;
 
   const editor = new Editor({
     $target,
-    initialState: {
-      id: '',
-      title: '',
-      content: '',
-      documents: [],
-      createdAt: '',
-      updatedAt: ''
-    },
-    onEditSave: document => {
+    initialState: editingDocument,
+    onEditSave: async ({ id, title, content }) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
 
-      const { id, title, content } = document;
+      if (id !== 'new') {
+        // 기존 문서를 수정하는 경우
+        const currentDocument = await request(`/documents/${id}`, {
+          method: 'GET'
+        });
+
+        title = title ?? currentDocument.title;
+        content = content ?? currentDocument.content;
+      } else {
+        // 새로운 문서를 생성하는 경우
+        title = title ?? editingDocument.title;
+        content = content ?? editingDocument.content;
+      }
+
       const localSaveKey = `temp-document-${id}`;
 
       timer = setTimeout(async () => {
@@ -107,31 +124,52 @@ export default function App({ $target }) {
           }
         });
 
-        if (id === 'new') {
-          await request(`/documents`, {
-            method: 'POST',
-            body: JSON.stringify({
-              title,
-              parent: null
-            })
-          });
-        } else {
-          await request(`/documents/${id}`, {
+        // 기존 문서를 수정하는 경우
+        if (id !== 'new') {
+          const modifiedDocument = await request(`/documents/${id}`, {
             method: 'PUT',
             body: JSON.stringify({
               title,
               content
             })
           });
+
+          if (modifiedDocument) {
+            removeItem({ key: localSaveKey });
+            this.setState();
+          } else {
+            alert('저장 중 에러가 발생했습니다.');
+          }
+          return;
         }
 
-        removeItem({ key: localSaveKey });
-
-        const nextState = await request('/documents', {
-          method: 'GET'
+        // 새로운 문서를 생성하는 경우
+        const createdDocument = await request(`/documents`, {
+          method: 'POST',
+          body: JSON.stringify({
+            title,
+            parent: null
+          })
         });
 
-        sidebar.setState(nextState);
+        const modifiedDocument = await request(
+          `/documents/${createdDocument.id}`,
+          {
+            method: 'PUT',
+            body: JSON.stringify({
+              title,
+              content
+            })
+          }
+        );
+
+        if (modifiedDocument) {
+          push(`/documents/${createdDocument.id}`);
+          removeItem({ key: localSaveKey });
+          this.setState();
+        } else {
+          alert('저장 중 에러가 발생했습니다.');
+        }
       }, 2000);
     }
   });
