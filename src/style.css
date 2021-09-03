@@ -1,0 +1,99 @@
+body {
+  margin: 0;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.contentPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: url('./image/windows95logo.png') no-repeat center center rgb(71, 123, 124);
+  background-size: 30%; 
+}
+
+/* .defaultText {
+  position: absolute;
+  color: aliceblue;
+  font-size: x-large;
+} */
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.documentTitle {
+  color: rgb(255, 255, 255);
+  background-color: rgb(2, 0, 127);
+  width: 600px;
+  height: 30px;
+}
+
+.documentContent {
+  background-color: rgb(190, 190, 190);
+  width: 600px;
+  height: 400px;
+}
+
+.controlPage {
+  background-color: rgb(190, 190, 190);
+  width: 400px;
+  height: 100vh;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(2, 0, 127);
+}
+
+li {
+  list-style: none;
+}
+
+.toggleDocument, .createChildDocument {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.selectDocument {
+  cursor: pointer;
+}
+
+.isSelected {
+  background-color: rgb(2, 0, 127);
+}
+
+.createDocument {
+  display: block;
+  margin: 50px auto;
+  background-color: rgb(153, 153, 153);
+}
+
+.deleteDocument {
+  background-color: rgb(153, 153, 153);
+}
+
+li .deleteDocument:active {
+  background-color: rgb(2, 0, 127);
+}
+
+.hideDisplay {
+  display: none;
+}
+
+.noChildDocument {
+  color: rgb(255, 255, 255);
+}
