@@ -1,6 +1,4 @@
 import Editor from "./Editor.js"
-import SubDocList from "./SubDocList.js"
-import { makeSubDocList } from "./listHandler.js"
 export default function DocumentContentsPage({
   $target,
   initialState,
