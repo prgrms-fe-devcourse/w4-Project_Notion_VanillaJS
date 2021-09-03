@@ -3,10 +3,12 @@
   /* flex-wrap: wrap; */
   border-right: gainsboro solid 2px;
   margin-right: 20px;
-  width: 200px;
+  width: 250px;
 }
 
-
+li{
+  margin: 5px 0px;
+}
 
 .spreadTitle{
   font-size: 80%;

@@ -17,6 +17,7 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
   this.render = () => {
     if (this.state && Array.isArray(this.state)) { // 방어코드
       $documentList.innerHTML = `
+      <h2>${USERNAME}의 페이지 목록 📚</h2>
       ${this.state.map(doc => `
       <li data-id="${doc.id}">${doc.title}
       <button class="removeBtn">삭제</button></li>
@@ -58,7 +59,7 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
   const editor = new Editor({ 
     $target,
     initialState: {
-      title: `${USERNAME} 님의 노션페이지`,
+      title: `${USERNAME} 님 반가워요 😃`,
       content: '',
       createdAt: '',
       updatedAt: ''
