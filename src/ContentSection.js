@@ -4,6 +4,7 @@ import WelcomePage from "./welcomePage.js";
 
 export default function ContentSection({ $target, userName, id }) {
   const $contentSection = document.createElement('div');
+  $contentSection.id = 'contents';
   $contentSection.classList.add('flex-cc');
   $target.appendChild($contentSection);
 
@@ -52,7 +53,8 @@ export default function ContentSection({ $target, userName, id }) {
       welcomePage.render();
     } else { 
       welcomePage.remove();
-      editor.setState(await getDoc(userName, nextState.id));
+      const doc = await getDoc(userName, nextState.id);
+      editor.setState(doc);
     }
   }
 }

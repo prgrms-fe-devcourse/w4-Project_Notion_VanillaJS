@@ -1,5 +1,4 @@
 export default function Editor({ $target, initialState, onEditing }) {
-  console.log($target, initialState, onEditing);
   const $editor = document.createElement('div');
   $editor.id = 'editor';
   $editor.className = 'flex-cc';
@@ -7,49 +6,42 @@ export default function Editor({ $target, initialState, onEditing }) {
   $editor.innerHTML = `
     <input type="text" id="editor-title" name="title" type="text" value="" placeholder="제목" />
     <textarea id="editor-content" name="content" value="" placeholder="내용을 입력하세요."></textarea>
-    <div id="sub-doc" name="documents">subDoc(document)</div>
+    <div id="sub-doc" name="documents"></div>
   `;
 
-  $target.appendChild($editor);
-
   this.state = initialState;
-  let isInit = false;
 
- 
+  let isInit = false;
 
   this.setState = (nextState) => {
     this.state = nextState;
 
     $editor.querySelector('[name=title]').value = this.state.title;
     $editor.querySelector('[name=content]').value = this.state.content;
-    $editor.querySelector('[name=documents]').innerHTML = this.state.document;
-
+    $editor.querySelector('[name=documents]').innerHTML = subDoc(this.state.documents); 
+    
     this.render();
   }
 
-  // const subDoc = (list) => {
-  //   return list.length > 0 
-  //     ? `${ list.map((doc) => `
-  //         <p data-id="${doc.id}">${ doc.title }</p>
-  //       `).join('') }`
-  //     : `` ;
-  // }
+  const subDoc = (list) => {
+    return list.length > 0 
+      ? `${ list.map((doc) => `
+          <p data-id="${doc.id}">${ doc.title }</p>
+        `).join('') }`
+      : `` ;
+  }
   
 
   this.render = () => {
-    //const { title, content, document } = this.state;
+    $target.appendChild($editor);
 
-
-
-    if (!isInit) {
+    if (isInit === false) {
       $editor.querySelector('[name=title]').addEventListener('keyup', (e) => {
         const nextState = { 
           ...this.state,
           title: e.target.value 
         }
-    
-        this.setState(nextState);
-        onEditing(this.state);
+        onEditing(nextState);
       });
     
       $editor.querySelector('[name=content]').addEventListener('keyup', (e) => {
@@ -57,12 +49,10 @@ export default function Editor({ $target, initialState, onEditing }) {
           ...this.state,
           content: e.target.value
         }
-        this.setState(nextState);
-        onEditing(this.state);
+        onEditing(nextState);
       });
+      isInit = true;
     }
-    
-    isInit = true;
   }
 
   this.render();

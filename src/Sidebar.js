@@ -1,5 +1,6 @@
 import DocList from "./docList.js";
 import { request } from "./api.js";
+import { push } from "./router.js";
 
 export default function Sidebar({ $target, userName, data }) {
   const $sidebar = document.createElement('div');
@@ -17,7 +18,7 @@ export default function Sidebar({ $target, userName, data }) {
       $target: $sidebar,
       initialState: await data(),
       onCreate: async (t, p) => {
-        await request(userName, 'documents', {
+        const newSubDoc = await request(userName, 'documents', {
           method: 'POST',
           body: JSON.stringify({
             title: t,
@@ -25,6 +26,7 @@ export default function Sidebar({ $target, userName, data }) {
           })
         });
         const nextState = await data();
+        push(`/documents/${newSubDoc.id}`);
         docList.setState(nextState);
       },
       onDelete: async (id) => {
