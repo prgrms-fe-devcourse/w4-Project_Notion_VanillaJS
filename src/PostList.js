@@ -1,7 +1,7 @@
 import { request } from "./api.js";
 import { push } from "./router.js";
 
-export default function PostList({ $target, initialState, onClick }) {
+export default function PostList({ $target, initialState, onClickPost }) {
   const $postList = document.createElement("div");
   $target.appendChild($postList);
 
@@ -9,6 +9,7 @@ export default function PostList({ $target, initialState, onClick }) {
 
   this.setState = (nextState) => {
     this.state = nextState;
+    
     this.render();
   };
 
@@ -115,9 +116,9 @@ export default function PostList({ $target, initialState, onClick }) {
       const $li = e.target.closest("li");
       if ($li) {
         const { id } = $li.dataset;
+        onClickPost(this.state, id);
         push(`/documents/${id}`);
       }
     }
   });
 }
-
