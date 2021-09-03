@@ -33,7 +33,6 @@ export default function Sidebar({ $target, initialState }) {
 			showList: $li => {
 				const { id } = $li.dataset;
 
-				console.log(id);
 				const currentLi = $li.querySelector('.icon-play');
 				currentLi.classList.toggle('icon-play');
 				currentLi.classList.toggle('icon-down-dir');

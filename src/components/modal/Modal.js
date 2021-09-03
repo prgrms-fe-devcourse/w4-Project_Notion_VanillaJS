@@ -51,10 +51,8 @@ export default function Modal({ $target }) {
 				const { id } = this.state;
 
 				const currentLi = $(`li[data-id="${id}"] span`);
-				const currentInput = $('.modal-title-input').dataset;
-
 				currentLi.textContent = nextDocument.title;
-				currentInput.text = nextDocument.title;
+				$('.show-modal-title').dataset.text = nextDocument.title;
 
 				if (modalBodyUpdateTimer) {
 					clearTimeout(modalBodyUpdateTimer);
@@ -65,15 +63,13 @@ export default function Modal({ $target }) {
 			},
 			updateContent: nextDocument => {
 				const { id } = this.state;
-
-				const currentTextArea = $('.modal-content-textarea').dataset;
-				currentTextArea.text = nextDocument.content;
+				$('.show-modal-content').dataset.text = nextDocument.content;
 
 				if (modalBodyUpdateTimer) {
 					clearTimeout(modalBodyUpdateTimer);
 				}
 				modalBodyUpdateTimer = setTimeout(() => {
-					emit.updateDocument(id, document);
+					emit.updateDocument(id, nextDocument);
 				}, LIMIT_TIME);
 			},
 		},
@@ -88,21 +84,18 @@ export default function Modal({ $target }) {
 		const createBtn = e.target.dataset?.target === 'modal';
 		const onModal = e.target.className.includes('modal');
 
-		console.log(createBtn, onModal);
 		if (createBtn || onModal) {
 			return;
 		}
-
-		const title = $('.modal-title-input').dataset.text;
-		const content = $('.modal-content-textarea').dataset.text;
-		const noData = !title && !content;
+		const noData =
+			!$('.show-modal-title').dataset.text &&
+			!$('.show-modal-content').dataset.text;
 		const isHide = $modal.classList.contains('hide');
-		const isEmpty = !onModal && !isHide && noData && this.state.id !== 'new';
+		const isEmpty = !onModal && !isHide && noData;
 
 		if (isEmpty) {
 			emit.deleteEmptyDocument(this.state.id);
 		}
-
 		hideModal();
 	});
 

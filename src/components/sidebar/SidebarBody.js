@@ -20,9 +20,9 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	const drawNavList = (target, documents, isFirstNode) => {
 		const $ul = $createElement('ul', '.tree');
 
-		if (!isFirstNode) {
-			$ul.classList.add('hide');
-		}
+		// if (!isFirstNode) {
+		// 	$ul.classList.add('hide');
+		// }
 
 		documents.forEach(document => {
 			const { id, title, documents } = document;

@@ -21,7 +21,7 @@ export default function ModalBody({ $target, onUpdate }) {
 					'.show-modal-content',
 				).textContent;
 				const document = {
-					title: e.target.value,
+					title: e.target.textContent,
 					content,
 				};
 
@@ -35,7 +35,7 @@ export default function ModalBody({ $target, onUpdate }) {
 					$modalTitle.querySelector('.show-modal-title').textContent;
 				const document = {
 					title,
-					content: e.target.value,
+					content: e.target.textContent,
 				};
 
 				onUpdate.updateContent(document);

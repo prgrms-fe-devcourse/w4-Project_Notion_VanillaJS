@@ -31,6 +31,7 @@ export default function Store() {
 				'createOnModal',
 				id,
 			);
+
 			emit.updateModal(modalDocument);
 
 			commit('SET_STATE', {
