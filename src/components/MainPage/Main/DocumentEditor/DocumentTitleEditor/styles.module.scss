@@ -1,0 +1,13 @@
+.DocumentTitleEditor {
+  display: flex;
+  justify-content: center;
+
+  & textarea {
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    max-width: 100%;
+    resize: none;
+    width: 600px;
+  }
+}

@@ -1,0 +1,12 @@
+.DocumentContentEditor {
+  display: flex;
+  justify-content: center;
+
+  & textarea {
+    border: none;
+    height: 100vh;
+    max-height: 100vh;
+    resize: none;
+    width: 600px;
+  }
+}
