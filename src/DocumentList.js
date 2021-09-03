@@ -2,7 +2,7 @@ import { request } from "./api.js"
 import { setItem, getItem } from "./storage.js"
 import { makeList } from "../utils/makeList.js"
 
-export default function RootList({ // Root가 아니라 Document로 변경
+export default function DocumentList({ // Root가 아니라 Document로 변경
   $target,
   initialState,
   onAddChild,
@@ -10,8 +10,8 @@ export default function RootList({ // Root가 아니라 Document로 변경
   onPostClick,
   onAddRoot
 }) {
-  const $rootList = document.createElement('div')
-  $target.appendChild($rootList)
+  const $documentList = document.createElement('div')
+  $target.appendChild($documentList)
 
   this.state = initialState
 
@@ -21,7 +21,7 @@ export default function RootList({ // Root가 아니라 Document로 변경
   }
   
   this.render = () => {
-    $rootList.innerHTML = `<ul class="root-document">
+    $documentList.innerHTML = `<ul class="root-document">
         ${makeList(this.state)}
         <br><li><span class="add-rootDocument">+ 페이지 추가</span></li>
         </ul>
@@ -30,7 +30,7 @@ export default function RootList({ // Root가 아니라 Document로 변경
   
   this.render()
 
-  $rootList.addEventListener('click', (e) => {
+  $documentList.addEventListener('click', (e) => {
 
     const $li = e.target.closest('.documents-list')
     
@@ -59,9 +59,9 @@ export default function RootList({ // Root가 아니라 Document로 변경
         const a33 = cc.className.split('-')
         let toggleLocalSaveKey = `temp-toggle-${a33[1]}`
         if (cc.style.display) {
-          cc.style.display = ''
+          cc.style.display = 'block'
           e.target.innerHTML = '&#9660;';
-          (a33.length > 1) ? setItem(toggleLocalSaveKey, {state: ''}) : '';
+          (a33.length > 1) ? setItem(toggleLocalSaveKey, {state: 'block'}) : '';
         } else {
           cc.style.display = 'none'
           e.target.innerHTML = '&#10148;';

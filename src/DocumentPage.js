@@ -1,10 +1,10 @@
 import { request } from "./api.js";
 import Header from "./Header.js";
-import RootList from "./RootList.js";
+import DocumentList from "./DocumentList.js";
 
 
 
-export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
+export default function DocumentPage({ $target, onPostClick, renderNewEditPage }) {
   const $page = document.createElement('div')
 
   new Header({
@@ -15,7 +15,7 @@ export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
   })
 
   
-  const rootList = new RootList({
+  const documentList = new DocumentList({
     $target: $page,
     initialState: [],
     onAddChild: async (id) => {
@@ -77,7 +77,7 @@ export default function RootPage({ $target, onPostClick, renderNewEditPage }) {
 
   this.setState = async () => {
     const roots = await request('/documents')
-    rootList.setState(roots)
+    documentList.setState(roots)
     this.render()
   }
 
