@@ -28,7 +28,6 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
 
   this.render()
   
-  // 클릭 시 펼침
   $documentList.addEventListener('click', (e) => {
     const $li = e.target.closest('li')
     const { className } = e.target
@@ -37,16 +36,19 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
     const { id } = $li.dataset
     onDocsClick = id
 
-    if(className === 'removeBtn'){
+    if(className === 'removeBtn'){ // 삭제버튼
       if(confirm("삭제하실건가요?")) {
         removeDocument(id)
         history.go(0)
       }
-    } else{
+    } else if (className === 'foldupBtn') {
+      const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
+      $li.innerHTML = `${originTitle.title} <button class="removeBtn">삭제</button>`
+    } else{ // 클릭 시 펼침
       fetchDocument(onDocsClick)
       const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
       if(originTitle){
-        $li.innerHTML = `${originTitle.title} <button class="removeBtn">삭제</button>
+        $li.innerHTML = `${originTitle.title} <button class="removeBtn">삭제</button>${originTitle.documents.length ? `<button class="foldupBtn" >접기</button>` : ''}
         ${originTitle.documents.map(doc => `
         <li data-id="${doc.id}" class="spreadTitle">${doc.title} <button class="removeBtn">삭제</button></li>
       `).join('')}

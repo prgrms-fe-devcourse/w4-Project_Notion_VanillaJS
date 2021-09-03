@@ -46,6 +46,7 @@ article{
   flex-direction: row-reverse;
 }
 
+.foldupBtn,
 .newBtn,
 .editBtn,
 .removeBtn
