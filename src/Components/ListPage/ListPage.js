@@ -1,9 +1,6 @@
-import api from "../../api.js";
-import { LOCAL_STORAGE_KEY } from "../../constants.js";
-import { push, routeName } from "../../router.js";
-import { setItem } from "../../storage.js";
 import DocumentsList from "./DocumentsList.js";
 import FavoriteDocumentsList from "./FavoriteDocumentsList.js";
+import ListPageToggle from "./ListPageToggle.js";
 
 export default function ListPage({
   $target,
@@ -25,7 +22,11 @@ export default function ListPage({
     favoriteList.setState(this.state.favoriteDocuments);
     documentsList.setState(this.state);
   };
+
   // Components
+
+  new ListPageToggle({ $target: $page, initialState: false });
+
   const favoriteList = new FavoriteDocumentsList({
     $target: $page,
     initialState: this.state.favoriteDocuments,
@@ -38,6 +39,7 @@ export default function ListPage({
     onCreateDocument,
     onToggleDocument,
   });
+
   // Render
   this.render = () => {
     $target.appendChild($page);

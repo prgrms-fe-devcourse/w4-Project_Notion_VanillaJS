@@ -2,8 +2,15 @@ import { push } from "../../router.js";
 import { filterTag } from "../../scriptFilter.js";
 import DocumentSearch from "./DocumentSearch.js";
 
-export default function Editor({ $target, initialState, onUpdateDocument }) {
+export default function Editor({
+  $target,
+  initialState,
+  onUpdateDocument,
+  onGetDocument,
+}) {
+  // Function Variables
   let isInit = false;
+  let selectionOffsets = null;
   // DOM Create
   const $editor = document.createElement("div");
   $editor.className = "content-page__editor";
@@ -19,7 +26,6 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
       this.render();
     }
   };
-  // Components
 
   // Render
   this.render = () => {
@@ -39,95 +45,82 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
 
   // Event Handler
 
-  // Key up
+  //     Key up
   $editor.addEventListener("keyup", (e) => {
     const $text = e.target.closest("[name]");
-    selectionOffsets = null;
-    const { anchorNode, anchorOffset } = window.getSelection();
     const { selectedDocument } = this.state;
+    const { anchorNode, anchorOffset } = window.getSelection();
+    saveSelectionOffsets(anchorNode, anchorOffset);
+    selectionOffsets = null;
     if ($text) {
       const key = $text.getAttribute("name");
-      if (key === "title") {
-        const { value } = $text;
-        selectedDocument[key] = filterTag(value);
-        this.setState({ ...this.state, selectedDocument }, false);
-        onUpdateDocument(selectedDocument, e.target);
-      } else if (key === "content") {
-        saveSelectionOffsets(anchorNode, anchorOffset);
-        if (e.key === " ") {
-          makeHeader(anchorNode.parentNode, anchorNode.textContent);
-        }
-        if (e.key === "/") {
-          searchDocument(anchorNode.parentNode);
-          return;
-        }
-        const { innerHTML } = $text;
-        selectedDocument[key] = innerHTML;
-        this.setState({ ...this.state, selectedDocument }, false);
-        const { id, title, content } = selectedDocument;
-        onUpdateDocument(selectedDocument, null, false);
+      switch (key) {
+        case "title":
+          selectedDocument[key] = filterTag($text.value); // XSS 방지
+          onUpdateDocument(selectedDocument, false);
+          if (e.key === "Enter") {
+            $editor.querySelector("[name=content]").focus();
+          }
+          break;
+        case "content":
+          if (editorShortcutKeyInput(e.key, anchorNode)) return;
+          const { innerHTML } = $text;
+          selectedDocument[key] = innerHTML;
+          onUpdateDocument(selectedDocument, false);
+          break;
       }
+      this.setState({ ...this.state, selectedDocument }, false);
     }
   });
 
   // Click
-  $editor.addEventListener("click", (e) => {
+  $editor.addEventListener("click", async (e) => {
     const { target } = e;
     const { className } = target;
-
-    switch (className) {
-      case "document-link":
-        const { id } = target.dataset;
-        push(`/document/${id}`);
-        break;
+    if (className === "document-link") {
+      const { id } = target.dataset;
+      await onGetDocument(id);
     }
   });
 
   // function
 
-  let selectionOffsets = null;
-  const saveSelectionOffsets = (node, offset) => {
-    selectionOffsets = { node, offset };
-  };
-  const loadSelectionOffsets = () => {
-    if (selectionOffsets) {
-      const { node, offset } = selectionOffsets;
-      window.getSelection().collapse(node, offset);
-      selectionOffsets = null;
+  const editorShortcutKeyInput = (key, node) => {
+    switch (key) {
+      case " ":
+        makeHeader(node.parentNode, node.textContent);
+        return true;
+      case "/":
+        searchDocument(node.parentNode);
+        return true;
+      default:
+        return;
     }
   };
 
-  let timer = null;
   const makeHeader = (node, text) => {
     const parentNode = $editor.querySelector("[name=content]");
-
-    if (!timer) {
-      clearTimeout(timer);
+    let $header;
+    if (text.indexOf("####") === 0 || !text.startsWith("#")) {
+      return;
+    } else if (text.indexOf("###") === 0) {
+      $header = document.createElement("h3");
+      $header.innerText = text.substring(4);
+    } else if (text.indexOf("##") === 0) {
+      $header = document.createElement("h2");
+      $header.innerText = text.substring(3);
+    } else if (text.indexOf("#") === 0) {
+      $header = document.createElement("h1");
+      $header.innerText = text.substring(2);
     }
-    timer = setTimeout(() => {
-      let $header;
-      if (text.indexOf("####") === 0 || !text.startsWith("#")) {
-        return;
-      } else if (text.indexOf("###") === 0) {
-        $header = document.createElement("h3");
-        $header.innerText = text.substring(4);
-      } else if (text.indexOf("##") === 0) {
-        $header = document.createElement("h2");
-        $header.innerText = text.substring(3);
-      } else if (text.indexOf("#") === 0) {
-        $header = document.createElement("h1");
-        $header.innerText = text.substring(2);
-      }
-      $header.innerHTML = "<br>";
-      saveSelectionOffsets($header, 1);
-      if (node.parentNode === parentNode) {
-        parentNode.replaceChild($header, node);
-      } else {
-        parentNode.innerText = "";
-        parentNode.appendChild($header);
-      }
-      loadSelectionOffsets();
-    }, 0);
+    $header.innerHTML = "<br>";
+    if (node.parentNode === parentNode) {
+      parentNode.replaceChild($header, node);
+    } else {
+      parentNode.innerHTML = "";
+      parentNode.appendChild($header);
+    }
+    window.getSelection().collapse($header, 0);
   };
 
   const searchDocument = (node) => {
@@ -144,22 +137,36 @@ export default function Editor({ $target, initialState, onUpdateDocument }) {
       initialState: { flattedDocuments, selectedDocument },
       onMakeDocumentLink: (id, title) => {
         node.innerHTML = `
-        <div><br></div>
         <button data-id="${id}" class="document-link" contenteditable="false">   
           ${title}<br>
         </button>
-        <div><br></div>
         `;
+        const parentNode = node.parentNode;
+        const $link = node.querySelector("button");
         const $nextLine = document.createElement("div");
-        $nextLine.textContent = "";
-        node.parentNode.insertBefore($nextLine, node.nextSibling);
+        parentNode.replaceChild($link, node);
+        $nextLine.innerHTML = "<br>";
+        parentNode.insertBefore($nextLine, $link);
+        parentNode.insertBefore($nextLine, $link.nextSibling);
+        window.getSelection().collapse($nextLine, 0);
+
         const { selectedDocument } = this.state;
         selectedDocument.content =
           $editor.querySelector("[name='content']").innerHTML;
         this.setState({ ...this.state, selectedDocument }, false);
-        onUpdateDocument(selectedDocument, null, false);
-        window.getSelection().collapse($nextLine, 0);
+        onUpdateDocument(selectedDocument, false);
       },
     });
+  };
+
+  const saveSelectionOffsets = (node, offset) => {
+    selectionOffsets = { node, offset };
+  };
+  const loadSelectionOffsets = () => {
+    if (selectionOffsets) {
+      const { node, offset } = selectionOffsets;
+      window.getSelection().collapse(node, offset);
+      selectionOffsets = null;
+    }
   };
 }

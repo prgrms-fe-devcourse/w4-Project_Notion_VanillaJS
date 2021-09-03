@@ -25,80 +25,88 @@ export default function DocumentsList({
 
   // Render
   this.render = () => {
-    console.log("document rendering!");
     const { documents } = this.state;
     $documentsList.innerHTML = `
-        <div class="documents-list__wrapper">
-          <span>Documents</span>
-          <button class="create-document-button">📝</button>
-        </div>
-        `;
+    <div class="documents-list__header">
+    <span>Documents</span>
+    <button class="create-document-button">📝</button>
+    </div>
+    `;
     $documentsList.innerHTML += makeDocumentsTree(documents);
   };
 
-  // EventListners
-  $documentsList.addEventListener("click", async (e) => {
-    const { target } = e;
-    const $li = target.closest("li");
-
-    const targetClass = e.target.getAttribute("class");
-
-    if (targetClass) {
-      if (targetClass.includes("create-document-button")) {
-        if ($li) {
-          const { id } = $li.dataset;
-          await onCreateDocument(parseInt(id));
-        } else {
-          await onCreateDocument();
-        }
-      } else if (targetClass.includes("documents-list__toggle")) {
-        const { id } = $li.dataset;
-        onToggleDocument(parseInt(id));
-      } else if ($li) {
-        const { id } = $li.dataset;
-        onGetDocument(parseInt(id));
-      }
-    }
-  });
-
   // Functions
-  const makeDocumentsTree = (documents, visible = "") => {
+  const makeDocumentsTree = (documents, depth = 0) => {
     const {
       selectedDocument: { id: selectedId = null },
       toggledDocuments,
     } = this.state;
+
     return `
     <ul class="documents-list__ul">
        ${documents
          .map(({ id, title, documents: underDocuments }) => {
+           const isSelected = selectedId === id ? "selected" : "";
+           const renderToggleButton =
+             underDocuments.length > 0
+               ? `
+                  <button class="documents-list__toggle${
+                    toggledDocuments[id] ? " toggled" : ""
+                  }" tabindex = "0">
+                    ▼	
+                  </button>
+                 `
+               : "";
+
            return `
-          <li data-id=${id} 
-            class="documents-list__li  ${visible}"
-          >
-            ${
-              // Toggle Button
-              underDocuments.length > 0
-                ? `<button class="documents-list__toggle ${
-                    toggledDocuments[id] ? "toggled" : ""
-                  }">▼</button>`
-                : ""
-            }
-            <span class="documents-list__title ${
-              selectedId === id ? "selected" : ""
-            }"
-            >
-              ${title.length > 0 ? title : "Untitled"}</span>
-            <button class="create-document-button">📄</button>
-            ${
-              toggledDocuments[id] && underDocuments.length > 0
-                ? makeDocumentsTree(underDocuments)
-                : ""
-            }
+          <li data-id=${id} class="documents-list__li" tabindex = "0" >
+            <div class="documents-list__document ${isSelected}"
+             style="padding-left:${depth * 20}px">
+              ${renderToggleButton}
+              <span class="documents-list__title" >
+                ${title.length > 0 ? title : "Untitled"}
+              </span>
+              <button class="create-document-button" tabindex = "0"> 📄 </button>
+            </div>
           </li>
+          ${
+            toggledDocuments[id] && underDocuments.length > 0
+              ? makeDocumentsTree(underDocuments, depth + 1)
+              : ""
+          }
           `;
          })
          .join("")}
     </ul>
     `;
   };
+
+  // EventListners
+  $documentsList.addEventListener("click", async (e) => {
+    const { target } = e;
+    const targetClass = e.target.className;
+    const $li = target.closest("li");
+    if ($li) {
+      const { id } = $li.dataset;
+      switch (targetClass) {
+        case "documents-list__toggle toggled":
+          onToggleDocument(parseInt(id), false);
+          break;
+        case "documents-list__toggle":
+          onToggleDocument(parseInt(id), true);
+          break;
+        case "create-document-button":
+          await onCreateDocument(parseInt(id));
+          onToggleDocument(parseInt(id), true);
+          break;
+        default:
+          await onGetDocument(parseInt(id));
+          break;
+      }
+    } else {
+      if (targetClass === "create-document-button") {
+        await onCreateDocument(null);
+      }
+    }
+  });
 }

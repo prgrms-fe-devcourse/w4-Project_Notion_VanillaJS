@@ -24,7 +24,6 @@ export default function DocumentSearch({
     const { selectedDocument, flattedDocuments } = this.state;
     let flattedDocumentsEntries = Object.entries(flattedDocuments);
     const { id: selectedId } = selectedDocument;
-    console.log(selectedId);
     $searchForm.innerHTML = `
         <input list="documents-list" class="document-search__input" placeholder="Link Document" />
         <datalist id="documents-list">
@@ -38,8 +37,7 @@ export default function DocumentSearch({
         </datalist>
         
         `;
-    const $input = $searchForm.querySelector(".document-search__input");
-    $input.focus();
+    $searchForm.querySelector("input").focus();
   };
   this.render();
 
@@ -57,9 +55,11 @@ export default function DocumentSearch({
     }
   });
 
+  // Document Update 방지
   $searchForm.addEventListener("keyup", (e) => {
     e.stopPropagation();
   });
+  // FocusOut 시 SearchForm 삭제
   $searchForm.addEventListener("focusout", (e) => {
     setTimeout(() => {
       try {

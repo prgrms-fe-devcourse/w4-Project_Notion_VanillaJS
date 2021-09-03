@@ -1,7 +1,7 @@
 export default function ContentNav({ $target, initialState, onGetDocument }) {
   // DOM Create
   const $nav = document.createElement("nav");
-  $nav.className = "content-nav";
+  $nav.className = "content-page__nav";
   $target.appendChild($nav);
 
   // State, setState
@@ -16,41 +16,28 @@ export default function ContentNav({ $target, initialState, onGetDocument }) {
 
   // Render
   this.render = () => {
-    const { id, title, documents } = this.state;
+    const { documents } = this.state;
     $nav.innerHTML = `
-    <ul>
-        <li class="content-nav__document link" data-id="${id}"><span>${title}</span> ${
-      documents.length > 0 ? renderUnderDocumentsTitle(documents) : ""
-    }</li>
-    </ul>
-    `;
+        <header>하위 Documents</header>
+        <content>${documents
+          .map(
+            (document) =>
+              `
+              <button class="content-page__nav__document link" data-id="${document.id}">
+                ${document.title}
+              </button>`
+          )
+          .join("<span class='divider'>/</span>")}
+        </content>`;
   };
   // EventHandler
   $nav.addEventListener("click", (e) => {
     const { target } = e;
-    const $li = target.closest("li");
-    if ($li) {
-      const { id } = $li.dataset;
+    if (target.className === "content-page__nav__document link") {
+      const { id } = target.dataset;
       onGetDocument(id);
     }
   });
 
   // Functions
-  function renderUnderDocumentsTitle(documents) {
-    return `
-    <ul>
-        ${documents
-          .map(
-            (document) =>
-              `<li class="content-nav__document link" data-id="${
-                document.id
-              }"><span>${document.title}</span> ${
-                document.documents.length > 0
-                  ? renderUnderDocumentsTitle(document.documents)
-                  : ""
-              }</li>`
-          )
-          .join("")}
-    </ul>`;
-  }
 }

@@ -22,30 +22,39 @@ export default function ContentPage({
     this.state = nextState;
     const { selectedDocument, favoriteDocuments, flattedDocuments } =
       this.state;
-    contentNav.setState(selectedDocument);
-    editor.setState({ selectedDocument, flattedDocuments });
-    settings.setState({ selectedDocument, favoriteDocuments });
+    if (selectedDocument.id) {
+      contentNav.setState(selectedDocument);
+      editor.setState({ selectedDocument, flattedDocuments });
+      settings.setState({ selectedDocument, favoriteDocuments });
+    }
   };
 
   // Component
 
-  const contentNav = new ContentNav({
-    $target: $page,
-    initialState: this.state.selectedDocument,
-    onGetDocument,
-    onToggleFavorite,
-  });
   const settings = new ContentSettings({
     $target: $page,
-    initialState: this.state.selectedDocument,
+    initialState: {
+      selectedDocument: this.state.selectedDocument,
+      flattedDocuments: this.state.flattedDocuments,
+    },
     onDeleteDocument,
     onToggleFavorite,
   });
 
   const editor = new Editor({
     $target: $page,
-    initialState: this.state.selectedDocument,
+    initialState: {
+      selectedDocument: this.state.selectedDocument,
+      flattedDocuments: this.state.flattedDocuments,
+    },
     onUpdateDocument,
+    onGetDocument,
+  });
+  const contentNav = new ContentNav({
+    $target: $page,
+    initialState: this.state.selectedDocument,
+    onGetDocument,
+    onToggleFavorite,
   });
 
   // Render

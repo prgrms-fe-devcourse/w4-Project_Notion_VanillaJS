@@ -78,6 +78,7 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [ ] 하위 Document 옮기기 기능
   - [x] Favorite Documents
   - [ ] Login 기능
+  - [x] 뒤로가기 기능
 
 - 다음에 할일
   - [x] Document를 클릭했을때, DocumentsList가 새로 렌더링되며 토글 된 Tree가 사라지는 현상. - 토글을 시켰을때, 토글된 id를 state에서 기억한다. - tree 렌더링을 실행하고, 토글된 id에 한해서 내부 Tree를 렌더링한다.
@@ -91,3 +92,9 @@ header에 해당 값이 누락이 되면 API 호출에 실패합니다.
   - [ ] Favorite에서도 하위 디렉토리 토글기능
   - [x] / 입력시 다른 Document Title 조회하여, 링크를 걸수 있는기능
   - [ ] 하위 디렉토리가 Div 컨텐츠 내에 생성되고, 지울시에 해당 디렉토리가 삭제되는 기능
+  - [ ] 제목을 작성후 바로 코멘트로 이동해 작성할경우, Title 상태변경이 안되는문제
+  - [x] 자기자신의 타이틀을 바꿨을때 검색속 타이틀 바뀜
+  - [x] ListPage ToggleButton
+    - [x] Document Depth가 늘어날수록, ul의 패딩으로인해 전체에 칠해지지 않을때
+      - [x] Rendering Document Tree 순회중 Depth값을 기억하여 css style 적용
+  - [x] Editor 내 Button 만드는 로직 변경

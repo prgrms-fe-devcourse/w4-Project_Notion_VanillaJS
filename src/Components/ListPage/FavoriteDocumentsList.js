@@ -9,7 +9,7 @@ export default function FavoriteDocumentsList({
   $target.appendChild($favList);
 
   // State, setState
-  // state : {favoriteDocuments:{}}
+  // state : favoriteDocuments: Object{ id : title }
   this.state = initialState;
 
   this.setState = (nextState) => {
@@ -21,17 +21,21 @@ export default function FavoriteDocumentsList({
   this.render = () => {
     const favoriteDocuments = Object.entries(this.state);
     $favList.innerHTML = `
-    <div class="favorite-list__wrapper">
-      <span>Favorite</span>
+    <div class="favorite-list__header">
+      <span>Favorites</span>
+    </div>
       <ul class="favorite-list__ul">
         ${favoriteDocuments
           .map(
             ([id, title]) =>
-              `<li class="favorite-list__li" data-id=${id}>${title}</li>`
+              `
+              <li class="favorite-list__li" data-id=${id} tabindex="0">
+                <span class="favorite-list__span">${title}</span>
+              </li>
+              `
           )
           .join("")}
       </ul>
-    </div>
     `;
   };
 
@@ -39,7 +43,6 @@ export default function FavoriteDocumentsList({
   $favList.addEventListener("click", (e) => {
     const { target } = e;
     const $li = target.closest("li");
-
     if ($li) {
       const { id } = $li.dataset;
       onGetDocument(id);
