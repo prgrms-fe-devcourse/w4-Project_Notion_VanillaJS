@@ -31,17 +31,23 @@ export default function App({$target, initialState}) {
   const $helpPage=document.createElement('div')
   $helpPage.setAttribute('id','page-help')
   $helpPage.innerHTML=`
-    <h4>안내 페이지 입니다</h4>
+    <h4>마크다운 안내</h4>
     <div style="font-size: 15px;text-align: left;padding-left: 5px">
       <xmp>#: <h1></h1></xmp>
       <xmp>##: <h2></h2></xmp>
       <xmp>###: <h3></h3></xmp>
       <xmp>####: <h4></h4></xmp>
       <xmp>#####: <h5></h5></xmp>
+      <xmp>\`inline-code\`: <code></code></xmp>
       <xmp>*: <li></li></xmp>
-      <xmp>** or __: <strong></strong></xmp>
-      <xmp>* or _: <em></em></xmp>
-      <xmp>~~: <del></del></xmp>
+      <xmp>**text** or __text__: <strong></strong></xmp>
+      <xmp>*text* or _text_: <em></em></xmp>
+      <xmp>~~text~~: <del></del></xmp>
+      <xmp>[text](link): <a href="link">text</a></xmp>
+      <xmp>![alt-text](link)(w: 너비 h: 높이):
+       <img alt="alt-text" src="link">
+       </xmp>
+      <div>( '(w: h: )'를 입력하지 않으면 기본 크기가 적용됩니다 )</div>
     </div>
     
   `

@@ -72,7 +72,7 @@ export default function EditPage({$target, initialState, onEditing}) {
   const renderContent = () => {
     let res
     $previewContent.innerHTML = $editorContent.value.split('\n').map(line => {
-      // markdown -> html tag
+      // h1 ~ h5
       if (line.indexOf('# ') === 0) {
         res = `<h1>${line.substr(2)}</h1>`
       } else if (line.indexOf('## ') === 0) {
@@ -83,17 +83,48 @@ export default function EditPage({$target, initialState, onEditing}) {
         res = `<h4>${line.substr(5)}</h4>`
       } else if (line.indexOf('##### ') === 0) {
         res = `<h5>${line.substr(6)}</h5>`
-      } else if (line.indexOf('* ') === 0) {
-        res = `<li>${line.substr(2)}</li>`
       } else {
         res = line
       }
-      /*
-      * 강조체 처리
-      * italic: *italic* || _italic_ -> <em>
-      * bold: **bold** || __bold__ -> <strong>
-      * del: ~~del~~ -> <del>
-      * */
+
+      // li 처리
+      if (line.indexOf('* ') === 0) {
+        res = `<li>${line.substr(2)}</li>`
+      }
+
+      // a href 처리
+      if (line.includes('[') && line.includes('](') && line.includes(')')) {
+        const start = line.indexOf('[')
+        const mid = line.indexOf('](')
+        const end = line.indexOf(')')
+        res = `<a href="${line.substr(mid + 2, end - mid - 2)}">${line.substr(start + 1, mid - start - 1)}</a><br>`
+      }
+
+      // img 처리
+      if (line.includes('![') && line.includes('](') && line.includes(')')) {
+        const start = line.indexOf('[')
+        const mid = line.indexOf('](')
+        const end = line.indexOf(')')
+        const sizeIndex = line.indexOf('w:')
+
+        let width = 200
+        let height = 100
+        if (sizeIndex !== -1) {
+          const sizeInfo = line.substr(sizeIndex).trim()
+          const widthIndex = sizeInfo.indexOf('w:')
+          const heightIndex = sizeInfo.indexOf('h:')
+          width = sizeInfo.substr(widthIndex + 2, heightIndex - widthIndex - 2).trim()
+          height = sizeInfo.substr(heightIndex + 2).replace(')', '').trim()
+        }
+
+        res = `<img src="${line.substr(mid + 2, end - mid - 2)}"
+                  alt="${line.substr(start + 1, mid - start - 1)}"
+                  width="${width}"
+                  height="${height}"
+                 ><br>`
+      }
+
+      // 강조체 처리
       if (res.includes('**')) {
         const count = countKeyword(res, '**')
         res = convertKeyword(res, parseInt(count / 2), '**', '<strong>', '</strong>')
@@ -114,10 +145,21 @@ export default function EditPage({$target, initialState, onEditing}) {
         const count = countKeyword(res, '~~')
         res = convertKeyword(res, parseInt(count / 2), '~~', '<del>', '</del>')
       }
+
+
+
+      //code inline 처리
+      if (line.includes('`')) {
+        const count = countKeyword(res, '`',)
+        res = convertKeyword(res, parseInt(count / 2), '`', '<code>', '</code><br>')
+      }
+
+
       return res
     }).join('')
 
   }
+
   const convertKeyword = (str, count, keyword, frontTag, rearTag) => {
     let _str = str
     for (let i = 0; i < count; i++) {

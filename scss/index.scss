@@ -50,10 +50,11 @@ body {
       border-radius: 4px;
       text-align: center;
       background-color: ivory;
-      right: 280px;
-      width: 270px;
+      right: 340px;
+      width: 370px;
       height: 430px;
       display: block;
+      overflow: auto;
     }
   }
 }
@@ -212,6 +213,16 @@ body {
   border: none;
   border-top: 1px solid #a8a7a7;
 }
+
+code {
+  font-family: Consolas, "courier new", serif;
+  font-weight: bold;
+  color: crimson;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 105%;
+}
+
 
 #btn {
   &-raw,
