@@ -8,6 +8,7 @@ export default function Editor({
   onClick,
 }) {
   const $editor = document.createElement("div");
+  $editor.className = "editor";
   const $documentList = document.createElement("div");
 
   let isinitialize = false;
@@ -27,6 +28,7 @@ export default function Editor({
   this.render = (nextState) => {
     if (!isinitialize) {
       $editor.innerHTML = `
+        <img class="headerImg" src="../header.png">
       <div>
         <input type="text" name="title" style="width:500px;"  value="${this.state.title}"/>
       </div>
@@ -40,7 +42,7 @@ export default function Editor({
 
     if (!!nextState) {
       const documentList = documentRecursive(nextState, "");
-      $documentList.innerHTML = `<div style="margin : 20px">선택된 Document의 목록들</div> ${documentList}`;
+      $documentList.innerHTML = `<div class="subDocument">선택된 Document의 목록들 ${documentList}</div>`;
     }
   };
 

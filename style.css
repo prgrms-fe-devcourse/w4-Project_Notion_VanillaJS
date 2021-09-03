@@ -1,0 +1,80 @@
+#app {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.notionPage {
+  height: 100%;
+  width: 30%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 40px;
+  background-color: rgb(204, 200, 200);
+}
+
+.notionList {
+  margin-left: 10px;
+}
+
+ul {
+  margin-left: 3px;
+  padding-left: 5px;
+}
+
+li {
+  list-style: none;
+  padding: 4px 0px 4px 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+ul li:before,
+li li:before {
+  content: ">";
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0px 4px 5px 0px;
+}
+
+.plus {
+  background-color: rgb(204, 200, 200);
+  color: black;
+  border: 2px solid rgb(185, 183, 183);
+}
+
+.plus:hover {
+  background-color: grey;
+  color: white;
+}
+
+.remove {
+  background-color: rgb(204, 200, 200);
+  color: black;
+  border: 2px solid rgb(185, 183, 183);
+}
+
+.remove:hover {
+  background-color: grey;
+  color: white;
+}
+
+.editor div {
+  margin-left: 35%;
+  margin-top: 40px;
+  font-size: 18px;
+}
+
+img {
+  width: 100%;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+}
+
+.subDocument > ul {
+  margin-left: 35%;
+  margin-top: 40px;
+  font-size: 18px;
+}

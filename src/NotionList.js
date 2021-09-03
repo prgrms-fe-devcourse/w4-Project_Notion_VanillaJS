@@ -7,6 +7,7 @@ export default function NotionList({
   onRemove,
 }) {
   const $notion = document.createElement("div");
+  $notion.className = "notionList";
   $target.appendChild($notion);
 
   this.state = initialState;
@@ -18,8 +19,10 @@ export default function NotionList({
 
   this.render = () => {
     const documentList = documentRecursive(this.state, "");
-    const rootButton = "<button class='plus document-item'>ROOT</button>";
-    $notion.innerHTML = rootButton + documentList;
+    const rootButton =
+      "<button class='plus document-item rootButton'>+ 페이지 추가</button>";
+
+    $notion.innerHTML = `<div class="title">파트로의 Notion</div>${documentList} ${rootButton}`;
   };
 
   //컴포넌트 랜더링(하위 컴포넌트 포함)
