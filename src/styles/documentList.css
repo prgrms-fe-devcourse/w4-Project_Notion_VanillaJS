@@ -1,0 +1,161 @@
+.documents-page {
+  position: relative;
+  width: 25%;
+  height: 100%;
+  background: var(--documentsBackgroundColor);
+}
+
+.side-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--sideButtonColor);
+  font-size: 24px;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+}
+
+.side-button:hover {
+  color: var(--sideButtonHoverColor);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px;
+  height: 100%;
+}
+
+.logo-image {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  align-self: flex-start;
+}
+
+.root-document-add-button {
+  align-self: center;
+  width: 100%;
+  height: 38px;
+  font-size: 14px;
+  margin-left: 20px;
+  color: var(--fontColor);
+  border: 1px solid var(--fontColor);
+}
+
+.root-document-add-button:hover {
+  color: var(--rootDocumentButtonHoverFontColor);
+  background-color: var(--rootDocumentButtonHoverColor);
+}
+
+.fade-out {
+  animation-duration: 0.2s;
+  animation-name: fadeOut;
+  animation-fill-mode: forwards;
+}
+
+.fade-in {
+  animation-duration: 0.2s;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+}
+
+.document-list {
+  display: flex;
+  flex-direction: column;
+  color: gray;
+  overflow: hidden;
+}
+
+.document-list .message-container {
+  position: absolute;
+  top: 50%;
+  align-self: center;
+}
+
+.document-tree {
+  color: var(--fontColor);
+}
+
+.document-tree,
+.document-tree ul {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.document-tree li {
+  position: relative;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.document-tree li,
+.document-tree label {
+  cursor: pointer;
+}
+
+.document-tree .button-group {
+  display: inline;
+  position: absolute;
+  right: 10px;
+}
+
+.document-tree .button-group i {
+  padding: 0 2px;
+  color: #cdccc9;
+}
+
+.document-tree .button-group i:hover {
+  color: var(--documentsButtonHoverColor);
+}
+
+.document-tree label::before {
+  content: '📂  ';
+}
+
+.document-tree label.last-node::before {
+  content: '📄  ';
+}
+
+.document-tree input[type='checkbox'] {
+  display: none;
+}
+
+.document-tree input[type='checkbox']:checked ~ ul {
+  display: none;
+}
+
+.document-tree input[type='checkbox']:checked + label::before {
+  content: '📁  ';
+}
+
+.document-tree input[type='checkbox']:checked + label.last-node::before {
+  content: '📄  ';
+}
+
+@keyframes fadeOut {
+  from {
+    width: 25%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 25%;
+  }
+}

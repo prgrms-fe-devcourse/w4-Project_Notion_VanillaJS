@@ -1,0 +1,40 @@
+:root[notion-theme='light'] {
+  --backgroundColor: #ffffff;
+  --fontColor: #353535;
+  --documentsBackgroundColor: #f7f6f3;
+  --documentsButtonHoverColor: #353535;
+  --sideButtonColor: #808080;
+  --sideButtonHoverColor: #353535;
+  --darkModeToggleButtonColor: #000000;
+  --modalFontColor: #000000;
+  --dimmedColor: rgba(0, 0, 0, 0.5);
+  --editorBorderColor: #353535;
+  --rootDocumentButtonHoverFontColor: #ffffff;
+  --rootDocumentButtonHoverColor: #353535;
+}
+
+:root[notion-theme='dark'] {
+  --backgroundColor: #353535;
+  --fontColor: #ffffff;
+  --documentsBackgroundColor: #6e6e6e;
+  --documentsButtonHoverColor: #ffffff;
+  --sideButtonColor: #6e6e6e;
+  --sideButtonHoverColor: #ffffff;
+  --darkModeToggleButtonColor: #ff8200;
+  --modalFontColor: #ffffff;
+  --dimmedColor: rgba(255, 255, 255, 0.5);
+  --editorBorderColor: #6e6e6e;
+  --rootDocumentButtonHoverFontColor: #353535;
+  --rootDocumentButtonHoverColor: #ffffff;
+}
+
+html {
+  background: var(--backgroundColor);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  border-radius: 0;
+}

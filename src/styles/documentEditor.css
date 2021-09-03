@@ -1,0 +1,79 @@
+.edit-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.edit-page-empty-message {
+  position: absolute;
+  font-size: 56px;
+  color: var(--fontColor);
+}
+
+.document-title {
+  width: 85%;
+  height: 70px;
+  font-size: 48px;
+  border: 0;
+  outline: none;
+  flex-basis: 20%;
+  background: var(--backgroundColor);
+  color: var(--fontColor);
+}
+
+.document-editor {
+  overflow: auto;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 24px;
+  border-radius: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  flex-basis: 60%;
+  padding: 10px;
+  background: var(--backgroundColor);
+  color: var(--fontColor);
+}
+
+.editor-container {
+  display: flex;
+  width: 85%;
+  height: 60%;
+}
+
+.border-vertical {
+  width: 1px;
+  height: 90%;
+  background: var(--editorBorderColor);
+  align-self: center;
+  margin: 0 3%;
+}
+
+.child-document-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 35px;
+  width: 85%;
+  flex-basis: 20%;
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.child-document-link {
+  display: flex;
+  align-items: center;
+  color: var(--fontColor);
+  cursor: pointer;
+}
+
+.child-document-link:hover {
+  color: var(--fontColor);
+}
+
+.child-document-link::before {
+  content: '📄  ';
+}
