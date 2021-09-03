@@ -1,16 +1,10 @@
-import PostList from "./PostList.js"
-import { request } from "../api/api.js"
+import PostPage from "./PostPage.js"
 
 const $target = document.querySelector('#app')
 
-const postList = new PostList({
-    $target,
-    initialState :[]
+
+
+new PostPage ({
+  $target
 })
 
-const fetchPosts = async() => {
-  const posts = await request('/')
-  postList.setState(posts)
-}
-
-fetchPosts()
