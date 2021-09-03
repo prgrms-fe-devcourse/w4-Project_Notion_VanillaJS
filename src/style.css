@@ -1,0 +1,47 @@
+.create_post,
+.delete_post {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+ul,
+#myUL {
+  display: inline-block;
+  list-style-type: none;
+}
+
+li {
+  cursor: pointer;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+.caret {
+  cursor: pointer;
+  user-select: none;
+}
+
+.caret::before {
+  content: '\25B6';
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.3s;
+}
+
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+.nested {
+  display: none;
+}
+
+.active {
+  display: block;
+}
