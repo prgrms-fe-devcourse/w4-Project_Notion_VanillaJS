@@ -2,26 +2,6 @@
   overflow: hidden;
 }
 
-.notionPage {
-  border: 2px solid black;
-  margin: 10px;
-  float: left;
-}
-
-.notionEditPage {
-  border: 2px solid black;
-  margin: 10px;
-  float: left;
-}
-
-ul {
-  margin: 5px;
-}
-
-li {
-  padding: 5px;
-}
-
 .plus {
   background-color: white;
   color: black;
@@ -42,4 +22,24 @@ li {
 .remove:hover {
   background-color: #f44336;
   color: white;
+}
+
+.notionPage {
+  height: 100%;
+  width: 30%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 40px;
+  background-color: lightblue;
+}
+
+li {
+  padding: 3px;
+}
+
+.notionEditPage {
+  margin-left: 35%;
+  margin-top: 40px;
+  font-size: 18px;
 }
