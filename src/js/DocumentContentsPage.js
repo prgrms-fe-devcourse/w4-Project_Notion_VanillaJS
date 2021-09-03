@@ -1,4 +1,6 @@
 import Editor from "./Editor.js"
+import SubDocList from "./SubDocList.js"
+import { makeSubDocList } from "./listHandler.js"
 export default function DocumentContentsPage({
   $target,
   initialState,
@@ -19,7 +21,7 @@ export default function DocumentContentsPage({
     }
     this.state = nextState
     editor.setState(this.state)
-    // subDocList.setState(makeSubDocList([this.state], this.state.id, []))
+    subDocList.setState(makeSubDocList([this.state], this.state.id, []))
     $page.appendChild($removeButton)
     this.render()
   }
@@ -30,10 +32,10 @@ export default function DocumentContentsPage({
     onEditing,
   })
   // 미완성
-  // const subDocList = new SubDocList({
-  //   $target: $page,
-  //   initialState,
-  // })
+  const subDocList = new SubDocList({
+    $target: $page,
+    initialState,
+  })
   this.render = () => {
     if (this.state.id && this.state.id !== "remove") $target.appendChild($page)
   }

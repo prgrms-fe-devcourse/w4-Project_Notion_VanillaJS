@@ -13,7 +13,7 @@ export function changeSelectedList(obj, selectedId) {
   }
   return obj
 }
-/* 하위 문서 검색
+// 하위 문서 검색
 export function makeSubDocList(
   obj,
   selectedId,
@@ -34,4 +34,3 @@ export function makeSubDocList(
   }
   return subList
 }
-*/
