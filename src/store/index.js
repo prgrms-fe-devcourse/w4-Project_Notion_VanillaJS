@@ -1,4 +1,4 @@
-import { getStateAfter } from './getters.js';
+import { getStateAfter } from './gettersState.js';
 import { on, emit } from '../utils/emitter.js';
 
 export default function Store() {

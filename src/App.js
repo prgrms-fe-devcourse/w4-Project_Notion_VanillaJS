@@ -1,5 +1,5 @@
 import { on } from './utils/emitter.js';
-import { getStateAfter } from './store/getters.js';
+import { getStateAfter } from './store/gettersState.js';
 
 import Store from './store/index.js';
 import MainPage from './pages/MainPage.js';

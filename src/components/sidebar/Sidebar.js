@@ -1,5 +1,4 @@
 import { emit } from '../../utils/emitter.js';
-
 import { $createElement } from '../../utils/templates.js';
 
 import {
@@ -25,6 +24,23 @@ export default function Sidebar({ $target, initialState }) {
 		sidebarBody.setState(this.state);
 	};
 
+	const toggleList = ({ act, $li }) => {
+		let currentLi;
+		let hiddenLi;
+
+		if (act === 'show') {
+			currentLi = $li.querySelector('.icon-play');
+			hiddenLi = $li.querySelector('.hide');
+		} else {
+			currentLi = $li.querySelector('.icon-down-dir');
+			hiddenLi = $li.querySelector('.tree') || $li.querySelector('.blank');
+		}
+
+		hiddenLi.classList.toggle('hide');
+		currentLi.classList.toggle('icon-play');
+		currentLi.classList.toggle('icon-down-dir');
+	};
+
 	new SidebarHeader({
 		$target: $sidebarHeader,
 	});
@@ -34,25 +50,10 @@ export default function Sidebar({ $target, initialState }) {
 		initialState: this.state,
 		onClick: {
 			showList: $li => {
-				const { id } = $li.dataset;
-
-				const currentLi = $li.querySelector('.icon-play');
-				currentLi.classList.toggle('icon-play');
-				currentLi.classList.toggle('icon-down-dir');
-
-				const hiddenLi = $li.querySelector('.hide');
-				hiddenLi.classList.remove('hide');
+				toggleList({ act: 'show', $li });
 			},
 			hideList: $li => {
-				const { id } = $li.dataset;
-
-				const currentLi = $li.querySelector('.icon-down-dir');
-				currentLi.classList.toggle('icon-play');
-				currentLi.classList.toggle('icon-down-dir');
-
-				const needHiddenLi =
-					$li.querySelector('.tree') || $li.querySelector('.blank');
-				needHiddenLi.classList.add('hide');
+				toggleList({ act: 'hide', $li });
 			},
 			readDocument: $li => {
 				const { id } = $li.dataset;
@@ -69,18 +70,10 @@ export default function Sidebar({ $target, initialState }) {
 
 				if (onModal) {
 					makeNewPostLiOnTree({ $target: $li, needMark: false });
-
-					emit.createDocument({
-						id,
-						onModal,
-					});
+					emit.createDocument({ id, onModal });
 				} else {
 					makeNewPostLiOnRoot({ needMark: true });
-
-					emit.createDocument({
-						id,
-						onModal,
-					});
+					emit.createDocument({ id, onModal });
 				}
 			},
 		},
@@ -91,11 +84,7 @@ export default function Sidebar({ $target, initialState }) {
 		onClick: {
 			createDocument: () => {
 				makeNewPostLiOnRoot({ needMark: false });
-
-				emit.createDocument({
-					id: null,
-					onModal: true,
-				});
+				emit.createDocument({ id: null, onModal: true });
 			},
 		},
 	});

@@ -41,9 +41,9 @@ const $listItem = () => {
 	$li.innerHTML = `
 			<p class="nav-item demo-icon">
 				<span class="item-container"></span>
-				<button class="nav-toggler-btn icon-play"></button>
-				<span class="nav-page-title"></span>
-				<button class="nav-delete-btn icon-trash-empty"> </button>
+				<button class="nav-toggler-btn icon-play" data-act="toggle"></button>
+				<span class="nav-page-title" data-act="read" ></span>
+				<button class="nav-delete-btn icon-trash-empty" data-act="delete"> </button>
 				<button class="nav-crate-btn icon-plus-squared-alt" data-target="modal"></button>
 			</p> `;
 

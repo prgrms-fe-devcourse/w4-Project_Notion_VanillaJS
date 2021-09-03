@@ -20,6 +20,15 @@ export default function Page({ $target, initialState }) {
 	const LIMIT_TIME = 200;
 	let pageBodyUpdateTimer = null;
 
+	const setUpdateEditTimer = (id, nextDocument) => {
+		if (pageBodyUpdateTimer) {
+			clearTimeout(pageBodyUpdateTimer);
+		}
+		pageBodyUpdateTimer = setTimeout(() => {
+			emit.updateDocument(id, nextDocument);
+		}, LIMIT_TIME);
+	};
+
 	const pageBody = new PageBody({
 		$target: $pageBody,
 		initialState,
@@ -29,22 +38,12 @@ export default function Page({ $target, initialState }) {
 				const currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
 				currentLi.textContent = nextDocument.title;
 
-				if (pageBodyUpdateTimer) {
-					clearTimeout(pageBodyUpdateTimer);
-				}
-				pageBodyUpdateTimer = setTimeout(() => {
-					emit.updateDocument(id, nextDocument);
-				}, LIMIT_TIME);
+				setUpdateEditTimer(id, nextDocument);
 			},
 			updateContent: nextDocument => {
 				const { id } = this.state.currentDocument;
 
-				if (pageBodyUpdateTimer) {
-					clearTimeout(pageBodyUpdateTimer);
-				}
-				pageBodyUpdateTimer = setTimeout(() => {
-					emit.updateDocument(id, nextDocument);
-				}, LIMIT_TIME);
+				setUpdateEditTimer(id, nextDocument);
 			},
 		},
 	});

@@ -1,4 +1,4 @@
-import { getItemFromStorage, setItemToStroage } from '../utils/storage.js';
+import { getItemFromStorage, setItemToStorage } from '../utils/storage.js';
 
 import {
 	getDocuments,
@@ -7,50 +7,11 @@ import {
 	deleteDocument,
 } from '../api/notion.js';
 
-const getOpendeLiAfter = async (action, option) => {
-	const result = (await gettersLi[action](option)) || [];
-
-	setItemToStroage('openedLi', result);
-	return result;
-};
-
-const gettersLi = {
-	fetch: () => {
-		return getItemFromStorage('opendLi') || [];
-	},
-	add: (origin, id) => {
-		if (!origin || id) {
-			return [];
-		}
-
-		const newData = [...origin];
-
-		if (!newData.includes(id)) {
-			newData.push(id);
-		}
-
-		return newData;
-	},
-	delete: (origin, id) => {
-		if (!origin || id) {
-			return [];
-		}
-
-		const newData = [...origin];
-
-		if (newData.includes) {
-			newData.splice(newData.indexOf(id), 1);
-		}
-
-		return newData;
-	},
-};
-
 const getStateAfter = async (action, option) => {
 	const state = await getters[action](option);
 
 	if (state && !action.includes('Modal')) {
-		setItemToStroage('notionState', state);
+		setItemToStorage('notionState', state);
 	}
 	return state;
 };
@@ -89,7 +50,7 @@ const getters = {
 		const documents = await getDocuments();
 		const { currentDocument } = getItemFromStorage('notionState');
 
-		setItemToStroage('notionState', { documents, currentDocument });
+		setItemToStorage('notionState', { documents, currentDocument });
 		return { documents, currentDocument, modalDocument };
 	},
 	read: async id => {
@@ -125,4 +86,4 @@ const getters = {
 	},
 };
 
-export { getStateAfter, getOpendeLiAfter };
+export { getStateAfter };

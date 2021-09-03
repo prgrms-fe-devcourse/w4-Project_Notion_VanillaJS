@@ -1,8 +1,35 @@
-import { $createElement, $newPostListItem } from './templates.js';
+import {
+	$createElement,
+	$listItem,
+	$treeItem,
+	$blankItem,
+	$newPostListItem,
+} from './templates.js';
 
-const fillListItem = ($li, { id, title, isOpened }) => {
+const drawNavList = (target, childDocuments, openedLi) => {
+	childDocuments.forEach(({ id, title, documents }) => {
+		const $li = $listItem();
+		const haveChild = documents.length > 0;
+
+		if (haveChild) {
+			const $tree = $treeItem();
+
+			drawNavList($tree, documents, openedLi);
+			addClass($li, 'nav-header', 'tree-toggler');
+
+			$li.appendChild($tree);
+		} else {
+			const $blank = $blankItem();
+			$li.appendChild($blank);
+		}
+		const $filledListItem = fillListItem($li, { id, title, openedLi });
+		target.appendChild($filledListItem);
+	});
+};
+
+const fillListItem = ($li, { id, title, openedLi }) => {
 	const matchTypedId = `${id}`;
-	const isOpenedLi = isOpened?.includes(matchTypedId);
+	const isOpenedLi = openedLi?.includes(matchTypedId);
 
 	if (isOpenedLi) {
 		$li.querySelector('.hide').classList.remove('hide');
@@ -59,6 +86,7 @@ const makeNewPostLiOnTree = ({ $target, needMark }) => {
 };
 
 export {
+	drawNavList,
 	fillListItem,
 	markListItemOfId,
 	markListItemofLi,

@@ -4,48 +4,47 @@ export default function ModalBody({ $target, onUpdate }) {
 	const $modalTitle = $createElement('p', '.modal-title');
 	const $modalContent = $createElement('p', '.modal-content');
 
-	this.render = () => {
+	const $titleInput = $createElement('div', '.show-modal-title');
+	$titleInput.setAttribute('contenteditable', true);
+	$titleInput.setAttribute('data-text', '');
+	const $contentInput = $createElement('div', '.show-modal-content');
+	$contentInput.setAttribute('contenteditable', true);
+	$contentInput.setAttribute('data-text', '');
+
+	this.init = () => {
 		const titleTemp = '제목 없음';
-		const contentTemp = '문서를 입력해보세요!';
+		const contentTemp = '문서의 내용을 입력해보세요!';
 
-		$modalTitle.innerHTML = `
-			<div class="show-modal-title" contenteditable="true" datat-text="">${titleTemp}</div>
-    `;
+		$titleInput.textContent = titleTemp;
+		$contentInput.textContent = contentTemp;
 
-		$modalContent.innerHTML = `
-			<div class="show-modal-content" contenteditable="true" datat-text="">${contentTemp}</div>
-    `;
+		$modalTitle.appendChild($titleInput);
+		$modalContent.appendChild($contentInput);
+		$target.appendChild($modalTitle);
+		$target.appendChild($modalContent);
 
-		$modalTitle
-			.querySelector('.show-modal-title')
-			.addEventListener('keyup', e => {
-				const content = $modalContent.querySelector(
-					'.show-modal-content',
-				).textContent;
-				const document = {
-					title: e.target.textContent,
-					content,
-				};
+		$titleInput.addEventListener('keyup', e => {
+			const content = $contentInput.textContent;
 
-				onUpdate.updateTitle(document);
-			});
+			const nextDocument = {
+				title: e.target.textContent,
+				content,
+			};
 
-		$modalContent
-			.querySelector('.show-modal-content')
-			.addEventListener('keyup', e => {
-				const title =
-					$modalTitle.querySelector('.show-modal-title').textContent;
-				const document = {
-					title,
-					content: e.target.textContent,
-				};
+			onUpdate.updateTitle(nextDocument);
+		});
 
-				onUpdate.updateContent(document);
-			});
+		$contentInput.addEventListener('keyup', e => {
+			const title = $titleInput.textContent;
+
+			const nextDocument = {
+				title,
+				content: e.target.textContent,
+			};
+
+			onUpdate.updateContent(nextDocument);
+		});
 	};
 
-	this.render();
-
-	$target.appendChild($modalTitle);
-	$target.appendChild($modalContent);
+	this.init();
 }

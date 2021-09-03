@@ -44,6 +44,15 @@ export default function Modal({ $target }) {
 	const LIMIT_TIME = 200;
 	let modalBodyUpdateTimer = null;
 
+	const setUpdateEditTimer = (id, nextDocument) => {
+		if (modalBodyUpdateTimer) {
+			clearTimeout(modalBodyUpdateTimer);
+		}
+		modalBodyUpdateTimer = setTimeout(() => {
+			emit.updateDocument(id, nextDocument);
+		}, LIMIT_TIME);
+	};
+
 	new ModalBody({
 		$target: $modalBody,
 		onUpdate: {
@@ -54,23 +63,13 @@ export default function Modal({ $target }) {
 				currentLi.textContent = nextDocument.title;
 				$('.show-modal-title').dataset.text = nextDocument.title;
 
-				if (modalBodyUpdateTimer) {
-					clearTimeout(modalBodyUpdateTimer);
-				}
-				modalBodyUpdateTimer = setTimeout(() => {
-					emit.updateDocument(id, nextDocument);
-				}, LIMIT_TIME);
+				setUpdateEditTimer(id, nextDocument);
 			},
 			updateContent: nextDocument => {
 				const { id } = this.state;
 				$('.show-modal-content').dataset.text = nextDocument.content;
 
-				if (modalBodyUpdateTimer) {
-					clearTimeout(modalBodyUpdateTimer);
-				}
-				modalBodyUpdateTimer = setTimeout(() => {
-					emit.updateDocument(id, nextDocument);
-				}, LIMIT_TIME);
+				setUpdateEditTimer(id, nextDocument);
 			},
 		},
 	});
@@ -92,6 +91,7 @@ export default function Modal({ $target }) {
 			if (createBtn || onModal) {
 				return;
 			}
+
 			const noData =
 				!$('.show-modal-title').dataset.text &&
 				!$('.show-modal-content').dataset.text;

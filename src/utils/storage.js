@@ -6,8 +6,8 @@ const getItemFromStorage = key => {
 	return paresdItem;
 };
 
-const setItemToStroage = (key, item) => {
+const setItemToStorage = (key, item) => {
 	STORAGE.setItem(key, JSON.stringify(item));
 };
 
-export { getItemFromStorage, setItemToStroage };
+export { getItemFromStorage, setItemToStorage };

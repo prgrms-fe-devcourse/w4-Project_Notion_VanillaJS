@@ -4,6 +4,11 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 	const $pageTitle = $createElement('div', '.page-title');
 	const $pageContent = $createElement('div', '.page-content');
 
+	const $titleInput = $createElement('div', '.show-page-title');
+	$titleInput.setAttribute('contenteditable', true);
+	const $contentInput = $createElement('div', '.show-page-content');
+	$contentInput.setAttribute('contenteditable', true);
+
 	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
@@ -12,41 +17,42 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 	this.render = () => {
 		const { currentDocument } = this.state;
 		const { title, content } = currentDocument;
+
+		const convertedTitle = !title ? '제목없음' : title;
 		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
 
-		$pageTitle.innerHTML = `
-			<div class="show-page-title" contenteditable="true" >${title}</div>
-		`;
-		$pageContent.innerHTML = `
-			<div class="show-page-content" contenteditable="true">${convertedContent}</div>
-		`;
-
-		$pageTitle
-			.querySelector('.show-page-title')
-			.addEventListener('keyup', e => {
-				const content =
-					$pageContent.querySelector('.show-page-content').textContent;
-
-				const nextDocument = {
-					title: e.target.textContent,
-					content,
-				};
-				onUpdate.updateTitle(nextDocument);
-			});
-
-		$pageContent
-			.querySelector('.show-page-content')
-			.addEventListener('keyup', e => {
-				const title = $pageTitle.querySelector('.page-title-input').textContent;
-
-				const nextDocument = {
-					title,
-					content: e.target.textContent,
-				};
-				onUpdate.updateContent(nextDocument);
-			});
+		$titleInput.textContent = convertedTitle;
+		$contentInput.textContent = convertedContent;
 	};
 
+	$pageTitle.appendChild($titleInput);
+	$pageContent.appendChild($contentInput);
 	$target.appendChild($pageTitle);
 	$target.appendChild($pageContent);
+
+	this.init = () => {
+		$titleInput.addEventListener('keyup', e => {
+			const content = $contentInput.textContent;
+
+			const nextDocument = {
+				title: e.target.textContent,
+				content,
+			};
+
+			onUpdate.updateTitle(nextDocument);
+		});
+
+		$contentInput.addEventListener('keyup', e => {
+			const title = $titleInput.textContent;
+
+			const nextDocument = {
+				title,
+				content: e.target.textContent,
+			};
+
+			onUpdate.updateContent(nextDocument);
+		});
+	};
+
+	this.init();
 }
