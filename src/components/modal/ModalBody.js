@@ -8,7 +8,7 @@ export default function ModalBody({ $target, onUpdate }) {
 	$titleInput.setAttribute('contenteditable', true);
 	$titleInput.setAttribute('data-text', '');
 
-	const $contentInput = $createElement('div', '.show-modal-content');
+	const $contentInput = $createElement('textarea', '.show-modal-content');
 	$contentInput.setAttribute('contenteditable', true);
 	$contentInput.setAttribute('data-text', '');
 
@@ -29,7 +29,7 @@ export default function ModalBody({ $target, onUpdate }) {
 		this.render();
 
 		$titleInput.addEventListener('keyup', e => {
-			const content = $contentInput.textContent;
+			const content = $contentInput.value;
 
 			const nextDocument = {
 				title: e.target.textContent,
@@ -44,7 +44,7 @@ export default function ModalBody({ $target, onUpdate }) {
 
 			const nextDocument = {
 				title,
-				content: e.target.textContent,
+				content: e.target.value,
 			};
 
 			onUpdate.updateContent(nextDocument);

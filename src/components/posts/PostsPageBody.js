@@ -6,8 +6,7 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 
 	const $titleInput = $createElement('div', '.show-page-title');
 	$titleInput.setAttribute('contenteditable', true);
-	const $contentInput = $createElement('div', '.show-page-content');
-	$contentInput.setAttribute('contenteditable', true);
+	const $contentInput = $createElement('textarea', '.show-page-content');
 
 	this.state = initialState;
 	this.setState = nextState => {
@@ -32,7 +31,7 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 
 	this.init = () => {
 		$titleInput.addEventListener('keyup', e => {
-			const content = $contentInput.textContent;
+			const content = $contentInput.value;
 
 			const nextDocument = {
 				title: e.target.textContent,
@@ -47,7 +46,7 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 
 			const nextDocument = {
 				title,
-				content: e.target.textContent,
+				content: e.target.value,
 			};
 
 			onUpdate.updateContent(nextDocument);
