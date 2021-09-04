@@ -7,7 +7,7 @@ export const documentListTemplate = (documents, isRoot = false) => {
                         <li class="document-element">
                             <button class="toggle"><span id="${id}-toggle"></span>&#9654;</button>
                             <button class="document"><span>${title}</span></button>
-                            <div>
+                            <div clss="control-button">
                                 <button class="remove-button btn btn-cyan">-<span class="remove-button-text">삭제</span></button>
                                 <button class="add-button btn btn-cyan">+<span class="add-button-text">페이지 내에 하위페이지 추가하기</span></button>
                             </div>
@@ -25,7 +25,7 @@ export const documentTemplate = (id, title) => {
                 <li class="document-element">
                     <button class="toggle"><span id="${id}-toggle"></span>&#9654;</button>
                     <button class="document"><span>${title}</span></button>
-                    <div>
+                    <div clss="control-button">
                         <button class="remove-button btn btn-cyan">-<span class="remove-button-text">삭제</span></button>
                         <button class="add-button btn btn-cyan">+<span class="add-button-text">페이지 내에 하위페이지 추가하기</span></button>
                     </div>
