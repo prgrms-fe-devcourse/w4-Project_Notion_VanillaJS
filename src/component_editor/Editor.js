@@ -1,6 +1,6 @@
 import { createElement, createTextNode, getElementById } from '../utils/DOM.js';
 import { lazyFilter, revisedReduce, take, head, map, lazyMap, wrappedByArr } from '../utils/RxJS.js';
-import { numOfSpaceBar, numOfEnter } from '../utils/Constant.js';
+import { isEnterEntered, isSpacebarEntered } from '../utils/Check.js';
 
 export default function Editor({
     $target,
@@ -28,12 +28,18 @@ export default function Editor({
     let trie = null;
 
     this.setState = (nextState) => {
-        if (nextState.content === this.state.content) {
-            this.state.trie = nextState.trie;
-        } else {
+        // 경우의수
+        // 페이지에 들어오고나서 다시 같은 페이지를 누르는 경우(id 같음 && content, title 같음, 렌더링 필요X)
+        // 페이지에 들어오고나서 키워드를 입력하는 경우(id 같음 && content, title 같음, 렌더링 필요 X)
+        // 페이지에 들어오고나서 다른 페이지를 누르는 경우(id 변경 || content, title 다름, 렌더링 필요 O)
+        if (isAutoCompleteUpdated(nextState)) {
             this.state = nextState;
             trie = this.state.trie;
-            tempState = { ...this.state };
+            console.log('실행유무');
+        } else if (isSentFromApp(nextState) || isContentDifferent(nextState)) {
+            this.state = nextState;
+            trie = this.state.trie;
+            tempState = { title: this.state.title, content: this.state.content };
             this.render();
         }
     };
@@ -48,7 +54,7 @@ export default function Editor({
           </div>
           <div class='content-container'>
           <div class='subject'>content</div>
-          <div class='content' contentEditable='true'>${showContents(content)}</div>
+          <div class='content' contentEditable='true'>${content}</div>
           </div>
           `;
 
@@ -98,96 +104,95 @@ export default function Editor({
     const showContents = (content) => {
         if (!content) return '';
 
-        const temp = document.createDocumentFragment();
-        temp.innerHTML = '';
+        // const $dummy = document.createDocumentFragment();
+        const $dummy = document.createElement('div');
+        $dummy.innerHTML = '';
 
         content.split('<div>').forEach((str, index) => {
             switch (findMarkDown(str, content)) {
                 case 'hashOne':
                     {
                         headerIndex = index;
-
-                        revisedReduce(
-                            str.replace('</div>', '').replace('&nbsp;', ''), // # 안녕하세요 저는 김영후 입니다</div> ==> 안녕하세요 저는 김영후 입니다
-                            wrappedByArr, // ['# 안녕하세요 저는 김영후 입니다']
-                            map((str) => str.slice(1, str.length)), // ['안녕하세요 저는 김영후 입니다']
-                            map(
-                                (onlyContent) =>
-                                    (temp.innerHTML += `<h1 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h1>`)
-                            )
-                        );
+                        str = str.replace('</div>', '').replace('&nbsp;', '').slice(1, str.length);
+                        $dummy.innerHTML += `<h1 class='header${index}'>${str.length ? str : '#'}</h1>`;
                     }
                     break;
                 case 'hashTwo':
                     {
                         headerIndex = index;
-
-                        revisedReduce(
-                            str.replace('</div>', '').replace('&nbsp;', ''),
-                            wrappedByArr,
-                            map((str) => str.slice(3, str.length)),
-                            map(
-                                (onlyContent) =>
-                                    (temp.innerHTML += `<h2 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h2>`)
-                            )
-                        );
+                        str = str.replace('</div>', '').replace('&nbsp;', '').slice(2, str.length);
+                        $dummy.innerHTML += `<h2 class='header${index}'>${str.length ? str : '#'}</h2>`;
                     }
                     break;
                 case 'hashThree':
                     {
                         headerIndex = index;
-
-                        revisedReduce(
-                            str.replace('</div>', '').replace('&nbsp;', ''),
-                            wrappedByArr,
-                            map((str) => str.slice(4, str.length)),
-                            map(
-                                (onlyContent) =>
-                                    (temp.innerHTML += `<h3 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h3>`)
-                            )
-                        );
+                        str = str.replace('</div>', '').replace('&nbsp;', '').slice(3, str.length);
+                        $dummy.innerHTML += `<h3 class='header${index}'>${str.length ? str : '#'}</h3>`;
                     }
                     break;
                 default:
-                    temp.innerHTML += str.includes('</div>') ? `<div>${str}` : `${str}`;
+                    $dummy.innerHTML += str.includes('</div>') ? `<div>${str}` : `${str}`;
                     break;
             }
         });
 
-        return temp.innerHTML;
+        const $content = $editor.querySelector('.content');
+        $content.innerHTML = $dummy.innerHTML;
     };
 
     let firstString = '';
     let isAutoCompleteExist = false;
-    let isSpaceBarEntered = false;
+    let spacebarFlag = false;
 
     let cursorPosBeforeChar = null;
     let cursorPosAfterChar = null;
+    
     $editor.addEventListener('keyup', (e) => {
         switch (e.target.className) {
             case 'content':
                 {
+                    if (isAutoCompleteExist === true && isEnterEntered) {
+                        e.preventDefault();
+                        const $autoComplete = getElementById('autoComplete');
+                        const $autoCompleteParent = $autoComplete.parentNode;
+                        const autoCompleteWord = $autoComplete.textContent;
+                        const $text = createTextNode(autoCompleteWord);
+                        $autoCompleteParent.removeChild($autoComplete);
+
+                        sel = window.getSelection();
+                        range = sel.getRangeAt(0);
+                        range.insertNode($text);
+                        range.setStartAfter($text);
+
+                        isAutoCompleteExist = false;
+                        spacebarFlag = false;
+                        firstString = '';
+                    }
+
                     tempState.content = e.target.innerHTML;
                     onEditing(tempState);
 
                     // #, ##, ### 이 들어오는 경우 체크
                     if (isMarkDownInput(tempState.content)) {
-                        this.setState(tempState);
+                        // this.setState(tempState);
+                        showContents(tempState.content);
                         return;
                     }
 
                     // 스페이스바가 입력된 경우,
                     // AutoComplete 로직을 실행시키기 위해 isSpaceBarEntered를 true로 만듬
-                    if (e.keyCode === numOfSpaceBar) {
-                        isSpaceBarEntered = true;
+                    if (isSpacebarEntered(e)) {
+                        spacebarFlag = true;
 
-                        // 초기환
+                        console.log('실1');
+                        // 초기화
                         cursorPosBeforeChar = null;
                         firstString = '';
                     }
 
                     // 스페이스바가 입력된 경우, 즉 AutoComplete을 체크할 준비가 된경우
-                    if (isSpaceBarEntered) {
+                    if (spacebarFlag) {
                         // 커서 정보 획득
                         sel = window.getSelection();
                         range = sel.getRangeAt(0);
@@ -210,6 +215,7 @@ export default function Editor({
 
                             // 뛰어쓰기 이후 첫 글자를 획득함
                             if (cloned.toString().length === 1) {
+                                console.log('실2');
                                 firstString = cloned.toString();
                             }
                         }
@@ -220,12 +226,13 @@ export default function Editor({
                     if (isAutoCompleteExist && (range.startOffset <= cursorPosBeforeChar || range.startOffset > cursorPosAfterChar)) {
                         deleteAutoComplete();
                         isAutoCompleteExist = false;
-                        isSpaceBarEntered = false;
+                        spacebarFlag = false;
                         firstString = '';
                     }
 
                     // trie에 획득된 첫 글자를 던져주고, 등록된 키워드가 있는지 확인하는 절차
                     if (trie.getAllWords(firstString).length !== 0) {
+                        console.log('실3');
                         // 이미 입력된 자동 완성이 있다면 삭제함
                         deleteAutoComplete();
 
@@ -267,22 +274,8 @@ export default function Editor({
 
     $editor.addEventListener('keydown', (e) => {
         // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter인 경우, 자동완성 실행
-        if (isAutoCompleteExist === true && e.keyCode === numOfEnter) {
+        if (isAutoCompleteExist === true && isEnterEntered) {
             e.preventDefault();
-            const $autoComplete = getElementById('autoComplete');
-            const $autoCompleteParent = $autoComplete.parentNode;
-            const autoCompleteWord = $autoComplete.textContent;
-            const $text = createTextNode(autoCompleteWord);
-            $autoCompleteParent.removeChild($autoComplete);
-
-            sel = window.getSelection();
-            range = sel.getRangeAt(0);
-            range.insertNode($text);
-            range.setStartAfter($text);
-
-            isAutoCompleteExist = false;
-            isSpaceBarEntered = false;
-            firstString = '';
         }
     });
 
@@ -304,4 +297,9 @@ export default function Editor({
             $autoCompleteParent.removeChild($autoComplete);
         }
     };
+
+    const isSentFromApp = (nextState) => this.state.id === nextState.id;
+    const isContentDifferent = (nextState) => this.state.content !== nextState.content || this.state.title !== nextState.title;
+    const isAutoCompleteUpdated = (nextState) =>
+        this.state.id === nextState.id && this.state.content === nextState.content && this.state.title === nextState.title;
 }

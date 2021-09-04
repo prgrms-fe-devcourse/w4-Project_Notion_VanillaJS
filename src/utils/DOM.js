@@ -16,13 +16,13 @@ export const getDataSet = ($target) => {
     return $target.dataset;
 };
 
-export const setStyle = canGetElementsLater((styles, $target) => {
+export const setStyle = ($target, styles) => {
     for (const eachStyle of styles) {
         const [styleName, value] = eachStyle;
         $target.style[styleName] = value;
     }
     return $target;
-});
+};
 
 export const setTextContent = canGetElementsLater((text, $target) => (($target.textContent = text), $target));
 

@@ -20,6 +20,7 @@ export default function App({ $target }) {
         if (pathname.indexOf('/documents/') === 0) {
             htmlReset(docEditPage);
             const [, , id] = pathname.split('/');
+            console.log(id);
             docEditPage.setState({id})
         }
     };

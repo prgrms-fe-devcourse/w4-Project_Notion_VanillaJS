@@ -67,7 +67,7 @@ export default function EditorPage({
     });
 
     this.setState = async (nextState) => {
-        if (!nextState.title && !nextState.content) {
+        if (isSentFromApp(nextState)) {
             this.state = nextState;
             await fetchDoc();
             return;
@@ -76,6 +76,7 @@ export default function EditorPage({
         this.state = nextState;
 
         editor.setState({
+            id : this.state.id,
             title: this.state.title,
             content: this.state.content,
             trie
@@ -94,7 +95,7 @@ export default function EditorPage({
         const serverDoc = await request(`/documents/${id}`, {
             method: 'GET',
         });
-
+    
         const localDoc = getItem(keyBy(id), {
             title: '',
             content: '',
@@ -124,4 +125,6 @@ export default function EditorPage({
             });
         }
     };
+
+    const isSentFromApp = (nextState) => !nextState.title && !nextState.content;
 }

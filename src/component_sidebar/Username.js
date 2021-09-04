@@ -1,5 +1,3 @@
-import { setAttribute } from "../utils/DOM.js";
-
 export default function UserName({$target, initialState}) {
   const $userName = document.createElement('div');
   $userName.setAttribute('class','username');
