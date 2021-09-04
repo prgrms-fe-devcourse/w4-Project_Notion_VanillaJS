@@ -1,7 +1,7 @@
-export default function Header ({ $target}) {
-  const $header = document.createElement('div')
-  $header.classList.add('header')
-  $target.appendChild($header)
+export default function Header({ $target }) {
+  const $header = document.createElement('div');
+  $header.classList.add('header');
+  $target.appendChild($header);
 
   this.template = `
     <div class="header-notion">
@@ -25,11 +25,10 @@ export default function Header ({ $target}) {
         설정과 멤버
       </li>
     </ul>
-  `
+  `;
 
   this.render = () => {
-    $header.innerHTML = this.template
-  }
-  this.render()
-
+    $header.innerHTML = this.template;
+  };
+  this.render();
 }

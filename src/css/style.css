@@ -41,7 +41,7 @@ button{
 .nav-bar .header {
   font-size: 15px;
   color: #666666;
-  font-weight: 100;
+  font-weight: 300;
 }
 .nav-bar .header .header-notion{
   font-size: 16px;
@@ -77,9 +77,9 @@ button{
 .nav-bar .header .header-list__item{
   display: flex;
   color: #666666;
-  padding: 6px;
+  padding: 4px;
   box-sizing: border-box;
-  font-size: 15px;
+  font-size: 13px;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -89,8 +89,8 @@ button{
 }
 .nav-bar .header .header-list__item span{
   color: #a7a7a7;
-  font-size: 20px;
-  margin: 0 12px 0 18px;
+  font-size: 18px;
+  margin: 0 12px 0 20px;
 }
 
 /*.document-list*/
@@ -103,7 +103,7 @@ button{
   margin: 20px 0px 10px 0px;
   box-sizing: border-box;
   padding-left: 9px;
-  height: 450px;
+  height: 520px;
   width: 100%;
   overflow:auto;
   overflow-x: hidden;
@@ -119,60 +119,63 @@ button{
   padding: 8px 10px;
   font-size: 14px;
   text-align: left;
-  width: 63%;
+  left: 0;
+  right: 0;
+  width: auto;
   cursor: pointer;
 }
-.tree{
+.nav-bar .tree{
   margin-top: 5px;
 }
-.tree, .tree ul{
+.nav-bar .tree, .tree ul{
   list-style: none; 
   padding-left:10px;
 }
-.tree *:before{
+.nav-bar .tree *:before{
   width:15px;
   height:15px;
   display:inline-block;
 }
-.tree label{
+.nav-bar .tree label{
   cursor: pointer;
   font-family: NotoSansKrMedium, sans-serif !important;
   font-size: 14px;
   color: #aaa9a5;
 }
-.tree label:hover{
+.nav-bar .tree label:hover{
   color: #979690;
 }
-.tree input[type="checkbox"] {
+.nav-bar .tree input[type="checkbox"] {
   display: none;
 }
-.tree input[type="checkbox"]:checked~ul {
+.nav-bar .tree input[type="checkbox"]:checked~ul {
   display: none;
 }
-.tree input[type="checkbox"]+label:before{
+.nav-bar .tree input[type="checkbox"]+label:before{
   content: '\f07c';
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
-.tree input[type="checkbox"]:checked+label:before{
+.nav-bar .tree input[type="checkbox"]:checked+label:before{
   content: '\f07b';
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
-.tree input[type="checkbox"]+label.lastTree:before{
+.nav-bar .tree input[type="checkbox"]+label.lastTree:before{
   content: '\f15b';
   font-family: "Font Awesome 5 Free";
   font-weight: lighter;
 }
-.document-list__page-name{
+.nav-bar .document-list__page-name{
   font-size: 12px;
   color: #a7a7a7;
-  padding-left: 18px;
+  padding-top: 2px;
+  margin-bottom:4px;
 }
-.document-list__item__container{
+.nav-bar .document-list__item__container{
   float: right;
 }
-.document-list__item__container::before{
+.nav-bar .document-list__item__container::before{
   content: '';
   background-color: #f7f6f3;
   z-index: -1;
@@ -182,7 +185,7 @@ button{
   height: 35px;
   transition: 0.2s;
 }
-.document-list__item__container:hover::before{
+.nav-bar .document-list__item__container:hover::before{
   content: '';
   background-color: #e8e7e4;
   z-index: -1;
@@ -191,7 +194,7 @@ button{
   margin-left:-400px;
   height: 35px;
 }
-.document-list__item__text:hover~.document-list__item__container::before{
+.nav-bar .document-list__item__text:hover~.document-list__item__container::before{
   content: '';
   background-color: #e8e7e4;
   z-index: -1;
@@ -200,7 +203,7 @@ button{
   margin-left:-400px;
   height: 35px;
 }
-.document-list__item__container:hover~.document-list__item__container::before{
+.nav-bar .document-list__item__container:hover~.document-list__item__container::before{
   content: '';
   background-color: #e8e7e4;
   z-index: -1;
@@ -209,21 +212,46 @@ button{
   margin-left:-400px;
   height: 35px;
 }
-.document-list__item__container button {
+.nav-bar .document-list__item__container button {
   background-color: transparent;
   border: #DEDEDE solid 0.2px;
   color: #CCCCCC;
 }
-.document-list__item__container .delete-btn {
+.nav-bar .document-list__item__container .delete-btn {
   padding: 2px 8px;
   margin-right: 18px;
 }
-.document-list__item__container button:hover {
+.nav-bar .document-list__item__container button:hover {
   background-color: #dddddd;
   font-size: 12px;
   border: #CCCCCC solid 0.2px;
   color: #999999;
 }
+.nav-bar .nav-bar__btn__new-page{
+  height: 48px;
+  width: 100%;
+  position: absolute;
+  bottom: 22px;
+  border-radius: 0;
+  border-top: #e8e7e4 solid 0.2px;
+  background-color: #f7f6f3;
+  text-align: left;
+  padding-left: 20px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #aaaaaa;
+  display: flex;
+  align-items: center;
+}
+.nav-bar .nav-bar__btn__new-page span{
+  padding: 3px 10px 0 0;
+  font-size: 18px
+}
+.nav-bar .nav-bar__btn__new-page:hover{
+  background-color: #e8e7e4;
+}
+
+
 
 /*page*/
 
@@ -232,12 +260,16 @@ button{
   position: absolute;
   background-color: #ffffff;
   margin-left: 380px;
-  height: 800px;
 }
 
 .edit-page__editor{
-  margin: 30px 60px;
+  position: absolute;
+  top: 140px;
+  left: 230px;
   line-height: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .edit-page__editor h1{
   font-size: 36px;
@@ -263,6 +295,7 @@ button{
   font-style: italic;
 }
 .edit-page__editor input{
+  width: 680px;
   border:0 solid black;
   padding: 10px;
   font-size: 40px;
@@ -275,25 +308,25 @@ button{
   outline: none;
 }
 .edit-page__editor div[name="content"] {
-  border:0 solid black;
-}
-.edit-page__editor div[name="content"] {
+  width: 680px;
+  border: 0 solid black;
   outline: none;
   padding: 10px;
 }
-.edit-page__bottom-bar {
+.edit-page__link {
   font-size: 14px;
   color: #999999;
-  margin: 0 70px;
+  margin: 10px 20px;
+  padding-bottom: 30px;
 }
-.edit-page__bottom-bar button{
+.edit-page__link button{
   margin-left: 10px;
   background-color: transparent;
   padding: 4px 10px;
   color: #999999;
 }
 
-.edit-page__bottom-bar button:hover{
+.edit-page__link button:hover{
   background-color: #f7f6f3;
 }
 
@@ -302,7 +335,7 @@ button{
 .home-page__message{
   width: 100%;
   color: #DEDEDE;
-  margin: 20px 70px;
+  margin: 128px 230px;
   line-height: 2;
   font-size: 40px;
   font-weight: 500;

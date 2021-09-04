@@ -1,22 +1,21 @@
-export const API_END_POINT = 'https://kdt.roto.codes'
-const USER_NAME = 'testm'
+import { API_USER_NAME, API_END_POINT } from './constant.js';
 
-export const request = async (url, option = {}, ) => {
+export const request = async (url, option = {}) => {
   try {
     const response = await fetch(`${API_END_POINT}${url}`, {
       ...option,
       headers: {
-        'x-username': USER_NAME,
-        'content-Type' : 'application/json'
-      }
-    })
+        'x-username': API_USER_NAME,
+        'content-Type': 'application/json',
+      },
+    });
 
     if (response.ok) {
-      return await response.json()
+      return await response.json();
     }
 
-    throw new Error('API Error')
+    throw new Error('API Error');
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
-}
+};

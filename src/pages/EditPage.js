@@ -1,25 +1,29 @@
 import Editor from '../components/Editor.js';
-import EditorBottomBar from '../components/EditorBottomBar.js'
+import EditorLink from '../components/EditorLink.js';
 import { request } from '../utils/api.js';
 import { StorageUtils } from '../utils/storage.js';
-import { EventUtils } from '../utils/event.js'
+import { EventUtils } from '../utils/event.js';
 import { RouterUtils } from '../utils/router.js';
 
 export default function EditPage({ $target, initialState }) {
-  const $editPage = document.createElement('div')
-  $editPage.classList.add('edit-page')
-  
-  this.state = initialState
-  
-  let KeyLocalDocument = `temp-document-${this.state.documentId}`
+  const $editPage = document.createElement('div');
+  $editPage.classList.add('edit-page');
 
+  this.state = initialState;
+
+  let KeyLocalDocument = `temp-document-${this.state.documentId}`;
+  // 통신 지연 시 로컬 값 이용
   const localSavedDocument = StorageUtils.getItem(KeyLocalDocument, {
     title: '',
-    content: ''
-  })
-  
-  let timer = null
-  
+    content: '',
+  });
+
+  let timer = null;
+
+  const editorDocLink = new EditorLink({
+    $target: $editPage,
+  });
+
   const editor = new Editor({
     $target: $editPage,
     initialState: localSavedDocument,
@@ -30,69 +34,52 @@ export default function EditPage({ $target, initialState }) {
         clearTimeout(timer);
       }
 
-      timer = setTimeout(async () => { 
-        // !!! 리스트 업데이트 해주기
-        
+      timer = setTimeout(async () => {
         // 로컬 KEY ID 업데이트
-        let KeyLocalDocument = `temp-document-${this.state.documentId}`;
-        
+        KeyLocalDocument = `temp-document-${this.state.documentId}`;
+
         // 로컬에 저장
         StorageUtils.setItem(KeyLocalDocument, {
           ...document,
           tempSaveDate: new Date(),
         });
-  
-        // Put: 수정 데이터 send
-        const putDocument = await request(`/documents/${document.id}`, {
-          method: "PUT",
+
+        await request(`/documents/${document.id}`, {
+          method: 'PUT',
           body: JSON.stringify(document),
         });
-        console.log(putDocument)
+
         // 로컬에서 삭제
-        StorageUtils.removeItem(KeyLocalDocument)
-        //console.log("putDocument", putDocument);
+        StorageUtils.removeItem(KeyLocalDocument);
 
-        // cutomEvent dispatcher
-        EventUtils.titleDispatcher()
-
+        // customEvent dispatcher
+        EventUtils.titleDispatcher();
       }, 200);
-      
     },
-
-    //await request(`/documents/${document.id}`)
   });
-  
-
-  const editorBottomBar = new EditorBottomBar({
-    $target: $editPage
-  })
 
   const fetchDocument = async () => {
+    const { documentId } = this.state;
+    if (documentId) {
+      const document = await request(`/documents/${documentId}`).catch(() =>
+        RouterUtils.routerDispatcher('/')
+      );
+      editor.setState(document);
+      editor.render();
+      // 현재 document 하위 document 수 만큼 링크버튼 렌더
+      editorDocLink.makeSubLinks(document);
 
-    const { documentId } = this.state
-    if (!!documentId) {
-      //console.log(documentId)
-      const document = await request(`/documents/${documentId}`).catch(() => RouterUtils.routerDispatcher('/'))
-      editor.setState(document)
-      editor.render()
-      // 현재 document 하위 document 수 만큼 버튼 렌더
-      editorBottomBar.makeSubButtons(document)
-      
-      this.render()
+      this.render();
     }
-  }
+  };
 
   this.setState = async (nextState) => {
-    this.state = nextState
-    // console.log('editpage', this.state)
-    fetchDocument()
-  }
+    this.state = nextState;
 
+    fetchDocument();
+  };
 
-  
-  
   this.render = () => {
-    $target.appendChild($editPage)
-  }
-  
+    $target.appendChild($editPage);
+  };
 }
