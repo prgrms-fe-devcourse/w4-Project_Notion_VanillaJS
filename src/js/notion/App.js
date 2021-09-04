@@ -3,7 +3,7 @@ import DocumentForm from './document/DocumentForm.js'
 import DocumentList from './document/DocumentList.js'
 import PostEditMain from './editor/main/PostEditMain.js'
 import PostEditModal from './editor/modal/PostEditModal.js'
-import {onModalOpen} from './Modal.js'
+import {onModalOpen} from './ModalControl.js'
 import {$} from '../utils/DOM.js'
 import {getItem, setItem} from '../utils/storage.js'
 import {CURRENT_EDIT_DOCUMENT_ID} from '../constants/storage.js'
@@ -12,6 +12,7 @@ import {documentTemplate} from '../templates/documentList.js'
 import DocumentHeader from './document/DocumentHeader.js'
 import {USER_NAME} from '../constants/notion.js'
 import ParentDocumentPath from './editor/main/ParentDocumentPath.js'
+import {toggleOff, toggleOn} from './document/ToggleControl.js'
 
 export default function App({$target}) {
     const $documentListContainer = $('.document-list-container')
@@ -67,32 +68,9 @@ export default function App({$target}) {
         fetchEditor(id)
     }
 
-    const onToggle = (id) => {
-        const $parent = $(`[data-id='${id}']`)
-
-        if ($parent.className.includes('toggled')) {
-            $('.toggle', $parent).innerText = '▶'
-            for (const $child of $parent.childNodes) {
-                if ($child.className !== undefined && $child.className.includes('document-title')) {
-                    $child.style.display = 'none'
-                }
-                $parent.classList.remove('toggled')
-            }
-        } else {
-            let subDocumentCount = 0
-
-            for (const $child of $parent.childNodes) {
-                if ($child.className !== undefined && $child.className.includes('document-title')) {
-                    subDocumentCount += 1
-                    $child.style.display = 'block'
-                }
-                $parent.classList.add('toggled')
-            }
-
-            if (subDocumentCount > 0) {
-                $('.toggle', $parent).innerText = '▼'
-            }
-        }
+    const onToggle = (parentId) => {
+        const $parent = $(`[data-id='${parentId}']`)
+        $parent.className.includes('toggled') ? toggleOff(parentId) : toggleOn(parentId)
     }
 
     const onSelect = (id) => {
@@ -193,7 +171,7 @@ export default function App({$target}) {
 
     const fetchEditor = async (id) => {
         const {title, content} = await request(`/documents/${id}`)
-        console.log(title, content)
+
         $('title').innerText = title
         this.setState({
             ...this.state,
@@ -219,6 +197,8 @@ export default function App({$target}) {
 
         const parentId = getItem(CURRENT_EDIT_DOCUMENT_ID)
         $(`[data-id='${parentId}']`).insertAdjacentHTML('beforeend', documentTemplate(id, title))
+
+        toggleOn(parentId)
         await fetchEditor(id)
     })
 
