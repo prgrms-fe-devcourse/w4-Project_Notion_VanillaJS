@@ -54,14 +54,7 @@ export default function Header({ $target, initialState }) {
 
   let timer = null;
 
-  $headerTitle.addEventListener("click", (e) => {
-    if (document.querySelector("#postEditPage")) {
-      document.querySelector("#postEditPage")
-        ? document.querySelector("#postEditPage").remove()
-        : null;
-      history.pushState(null, null, "/");
-    }
-
+  $headerTitle.addEventListener("click", () => {
     history.pushState(null, null, `/documents/${this.state.id}`);
 
     const $postEditPage = document.createElement("div");
