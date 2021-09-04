@@ -7,8 +7,8 @@ export default function Header ({ $target}) {
     <div class="header-notion">
       <img src="/src/img/profile.png" alt="notion-profile" class="header-notion__profile">
       <h2 class="header-notion__text">
-        민정의 <strong>Notion</strong>
-      </h2>
+      민정의 <strong>Notion</strong>
+      </h2><span class="material-icons">unfold_more</span>
     </div>
 
     <ul class="header-list">

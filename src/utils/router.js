@@ -1,8 +1,7 @@
-const ROUTER_CHANGE_EVENT_NAME = 'route-change'
-const POPSTATE_EVENT_NAME = 'popstate';
+import { constants } from './constant.js'
 
 const routerDispatcher = (nextUrl, isReplace = false) => {
-  window.dispatchEvent(new CustomEvent(ROUTER_CHANGE_EVENT_NAME, {
+  window.dispatchEvent(new CustomEvent(constants.ROUTER_CHANGE_EVENT_NAME, {
     detail: {
       nextUrl,
       isReplace
@@ -11,7 +10,7 @@ const routerDispatcher = (nextUrl, isReplace = false) => {
 }
 
 const initRouter = (onRoute) => {
-  window.addEventListener(ROUTER_CHANGE_EVENT_NAME, (event) => {
+  window.addEventListener(constants.ROUTER_CHANGE_EVENT_NAME, (event) => {
     const { nextUrl, isReplace } = event.detail
 
     if (!!nextUrl) {
@@ -27,7 +26,7 @@ const initRouter = (onRoute) => {
   })
 
   // 뒤로가기 시에도 라우팅
-  window.addEventListener(POPSTATE_EVENT_NAME, () => {
+  window.addEventListener(constants.POPSTATE_EVENT_NAME, () => {
     onRoute();
   });
 }

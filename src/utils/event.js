@@ -1,14 +1,13 @@
-const EDITOR_TITLE_CHANGE_EVENT_NAME = 'editor-title-change'
-const DOCUMENT_DELETE_EVENT_NAME = 'document-change'
+import { constants } from './constant.js'
 
 const titleDispatcher = () => {
-  window.dispatchEvent(new CustomEvent(EDITOR_TITLE_CHANGE_EVENT_NAME, {
+  window.dispatchEvent(new CustomEvent(constants.EDITOR_TITLE_CHANGE_EVENT_NAME, {
 
   }))
 }
 
 const titleEventListener = (onFetch) => {
-  window.addEventListener(EDITOR_TITLE_CHANGE_EVENT_NAME, (event) => {
+  window.addEventListener(constants.EDITOR_TITLE_CHANGE_EVENT_NAME, (event) => {
     console.log('listen!')
     onFetch()
   })

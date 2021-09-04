@@ -4,10 +4,8 @@ import { request } from './utils/api.js';
 import { RouterUtils } from './utils/router.js'
 import { EventUtils } from './utils/event.js'
 
-export default function NavigationBar ({ $target , onDeleteDoc }) {
-  const $navigationBar = document.createElement('nav')
-  $navigationBar.classList.add('nav-bar')
-  $target.appendChild($navigationBar)
+export default function NavigationBar ({ onDeleteDoc }) {
+  const $navigationBar = document.querySelector('.nav-bar')
 
   new Header({ $target: $navigationBar })
 
@@ -23,7 +21,7 @@ export default function NavigationBar ({ $target , onDeleteDoc }) {
       const createdDocument = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
-          "title": "문서 제목",
+          "title": "",
           "parent": id
         })
       })

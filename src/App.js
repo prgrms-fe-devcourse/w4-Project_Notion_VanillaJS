@@ -5,11 +5,22 @@ import { RouterUtils } from './utils/router.js'
 import { request } from './utils/api.js'
 
 export default function App ({ $target }) {
-  const $page = document.createElement('div')
-  $page.classList.add('page')
+  const $page = document.querySelector('.page')
+  const editPage = new EditPage({
+    $target: $page,
+    initialState: {
+      documentId: '',
+      title: '',
+      content: ''
+    }
+  })
+  
+  const homePage = new HomePage({
+    $target: $page
+  })
   
   const navigationBar = new NavigationBar({
-    $target,
+
     onDeleteDoc : async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE'
@@ -32,20 +43,6 @@ export default function App ({ $target }) {
       editPage.setState({ documentId: _documentId })
     }
   })
-  
-  const editPage = new EditPage({
-    $target: $page,
-    initialState: {
-      documentId: '',
-      title: '',
-      content: ''
-    }
-  })
-  
-  const homePage = new HomePage({
-    $target: $page
-  })
-  
   
   this.route = () => {
     const { pathname } = window.location

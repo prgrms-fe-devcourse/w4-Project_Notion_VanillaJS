@@ -47,7 +47,7 @@ export default function EditPage({ $target, initialState }) {
           method: "PUT",
           body: JSON.stringify(document),
         });
-  
+        console.log(putDocument)
         // 로컬에서 삭제
         StorageUtils.removeItem(KeyLocalDocument)
         //console.log("putDocument", putDocument);
@@ -74,6 +74,7 @@ export default function EditPage({ $target, initialState }) {
       //console.log(documentId)
       const document = await request(`/documents/${documentId}`).catch(() => RouterUtils.routerDispatcher('/'))
       editor.setState(document)
+      editor.render()
       // 현재 document 하위 document 수 만큼 버튼 렌더
       editorBottomBar.makeSubButtons(document)
       
