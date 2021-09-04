@@ -25,7 +25,7 @@ export default function PostsList ({ $target, initialState, onAdd, onClick, onRe
 
     this.render = () => {
         $postsList.innerHTML = `
-        <div data-id=${null} class='updatePost'>📄 Root Page Add <button data-id=${null} class='addPost'>+</button></div>
+        <div data-id=${null} class='updatePost'>Add Page <button data-id=${null} class='addPost'>+</button></div>
         <ul>
         ${this.state.map(post => makeTree(post, '')).join('')}
         </ul>

@@ -23,7 +23,7 @@ export default function EditPage ({ $target, initialState, onChange }) {
                         content: state.content
                     })
                 })
-            }, 5000)
+            }, 2000)
             
         }
     })

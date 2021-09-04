@@ -5,7 +5,7 @@
 
 body {
     font-family: "Noto Sans KR", sans-serif;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.08em;
     background-color: #F6F9FC;
     height: 100vh;
 }
@@ -31,6 +31,13 @@ img {
 
 }
 
+#headerTitle {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
 #mainTitle {
     font-size: 56px;
     font-weight: 700;
@@ -44,11 +51,20 @@ img {
     justify-items: center;
 }
 
+#headerImage {
+    height: 24px;
+    width: 24px;
+}
+
+.header {
+    margin-bottom: 16px;
+}
+
 .postsPageContainer {
     width: 40%;
     height: 100%;
     padding: 100px 50px;
-    background: linear-gradient(to right, #EB3349, #F45C43)
+    background: linear-gradient(to right, #4568DC, #B06AB3)
 }
 
 .editPageContainer {

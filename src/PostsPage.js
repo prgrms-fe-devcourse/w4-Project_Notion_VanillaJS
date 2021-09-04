@@ -1,11 +1,14 @@
 import PostsList from './PostsList.js'
+import Header from './Header.js'
 import { request } from './api.js'
 
 export default function PostsPage ({ $target, initialState, onClick }) {
     const $postsPage = document.createElement('div')
     this.state = initialState
 
-    
+    new Header ({
+        $target: $postsPage
+    })
 
     const postsList = new PostsList ({
         $target: $postsPage,
