@@ -1,6 +1,7 @@
 import PostList from "./PostList.js";
 import { request, removeChained } from "../api.js";
 import { getItem } from "../storage.js";
+import toast from "../toast.js";
 
 export default function PostsPage({ $target, mainPageId }) {
   const $page = document.createElement("div");
@@ -16,6 +17,8 @@ export default function PostsPage({ $target, mainPageId }) {
       });
 
       removeChained(removeObject, true);
+
+      toast("Removed");
     },
   });
 

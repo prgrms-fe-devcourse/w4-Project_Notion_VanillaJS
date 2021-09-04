@@ -34,12 +34,6 @@ export default function App({ $target, mainPageId, refreshList }) {
   });
 
   this.route = async (btnType, id, parentId) => {
-    if (btnType === "close") {
-      document.querySelector("#postEditPage")
-        ? document.querySelector("#postEditPage").remove()
-        : null;
-    }
-
     // 에디터가 열린 상태에서, 타 Post 에디터를 랜더링 할때, 기존 에디터 제거
     if (document.querySelector("#postEditPage")) {
       document.querySelector("#postEditPage")
@@ -51,22 +45,22 @@ export default function App({ $target, mainPageId, refreshList }) {
 
     const { pathname } = window.location;
 
-    if (pathname === "/") {
-      if (mainPageId != "initialPage") {
-        const mainPageInfo = (
-          await request(`/documents`, { method: "GET" })
-        ).filter((list) => list.id == mainPageId)[0];
+    if (pathname === "/" && mainPageId != "initialPage") {
+      const mainPageInfo = (
+        await request(`/documents`, { method: "GET" })
+      ).filter((list) => list.id == mainPageId)[0];
 
-        postsPage.setState(mainPageInfo);
-      }
+      postsPage.setState(mainPageInfo);
     } else if (pathname.indexOf("/documents/") === 0) {
       const [, , postId] = pathname.split("/");
       let getPost = { title: "", content: defaultContent };
+
       if (btnType !== "new") {
         getPost = parseRes(
           await request(`/documents/${postId}`, { method: "GET" })
         );
       }
+
       if (postId != "initialPage") {
         postEditPage.setState({
           postId,

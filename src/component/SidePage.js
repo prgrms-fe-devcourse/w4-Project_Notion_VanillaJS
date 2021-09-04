@@ -3,6 +3,7 @@ import SideList from "./SideList.js";
 import LinkButton from "../LinkButton.js";
 import Header from "./Header.js";
 import { getItem, setItem } from "../storage.js";
+import toast from "../toast.js";
 
 export default function SidePage({ $target, mainPageId, onClick }) {
   new Header({
@@ -59,6 +60,8 @@ export default function SidePage({ $target, mainPageId, onClick }) {
 
         const postListInfo = pageList.filter((list) => list.id == thisPage)[0];
         onClick(postListInfo);
+
+        toast("Removed");
       },
     });
 

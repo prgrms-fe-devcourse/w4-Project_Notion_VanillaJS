@@ -117,6 +117,7 @@ export default function Header({ $target, initialState }) {
           method: "PUT",
           body: editedJson,
         });
+
         toast("Removed");
       },
     });

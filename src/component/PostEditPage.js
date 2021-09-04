@@ -78,6 +78,8 @@ export default function PostEditPage({
         method: "PUT",
         body: editedJson,
       });
+
+      toast("Removed");
     },
   });
 
