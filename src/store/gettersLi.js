@@ -11,7 +11,7 @@ const getOpenedLiAfter = (action, option) => {
 const gettersLi = {
 	openedLi: [],
 	fetch: () => {
-		gettersLi.openedLi = getItemFromStorage('openedLi') || [];
+		gettersLi.openedLi = getItemFromStorage('openedLi', []) || [];
 		return gettersLi.openedLi;
 	},
 	add: ({ id }) => {
