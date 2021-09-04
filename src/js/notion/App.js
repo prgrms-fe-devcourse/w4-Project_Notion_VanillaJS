@@ -35,8 +35,10 @@ export default function App({$target}) {
         const {pathname} = window.location
 
         if (pathname === '/') {
+            $('.parent-path').style.display = 'none'
             $('.editor').style.display = 'none'
         } else if (pathname.indexOf('/documents/') === 0) {
+            $('.parent-path').style.display = 'block'
             $('.editor').style.display = 'block'
             const [, , documentId] = pathname.split('/')
             fetchEditor(documentId)
