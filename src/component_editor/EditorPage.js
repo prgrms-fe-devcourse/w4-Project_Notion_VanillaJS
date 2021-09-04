@@ -3,7 +3,7 @@ import EditorTools from './EditorTools.js';
 import { request } from '../utils/Api.js';
 import Editor from './Editor.js';
 import { setItem, removeItem, getItem } from '../utils/Storage.js';
-import { createElement, setAttribute } from '../utils/DOM.js';
+import { createElement } from '../utils/DOM.js';
 import { keyBy } from '../utils/Format.js';
 import { Trie } from '../utils/Algorithm.js';
 
@@ -16,7 +16,7 @@ export default function EditorPage({
     },
 }) {
     const $editorPage = createElement('div');
-    setAttribute([['class', 'editor-container']],$editorPage);
+    $editorPage.setAttribute('class','editor-container');
    
     const trie = new Trie();
     
@@ -28,7 +28,7 @@ export default function EditorPage({
 
     let timer = null;
 
-    const editorTools = new EditorTools({
+    new EditorTools({
         $target : $editorPage,
         saveKeyWord : (text) => {
             trie.insert(text);

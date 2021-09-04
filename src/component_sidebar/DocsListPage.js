@@ -1,11 +1,11 @@
 import DocsList from './DocsList.js';
 import SidebarHeader from './SidebarHeader.js';
-import { createElement, setAttribute } from '../utils/DOM.js';
+import { createElement } from '../utils/DOM.js';
 import { request } from '../utils/Api.js';
 
 export default function DocsListPage({ $target, initialState = [] }) {
     const $docsListPage = createElement('div');
-    setAttribute([['class', 'sidebar']], $docsListPage);
+    $docsListPage.setAttribute('class', 'sidebar');
 
     new SidebarHeader({
         $target: $docsListPage,

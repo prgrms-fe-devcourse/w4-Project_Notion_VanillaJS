@@ -2,7 +2,7 @@ import { setAttribute } from "../utils/DOM.js";
 
 export default function UserName({$target, initialState}) {
   const $userName = document.createElement('div');
-  setAttribute([['class','username']], $userName);
+  $userName.setAttribute('class','username');
   $target.appendChild($userName);
 
   this.state = initialState;

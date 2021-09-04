@@ -8,9 +8,9 @@ export const getTagOf = (e) => {
     return e.target;
 };
 
-export const getClosestTag = ($target, attr) => {
+export const getClosestTag = canGetElementsLater((attr, $target) => {
     return $target.closest(attr);
-};
+});
 
 export const getDataSet = ($target) => {
     return $target.dataset;
@@ -41,13 +41,14 @@ export const setAttribute = canGetElementsLater((attr, $target) => {
 
 export const createElement = (tagName) => document.createElement(tagName);
 
-export const querySelector = ($parentTag, tagInfo) =>
+
+export const querySelector = (tagInfo, $parentTag) =>
     tagInfo ? $parentTag.querySelector(tagInfo) : ((tagInfo = $parentTag), document.querySelector(tagInfo));
 
-export const getElementById = (id) => document.getElementById(id)
+export const getElementById = (id) => document.getElementById(id);
 
-export const getInputValue = ($target) => $target.value
+export const getInputValue = ($target) => $target.value;
 
-export const getClassName = ($target) => $target.className
+export const getClassName = ($target) => $target.className;
 
-export const getKeyCodeOf = (e) => e.keyCode
+export const getKeyCodeOf = (e) => e.keyCode;

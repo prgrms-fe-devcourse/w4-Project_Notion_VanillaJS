@@ -2,7 +2,7 @@ import { createElement, setAttribute } from '../utils/DOM.js'
 
 export default function AddDockButton({ $target, initialState, onClick }) {
     const $addButton = createElement('button');
-    setAttribute([['class','add-doc-button']], $addButton);
+    $addButton.setAttribute('class','add-doc-button');
 
     $addButton.addEventListener('click', onClick);
     

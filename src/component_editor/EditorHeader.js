@@ -1,8 +1,8 @@
-import { createElement, setAttribute } from '../utils/DOM.js';
+import { createElement } from '../utils/DOM.js';
 
 export default function EditorHeader({$target, initialState = ''}) {
   const $editHeader =createElement('div');
-  setAttribute([['class','editor-header']], $editHeader);
+  $editHeader.setAttribute('class','editor-header');
   $target.appendChild($editHeader);
 
   this.state = initialState;

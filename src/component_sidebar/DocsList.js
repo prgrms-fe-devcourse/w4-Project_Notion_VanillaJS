@@ -1,10 +1,15 @@
 import { push } from '../utils/Router.js';
-import { numOfEnter } from '../utils/Constant.js'
-import { getClosestTag, getTagOf, getDataSet, setStyle, htmlReset, createElement, querySelector, getInputValue, getKeyCodeOf, getClassName, setAttribute } from '../utils/DOM.js';
+import { numOfEnter } from '../utils/Constant.js';
+import {
+    setStyle,
+    htmlReset,
+    createElement,
+    setAttribute,
+} from '../utils/DOM.js';
 
 export default function DocsList({ $target, initialState = [], addDoc, deleteDoc, reviseDocName }) {
     const $docsList = createElement('div');
-    setAttribute([['class','doc-list']],$docsList);
+    setAttribute([['class', 'doc-list']], $docsList);
 
     $target.appendChild($docsList);
 
@@ -23,7 +28,7 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
 
         for (let i = 0; i < docArr.length; i++) {
             const doc = docArr[i];
-            const [docTitle, contentTitle] = doc.title.split('/');
+            const [docTitle, _] = doc.title.split('/');
 
             $ul.innerHTML += `
       <li data-id=${doc.id} data-depth=${depth} class='doc-list'>
@@ -52,25 +57,28 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
 
     const onClick = (e) => {
         e.stopImmediatePropagation();
-        const { id } = getDataSet(getClosestTag(getTagOf(e), 'li[class=doc-list]'));
+        const { id } = e.target.closest('li[class=doc-list]').dataset;
 
-        switch (getClassName(getTagOf(e))) {
+        switch (e.target.className) {
             case 'add-button':
                 {
                     if (!isExistInputTag) {
                         const $docNameInput = createElement('input');
-                        
-                        setStyle([
-                            ['display', 'block'],
-                            ['margin', '0.5rem 0']
-                        ],$docNameInput);
+
+                        setStyle(
+                            [
+                                ['display', 'block'],
+                                ['margin', '0.5rem 0'],
+                            ],
+                            $docNameInput
+                        );
 
                         $docNameInput.addEventListener('blur', (e) => {
-                            addDoc(getInputValue(getTagOf(e)), id);
+                            addDoc(e.target.value, id);
                             isExistInputTag = false;
                         });
 
-                        getClosestTag(getTagOf(e), 'div[class=list-container]').appendChild($docNameInput);
+                        e.target.closest('div[class=list-container]').appendChild($docNameInput);
                         $docNameInput.focus();
                         isExistInputTag = true;
                     }
@@ -96,27 +104,32 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
 
     const docNameRevise = (id, e) => {
         if (!isExistInputTag) {
-            const $divContainer = getClosestTag(getTagOf(e), '.list-container');
-            const $title = querySelector($divContainer, '.doc-title');
+            const $divContainer = e.target.closest('.list-container');
+            const $title = $divContainer.querySelector('.doc-title');
             const $docNameInput = createElement('input');
 
-            setStyle([
-                ['display', 'block'],
-                ['margin', '0 -4rem 0 0'],
-                ['display', 'inline'],
-            ], $docNameInput);
+            setStyle(
+                [
+                    ['display', 'block'],
+                    ['margin', '0 -4rem 0 0'],
+                    ['display', 'inline'],
+                ],
+                $docNameInput
+            );
 
-            $docNameInput.addEventListener('blur', (e) => {
-                if($docNameInput.matches('.list-container > input')) {
-                    $divContainer.replaceChild($title, $docNameInput);
-                    isExistInputTag = false;
-                } else return;
+            $docNameInput.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if ($divContainer.querySelector('input')) {
+                        $divContainer.replaceChild($title, $docNameInput);
+                        isExistInputTag = false;
+                    } else return;
+                });
             });
 
-            $docNameInput.addEventListener('keydown', (e) => {
-                if (getKeyCodeOf(e) === numOfEnter) {
-                    reviseDocName(getInputValue(getTagOf(e)), id);
-                    $title.innerText = getInputValue(getTagOf(e));
+            $docNameInput.addEventListener('keyup', (e) => {
+                if (e.keyCode === numOfEnter) {
+                    reviseDocName(e.target.value, id);
+                    $title.innerText = e.target.value;
                     $divContainer.replaceChild($title, $docNameInput);
                     isExistInputTag = false;
                 }

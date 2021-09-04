@@ -1,8 +1,8 @@
-import { createElement, getTagOf, querySelector, setAttribute, getInputValue } from '../utils/DOM.js';
+import { createElement } from '../utils/DOM.js';
 
 export default function EditorTools({ $target, saveKeyWord }) {
     const $editorTools = createElement('div');
-    setAttribute([['id', 'editor-tools']], $editorTools);
+    $editorTools.setAttribute('class','editor-tools');
     $target.appendChild($editorTools);
 
     this.render = () => {
@@ -16,12 +16,12 @@ export default function EditorTools({ $target, saveKeyWord }) {
 
     this.render();
 
-    querySelector($editorTools, 'button').addEventListener('click', (e) => {
-        const text = getInputValue(querySelector($editorTools, 'input'))
+    $editorTools.querySelector('button').addEventListener('click', () => {
+        const text = $editorTools.querySelector('input').value;
         
         if (text.length > 0) {
             saveKeyWord(text);
-            querySelector($editorTools, 'input').value = '';
+            $editorTools.querySelector('input').value = '';
         }
     });
 }

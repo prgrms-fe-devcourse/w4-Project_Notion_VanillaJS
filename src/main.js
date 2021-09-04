@@ -1,7 +1,7 @@
 import App from './App.js';
-import { querySelector } from './utils/DOM.js'
+import { getElementById } from './utils/DOM.js'
 
-const $target = querySelector('#app');
+const $target = getElementById('app');
 
  new App({
    $target

@@ -1,20 +1,6 @@
-import {
-    getTagOf,
-    createElement,
-    querySelector,
-    getInputValue,
-    getKeyCodeOf,
-    setStyle,
-    createTextNode,
-    setAttribute,
-    setTextContent,
-    getClassName,
-    getElementById,
-    getTextContent,
-} from '../utils/DOM.js';
-import { lazyFilter, revisedReduce, take, head, map, lazyMap, wrappedByArr, length } from '../utils/RxJS.js';
+import { createElement, createTextNode, getElementById } from '../utils/DOM.js';
+import { lazyFilter, revisedReduce, take, head, map, lazyMap, wrappedByArr } from '../utils/RxJS.js';
 import { numOfSpaceBar, numOfEnter } from '../utils/Constant.js';
-import { Trie } from '../utils/Algorithm.js';
 
 export default function Editor({
     $target,
@@ -25,8 +11,7 @@ export default function Editor({
     onEditing,
 }) {
     const $editor = createElement('div');
-    setAttribute([['class','editor']], $editor);
-
+    $editor.setAttribute('class', 'editor');
     $target.appendChild($editor);
 
     this.state = initialState;
@@ -39,15 +24,18 @@ export default function Editor({
     let sel = null;
     let range = null;
     let headerIndex = null;
-    
+
     let trie = null;
 
     this.setState = (nextState) => {
-        if(nextState.content === this.state.content) this.state.trie = nextState.trie;
-        this.state = nextState;
-        trie = this.state.trie;
-        tempState = { ...this.state };
-        this.render();
+        if (nextState.content === this.state.content) {
+            this.state.trie = nextState.trie;
+        } else {
+            this.state = nextState;
+            trie = this.state.trie;
+            tempState = { ...this.state };
+            this.render();
+        }
     };
 
     this.render = () => {
@@ -66,7 +54,7 @@ export default function Editor({
 
         // 문서를 불러온 후 focus를 하려면 이 방식으로 해야함. 이유는 모르겠음
         setTimeout(() => {
-            querySelector($editor, '.content').focus();
+            $editor.querySelector('.content').focus();
         });
 
         sel = window.getSelection && window.getSelection();
@@ -79,12 +67,12 @@ export default function Editor({
         }
 
         if (sel && typeof headerIndex === 'number') {
-            const $header = querySelector(querySelector($editor, '.content'), `.header${headerIndex}`);
+            const $header = $editor.querySelector('.content').querySelector(`.header${headerIndex}`);
             range.setStartAfter($header);
         }
     };
 
-    const findMarkDown = (str, content) => {
+    const findMarkDown = (str) => {
         return (
             // str.indexOf('# ') === 0은, 12345라는 글내용을 작성하고 # 12345 를 작성하는 경우 캐치
             // str.indexOf('#&nbsp;') === 0은, # 으로 시작하는 경우 #nbsp;로 입력되는 것을 캐치
@@ -98,7 +86,7 @@ export default function Editor({
     const isMarkDownInput = (content) => {
         return revisedReduce(
             // content = '안녕하세요<div>저는 김영후 입니다</div><div>전자통신공학과를 졸업했습니다</div><div># 현재는 데브코스를 수강중입니다.</div>
-            content.split('<div>'), 
+            content.split('<div>'),
             lazyFilter((str) => findMarkDown(str, content)), // split = ['안녕하세요', '저는 김영후입니다</div>', '# 전자통신공학과를 졸업했습니다</div>']
             take(1), // [' # 전자통신공학과를 졸업했습니다</div>'];
             head // '# 전자통신공학과를 졸업했습니다</div>'
@@ -123,7 +111,10 @@ export default function Editor({
                             str.replace('</div>', '').replace('&nbsp;', ''), // # 안녕하세요 저는 김영후 입니다</div> ==> 안녕하세요 저는 김영후 입니다
                             wrappedByArr, // ['# 안녕하세요 저는 김영후 입니다']
                             map((str) => str.slice(1, str.length)), // ['안녕하세요 저는 김영후 입니다']
-                            map((onlyContent) => (temp.innerHTML += `<h1 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h1>`))
+                            map(
+                                (onlyContent) =>
+                                    (temp.innerHTML += `<h1 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h1>`)
+                            )
                         );
                     }
                     break;
@@ -132,10 +123,13 @@ export default function Editor({
                         headerIndex = index;
 
                         revisedReduce(
-                            str.replace('</div>', '').replace('&nbsp;', ''), 
+                            str.replace('</div>', '').replace('&nbsp;', ''),
                             wrappedByArr,
                             map((str) => str.slice(3, str.length)),
-                            map((onlyContent) => (temp.innerHTML += `<h2 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h2>`))
+                            map(
+                                (onlyContent) =>
+                                    (temp.innerHTML += `<h2 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h2>`)
+                            )
                         );
                     }
                     break;
@@ -144,10 +138,13 @@ export default function Editor({
                         headerIndex = index;
 
                         revisedReduce(
-                            str.replace('</div>', '').replace('&nbsp;', ''), 
+                            str.replace('</div>', '').replace('&nbsp;', ''),
                             wrappedByArr,
                             map((str) => str.slice(4, str.length)),
-                            map((onlyContent) => (temp.innerHTML += `<h3 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h3>`))
+                            map(
+                                (onlyContent) =>
+                                    (temp.innerHTML += `<h3 class='header${index}'>${onlyContent.length ? onlyContent : '#'}</h3>`)
+                            )
                         );
                     }
                     break;
@@ -164,30 +161,26 @@ export default function Editor({
     let isAutoCompleteExist = false;
     let isSpaceBarEntered = false;
 
-    
     let cursorPosBeforeChar = null;
     let cursorPosAfterChar = null;
     $editor.addEventListener('keyup', (e) => {
-        switch (getClassName(getTagOf(e))) {
+        switch (e.target.className) {
             case 'content':
                 {
-                    
-                    tempState.content = getTagOf(e).innerHTML;
+                    tempState.content = e.target.innerHTML;
                     onEditing(tempState);
-                    
-                    console.log(tempState.content);
-                    
+
                     // #, ##, ### 이 들어오는 경우 체크
                     if (isMarkDownInput(tempState.content)) {
                         this.setState(tempState);
                         return;
                     }
-                    
+
                     // 스페이스바가 입력된 경우,
                     // AutoComplete 로직을 실행시키기 위해 isSpaceBarEntered를 true로 만듬
-                    if (getKeyCodeOf(e) === numOfSpaceBar) {
+                    if (e.keyCode === numOfSpaceBar) {
                         isSpaceBarEntered = true;
-                        
+
                         // 초기환
                         cursorPosBeforeChar = null;
                         firstString = '';
@@ -195,28 +188,26 @@ export default function Editor({
 
                     // 스페이스바가 입력된 경우, 즉 AutoComplete을 체크할 준비가 된경우
                     if (isSpaceBarEntered) {
-
                         // 커서 정보 획득
                         sel = window.getSelection();
                         range = sel.getRangeAt(0);
-                        
+
                         // 커서 정보가 지정되지 않은 경우,
                         if (!cursorPosBeforeChar) {
-                            
                             // 첫 글자 이전 커서 위치 및 이후 위치 획득
                             cursorPosBeforeChar = range.startOffset;
                             cursorPosAfterChar = range.startOffset + 1;
                         }
-                        
+
                         const cloned = range.cloneRange();
-                        
-                        cloned.selectNodeContents(querySelector($editor, '.content'));
-                        
+
+                        cloned.selectNodeContents($editor.querySelector('.content'));
+
                         cloned.setStart(range.startContainer, cursorPosBeforeChar);
 
                         if (range.startContainer.length >= cursorPosAfterChar) {
                             cloned.setEnd(range.startContainer, cursorPosAfterChar);
-                            
+
                             // 뛰어쓰기 이후 첫 글자를 획득함
                             if (cloned.toString().length === 1) {
                                 firstString = cloned.toString();
@@ -235,84 +226,72 @@ export default function Editor({
 
                     // trie에 획득된 첫 글자를 던져주고, 등록된 키워드가 있는지 확인하는 절차
                     if (trie.getAllWords(firstString).length !== 0) {
-                        
                         // 이미 입력된 자동 완성이 있다면 삭제함
                         deleteAutoComplete();
-                        
+
                         // firstString이 '프'인 경우, autoCompleteWord는 '로그래머스'가 됨
                         const autoCompleteWord = revisedReduce(
                             trie.getAllWords(firstString),
                             lazyMap((similarWord) => similarWord.replace(firstString, '')),
                             head
-                            );
-                            
-                            // 프로그래머스에서 '로그래머스'는 자동 완성 글자인데, 이 글자를 span태그 안에 넣어서 색깔을 추가함
-                            const $temp = revisedReduce(
-                                'span',
-                                createElement,
-                                setAttribute([['id', 'autoComplete']]),
-                                setStyle([['display', 'inline']]),
-                                setTextContent(autoCompleteWord)
-                                );
-                                
-                                // $temp를 사용자에게 보여줌
-                                autoComplete('preview', $temp);
+                        );
 
-                                // 현재 자동 완성된 텍스트가 존재하고 있음을 true로 만듬
+                        // 프로그래머스에서 '로그래머스'는 자동 완성 글자인데, 이 글자를 span태그 안에 넣어서 색깔을 추가함
+                        const $preview = createElement('span');
+                        $preview.setAttribute('id', 'autoComplete');
+                        $preview.style.display = 'inline';
+                        $preview.textContent = autoCompleteWord;
+
+                        autoComplete('preview', $preview);
+
+                        // 현재 자동 완성된 텍스트가 존재하고 있음을 true로 만듬
                         isAutoCompleteExist = true;
+
                         // 이후에는 1. 엔터가 입력되는 경우, 2. 엔터 이외의 입력이 일어나는 경우로 나뉨
                     }
-                    
                 }
                 break;
-                
-                case 'title-input':
-                    {
+
+            case 'title-input':
+                {
                     const [docTitle, _] = this.state.title.split('/');
-                    tempState.title = docTitle + '/' + getInputValue(getTagOf(e));
+                    tempState.title = docTitle + '/' + e.target.value;
                     onEditing(tempState);
                 }
                 break;
-                
-                default:
-                    break;
-                }
-            });
 
-            $editor.addEventListener('keydown', (e) => {
-                // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter인 경우, 자동완성 실행
-                if (isAutoCompleteExist === true && getKeyCodeOf(e) === numOfEnter) {
-                    e.preventDefault();
-                    const $autoComplete = getElementById('autoComplete');
-                    const $autoCompleteParent = $autoComplete.parentNode;
-                    const autoCompleteWord = getTextContent($autoComplete);
-                    const $text = createTextNode(autoCompleteWord);
-                     $autoCompleteParent.removeChild($autoComplete);
-        
-                    sel = window.getSelection();
-                    range = sel.getRangeAt(0);
-                    range.insertNode($text);
-                    range.setStartAfter($text);
-                    
-                    isAutoCompleteExist = false;
-                    isSpaceBarEntered = false;
-                    firstString = '';
-                }
-            });
-            
-    // const trie = new Trie();
-    
-    // trie.insert('안녕하세요');
-    // trie.insert('데브코스');
-    // trie.insert('프로그래머스');
-    // trie.insert('노션 클로닝');
-    
-    const autoComplete = (decision, $temp) => {
+            default:
+                break;
+        }
+    });
+
+    $editor.addEventListener('keydown', (e) => {
+        // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter인 경우, 자동완성 실행
+        if (isAutoCompleteExist === true && e.keyCode === numOfEnter) {
+            e.preventDefault();
+            const $autoComplete = getElementById('autoComplete');
+            const $autoCompleteParent = $autoComplete.parentNode;
+            const autoCompleteWord = $autoComplete.textContent;
+            const $text = createTextNode(autoCompleteWord);
+            $autoCompleteParent.removeChild($autoComplete);
+
+            sel = window.getSelection();
+            range = sel.getRangeAt(0);
+            range.insertNode($text);
+            range.setStartAfter($text);
+
+            isAutoCompleteExist = false;
+            isSpaceBarEntered = false;
+            firstString = '';
+        }
+    });
+
+    const autoComplete = (decision, $autoComplete) => {
         sel = window.getSelection();
         range = sel.getRangeAt(0);
-        range.insertNode($temp);
-        if (decision === 'preview') range.setEndBefore($temp);
-        else if (decision === 'insert') range.setEndAfter($temp);
+        range.insertNode($autoComplete);
+        if (decision === 'preview') range.setEndBefore($autoComplete);
+        else if (decision === 'insert') range.setEndAfter($autoComplete);
 
         sel = null;
     };
