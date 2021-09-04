@@ -31,15 +31,20 @@ export default function App({$target}) {
         this.state = nextState
     }
 
+    const setDisplay = (type) => {
+        $('.parent-path').style.display = type
+        $('.editor').style.display = type
+    }
+
     this.route = () => {
         const {pathname} = window.location
 
         if (pathname === '/') {
-            $('.parent-path').style.display = 'none'
-            $('.editor').style.display = 'none'
+            setDisplay('none')
         } else if (pathname.indexOf('/documents/') === 0) {
-            $('.parent-path').style.display = 'block'
-            $('.editor').style.display = 'block'
+            setDisplay('block')
+            $('.editor [name="title"]').focus()
+
             const [, , documentId] = pathname.split('/')
             fetchEditor(documentId)
         }
