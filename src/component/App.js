@@ -4,21 +4,21 @@ import { initRouter } from "../router.js";
 import { parseRes, request } from "../api.js";
 import { getItem } from "../storage.js";
 
+const defaultContent = new Map([
+  ["Content", ""],
+  ["Comment", ""],
+  ["Assign", ""],
+  ["State", ""],
+  ["Property", ""],
+  ["Updated", new Date()],
+  ["Due Date", ""],
+]);
+
 export default function App({ $target, mainPageId, refreshList }) {
   const postsPage = new PostsPage({
     $target,
     mainPageId,
   });
-
-  const defaultContent = new Map([
-    ["Content", ""],
-    ["Comment", ""],
-    ["Assign", ""],
-    ["State", ""],
-    ["Property", ""],
-    ["Updated", new Date()],
-    ["Due Date", ""],
-  ]);
 
   const postEditPage = new PostEditPage({
     $target,

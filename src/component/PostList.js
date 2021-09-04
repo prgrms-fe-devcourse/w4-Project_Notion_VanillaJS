@@ -16,9 +16,11 @@ export default function PostList({
   }
   const $postList = document.createElement("div");
   const $newPostButton = document.createElement("div");
+
   $postList.setAttribute("id", "postListBox");
   $newPostButton.setAttribute("id", "postPageButtonBox");
   $newPostButton.setAttribute("data-mainpageId", mainPageId);
+
   $target.appendChild($newPostButton);
   $target.appendChild($postList);
 
@@ -46,6 +48,7 @@ export default function PostList({
         if (post.documents.length) {
           subposts += this.setSubPostList(post.documents, post.id);
         }
+        // 랜덤하게 배경 지정(밝은색으로만)
         return `
         <li data-id="${post.id}" id="post${post.id}" class="post">
           <button class="editPostButton" style="background-color:hsl(

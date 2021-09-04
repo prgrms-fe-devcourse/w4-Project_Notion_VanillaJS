@@ -2,6 +2,16 @@ import { request, stringifyBody, parseRes } from "../api.js";
 import Editor from "./Editor.js";
 import toast from "../toast.js";
 
+const defaultContent = new Map([
+  ["Content", ""],
+  ["Comment", ""],
+  ["Assign", ""],
+  ["State", ""],
+  ["Property", ""],
+  ["Updated", new Date()],
+  ["Due Date", ""],
+]);
+
 export default function PostEditPage({
   $target,
   initialState,
@@ -11,16 +21,6 @@ export default function PostEditPage({
   const $page = document.createElement("div");
   $page.setAttribute("id", "postEditPage");
   this.state = initialState;
-
-  const defaultContent = new Map([
-    ["Content", ""],
-    ["Comment", ""],
-    ["Assign", ""],
-    ["State", ""],
-    ["Property", ""],
-    ["Updated", new Date()],
-    ["Due Date", ""],
-  ]);
 
   let timer = null;
 

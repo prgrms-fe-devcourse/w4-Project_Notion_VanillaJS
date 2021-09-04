@@ -2,6 +2,16 @@ import { request, stringifyBody, parseRes } from "../api.js";
 import Editor from "./Editor.js";
 import toast from "../toast.js";
 
+const defaultContent = new Map([
+  ["Content", "Nothing"],
+  ["Comment", ""],
+  ["Assign", ""],
+  ["State", ""],
+  ["Property", ""],
+  ["Updated", new Date()],
+  ["Due Date", ""],
+]);
+
 export default function Header({ $target, initialState }) {
   const $header = document.createElement("div");
   $header.setAttribute("class", "headerBox");
@@ -10,16 +20,6 @@ export default function Header({ $target, initialState }) {
   const $headerTitle = document.createElement("h1");
   $headerTitle.setAttribute("class", "headerTitle");
   $header.appendChild($headerTitle);
-
-  const defaultContent = new Map([
-    ["Content", "Nothing"],
-    ["Comment", ""],
-    ["Assign", ""],
-    ["State", ""],
-    ["Property", ""],
-    ["Updated", new Date()],
-    ["Due Date", ""],
-  ]);
 
   this.state = initialState;
 

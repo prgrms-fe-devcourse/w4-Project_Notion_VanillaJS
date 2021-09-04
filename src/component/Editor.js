@@ -1,10 +1,13 @@
 export default function Editor({ $target, initialState, onEditing, onRemove }) {
   const $editor = document.createElement("div");
   $editor.setAttribute("id", "editor");
+
   const $titleBox = document.createElement("div");
   $titleBox.setAttribute("id", "titleBox");
+
   const $attributeBox = document.createElement("div");
   $attributeBox.setAttribute("id", "attributeBox");
+
   const $contentBox = document.createElement("div");
   $contentBox.setAttribute("id", "contentBox");
 
@@ -59,9 +62,9 @@ export default function Editor({ $target, initialState, onEditing, onRemove }) {
         $newAttribute.setAttribute("name", "attribute");
         $newAttribute.setAttribute("data-id", "new");
         $newAttribute.innerHTML = `
-    <input type="text" name="attributeName" placeholder="new"/>
-    <button name="attributeRemove">x</button> 
-    <input type="text" name="attributeContent" placeholder="empty"/>`;
+          <input type="text" name="attributeName" placeholder="new"/>
+          <button name="attributeRemove">x</button> 
+          <input type="text" name="attributeContent" placeholder="empty"/>`;
 
         $attributeBox
           .querySelector("#editorAttribute")
