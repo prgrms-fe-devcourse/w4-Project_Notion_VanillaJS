@@ -37,6 +37,7 @@ export default function App({$target}){
             //postsPage.deletfirstPage()
 
         }else if(pathname.indexOf('/documents/')===0){
+            postsPage.deletfirstPage()
             const [, , postId,parent,retitle] = pathname.split('/')
             const decodeRetitle=decodeURIComponent(retitle)
             console.log(pathname.split('/'))

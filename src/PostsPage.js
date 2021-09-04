@@ -140,7 +140,7 @@ export default function PostsPage({
         postList.setState(documents)
         postListTrash.forRender()
         this.render()
-        //firstPage.render()
+        firstPage.render()
     }
     this.deletfirstPage= ()=>{
         firstPage.deleteRender()
