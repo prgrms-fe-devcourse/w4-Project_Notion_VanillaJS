@@ -299,25 +299,29 @@ p.blank {
 .not-found {
 	display: flex;
 	flex-direction: column;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
 	min-width: 100vh;
 	min-height: 100vh;
-	text-align: center;
 }
 .not-fount-title {
+	position: relative;
 	font-size: 7rem;
-	font-weight: 700;
-	color: rgb(55, 53, 47);
+	font-weight: 600;
+	color: #53534e;
 }
-.not-found .home {
-	margin-top: 3vh;
-	text-decoration: none;
-	font-size: 4rem;
-	text-decoration: underline;
-	color: rgb(55, 53, 47);
+.not-found-img {
+	margin: 5vh;
+	width: 30vh;
+	cursor: pointer;
+	opacity: 1;
 }
 
+/* page - nodata*/
+.nodata-page {
+	font-size: 3rem;
+	font-weight: 700;
+}
 /* js-controll */
 .show {
 	display: block;

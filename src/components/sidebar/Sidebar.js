@@ -10,7 +10,7 @@ export default function Sidebar({ $target, initialState }) {
 	const $sidebar = $createElement('div', '.col', '.sidebar-container');
 	const $sidebarHeader = $createElement('div', '.sidebar-header');
 	const $sidebarBody = $createElement('div', '.sidebar-body');
-	const $sidebarFooter = $createElement('div', '.sidebar-footer');
+	const $sidebarFooter = $createElement('div');
 
 	this.state = {
 		...initialState,
@@ -18,6 +18,10 @@ export default function Sidebar({ $target, initialState }) {
 	this.setState = nextState => {
 		this.state = nextState;
 		sidebarBody.setState(this.state);
+	};
+
+	this.render = () => {
+		sidebarBody.render();
 	};
 
 	new SidebarHeader({
@@ -57,10 +61,6 @@ export default function Sidebar({ $target, initialState }) {
 			},
 		},
 	});
-
-	this.render = () => {
-		sidebarBody.render();
-	};
 
 	$target.appendChild($sidebar);
 	$sidebar.appendChild($sidebarHeader);

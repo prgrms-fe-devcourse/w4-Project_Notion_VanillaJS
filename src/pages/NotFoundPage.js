@@ -4,13 +4,20 @@ export default function NotFoundPage({ $target }) {
 	const $page = $createElement('div', '.not-found');
 
 	const $title = $createElement('h1', '.not-fount-title');
-	$title.textContent = 'Oops.. 404 Error!';
+	$title.textContent = '길을 잃었어요..🥲';
 
-	const $home = $createElement('a', '.home');
-	$home.textContent = '메인으로 가기';
-	$home.setAttribute('href', `${window.location.origin}`);
+	const $image = $createElement('img', '.not-found-img');
+	$image.setAttribute('src', '/src/assets/images/404.png');
 
 	$page.appendChild($title);
-	$page.appendChild($home);
+	$page.appendChild($image);
 	$target.appendChild($page);
+
+	$title.addEventListener('click', e => {
+		window.location = window.location.origin;
+	});
+
+	$image.addEventListener('click', e => {
+		window.location = window.location.origin;
+	});
 }

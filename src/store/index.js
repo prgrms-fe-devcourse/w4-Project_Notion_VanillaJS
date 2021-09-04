@@ -73,12 +73,13 @@ export default function Store() {
 				closeChildList(id);
 
 				const nextState = await getStateAfter('deleteCurrent', id);
+				const postId = nextState.currentDocument.id;
 				commit('SET_STATE', { nextState, needRender: 'all' });
 
 				history.replaceState(
 					null,
 					null,
-					`/posts/${nextState.currentDocument.id}`,
+					`${postId ? `/posts/${postId}` : '/'}`,
 				);
 			}
 		},

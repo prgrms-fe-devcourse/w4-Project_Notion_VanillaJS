@@ -2,6 +2,7 @@ import { emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
 import { checkNodata } from '../../utils/render.js';
 
+import PageNoData from './PostsPageNoData.js';
 import PageBody from './PostsPageBody.js';
 
 export default function Page({ $target, initialState }) {
@@ -15,7 +16,13 @@ export default function Page({ $target, initialState }) {
 	};
 
 	this.render = () => {
-		pageBody.render();
+		const haveData = this.state.documents.length > 0;
+
+		if (haveData) {
+			pageBody.render();
+		} else {
+			noDataPage.render();
+		}
 	};
 
 	const LIMIT_TIME = 200;
@@ -29,6 +36,8 @@ export default function Page({ $target, initialState }) {
 			emit.updateDocument(id, nextDocument, false);
 		}, LIMIT_TIME);
 	};
+
+	const noDataPage = new PageNoData({ $target: $pageBody });
 
 	const pageBody = new PageBody({
 		$target: $pageBody,

@@ -48,18 +48,30 @@ const getters = {
 	init: async () => {
 		const { pathname } = window.location;
 		const [, , id] = pathname.split('/');
+		let postId = id;
 
 		const documents = await getDocuments();
+		const noData = !postId && !documents.length;
 
-		const postId = id ? id : documents[0].id;
+		if (noData) {
+			history.pushState(null, null, `/`);
+		} else if (!postId) {
+			postId = documents[0].id;
+			history.pushState(null, null, `/posts/${postId}`);
+		}
+
 		const currentDocument = await getDocuments(postId);
-
-		history.pushState(null, null, `/posts/${postId}`);
 		return { documents, currentDocument };
 	},
 	fetch: async () => {
+		let postId;
 		const documents = await getDocuments();
-		const currentDocument = await getDocuments(documents[0].id);
+
+		if (documents.length) {
+			postId = documents[0].id;
+		}
+
+		const currentDocument = await getDocuments(postId);
 
 		history.pushState(null, null, `/`);
 		return { documents, currentDocument };
@@ -89,7 +101,7 @@ const getters = {
 		return { documents, currentDocument, modalDocument };
 	},
 	read: async id => {
-		const documents = getItemFromStorage('notionState').documents;
+		const documents = getItemFromStorage('notionState')?.documents;
 		const currentDocument = await getDocuments(id);
 
 		return { documents, currentDocument };
@@ -121,10 +133,16 @@ const getters = {
 		return { documents, currentDocument };
 	},
 	deleteCurrent: async id => {
+		let postId;
 		await deleteDocument(id);
 
 		const documents = await getDocuments();
-		const currentDocument = await getDocuments(documents[0].id);
+
+		if (documents.length) {
+			postId = documents[0].id;
+		}
+
+		const currentDocument = await getDocuments(postId);
 
 		return { documents, currentDocument };
 	},
