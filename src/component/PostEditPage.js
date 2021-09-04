@@ -114,7 +114,7 @@ export default function PostEditPage({
     }
   };
 
-  $page.addEventListener("click", (e) => {
+  $page.addEventListener("mousedown", (e) => {
     if (e.target.getAttribute("id") == "postEditPage") {
       history.pushState(null, null, "/");
       document.querySelector("#postEditPage").remove();
