@@ -17,7 +17,7 @@ export default function ModalBody({ $target, onUpdate }) {
 		const contentTemp = '문서의 내용을 입력해보세요!';
 
 		$titleInput.textContent = titleTemp;
-		$contentInput.textContent = contentTemp;
+		$contentInput.value = contentTemp;
 
 		$modalTitle.appendChild($titleInput);
 		$modalContent.appendChild($contentInput);

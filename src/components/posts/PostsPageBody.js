@@ -21,7 +21,7 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 		const convertedContent = !content ? '문서의 내용을 입력해보세요!' : content;
 
 		$titleInput.textContent = convertedTitle;
-		$contentInput.textContent = convertedContent;
+		$contentInput.value = convertedContent;
 	};
 
 	$pageTitle.appendChild($titleInput);
