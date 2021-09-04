@@ -21,7 +21,7 @@ function $createElement(element, ...option) {
 }
 
 const $blankItem = () => {
-	const $blank = $createElement('p', '.blank');
+	const $blank = $createElement('p', '.blank', '.hide');
 
 	$blank.setAttribute('datat-id', 'blank');
 	$blank.classList.add('hide');
@@ -44,7 +44,7 @@ const $listItem = () => {
 				<button class="nav-toggler-btn icon-play" data-act="toggle"></button>
 				<span class="nav-page-title" data-act="read" ></span>
 				<button class="nav-delete-btn icon-trash-empty" data-act="delete"> </button>
-				<button class="nav-crate-btn icon-plus-squared-alt" data-target="modal"></button>
+				<button class="nav-create-btn icon-plus-squared-alt" data-target="modal"></button>
 			</p> `;
 
 	return $li;
@@ -55,7 +55,7 @@ const $newPostListItem = () => {
 
 	const $filledLi = fillListItem($newLi, {
 		id: 'new',
-		title: '제목없음',
+		title: '제목 없음',
 		isOpened: null,
 	});
 	const $blank = $blankItem();

@@ -11,7 +11,7 @@ export default function Modal({ $target }) {
 
 	this.state = {
 		id: 'new',
-		title: '제목없음',
+		title: '제목 없음',
 		content: '문서의 내용을 입력하세요!',
 	};
 
@@ -50,7 +50,7 @@ export default function Modal({ $target }) {
 			clearTimeout(modalBodyUpdateTimer);
 		}
 		modalBodyUpdateTimer = setTimeout(() => {
-			emit.updateDocument(id, nextDocument);
+			emit.updateDocument(id, nextDocument, true);
 		}, LIMIT_TIME);
 	};
 
@@ -58,18 +58,18 @@ export default function Modal({ $target }) {
 		$target: $modalBody,
 		onUpdate: {
 			updateTitle: nextDocument => {
-				const { id } = this.state;
-
-				const currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
-				currentLi.textContent = nextDocument.title;
 				$('.show-modal-title').dataset.text = nextDocument.title;
+
+				const { id } = this.state;
+				const currentLi = $(`li[data-id="${id}"] .nav-page-title`);
+				currentLi.textContent = nextDocument.title;
 
 				setUpdateEditTimer(id, nextDocument);
 			},
 			updateContent: nextDocument => {
-				const { id } = this.state;
 				$('.show-modal-content').dataset.text = nextDocument.content;
 
+				const { id } = this.state;
 				setUpdateEditTimer(id, nextDocument);
 			},
 		},

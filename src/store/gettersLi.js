@@ -3,16 +3,19 @@ import { getItemFromStorage, setItemToStorage } from '../utils/storage.js';
 const getOpenedLiAfter = (action, option) => {
 	const newOpenedLi = gettersLi[action](option);
 
+	gettersLi.openedLi = newOpenedLi;
 	setItemToStorage('openedLi', newOpenedLi);
 	return newOpenedLi;
 };
 
 const gettersLi = {
+	openedLi: [],
 	fetch: () => {
-		return getItemFromStorage('openedLi') || [];
+		gettersLi.openedLi = getItemFromStorage('openedLi') || [];
+		return gettersLi.openedLi;
 	},
-	add: ({ openedLi, id }) => {
-		const newOpenedLi = [...openedLi];
+	add: ({ id }) => {
+		const newOpenedLi = [...gettersLi.openedLi];
 
 		if (!newOpenedLi.includes(id)) {
 			newOpenedLi.push(id);
@@ -20,8 +23,8 @@ const gettersLi = {
 
 		return newOpenedLi;
 	},
-	delete: ({ openedLi, id }) => {
-		const newOpenedLi = [...openedLi];
+	delete: ({ id }) => {
+		const newOpenedLi = [...gettersLi.openedLi];
 
 		if (newOpenedLi.includes) {
 			newOpenedLi.splice(newOpenedLi.indexOf(id), 1);

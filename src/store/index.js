@@ -1,5 +1,6 @@
-import { getStateAfter } from './gettersState.js';
 import { on, emit } from '../utils/emitter.js';
+import { closeChildList } from '../utils/render.js';
+import { getStateAfter } from './gettersState.js';
 
 export default function Store() {
 	const commit = (mutation, options) => {
@@ -19,14 +20,14 @@ export default function Store() {
 	this.actions = {
 		createDocument: async ({ id }) => {
 			const nextState = await getStateAfter('create', id);
-			commit('SET_STATE', { nextState, needRender: 'all' });
+			commit('SET_STATE', { nextState, needRender: 'postsPage' });
 
-			const postId = nextState.currentDocument.id;
-			history.pushState(null, null, `/posts/${postId}`);
+			const newPostId = nextState.currentDocument.id;
+			history.pushState(null, null, `/posts/${newPostId}`);
+			$('li[data-id="new"')?.setAttribute('data-id', newPostId);
 		},
 		createDocumentOnModal: async ({ id }) => {
 			emit.showModal();
-
 			const { documents, currentDocument, modalDocument } = await getStateAfter(
 				'createOnModal',
 				id,
@@ -36,8 +37,10 @@ export default function Store() {
 
 			commit('SET_STATE', {
 				nextState: { documents, currentDocument },
-				needRender: 'sideBar',
+				needRender: 'null',
 			});
+
+			$('li[data-id="new"')?.setAttribute('data-id', modalDocument.id);
 		},
 		readDocument: async ({ id }) => {
 			const nextState = await getStateAfter('read', id);
@@ -47,14 +50,28 @@ export default function Store() {
 			const nextState = await getStateAfter('update', { id, nextDocument });
 			commit('SET_STATE', { nextState, needRender: 'null' });
 		},
+		updateDocumentOnModal: async ({ id, nextDocument }) => {
+			const nextState = await getStateAfter('updateOnModal', {
+				id,
+				nextDocument,
+			});
+
+			commit('SET_STATE', { nextState, needRender: 'null' });
+		},
 		deleteDocument: async ({ id }) => {
 			if (confirm('문서를 삭제하시겠습니까?')) {
+				closeChildList(id);
+
 				const nextState = await getStateAfter('delete', id);
 				commit('SET_STATE', { nextState, needRender: 'sideBar' });
 			}
 		},
 		deleteCurrentDocument: async ({ id }) => {
 			if (confirm('문서를 삭제하시겠습니까?')) {
+				const $needRemoveSelected = $(`li[data-id="${id}"] .selected`);
+				removeClass($needRemoveSelected, 'selected');
+				closeChildList(id);
+
 				const nextState = await getStateAfter('deleteCurrent', id);
 				commit('SET_STATE', { nextState, needRender: 'all' });
 
@@ -82,9 +99,13 @@ export default function Store() {
 		on.readDocument((id, needRender) =>
 			dispatch('readDocument', { id, needRender }),
 		);
-		on.updateDocument((id, nextDocument) =>
-			dispatch('updateDocument', { id, nextDocument }),
-		);
+		on.updateDocument((id, nextDocument, onModal) => {
+			if (onModal) {
+				dispatch('updateDocumentOnModal', { id, nextDocument });
+			} else {
+				dispatch('updateDocument', { id, nextDocument });
+			}
+		});
 		on.deleteDocument((id, isCurrent) => {
 			if (isCurrent) {
 				dispatch('deleteCurrentDocument', { id });

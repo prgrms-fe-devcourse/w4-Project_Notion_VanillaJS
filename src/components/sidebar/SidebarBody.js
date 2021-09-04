@@ -15,18 +15,16 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 	$createBtn.innerHTML = `<span data-target="page">+ 페이지 추가</span>`;
 
 	this.state = initialState;
-
-	this.openedLi = getOpenedLiAfter('fetch');
-
 	this.setState = nextState => {
 		this.state = nextState;
 	};
 
 	this.render = () => {
 		const { documents, currentDocument } = this.state;
-		$ul.innerHTML = '';
+		const openedLi = getOpenedLiAfter('fetch');
 
-		drawNavList($ul, documents, this.openedLi);
+		$ul.innerHTML = '';
+		drawNavList($ul, documents, openedLi);
 
 		$navList.appendChild($ul);
 		$target.appendChild($navList);
@@ -42,9 +40,28 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 			onClick.createDocument(null, null);
 		});
 
+		$navList.addEventListener('mouseover', e => {
+			const currentTarget = e.target.parentNode;
+
+			const $needRemoveCollection = document.querySelectorAll('.show');
+			const $deleteBtn = currentTarget.querySelector('.nav-delete-btn');
+			const $createBtn = currentTarget.querySelector('.nav-create-btn');
+
+			removeClassAll($needRemoveCollection, 'show');
+
+			if (currentTarget.tagName !== 'LI') {
+				addClass($deleteBtn, 'show');
+				addClass($createBtn, 'show');
+			}
+		});
+
+		$navList.addEventListener('mouseout', e => {
+			const $needRemoveCollection = document.querySelectorAll('.show');
+			removeClassAll($needRemoveCollection, 'show');
+		});
+
 		$navList.addEventListener('click', e => {
-			const { hideList, showList, deleteBtn, createDocument, readDocument } =
-				onClick;
+			const { toggleList, deleteBtn, createDocument, readDocument } = onClick;
 			const { tagName, className, parentNode } = e.target;
 
 			if (tagName === 'UL' || tagName === 'LI' || className.includes('blank')) {
@@ -53,29 +70,28 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 
 			const isToggele = className.includes('nav-toggler-btn');
 			const isDelete = className.includes('nav-delete-btn');
-			const isCreate = className.includes('nav-crate-btn');
+			const isCreate = className.includes('nav-create-btn');
 
 			const $li = tagName === 'P' ? parentNode : parentNode.parentNode;
 			const { id } = $li.dataset;
 
-			const openedLi = this.openedLi;
 			if (isToggele) {
 				const isOpend = e.target.className.includes('icon-down-dir');
 
 				if (isOpend) {
-					this.openedLi = getOpenedLiAfter('delete', { openedLi, id });
-					hideList($li);
+					toggleList('hide', $li);
 				} else {
-					this.openedLi = getOpenedLiAfter('add', { openedLi, id });
-					showList($li);
+					toggleList('show', $li);
 				}
 			} else if (isDelete) {
-				deleteBtn($li);
+				const { currentDocument } = this.state;
+				const isCurrent = Number(id) === currentDocument.id;
+
+				deleteBtn(id, isCurrent);
 			} else if (isCreate) {
-				this.openedLi = getOpenedLiAfter('add', { openedLi, id });
 				createDocument(id, $li);
 			} else {
-				readDocument($li);
+				readDocument(id);
 				markListItemofLi($li);
 			}
 		});

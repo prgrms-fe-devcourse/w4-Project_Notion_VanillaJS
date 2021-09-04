@@ -1,8 +1,11 @@
 html {
 	font-size: 10px;
-	overflow: hidden;
+	overflow-x: hidden;
 	font-family: 'Open Sans', sans-serif;
 	box-sizing: content-box;
+}
+body {
+	overflow-x: hidden;
 }
 input,
 textarea,
@@ -44,8 +47,8 @@ button {
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-	padding: 2px 15px;
-	min-height: 27px;
+	padding: 0 15px;
+	min-height: 3rem;
 	font-size: 1.4rem;
 }
 .root {
@@ -64,7 +67,7 @@ button {
 	height: 3.1rem;
 }
 p.blank {
-	margin-left: 20px;
+	margin-left: 35px;
 	padding: 8px;
 	font-size: 1.4rem;
 	color: rgba(55, 53, 47, 0.4);
@@ -88,26 +91,47 @@ p.blank {
 	margin-top: -0.2rem;
 }
 .nav-page-title {
-	z-index: 2;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
 }
 .nav-toggler-btn,
-.nav-crate-btn,
+.nav-create-btn,
 .nav-delete-btn {
 	opacity: 0.5;
 	border-radius: 3px;
-	z-index: 2;
+}
+.nav-delete-btn {
+	display: none;
+	position: absolute;
+	padding: 0.5rem 1rem;
+	right: 3rem;
+	color: #7c7c7a;
+	background: #e8e7e4;
+	opacity: 1;
+}
+.nav-create-btn {
+	display: none;
+	position: absolute;
+	padding: 0.5rem 1rem;
+	right: 0;
+	color: #7c7c7a;
+	background: #e8e7e4;
+	opacity: 1;
+}
+.nav-toggler-btn {
+	padding: 0.5rem 1rem;
 }
 .nav-toggler-btn:hover {
-	background: rgba(55, 53, 47, 0.08);
+	display: block;
+	background: #dad9d6;
 }
-.nav-crate-btn:hover {
-	background: rgba(55, 53, 47, 0.08);
+.nav-create-btn:hover {
+	display: block;
+	background: #dad9d6;
 }
 .nav-delete-btn:hover {
-	background: rgba(55, 53, 47, 0.08);
+	background: #dad9d6;
 }
 .sidebar-body .create-btn {
 	cursor: pointer;
@@ -121,9 +145,11 @@ p.blank {
 	padding: 2rem 0;
 	width: 240px;
 	color: rgba(55, 53, 47, 0.6);
+	z-index: 3;
+	background: #f7f6f3;
 }
 .sidebar-footer:hover {
-	background: rgba(55, 53, 47, 0.08);
+	background: #e8e7e4;
 }
 .sidebar-footer .create-btn {
 	padding: 2rem;
@@ -264,6 +290,9 @@ p.blank {
 }
 
 /* js-controll */
+.show {
+	display: block;
+}
 .hide {
 	display: none;
 }

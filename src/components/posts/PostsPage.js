@@ -25,7 +25,7 @@ export default function Page({ $target, initialState }) {
 			clearTimeout(pageBodyUpdateTimer);
 		}
 		pageBodyUpdateTimer = setTimeout(() => {
-			emit.updateDocument(id, nextDocument);
+			emit.updateDocument(id, nextDocument, false);
 		}, LIMIT_TIME);
 	};
 
@@ -35,6 +35,7 @@ export default function Page({ $target, initialState }) {
 		onUpdate: {
 			updateTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
+
 				const currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
 				currentLi.textContent = nextDocument.title;
 

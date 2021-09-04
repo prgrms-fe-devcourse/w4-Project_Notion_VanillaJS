@@ -1,9 +1,11 @@
+import { getOpenedLiAfter } from '../store/gettersLi.js';
+
 import {
-	$createElement,
 	$listItem,
 	$treeItem,
 	$blankItem,
 	$newPostListItem,
+	$createElement,
 } from './templates.js';
 
 const drawNavList = (target, childDocuments, openedLi) => {
@@ -22,67 +24,123 @@ const drawNavList = (target, childDocuments, openedLi) => {
 			const $blank = $blankItem();
 			$li.appendChild($blank);
 		}
-		const $filledListItem = fillListItem($li, { id, title, openedLi });
-		target.appendChild($filledListItem);
+		const $filledList = fillListItem($li, { id, title, openedLi });
+		target.appendChild($filledList);
 	});
 };
 
 const fillListItem = ($li, { id, title, openedLi }) => {
-	const matchTypedId = `${id}`;
-	const isOpenedLi = openedLi?.includes(matchTypedId);
+	const isOpenedLi = openedLi?.includes(`${id}`);
+
+	const $nearHide = $li.querySelector('.hide');
+	const $toggleBtn = $li.querySelector('.nav-toggler-btn');
+	const $pageTitle = $li.querySelector('.nav-page-title');
 
 	if (isOpenedLi) {
-		$li.querySelector('.hide').classList.remove('hide');
-		$li
-			.querySelector('.nav-toggler-btn')
-			.classList.replace('icon-play', 'icon-down-dir');
+		removeClass($nearHide, 'hide');
+		replaceClass($toggleBtn, 'icon-play', 'icon-down-dir');
 	}
+	$pageTitle.textContent = title;
 
 	$li.setAttribute('data-id', id);
-	$li.querySelector('.nav-page-title').textContent = title;
-
 	return $li;
 };
 
 const markListItemOfId = id => {
-	$('.nav-item.selected')?.classList.remove('selected');
-	$(`li[data-id="${id}"] p`).classList.add('selected');
+	const $currentSelect = $('.nav-item.selected');
+	const $needMark = $(`li[data-id="${id}"] p`);
+
+	removeClass($currentSelect, 'selected');
+	addClass($needMark, 'selected');
 };
 
 const markListItemofLi = $li => {
-	$('.nav-item.selected')?.classList.remove('selected');
-	$li.querySelector('.nav-item').classList.add('selected');
+	const $currentSelect = $('.nav-item.selected');
+	const $needMark = $li.querySelector('.nav-item');
+
+	removeClass($currentSelect, 'selected');
+	addClass($needMark, 'selected');
 };
 
-const makeNewPostLiOnRoot = ({ needMark }) => {
+const makeNewPostLi = ({ $target, needMark }) => {
 	const $newPostLi = $newPostListItem();
 
 	if (needMark) {
 		markListItemofLi($newPostLi);
 	}
 
-	$('.root').appendChild($newPostLi);
+	const onRoot = () => {
+		$('.root').appendChild($newPostLi);
+	};
+
+	const onTree = () => {
+		const $blank = $target.querySelector(':scope > .blank');
+
+		if ($blank) {
+			$blank.remove();
+
+			const $tree = $createElement('ul', '.tree');
+			$tree.appendChild($newPostLi);
+
+			$target.appendChild($tree);
+			addClass($target, 'nav-header', 'tree-toggler');
+		} else {
+			const $tree = $target.querySelector(':scope > .tree');
+			$tree.appendChild($newPostLi);
+		}
+
+		toggleList({ act: 'show', $li: $target });
+	};
+
+	if ($target) {
+		onTree({ $target, needMark });
+	} else {
+		onRoot({ needMark });
+	}
 };
 
-const makeNewPostLiOnTree = ({ $target, needMark }) => {
-	const $blank = $target.querySelector('.blank');
-	const $toggleBtn = $target.querySelector('.nav-toggler-btn');
+const toggleList = ({ act, $li }) => {
+	const { id } = $li.dataset;
 
-	const $ul = $createElement('ul', '.tree');
-	const $newPostLi = $newPostListItem();
-	addClass($target, 'nav-header', 'tree-toggler');
+	if (act === 'show') {
+		getOpenedLiAfter('add', { id });
 
-	if (needMark) {
-		markListItemofLi($newPostLi);
+		const $hidden = $li.querySelector(':scope > .hide');
+		const $toggleBtn = $li.querySelector(':scope > p .icon-play');
+
+		removeClass($hidden, 'hide');
+		replaceClass($toggleBtn, 'icon-play', 'icon-down-dir');
+		return;
 	}
 
-	if ($blank) {
-		$blank.remove();
-	}
+	if (act === 'hide') {
+		getOpenedLiAfter('delete', { id });
 
-	$toggleBtn.classList.replace('icon-play', 'icon-down-dir');
-	$ul.appendChild($newPostLi);
-	$target.appendChild($ul);
+		const $needHide = $li.querySelector('.tree') || $li.querySelector('.blank');
+		const $toggleBtn = $li.querySelector('.icon-down-dir');
+
+		addClass($needHide, 'hide');
+		replaceClass($toggleBtn, 'icon-down-dir', 'icon-play');
+	}
+};
+
+const closeChildList = id => {
+	const $childTreeCollection = $(`li[data-id="${id}"]`).querySelectorAll(
+		'.tree-toggler .tree:not(.hide)',
+	);
+	const $childBlankCollection = $(`li[data-id="${id}"]`).querySelectorAll(
+		'li:not(.tree-toggler) .blank:not(.hide)',
+	);
+
+	$childTreeCollection.forEach(tree => {
+		const id = tree.parentNode.dataset.id;
+		getOpenedLiAfter('delete', { id });
+	});
+
+	$childBlankCollection.forEach(blank => {
+		const id = blank.parentNode.dataset.id;
+		getOpenedLiAfter('delete', { id });
+	});
 };
 
 export {
@@ -90,6 +148,7 @@ export {
 	fillListItem,
 	markListItemOfId,
 	markListItemofLi,
-	makeNewPostLiOnRoot,
-	makeNewPostLiOnTree,
+	makeNewPostLi,
+	toggleList,
+	closeChildList,
 };

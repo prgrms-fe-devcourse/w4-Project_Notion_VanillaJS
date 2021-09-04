@@ -68,6 +68,15 @@ const getters = {
 			currentDocument: updatedDocument,
 		};
 	},
+	updateOnModal: async ({ id, nextDocument }) => {
+		await updateDocument(id, nextDocument);
+		const documents = await getDocuments();
+
+		const { currentDocument } = getItemFromStorage('notionState');
+
+		setItemToStorage('notionState', { documents, currentDocument });
+		return { documents, currentDocument };
+	},
 	delete: async id => {
 		await deleteDocument(id);
 
