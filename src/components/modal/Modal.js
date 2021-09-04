@@ -1,5 +1,6 @@
 import { on, emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
+import { checkNodata } from '../../utils/render.js';
 
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
@@ -58,17 +59,18 @@ export default function Modal({ $target }) {
 		$target: $modalBody,
 		onUpdate: {
 			updateTitle: nextDocument => {
-				$('.show-modal-title').dataset.text = nextDocument.title;
-
 				const { id } = this.state;
+				const { title } = nextDocument;
+
 				const currentLi = $(`li[data-id="${id}"] .nav-page-title`);
-				currentLi.textContent = nextDocument.title;
+				currentLi.textContent = title ? title : '제목 없음';
+
+				const $target = $('.show-modal-title');
+				checkNodata({ $target });
 
 				setUpdateEditTimer(id, nextDocument);
 			},
 			updateContent: nextDocument => {
-				$('.show-modal-content').dataset.text = nextDocument.content;
-
 				const { id } = this.state;
 				setUpdateEditTimer(id, nextDocument);
 			},
@@ -94,8 +96,8 @@ export default function Modal({ $target }) {
 			}
 
 			const noData =
-				!$('.show-modal-title').dataset.text &&
-				!$('.show-modal-content').dataset.text;
+				!$('.show-modal-title')?.textContent &&
+				!$('.show-modal-content')?.value;
 			const isHide = $modal.classList.contains('hide');
 			const isEmpty = !onModal && !isHide && noData;
 

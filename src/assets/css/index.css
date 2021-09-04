@@ -175,12 +175,23 @@ p.blank {
 	width: 100%;
 }
 .show-page-title {
+	position: relative;
 	cursor: text;
 	font-size: 4rem;
 	font-weight: 700;
-	white-space: pre-wrap;
-	word-break: break-word;
+	line-height: 6rem;
 	outline: none;
+	z-index: 1;
+}
+.hidden-page-title {
+	position: absolute;
+	top: 0;
+	font-size: 4rem;
+	font-weight: 700;
+	line-height: 6rem;
+	color: #ccc;
+	outline: none;
+	z-index: 0;
 }
 .page-content {
 	margin-top: 5vh;
@@ -244,20 +255,34 @@ p.blank {
 .modal-body {
 	display: flex;
 	flex-direction: column;
-	padding: 8rem;
+	padding: 3rem 8rem;
 	height: 100%;
+	overflow: scroll;
+}
+.modal-title {
+	position: relative;
 }
 .show-modal-title {
 	cursor: text;
 	font-size: 4rem;
 	font-weight: 700;
-	white-space: pre-wrap;
-	word-break: break-word;
+	line-height: 6rem;
 	outline: none;
+	z-index: 2;
+}
+.hidden-modal-title {
+	position: absolute;
+	top: 0;
+	font-size: 4rem;
+	font-weight: 700;
+	line-height: 6rem;
+	color: #ccc;
+	outline: none;
+	z-index: -1;
 }
 .modal-content {
 	margin-top: 5vh;
-	min-height: 100%;
+	height: 90%;
 	cursor: text;
 }
 .show-modal-content {
@@ -299,4 +324,8 @@ p.blank {
 }
 .hide {
 	display: none;
+}
+textarea::placeholder {
+	color: #ccc;
+	font-size: 1.6rem;
 }

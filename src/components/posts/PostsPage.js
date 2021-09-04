@@ -1,5 +1,6 @@
-import { $createElement } from '../../utils/templates.js';
 import { emit } from '../../utils/emitter.js';
+import { $createElement } from '../../utils/templates.js';
+import { checkNodata } from '../../utils/render.js';
 
 import PageBody from './PostsPageBody.js';
 
@@ -35,9 +36,13 @@ export default function Page({ $target, initialState }) {
 		onUpdate: {
 			updateTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
+				const { title } = nextDocument;
 
-				const currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
-				currentLi.textContent = nextDocument.title;
+				const $currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
+				$currentLi.textContent = title ? title : '제목 없음';
+
+				const $target = $('.show-page-title');
+				checkNodata({ $target });
 
 				setUpdateEditTimer(id, nextDocument);
 			},

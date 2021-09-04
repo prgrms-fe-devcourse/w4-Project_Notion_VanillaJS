@@ -31,7 +31,7 @@ const getters = {
 	},
 	create: async id => {
 		const newDocument = await createDocument({
-			title: '제목 없음',
+			title: '',
 			parent: id,
 		});
 		const documents = await getDocuments();

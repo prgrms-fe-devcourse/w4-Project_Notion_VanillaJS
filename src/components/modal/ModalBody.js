@@ -1,32 +1,32 @@
-import { $createElement } from '../../utils/templates.js';
+import { $createElement, $hiddenTitleItem } from '../../utils/templates.js';
+import { setPlaceholderTitle } from '../../utils/render.js';
 
 export default function ModalBody({ $target, onUpdate }) {
 	const $modalTitle = $createElement('p', '.modal-title');
 	const $modalContent = $createElement('p', '.modal-content');
 
+	const $hiddenTitleInput = $hiddenTitleItem('hidden-modal-title');
+
 	const $titleInput = $createElement('div', '.show-modal-title');
 	$titleInput.setAttribute('contenteditable', true);
-	$titleInput.setAttribute('data-text', '');
 
 	const $contentInput = $createElement('textarea', '.show-modal-content');
-	$contentInput.setAttribute('contenteditable', true);
-	$contentInput.setAttribute('data-text', '');
+	$contentInput.setAttribute('placeholder', '문서의 내용을 입력해보세요!');
 
 	this.render = () => {
-		const titleTemp = '제목 없음';
-		const contentTemp = '문서의 내용을 입력해보세요!';
-
-		$titleInput.textContent = titleTemp;
-		$contentInput.value = contentTemp;
-
-		$modalTitle.appendChild($titleInput);
-		$modalContent.appendChild($contentInput);
-		$target.appendChild($modalTitle);
-		$target.appendChild($modalContent);
+		$titleInput.textContent = '';
+		$contentInput.value = '';
+		setPlaceholderTitle({ $target: $hiddenTitleInput, title: null });
 	};
 
 	this.init = () => {
 		this.render();
+
+		$modalTitle.appendChild($titleInput);
+		$modalTitle.appendChild($hiddenTitleInput);
+		$modalContent.appendChild($contentInput);
+		$target.appendChild($modalTitle);
+		$target.appendChild($modalContent);
 
 		$titleInput.addEventListener('keyup', e => {
 			const content = $contentInput.value;

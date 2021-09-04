@@ -52,7 +52,7 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				makeNewPostLi({ $target: null, needMark: true });
+				makeNewPostLi({ $target: null, needMark: false });
 				emit.createDocument({ id: null, onModal: true });
 			},
 		},

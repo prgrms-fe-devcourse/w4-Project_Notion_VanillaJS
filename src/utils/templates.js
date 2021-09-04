@@ -20,6 +20,15 @@ function $createElement(element, ...option) {
 	return $element;
 }
 
+const $hiddenTitleItem = className => {
+	const $hiddenTitleInput = $createElement('div', '.hide');
+
+	$hiddenTitleInput.setAttribute('contenteditable', true);
+	$hiddenTitleInput.textContent = '제목 없음';
+	addClass($hiddenTitleInput, className);
+	return $hiddenTitleInput;
+};
+
 const $blankItem = () => {
 	const $blank = $createElement('p', '.blank', '.hide');
 
@@ -64,4 +73,11 @@ const $newPostListItem = () => {
 	return $filledLi;
 };
 
-export { $createElement, $treeItem, $listItem, $blankItem, $newPostListItem };
+export {
+	$createElement,
+	$hiddenTitleItem,
+	$treeItem,
+	$listItem,
+	$blankItem,
+	$newPostListItem,
+};

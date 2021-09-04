@@ -40,7 +40,7 @@ const fillListItem = ($li, { id, title, openedLi }) => {
 		removeClass($nearHide, 'hide');
 		replaceClass($toggleBtn, 'icon-play', 'icon-down-dir');
 	}
-	$pageTitle.textContent = title;
+	$pageTitle.textContent = title ? title : '제목 없음';
 
 	$li.setAttribute('data-id', id);
 	return $li;
@@ -143,6 +143,25 @@ const closeChildList = id => {
 	});
 };
 
+const setPlaceholderTitle = ({ $target, title }) => {
+	if (!title) {
+		removeClass($target, 'hide');
+	} else {
+		addClass($target, 'hide');
+	}
+};
+
+const checkNodata = ({ $target }) => {
+	const noData = $target.textContent === '';
+	const $hiddenInput = $target.nextSibling;
+
+	if (noData) {
+		removeClass($hiddenInput, 'hide');
+	} else {
+		addClass($hiddenInput, 'hide');
+	}
+};
+
 export {
 	drawNavList,
 	fillListItem,
@@ -151,4 +170,6 @@ export {
 	makeNewPostLi,
 	toggleList,
 	closeChildList,
+	setPlaceholderTitle,
+	checkNodata,
 };
