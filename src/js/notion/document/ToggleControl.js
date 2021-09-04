@@ -1,7 +1,7 @@
 import {$} from '../../utils/DOM.js'
 
-export const toggleOff = (parentId) => {
-    const $parent = $(`[data-id='${parentId}']`)
+export const toggleOff = (id) => {
+    const $parent = $(`[data-id='${id}']`)
 
     $('.toggle', $parent).innerText = '▶'
     for (const $child of $parent.childNodes) {
@@ -12,8 +12,8 @@ export const toggleOff = (parentId) => {
     }
 }
 
-export const toggleOn = (parentId) => {
-    const $parent = $(`[data-id='${parentId}']`)
+export const toggleOn = (id) => {
+    const $parent = $(`[data-id='${id}']`)
     let subDocumentCount = 0
 
     for (const $child of $parent.childNodes) {
@@ -24,7 +24,13 @@ export const toggleOn = (parentId) => {
         $parent.classList.add('toggled')
     }
 
-    if (subDocumentCount > 0) {
+    if (subDocumentCount === 0) {
+        const x = document.getElementById('snackbar')
+        x.className = 'show'
+        setTimeout(function () {
+            x.className = x.className.replace('show', '')
+        }, 2000)
+    } else {
         $('.toggle', $parent).innerText = '▼'
     }
 }

@@ -75,9 +75,9 @@ export default function App({$target}) {
         fetchEditor(id)
     }
 
-    const onToggle = (parentId) => {
-        const $parent = $(`[data-id='${parentId}']`)
-        $parent.className.includes('toggled') ? toggleOff(parentId) : toggleOn(parentId)
+    const onToggle = (id) => {
+        const $target = $(`[data-id='${id}']`)
+        $target.className.includes('toggled') ? toggleOff(id) : toggleOn(id)
     }
 
     const onSelect = (id) => {
