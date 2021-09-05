@@ -1,5 +1,5 @@
 import TextBlock from "./TextBlock.js";
-
+import { existingBlockEvent } from "./blockDragAndDrop.js";
 export default function EditPageText({ targetElement, onSave, initialState }) {
   const editPageContentElement = document.createElement("div");
   editPageContentElement.contentEditable = true;
@@ -16,6 +16,7 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     targetElement.appendChild(editPageContentElement);
     editPageContentElement.innerHTML = this.state.text;
     makeNewBlock();
+    existingBlockEvent();
   };
 
   const giveChildIndexId = (document) => {
