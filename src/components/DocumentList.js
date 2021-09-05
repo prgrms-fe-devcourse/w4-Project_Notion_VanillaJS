@@ -14,7 +14,6 @@ export default function DocumentList({
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
-    console.log(this.state);
   };
 
   this.makeTreeTemplate = (documents) => {
