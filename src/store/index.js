@@ -107,7 +107,7 @@ export default function Store() {
 			}
 		});
 		on.readDocument(({ id }) => dispatch('readDocument', { id }));
-		on.updateDocument((id, nextDocument, onModal) => {
+		on.updateDocument(({ id, nextDocument, onModal }) => {
 			if (onModal) {
 				dispatch('updateDocumentOnModal', { id, nextDocument });
 			} else {

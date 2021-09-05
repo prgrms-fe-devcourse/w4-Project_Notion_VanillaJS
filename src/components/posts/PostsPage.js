@@ -33,7 +33,7 @@ export default function Page({ $target, initialState }) {
 			clearTimeout(pageBodyUpdateTimer);
 		}
 		pageBodyUpdateTimer = setTimeout(() => {
-			emit.updateDocument(id, nextDocument, false);
+			emit.updateDocument({ id, nextDocument, onModal: false });
 		}, LIMIT_TIME);
 	};
 

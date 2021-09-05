@@ -6,7 +6,6 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 	const $pageContent = $createElement('div', '.page-content');
 
 	const $hiddenTitleInput = $hiddenTitleItem('hidden-page-title');
-
 	const $titleInput = $createElement('div', '.show-page-title');
 	$titleInput.setAttribute('contenteditable', true);
 

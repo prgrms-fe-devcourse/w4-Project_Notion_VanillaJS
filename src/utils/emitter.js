@@ -49,7 +49,7 @@ const on = {
 			const { id, nextDocument, onModal } = e.detail;
 
 			if (id && nextDocument) {
-				onUpdate(id, nextDocument, onModal);
+				onUpdate({ id, nextDocument, onModal });
 			}
 		});
 	},
@@ -123,7 +123,7 @@ const emit = {
 			}),
 		);
 	},
-	updateDocument(id, nextDocument, onModal) {
+	updateDocument({ id, nextDocument, onModal }) {
 		window.dispatchEvent(
 			new CustomEvent(UPDATE_DOCUMENT, {
 				detail: {
