@@ -83,6 +83,7 @@ const getters = {
 		});
 		const documents = await getDocuments();
 
+		history.pushState(null, null, `/posts/${newDocument.id}`);
 		return {
 			documents,
 			currentDocument: newDocument,

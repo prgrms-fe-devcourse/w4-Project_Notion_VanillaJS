@@ -53,7 +53,7 @@ const $listItem = () => {
 				<button class="nav-toggler-btn icon-play" data-act="toggle"></button>
 				<span class="nav-page-title" data-act="read" ></span>
 				<button class="nav-delete-btn icon-trash-empty" data-act="delete"> </button>
-				<button class="nav-create-btn icon-plus-squared-alt" data-target="modal"></button>
+				<button class="nav-create-btn icon-plus-squared-alt" data-act="create" data-target="modal"></button>
 			</p> `;
 
 	return $li;

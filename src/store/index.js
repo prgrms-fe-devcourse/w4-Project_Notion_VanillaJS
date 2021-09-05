@@ -1,5 +1,10 @@
 import { on, emit } from '../utils/emitter.js';
-import { closeChildList } from '../utils/render.js';
+import {
+	closeChildList,
+	makeNewPostLi,
+	markListItemOfId,
+	toggleList,
+} from '../utils/render.js';
 import { getStateAfter } from './gettersState.js';
 
 export default function Store() {
@@ -18,33 +23,36 @@ export default function Store() {
 	};
 
 	this.actions = {
-		createDocument: async ({ id }) => {
+		createDocument: async ({ id, $target, needMark }) => {
 			const nextState = await getStateAfter('create', id);
-			commit('SET_STATE', { nextState, needRender: 'postsPage' });
-
 			const newPostId = nextState.currentDocument.id;
-			history.pushState(null, null, `/posts/${newPostId}`);
-			$('li[data-id="new"')?.setAttribute('data-id', newPostId);
+
+			makeNewPostLi({ $target, needMark, newPostId });
+			commit('SET_STATE', { nextState, needRender: 'postsPage' });
 		},
-		createDocumentOnModal: async ({ id }) => {
+		createDocumentOnModal: async ({ id, $target, needMark }) => {
 			emit.showModal();
+
 			const { documents, currentDocument, modalDocument } = await getStateAfter(
 				'createOnModal',
 				id,
 			);
+			const newPostId = modalDocument.id;
 
 			emit.updateModal(modalDocument);
+			makeNewPostLi({ $target, needMark, newPostId });
 
 			commit('SET_STATE', {
 				nextState: { documents, currentDocument },
 				needRender: 'null',
 			});
-
-			$('li[data-id="new"')?.setAttribute('data-id', modalDocument.id);
 		},
 		readDocument: async ({ id }) => {
 			const nextState = await getStateAfter('read', id);
 			commit('SET_STATE', { nextState, needRender: 'all' });
+
+			markListItemOfId(id);
+			history.pushState(null, null, `/posts/${id}`);
 		},
 		updateDocument: async ({ id, nextDocument }) => {
 			const nextState = await getStateAfter('update', { id, nextDocument });
@@ -90,16 +98,15 @@ export default function Store() {
 	};
 
 	this.init = () => {
-		on.createDocument((id, onModal) => {
+		on.toggleList(({ act, $li }) => toggleList({ act, $li }));
+		on.createDocument(({ id, $target, needMark, onModal }) => {
 			if (onModal) {
-				dispatch('createDocumentOnModal', { id });
+				dispatch('createDocumentOnModal', { id, $target, needMark });
 			} else {
-				dispatch('createDocument', { id });
+				dispatch('createDocument', { id, $target, needMark });
 			}
 		});
-		on.readDocument((id, needRender) =>
-			dispatch('readDocument', { id, needRender }),
-		);
+		on.readDocument(({ id }) => dispatch('readDocument', { id }));
 		on.updateDocument((id, nextDocument, onModal) => {
 			if (onModal) {
 				dispatch('updateDocumentOnModal', { id, nextDocument });

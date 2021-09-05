@@ -1,11 +1,6 @@
 import { $createElement } from '../../utils/templates.js';
 
-import {
-	drawNavList,
-	markListItemOfId,
-	markListItemofLi,
-} from '../../utils/render.js';
-
+import { drawNavList, markListItemOfId } from '../../utils/render.js';
 import { getOpenedLiAfter } from '../../store/gettersLi.js';
 
 export default function SidebarBody({ $target, initialState, onClick }) {
@@ -21,21 +16,23 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 
 	this.render = () => {
 		const { documents, currentDocument } = this.state;
+
+		const $selected = $('p.selected');
 		const openedLi = getOpenedLiAfter('fetch');
 
 		$ul.innerHTML = '';
 		drawNavList($ul, documents, openedLi);
 
-		$navList.appendChild($ul);
-		$target.appendChild($navList);
-		$target.appendChild($createBtn);
-
-		if (!$('p.selected')) {
+		if (!$selected) {
 			markListItemOfId(currentDocument.id);
 		}
 	};
 
 	this.init = () => {
+		$navList.appendChild($ul);
+		$target.appendChild($navList);
+		$target.appendChild($createBtn);
+
 		$createBtn.addEventListener('click', e => {
 			onClick.createDocument(null, null);
 		});
@@ -60,39 +57,38 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 			removeClassAll($needRemoveCollection, 'show');
 		});
 
-		$navList.addEventListener('click', e => {
-			const { toggleList, deleteBtn, createDocument, readDocument } = onClick;
+		$ul.addEventListener('click', e => {
+			const { toggleList, deleteDocument, createDocument, readDocument } =
+				onClick;
 			const { tagName, className, parentNode } = e.target;
+			const $li = parentNode.parentNode;
+			const { id } = $li.dataset;
+			const { act } = e.target.dataset;
 
-			if (tagName === 'UL' || tagName === 'LI' || className.includes('blank')) {
+			if (tagName === 'LI' || className.includes('blank')) {
 				return;
 			}
 
-			const isToggele = className.includes('nav-toggler-btn');
-			const isDelete = className.includes('nav-delete-btn');
-			const isCreate = className.includes('nav-create-btn');
+			switch (act) {
+				case 'toggle':
+					const isOpened = className.includes('icon-down-dir');
 
-			const $li = tagName === 'P' ? parentNode : parentNode.parentNode;
-			const { id } = $li.dataset;
-
-			if (isToggele) {
-				const isOpend = e.target.className.includes('icon-down-dir');
-
-				if (isOpend) {
-					toggleList('hide', $li);
-				} else {
-					toggleList('show', $li);
-				}
-			} else if (isDelete) {
-				const { currentDocument } = this.state;
-				const isCurrent = Number(id) === currentDocument.id;
-
-				deleteBtn(id, isCurrent);
-			} else if (isCreate) {
-				createDocument(id, $li);
-			} else {
-				readDocument(id);
-				markListItemofLi($li);
+					if (isOpened) {
+						toggleList('hide', $li);
+					} else {
+						toggleList('show', $li);
+					}
+					break;
+				case 'create':
+					createDocument(id, $li);
+					break;
+				case 'delete':
+					const isCurrent = Number(id) === this.state.currentDocument.id;
+					deleteDocument(id, isCurrent);
+					break;
+				default:
+					readDocument(id);
+					break;
 			}
 		});
 	};

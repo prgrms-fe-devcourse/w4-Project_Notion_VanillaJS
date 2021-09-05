@@ -11,7 +11,8 @@ export default function SidebarFooter({ $target, onClick }) {
 
 	this.init = () => {
 		$createBtn.addEventListener('click', e => {
-			onClick.createDocument();
+			const { createDocument } = onClick;
+			createDocument();
 		});
 	};
 

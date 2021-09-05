@@ -97,12 +97,14 @@ p.blank {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	z-index: 2;
 }
 .nav-toggler-btn,
 .nav-create-btn,
 .nav-delete-btn {
 	opacity: 0.5;
 	border-radius: 3px;
+	z-index: 2;
 }
 .nav-delete-btn {
 	display: none;

@@ -62,8 +62,9 @@ const markListItemofLi = $li => {
 	addClass($needMark, 'selected');
 };
 
-const makeNewPostLi = ({ $target, needMark }) => {
+const makeNewPostLi = ({ $target, needMark, newPostId }) => {
 	const $newPostLi = $newPostListItem();
+	$newPostLi.setAttribute('data-id', newPostId);
 
 	if (needMark) {
 		markListItemofLi($newPostLi);

@@ -1,6 +1,7 @@
 const UPDATE_STATE = 'update:state';
 const SHOW_MODAL = 'show:modal';
 const UPDATE_MODAL = 'update:modal';
+const TOGGLE_LIST = 'toggle:list';
 const CREATE_DOCUMENT = 'create:document';
 const READ_DOCUMENT = 'read:document';
 const UPDATE_DOCUMENT = 'update:document';
@@ -25,18 +26,21 @@ const on = {
 			onUpdate(nextState);
 		});
 	},
+	toggleList(onToggle) {
+		window.addEventListener(TOGGLE_LIST, e => {
+			const { act, $li } = e.detail;
+			onToggle({ act, $li });
+		});
+	},
 	createDocument(onCreate) {
 		window.addEventListener(CREATE_DOCUMENT, e => {
-			const { id, onModal } = e.detail;
-			onCreate(id, onModal);
+			const { id, $target, needMark, onModal } = e.detail;
+			onCreate({ id, $target, needMark, onModal });
 		});
 	},
 	readDocument(onRead) {
 		window.addEventListener(READ_DOCUMENT, e => {
-			const { nextUrl } = e.detail;
-			history.pushState(null, null, nextUrl);
-
-			const [, , id] = nextUrl.split('/');
+			const { id } = e.detail;
 			onRead(id);
 		});
 	},
@@ -91,21 +95,30 @@ const emit = {
 			}),
 		);
 	},
-	createDocument({ id, onModal }) {
+	toggleList({ act, $li }) {
+		window.dispatchEvent(
+			new CustomEvent(TOGGLE_LIST, {
+				detail: { act, $li },
+			}),
+		);
+	},
+	createDocument({ id, $target, needMark, onModal }) {
 		window.dispatchEvent(
 			new CustomEvent(CREATE_DOCUMENT, {
 				detail: {
 					id,
+					$target,
+					needMark,
 					onModal,
 				},
 			}),
 		);
 	},
-	readDocument(nextUrl) {
+	readDocument(id) {
 		window.dispatchEvent(
 			new CustomEvent(READ_DOCUMENT, {
 				detail: {
-					nextUrl,
+					id,
 				},
 			}),
 		);

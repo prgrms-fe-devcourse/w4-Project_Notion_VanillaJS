@@ -1,6 +1,5 @@
 import { emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
-import { toggleList, makeNewPostLi } from '../../utils/render.js';
 
 import SidebarHeader from './SidebarHeader.js';
 import SidebarBody from './SidebarBody.js';
@@ -33,12 +32,12 @@ export default function Sidebar({ $target, initialState }) {
 		initialState: this.state,
 		onClick: {
 			toggleList: (act, $li) => {
-				toggleList({ act, $li });
+				emit.toggleList({ act, $li });
 			},
 			readDocument: id => {
-				emit.readDocument(`/posts/${id}`);
+				emit.readDocument({ id });
 			},
-			deleteBtn: (id, isCurrent) => {
+			deleteDocument: (id, isCurrent) => {
 				emit.deleteDocument(id, isCurrent);
 			},
 			createDocument: (id, $li) => {
@@ -46,8 +45,7 @@ export default function Sidebar({ $target, initialState }) {
 				const needMark = onModal ? false : true;
 				const $target = $li ? $li : null;
 
-				makeNewPostLi({ $target, needMark });
-				emit.createDocument({ id, onModal });
+				emit.createDocument({ id, $target, needMark, onModal });
 			},
 		},
 	});
@@ -56,8 +54,12 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				makeNewPostLi({ $target: null, needMark: false });
-				emit.createDocument({ id: null, onModal: true });
+				emit.createDocument({
+					id: null,
+					$target: null,
+					needMark: false,
+					onModal: true,
+				});
 			},
 		},
 	});
