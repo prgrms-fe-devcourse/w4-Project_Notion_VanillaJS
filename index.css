@@ -160,12 +160,11 @@ button {
   padding: 5px;
   margin: 0px;
   outline: none;
+  display: flex;
+  align-items: center;
 }
 
-.editor-text-block::before {
-  color: grey;
-  opacity: 70%;
-  font-size: 1.5rem;
-  content: "::";
-  margin-right: 5px;
+.handle-in-block {
+  font-size: 1.2rem;
+  margin-right: 10px;
 }

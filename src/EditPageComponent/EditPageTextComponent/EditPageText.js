@@ -1,5 +1,4 @@
-import TextBlock from "./TextBlock.js";
-import { existingBlockEvent } from "./blockDragAndDrop.js";
+import TextBlock from "./TextBlockComponent/TextBlock.js";
 export default function EditPageText({ targetElement, onSave, initialState }) {
   const editPageContentElement = document.createElement("div");
   editPageContentElement.contentEditable = true;
@@ -16,19 +15,9 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     targetElement.appendChild(editPageContentElement);
     editPageContentElement.innerHTML = this.state.text;
     makeNewBlock();
-    existingBlockEvent();
-  };
-
-  const giveChildIndexId = (document) => {
-    let index = 0;
-    document.childNodes.forEach((v) => {
-      if (v.className !== "editor-text-block") return;
-      v.dataset.id = index++;
-    });
   };
 
   const setCaret = (targetElement) => {
-    targetElement.focus();
     const range = document.createRange();
     const selection = window.getSelection();
     range.selectNode(targetElement);
@@ -38,11 +27,10 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
   const makeNewBlock = () => {
     const newBlock = new TextBlock({ targetElement: editPageContentElement });
     setCaret(newBlock.element);
-    giveChildIndexId(editPageContentElement);
   };
 
   editPageContentElement.addEventListener("keydown", (e) => {
-    onSave(this.state.id);
+    // onSave(this.state.id);
     if (e.key !== "Enter" || e.shiftKey) return;
     e.preventDefault();
     makeNewBlock();
