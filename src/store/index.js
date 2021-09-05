@@ -74,6 +74,8 @@ export default function Store() {
 		},
 		deleteEmptyDocument: async ({ id }) => {
 			const nextState = await getStateAfter('delete', id);
+
+			setElementAfter('delete', { id, nextState: nextState.currentDocument });
 			commit('SET_STATE', { nextState, needRender: 'sideBar' });
 		},
 	};
