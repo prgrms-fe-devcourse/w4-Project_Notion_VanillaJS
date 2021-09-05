@@ -1,5 +1,5 @@
 import api from '../api/index.js';
-import notionRouter from './notionRoter.js';
+import notionRouter from '../main.js';
 import CreateRootDoc from './CreateRootDoc.js';
 import DocumentList from './DocumentList.js';
 import Header from './Header.js';
@@ -29,21 +29,15 @@ const ListPage= class {
     this.mount()
   }
   
-  setState(newState) {
-    this.state = newState
-    this.docListComponent.setState(newState)
+  async setState(newState) {
+    const rootDocuments = await api.getAllDocs();
+    this.state = {
+      ...newState,
+      rootDocuments
+    }
+    this.docListComponent.setState({...newState, rootDocuments})
   }
   
-  setId(selectedId) {
-    const {id} = selectedId;
-    console.log(id)
-    const newState = {
-      ...this.state,
-      selectedId : id,
-    }
-    this.setState(newState)
-  }
-
   template() {
     return `
       <header class="js-title"></header>
@@ -86,7 +80,6 @@ const ListPage= class {
 
   selectDoc(docId) {
     notionRouter.push(`/documents/${docId}`)
-    this.setId(docId)
   }
 
   async createDoc(parentId = null) {
@@ -95,6 +88,7 @@ const ListPage= class {
       parent: parentId
     }
     const { id }  = await api.create(newDoc);
+    console.log(id)
     const updatedRootDocs = await api.getAllDocs() 
     const newState = {
       rootDocuments: updatedRootDocs,

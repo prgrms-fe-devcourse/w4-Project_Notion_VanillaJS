@@ -3,6 +3,7 @@ import Component from '../core/Component.js';
 import ContentContainer from './ContentContainer.js';
 import { setItem } from '../utils/localStorage.js';
 import TitleContiainer from './TitleContainer.js';
+import DocumentHeader from './DocumentHeader.js';
 
 const onBoardingState = {
   id: null,
@@ -28,21 +29,22 @@ const PostPage = class extends Component{
     this.mount();
   } 
 
-  async setState(selectedDocId) {
-    const { id } = selectedDocId;
+  async setState(selectedId) {
+    const { id } = selectedId;
     if (id === null) return;
     const newState = await api.getDoc(id)
     
     newState.content = newState.content === null ? onBoardingState.content : this.parseJson(newState.content)  
     this.state = newState
     
+    this.documentHeader.setState({title: this.state.title})
     this.titleContainer.setState({title: this.state.title})
     this.contentContainer.setState({content: this.state.content});
   }
 
   template() {
     return `
-      <header style="max-width: 100%; height: 45px"></header>
+      <header class="js-document-header" style="max-width: 100%; height: 45px"></header>
       <main style="max-width: 100vw; height: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="js-selected-doc-title" style="width: 50%; height: 20%; padding-left: 100px; padding-right: 100px; display: flex; flex-direction: column; justify-content: flex-end;"></div>
         <div class="js-selected-doc-content" style="width: 50%; height: auto; padding-left: 100px; padding-right: 100px; padding-bottom: 30vh;"></div>
@@ -55,9 +57,19 @@ const PostPage = class extends Component{
   }
 
   mount() {
+    const $documentHeader = this.$target.querySelector('.js-document-header')
     const $selectedTitle = this.$target.querySelector('.js-selected-doc-title')
     const $selectedCotent = this.$target.querySelector('.js-selected-doc-content')
     const { title, content } = this.state;
+
+    this.documentHeader = new DocumentHeader(
+      $documentHeader,
+      {
+        state: {
+          title,
+        }
+      }
+    )
 
     this.titleContainer = new TitleContiainer(
       $selectedTitle,
@@ -80,33 +92,28 @@ const PostPage = class extends Component{
     )
   }
 
-  updateContent(updatedState) {
+  async updateContent(updatedState) {
     this.state = {
       ...this.state,
       ...updatedState
     }  
-    
+    console.log(this.state)
     const {id} = this.state
     if(!id) return; 
     
-    this.timer= null
-
-    clearTimeout(this.timer)
-
-    this.timer = setTimeout(async () => {
       //local 등록
-      const localSaveKey = `temp-doc-${id}`
-      setItem(localSaveKey, {
-        title: this.state.title,
-        content: this.state.content
-      })
+    const localSaveKey = `temp-doc-${id}`
+    setItem(localSaveKey, {
+      title: this.state.title,
+      content: this.state.content
+    })
       //api - update document
       //id = null이 아니면 업데이트
-      await api.update(id, {
-        title: this.state.title,
-        content: this.convertJsonForm(this.state.content)
-      })
-    }, 100)
+    await api.update(id, {
+      title: this.state.title,
+      content: this.convertJsonForm(this.state.content)
+    })
+  
   }
 
   convertJsonForm(content) {

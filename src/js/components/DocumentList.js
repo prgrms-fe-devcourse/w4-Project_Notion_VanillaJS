@@ -10,7 +10,7 @@ const DocumentList = class extends Component {
 
   template(rootDocs) {
     return `
-      <ul>
+      <ul class="js-doc-list">
         ${rootDocs.map(({ id, title, documents }) => 
           `<li class="doc-info" data-id="${id}">
               <div style="display: flex;">
@@ -19,7 +19,7 @@ const DocumentList = class extends Component {
                 <button class="js-delete-doc">-</button>
                 <button class="js-create-new-doc">+</button>
               </div>  
-              <div class="sub-docs">${this.template(documents)}</div> 
+              <div class="sub-docs root">${this.template(documents)}</div> 
           </li>`).join('')}
       </ul>
     `
@@ -27,6 +27,7 @@ const DocumentList = class extends Component {
 
   render() {
     const { rootDocuments, selectedId } = this.state
+
     this.$target.innerHTML = this.template(rootDocuments, 12193);
   }
 
@@ -37,14 +38,13 @@ const DocumentList = class extends Component {
       const $li = e.target.closest('li');
       const $subList = $li.lastElementChild;
       const documentId = Number($li.dataset.id)
-
+    
       if (e.target.classList.contains('js-toggle-sub-docs')) {
         $subList.classList.toggle('active')
         return;
       }
 
       if (e.target.classList.contains('js-select-doc')) {
-    
         onSelect(documentId)
         return;
       }

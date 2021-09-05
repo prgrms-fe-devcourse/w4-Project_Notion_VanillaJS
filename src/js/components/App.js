@@ -4,6 +4,9 @@ import PostPage from './PostPage.js';
 
 const App = class extends Component{
   async init() {
+    this.state = {
+      selectedId: null
+    };
     this.render()
     this.mount()
   }
@@ -20,12 +23,23 @@ const App = class extends Component{
     const $postPage = this.$target.querySelector('.js-post-page')
     this.listPage = new ListPage($listPage)
     this.postPage = new PostPage($postPage)
-    console.log(123)
   }
-  
+
   render() {
     this.$target.innerHTML = this.template();
   }
+  
+  setState(newState) {
+    this.state = newState
+    this.listPage.setState({
+      rootDocuments: [],
+      ...this.state,
+    })
+    console.log(this.state)
+    this.postPage.setState({
+      id: this.state.selectedId
+    })
+  }  
 }
 
 export default App

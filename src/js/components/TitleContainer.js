@@ -17,7 +17,11 @@ const TitleContiainer = class extends Component {
         title: newTitle
       }
       this.state = newState
-      onUpdate(newState)
+      
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }    
+      this.timer = setTimeout(() => onUpdate(newState), 500)
     })
   }
 }

@@ -7,13 +7,20 @@ const Router = class {
 
   load() {
     const uri = location.pathname;
-    console.log(uri)
-    this.cb(uri)
+    const id = this.getId(uri)
+    this.cb(id)
   }
 
   push(uri) {
-    this.cb(uri)
-    history.push(null, null, uri) 
+    const id = this.getId(uri)
+    this.cb(id)
+    history.pushState(null, null, uri) 
+  }
+
+  getId(uri) {
+    const id = Number(uri.split('/').pop()) || null;
+    console.log(id)
+    return id
   }
 }
 

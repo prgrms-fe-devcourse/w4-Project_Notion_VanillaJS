@@ -104,3 +104,7 @@ body {
 [contenteditable]:focus {
   outline: 0px solid transparent;
 }
+
+.root {
+  padding-left: 20px;
+}
