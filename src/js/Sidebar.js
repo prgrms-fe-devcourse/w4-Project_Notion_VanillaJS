@@ -16,8 +16,6 @@ export default function Sidebar({ target, initialState = {} }) {
     const username = getUserName();
     const documents = () => getItem(`username_${username}`, []);
 
-    // const renderUlTag = ()
-
     this.state = initialState;
 
     // *****************************

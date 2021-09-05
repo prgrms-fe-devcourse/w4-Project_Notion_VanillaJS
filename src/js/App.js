@@ -1,4 +1,4 @@
-import { initRouter } from "./router.js";
+import { initRouter, pop } from "./router.js";
 import SideBar from "./Sidebar.js";
 import DocumentPage from "./DocumentPage.js";
 import { getDocumentId, saveDocumentsPathToLS } from "../utils/Documents.js";
@@ -44,4 +44,6 @@ export default function App({ target }) {
     this.route();
 
     initRouter(() => this.route());
+
+    pop(() => this.route());
 }

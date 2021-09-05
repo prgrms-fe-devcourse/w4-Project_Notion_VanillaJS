@@ -27,7 +27,9 @@ export default function DocumentPage({
 
     const pathHeader = new PathHeader({
         target: documentPage,
-        initialState,
+        initialState: {
+            documentId: initialState.documentId,
+        },
     });
 
     const editPage = new DocumentEditPage({

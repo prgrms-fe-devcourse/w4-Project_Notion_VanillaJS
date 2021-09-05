@@ -8,9 +8,10 @@ import { getItem, setItem } from "./storage.js";
 const isSameId = (rootId, documentId) => (rootId === documentId ? true : false);
 
 const findPath = (currentDocument, targetDocumentId, savedPath) => {
-    if (currentDocument.id === parseInt(targetDocumentId)) {
+    if (currentDocument.id === targetDocumentId) {
         savedPath.push(currentDocument.title);
         setItem(`path_${getUserName()}`, savedPath);
+        console.log(savedPath);
 
         return true;
     }
@@ -111,9 +112,12 @@ export const deleteDocument = async (documentId) => {
 
 // Get Current Document Path
 export const getCurrentDocumentPath = (targetDocumentId) => {
-    const documents = getItem(`username_${getUserName}`, []);
+    const documents = getItem(`username_${getUserName()}`, []);
 
     documents.forEach((root) => {
-        findPath(root, targetDocumentId, [root.title]);
+        if (findPath(root, targetDocumentId, [root.title])) {
+            // console.log(root);
+            return;
+        }
     });
 };

@@ -27,3 +27,7 @@ export const push = (nextUrl) => {
         })
     );
 };
+
+export const pop = (onRoute) => {
+    window.addEventListener(POPSTATE_EVENT_NAME, () => onRoute());
+};

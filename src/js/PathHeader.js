@@ -35,14 +35,13 @@ export default function PathHeader({ target, initialState }) {
 
     this.setState = (nextState) => {
         this.state = nextState;
-        getCurrentDocumentPath(parseInt(this.state.documentId));
         this.render();
     };
 
     this.render = () => {
+        getCurrentDocumentPath(parseInt(this.state.documentId));
         const savedPath = getItem(`path_${getUserName()}`, []);
-
-        console.log(savedPath);
+        // console.log(savedPath);
         // header.innerHTML = `
         //                     ${savedPath.}
         //                     `
