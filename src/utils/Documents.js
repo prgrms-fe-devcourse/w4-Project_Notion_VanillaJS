@@ -11,7 +11,6 @@ const findPath = (currentDocument, targetDocumentId, savedPath) => {
     if (currentDocument.id === targetDocumentId) {
         savedPath.push(currentDocument.title);
         setItem(`path_${getUserName()}`, savedPath);
-        console.log(savedPath);
 
         return true;
     }

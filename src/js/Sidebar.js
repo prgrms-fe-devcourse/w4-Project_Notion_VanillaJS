@@ -30,7 +30,9 @@ export default function Sidebar({ target, initialState = {} }) {
                             .map((root) => getAllDocuments(root, parseInt(this.state.documentId)))
                             .join("")}
                         </ul>
-                        <button type="button" class="add-btn">Add Document</button>
+                        <ul>
+                            <button type="button" class="add-btn">Add Document</button>
+                        </ul>
                         `;
 
     // *****************************
@@ -51,7 +53,7 @@ export default function Sidebar({ target, initialState = {} }) {
         if (ul) {
             ul.innerHTML = `${documents()
                 .map((root) => getAllDocuments(root, parseInt(documentId)))
-                .join("")}</ul>`;
+                .join("")}`;
         }
     };
 
@@ -78,10 +80,8 @@ export default function Sidebar({ target, initialState = {} }) {
                 // Delete Document
                 const { id } = target.parentElement.dataset;
 
-                if (id && confirm("해당 문서를 삭제하시겠습니까?")) {
-                    await deleteDocument(id);
-                    push("/");
-                }
+                await deleteDocument(id);
+                push("/");
             }
         }
     });
