@@ -1,5 +1,3 @@
-import App from './components/App.js'
+import notionRouter from './components/notionRoter.js';
 
-const $app = document.querySelector('#app');
-
-new App($app)
+notionRouter.load()

@@ -1,24 +1,20 @@
-const ROUTE_CHANGE_EVENT_NAME = 'route-change'
+const Router = class {
+  cb;
+  constructor(cb) {
+    this.cb = cb;
+    window.onpopstate = () => this.load();
+  }
 
-export const initRouter = (onRoute) => {
-  window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {
-    const { nextUrl } = e.detail;
+  load() {
+    const uri = location.pathname;
+    console.log(uri)
+    this.cb(uri)
+  }
 
-    if (nextUrl) {
-      history.pushState(null, null, nextUrl)
-      onRoute()
-    }
-  })
-  
+  push(uri) {
+    this.cb(uri)
+    history.push(null, null, uri) 
+  }
 }
 
-export const push = (nextUrl) => {
-  window.dispatchEvent(new CustomEvent('route-change', {
-    detail: {
-      nextUrl
-    }
-  }))
-}
-
-
-
+export default Router

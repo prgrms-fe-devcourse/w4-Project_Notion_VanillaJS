@@ -1,5 +1,5 @@
 import api from '../api/index.js';
-import { push } from '../core/Router.js';
+import notionRouter from './notionRoter.js';
 import CreateRootDoc from './CreateRootDoc.js';
 import DocumentList from './DocumentList.js';
 import Header from './Header.js';
@@ -9,7 +9,7 @@ const ListPage= class {
   props;
 
   headerComponent;
-  docListComponent;
+  //docListComponent;
   createRootDocComponent;
 
   constructor($target, props) {
@@ -24,6 +24,7 @@ const ListPage= class {
       rootDocuments,
       selectedId: null
     }
+    
     this.render()
     this.mount()
   }
@@ -33,8 +34,14 @@ const ListPage= class {
     this.docListComponent.setState(newState)
   }
   
-  setId(id) {
-    
+  setId(selectedId) {
+    const {id} = selectedId;
+    console.log(id)
+    const newState = {
+      ...this.state,
+      selectedId : id,
+    }
+    this.setState(newState)
   }
 
   template() {
@@ -54,7 +61,7 @@ const ListPage= class {
     const $header = this.$target.querySelector('.js-title');
     const $documentList = this.$target.querySelector('.js-documents-list');
     const $createRootDoc = this.$target.querySelector('.js-create-root-doc');
-
+    console.log('ismounted')
     this.headerComponent = new Header(
       $header,
     )
@@ -78,7 +85,8 @@ const ListPage= class {
   }
 
   selectDoc(docId) {
-    push(`/documents/${docId}`)
+    notionRouter.push(`/documents/${docId}`)
+    this.setId(docId)
   }
 
   async createDoc(parentId = null) {
@@ -93,7 +101,7 @@ const ListPage= class {
       selectedId: id
     }
     this.setState(newState);
-    push(`/documents/${id}`)
+    notionRouter.push(`/documents/${id}`)
   }
 
   async deleteDoc(docId) {
@@ -105,7 +113,7 @@ const ListPage= class {
       selectedId: null,
     }
     this.setState(newState);
-    push(`/`)
+    notionRouter.push(`/`)
   }
 }
 
