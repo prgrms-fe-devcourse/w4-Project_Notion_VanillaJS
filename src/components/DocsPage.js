@@ -19,7 +19,7 @@ export default function DocsPage({ $target }) {
   this.render = async () => {
     const documents = await request('/documents');
     docsTree.setState(documents);
-
-    $target.appendChild($page);
   };
+
+  $target.appendChild($page);
 }

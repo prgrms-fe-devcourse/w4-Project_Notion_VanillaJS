@@ -12,7 +12,6 @@ import {
 export default function EditorPage({ $target, initialState }) {
   const $pageContainer = document.createElement('div');
   $pageContainer.setAttribute('class', 'editorpage-container');
-  $target.appendChild($pageContainer);
 
   Object.assign($pageContainer.style, {
     position: 'relative',
@@ -143,4 +142,6 @@ export default function EditorPage({ $target, initialState }) {
       $title.focus();
     }, 0);
   };
+
+  $target.appendChild($pageContainer);
 }

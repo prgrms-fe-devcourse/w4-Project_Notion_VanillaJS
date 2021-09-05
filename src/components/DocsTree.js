@@ -3,9 +3,58 @@ import DocList from './DocList.js';
 import { request } from '../services/api.js';
 import { push } from '../services/router.js';
 
+const renderSubDocList = async (parentDoc) => {
+  const { id } = parentDoc.dataset;
+
+  const { documents: subdocs } = await request(`/documents/${id}`);
+
+  if (!Array.isArray(subdocs) || subdocs.length === 0) {
+    const $noPagesInsideMessage = document.createElement('div');
+    $noPagesInsideMessage.setAttribute('class', 'doc-list');
+    $noPagesInsideMessage.textContent = 'No pages inside';
+    parentDoc.appendChild($noPagesInsideMessage);
+    return;
+  }
+
+  new DocList({
+    $target: parentDoc,
+    initialState: subdocs,
+  });
+};
+
+const toggleFoldButton = ($button) => {
+  const { className } = $button;
+
+  if (className === 'folded') {
+    $button.className = 'unfolded';
+  } else if (className === 'unfolded') {
+    $button.className = 'folded';
+  }
+};
+
+const unfoldSubDocList = (parentDoc, $button) => {
+  renderSubDocList(parentDoc);
+  toggleFoldButton($button);
+};
+
+const foldSubDocList = (parentDoc, $button) => {
+  parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
+  toggleFoldButton($button);
+};
+
+const refreshSubDocList = (parentDoc) => {
+  if (parentDoc.querySelector('.doc-list')) {
+    parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
+  }
+
+  renderSubDocList(parentDoc);
+  if (parentDoc.querySelector('.folded')) {
+    toggleFoldButton(parentDoc.querySelector('.folded'));
+  }
+};
+
 export default function DocsTree({ $target, initialState }) {
   const $tree = document.createElement('div');
-  $target.appendChild($tree);
 
   this.state = initialState;
 
@@ -17,56 +66,6 @@ export default function DocsTree({ $target, initialState }) {
   this.setState = (nextState) => {
     this.state = nextState;
     rootDocList.setState(this.state);
-  };
-
-  const renderSubDocList = async (parentDoc) => {
-    const { id } = parentDoc.dataset;
-
-    const { documents: subdocs } = await request(`/documents/${id}`);
-
-    if (!Array.isArray(subdocs) || subdocs.length === 0) {
-      const $noPagesInsideMessage = document.createElement('div');
-      $noPagesInsideMessage.setAttribute('class', 'doc-list');
-      $noPagesInsideMessage.textContent = 'No pages inside';
-      parentDoc.appendChild($noPagesInsideMessage);
-      return;
-    }
-
-    new DocList({
-      $target: parentDoc,
-      initialState: subdocs,
-    });
-  };
-
-  const toggleFoldButton = ($button) => {
-    const { className } = $button;
-
-    if (className === 'folded') {
-      $button.className = 'unfolded';
-    } else if (className === 'unfolded') {
-      $button.className = 'folded';
-    }
-  };
-
-  const unfoldSubDocList = (parentDoc, $button) => {
-    renderSubDocList(parentDoc);
-    toggleFoldButton($button);
-  };
-
-  const foldSubDocList = (parentDoc, $button) => {
-    parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
-    toggleFoldButton($button);
-  };
-
-  const refreshSubDocList = (parentDoc) => {
-    if (parentDoc.querySelector('.doc-list')) {
-      parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
-    }
-
-    renderSubDocList(parentDoc);
-    if (parentDoc.querySelector('.folded')) {
-      toggleFoldButton(parentDoc.querySelector('.folded'));
-    }
   };
 
   $tree.addEventListener('click', async (e) => {
@@ -130,4 +129,6 @@ export default function DocsTree({ $target, initialState }) {
 
     targetDoc.classList.remove('current-hover');
   });
+
+  $target.appendChild($tree);
 }

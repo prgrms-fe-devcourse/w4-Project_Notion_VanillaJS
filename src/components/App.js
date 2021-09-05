@@ -13,8 +13,6 @@ export default function App({ $target }) {
     overflow: 'hidden',
   });
 
-  $target.appendChild($container);
-
   this.state = {
     username: 'datalater',
     selectedDoc: {
@@ -66,4 +64,6 @@ export default function App({ $target }) {
   this.route();
 
   initRouter(() => this.route());
+
+  $target.appendChild($container);
 }

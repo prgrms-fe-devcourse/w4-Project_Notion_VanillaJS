@@ -10,7 +10,6 @@ export default function DocList({
 }) {
   const $list = document.createElement('div');
   $list.setAttribute('class', 'doc-list');
-  $target.appendChild($list);
 
   this.state = initialState;
 
@@ -56,4 +55,6 @@ export default function DocList({
   };
 
   this.render();
+
+  $target.appendChild($list);
 }

@@ -1,9 +1,8 @@
 export default function UserInfo({ $target, initialState }) {
-  const $info = document.createElement('div');
-  $info.setAttribute('class', 'userinfo');
-  $target.appendChild($info);
+  const $userInfo = document.createElement('div');
+  $userInfo.setAttribute('class', 'userinfo');
 
-  Object.assign($info.style, {
+  Object.assign($userInfo.style, {
     display: 'flex',
     color: 'black',
     height: '45px',
@@ -20,7 +19,7 @@ export default function UserInfo({ $target, initialState }) {
   };
 
   this.render = () => {
-    $info.innerHTML = `
+    $userInfo.innerHTML = `
       <div style="padding-left: 10px">
         ${this.state}의 Notion
       </div>
@@ -28,4 +27,6 @@ export default function UserInfo({ $target, initialState }) {
   };
 
   this.render();
+
+  $target.appendChild($userInfo);
 }

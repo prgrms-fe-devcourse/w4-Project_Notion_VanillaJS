@@ -8,7 +8,6 @@ import { push } from '../services/router.js';
 export default function Sidebar({ $target, initialState }) {
   const $sidebarContainer = document.createElement('div');
   $sidebarContainer.setAttribute('class', 'sidebar-container');
-  $target.appendChild($sidebarContainer);
 
   Object.assign($sidebarContainer.style, {
     position: 'relative',
@@ -67,4 +66,6 @@ export default function Sidebar({ $target, initialState }) {
     await docsPage.render();
     await addRootButton.render();
   };
+
+  $target.appendChild($sidebarContainer);
 }

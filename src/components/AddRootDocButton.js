@@ -11,7 +11,6 @@ export default function AddRootDocButton({ $target, onClickAddButton }) {
 
   this.render = () => {
     $button.textContent = '+ New root document';
-    $target.appendChild($button);
   };
 
   this.render();
@@ -19,4 +18,6 @@ export default function AddRootDocButton({ $target, onClickAddButton }) {
   $button.addEventListener('click', () => {
     onClickAddButton();
   });
+
+  $target.appendChild($button);
 }

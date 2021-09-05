@@ -24,14 +24,7 @@ export default function SubDocLinks({ $target, initialState }) {
     this.state = nextState;
 
     subDocList.setState(this.state);
-    this.render();
   };
-
-  this.render = () => {
-    $target.appendChild($listContainer);
-  };
-
-  this.render();
 
   $listContainer.addEventListener('click', (e) => {
     const $eventTarget = e.target;
@@ -46,4 +39,6 @@ export default function SubDocLinks({ $target, initialState }) {
 
     push(`/documents/${id}`);
   });
+
+  $target.appendChild($listContainer);
 }

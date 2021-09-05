@@ -1,4 +1,8 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor({
+  $target,
+  initialState,
+  onEditing,
+}) {
   const $editor = document.createElement('div');
 
   Object.assign($editor.style, {
@@ -7,8 +11,6 @@ export default function Editor({ $target, initialState, onEditing }) {
     'flex-basis': '80%',
     'flex-shrink': 0,
   });
-
-  $target.appendChild($editor);
 
   this.state = initialState;
 
@@ -85,4 +87,6 @@ export default function Editor({ $target, initialState, onEditing }) {
 
     onEditing(this.state);
   });
+
+  $target.appendChild($editor);
 }
