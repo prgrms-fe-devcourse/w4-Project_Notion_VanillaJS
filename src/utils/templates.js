@@ -26,6 +26,7 @@ const $hiddenTitleItem = className => {
 	$hiddenTitleInput.setAttribute('contenteditable', true);
 	$hiddenTitleInput.textContent = '제목 없음';
 	addClass($hiddenTitleInput, className);
+
 	return $hiddenTitleInput;
 };
 
@@ -61,15 +62,14 @@ const $listItem = () => {
 
 const $newPostListItem = () => {
 	const $newLi = $listItem();
-
 	const $filledLi = fillListItem($newLi, {
 		id: 'new',
 		title: '제목 없음',
 		isOpened: null,
 	});
 	const $blank = $blankItem();
-	$filledLi.appendChild($blank);
 
+	$filledLi.appendChild($blank);
 	return $filledLi;
 };
 

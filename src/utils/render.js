@@ -40,8 +40,8 @@ const fillListItem = ($li, { id, title, openedLi }) => {
 		removeClass($nearHide, 'hide');
 		replaceClass($toggleBtn, 'icon-play', 'icon-down-dir');
 	}
-	$pageTitle.textContent = title ? title : '제목 없음';
 
+	$pageTitle.textContent = title ? title : '제목 없음';
 	$li.setAttribute('data-id', id);
 	return $li;
 };
