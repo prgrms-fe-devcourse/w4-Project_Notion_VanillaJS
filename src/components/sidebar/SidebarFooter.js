@@ -10,7 +10,7 @@ export default function SidebarFooter({ $target, onClick }) {
 	$target.appendChild($footer);
 
 	this.init = () => {
-		$createBtn.addEventListener('click', e => {
+		$footer.addEventListener('click', e => {
 			const { createDocument } = onClick;
 			createDocument();
 		});
