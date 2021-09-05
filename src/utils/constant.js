@@ -14,7 +14,6 @@ const API_END_POINT = 'https://kdt.roto.codes';
 const STORAGE_SET_ERROR = '로컬스토리지에 데이터를 저장할 수 없습니다.';
 const STORAGE_GET_ERROR = '로컬스토리지에서 데이터를 가져올 수 없습니다.';
 const STORAGE_REMOVE_ERROR = '로컬스토리지에서 데이터를 삭제할 수 없습니다.';
-const NOT_NEW_ERROR = '인스턴스가 new 연산자로 생성되지 않았습니다.';
 
 export {
   ROUTER_CHANGE_EVENT_NAME,

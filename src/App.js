@@ -5,9 +5,8 @@ import { RouterUtils } from './utils/router.js';
 import { request } from './utils/api.js';
 
 export default function App({ $target }) {
-  const $page = document.querySelector('.page');
   const editPage = new EditPage({
-    $target: $page,
+    $target,
     initialState: {
       documentId: '',
       title: '',
@@ -16,10 +15,11 @@ export default function App({ $target }) {
   });
 
   const homePage = new HomePage({
-    $target: $page,
+    $target,
   });
 
   const navBar = new NavBar({
+    $target,
     onDeleteDoc: async (id) => {
       await request(`/documents/${id}`, {
         method: 'DELETE',
@@ -43,7 +43,6 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location;
-    $page.innerHTML = '';
 
     if (pathname === '/') {
       homePage.render();
@@ -56,5 +55,4 @@ export default function App({ $target }) {
   this.route();
 
   RouterUtils.initRouter(() => this.route());
-  $target.appendChild($page);
 }

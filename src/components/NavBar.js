@@ -5,8 +5,10 @@ import { request } from '../utils/api.js';
 import { RouterUtils } from '../utils/router.js';
 import { EventUtils } from '../utils/event.js';
 
-export default function NavBar({ onDeleteDoc }) {
-  const $navBar = document.querySelector('.nav-bar');
+export default function NavBar({ $target, onDeleteDoc }) {
+  const $navBar = document.createElement('nav');
+  $navBar.classList.add('nav-bar');
+  $target.appendChild($navBar);
 
   new Header({ $target: $navBar });
 

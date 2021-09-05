@@ -8,6 +8,7 @@ import { RouterUtils } from '../utils/router.js';
 export default function EditPage({ $target, initialState }) {
   const $editPage = document.createElement('div');
   $editPage.classList.add('edit-page');
+  $editPage.classList.add('page');
 
   this.state = initialState;
 

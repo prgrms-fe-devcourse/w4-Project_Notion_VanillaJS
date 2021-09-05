@@ -1,6 +1,7 @@
 export default function HomePage({ $target }) {
   const $homepage = document.createElement('div');
   $homepage.classList.add('home-page');
+  $homepage.classList.add('page');
 
   this.template = `
   <div class="home-page__message">
