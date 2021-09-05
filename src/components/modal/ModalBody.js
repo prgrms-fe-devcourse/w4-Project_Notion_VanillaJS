@@ -6,7 +6,6 @@ export default function ModalBody({ $target, onUpdate }) {
 	const $modalContent = $createElement('p', '.modal-content');
 
 	const $hiddenTitleInput = $hiddenTitleItem('hidden-modal-title');
-
 	const $titleInput = $createElement('div', '.show-modal-title');
 	$titleInput.setAttribute('contenteditable', true);
 

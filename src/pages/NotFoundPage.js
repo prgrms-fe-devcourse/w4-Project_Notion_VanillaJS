@@ -9,15 +9,19 @@ export default function NotFoundPage({ $target }) {
 	const $image = $createElement('img', '.not-found-img');
 	$image.setAttribute('src', '/src/assets/images/404.png');
 
-	$page.appendChild($title);
-	$page.appendChild($image);
-	$target.appendChild($page);
+	this.init = () => {
+		$page.appendChild($title);
+		$page.appendChild($image);
+		$target.appendChild($page);
 
-	$title.addEventListener('click', e => {
-		window.location = window.location.origin;
-	});
+		$title.addEventListener('click', e => {
+			window.location = window.location.origin;
+		});
 
-	$image.addEventListener('click', e => {
-		window.location = window.location.origin;
-	});
+		$image.addEventListener('click', e => {
+			window.location = window.location.origin;
+		});
+	};
+
+	this.init();
 }

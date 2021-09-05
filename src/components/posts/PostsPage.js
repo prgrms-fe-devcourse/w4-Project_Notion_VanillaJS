@@ -1,6 +1,6 @@
 import { emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
-import { checkNodata } from '../../utils/render.js';
+import { checkDataForPlaceholder } from '../../utils/render.js';
 
 import PageNoData from './PostsPageNoData.js';
 import PageBody from './PostsPageBody.js';
@@ -51,7 +51,7 @@ export default function Page({ $target, initialState }) {
 				$currentLi.textContent = title ? title : '제목 없음';
 
 				const $target = $('.show-page-title');
-				checkNodata({ $target });
+				checkDataForPlaceholder({ $target });
 
 				setUpdateEditTimer(id, nextDocument);
 			},

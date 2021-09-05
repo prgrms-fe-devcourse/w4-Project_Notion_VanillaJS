@@ -1,6 +1,6 @@
 import { on, emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
-import { checkNodata } from '../../utils/render.js';
+import { checkDataForPlaceholder } from '../../utils/render.js';
 
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
@@ -21,10 +21,10 @@ export default function Modal({ $target }) {
 	};
 
 	const showModal = () => {
+		modalBody.render();
 		$modal.classList.remove('hide');
 	};
 	const hideModal = () => {
-		modalBody.render();
 		$modal.classList.add('hide');
 	};
 
@@ -34,7 +34,7 @@ export default function Modal({ $target }) {
 			openPage: () => {
 				const { id } = this.state;
 
-				emit.readDocument(`/posts/${id}`);
+				emit.readDocument({ id });
 				hideModal();
 			},
 			closeModal: () => {
@@ -51,7 +51,7 @@ export default function Modal({ $target }) {
 			clearTimeout(modalBodyUpdateTimer);
 		}
 		modalBodyUpdateTimer = setTimeout(() => {
-			emit.updateDocument(id, nextDocument, true);
+			emit.updateDocument({ id, nextDocument, onModal: true });
 		}, LIMIT_TIME);
 	};
 
@@ -66,7 +66,7 @@ export default function Modal({ $target }) {
 				currentLi.textContent = title ? title : '제목 없음';
 
 				const $target = $('.show-modal-title');
-				checkNodata({ $target });
+				checkDataForPlaceholder({ $target });
 
 				setUpdateEditTimer(id, nextDocument);
 			},
@@ -77,15 +77,13 @@ export default function Modal({ $target }) {
 		},
 	});
 
-	$target.appendChild($modal);
-	$modal.appendChild($modalHeader);
-	$modal.appendChild($modalBody);
-
 	this.init = () => {
+		$target.appendChild($modal);
+		$modal.appendChild($modalHeader);
+		$modal.appendChild($modalBody);
+
 		on.showModal(showModal);
-		on.updateModal(nextState => {
-			this.setState(nextState);
-		});
+		on.updateModal(nextState => this.setState(nextState));
 
 		window.addEventListener('click', e => {
 			const createBtn = e.target.dataset?.target === 'modal';

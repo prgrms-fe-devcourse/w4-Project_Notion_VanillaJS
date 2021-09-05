@@ -152,7 +152,7 @@ const setPlaceholderTitle = ({ $target, title }) => {
 	}
 };
 
-const checkNodata = ({ $target }) => {
+const checkDataForPlaceholder = ({ $target }) => {
 	const noData = $target.textContent === '';
 	const $hiddenInput = $target.nextSibling;
 
@@ -172,5 +172,5 @@ export {
 	toggleList,
 	closeChildList,
 	setPlaceholderTitle,
-	checkNodata,
+	checkDataForPlaceholder,
 };
