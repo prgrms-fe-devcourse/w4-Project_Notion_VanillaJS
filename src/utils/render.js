@@ -133,12 +133,12 @@ const closeChildList = id => {
 		'li:not(.tree-toggler) .blank:not(.hide)',
 	);
 
-	$childTreeCollection.forEach(tree => {
+	$childTreeCollection?.forEach(tree => {
 		const id = tree.parentNode.dataset.id;
 		getOpenedLiAfter('delete', { id });
 	});
 
-	$childBlankCollection.forEach(blank => {
+	$childBlankCollection?.forEach(blank => {
 		const id = blank.parentNode.dataset.id;
 		getOpenedLiAfter('delete', { id });
 	});
@@ -163,6 +163,11 @@ const checkDataForPlaceholder = ({ $target }) => {
 	}
 };
 
+const setCurrentLi = ({ id, title }) => {
+	const currentLi = $(`li[data-id="${id}"] .nav-page-title`);
+	currentLi.textContent = title ? title : '제목 없음';
+};
+
 export {
 	drawNavList,
 	fillListItem,
@@ -173,4 +178,5 @@ export {
 	closeChildList,
 	setPlaceholderTitle,
 	checkDataForPlaceholder,
+	setCurrentLi,
 };

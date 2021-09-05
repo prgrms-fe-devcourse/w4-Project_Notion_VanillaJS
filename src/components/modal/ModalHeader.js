@@ -10,11 +10,11 @@ export default function ModalHeader({ $target, onClick }) {
 		'.icon-cancel',
 	);
 
-	$target.appendChild($openPage);
-	$target.appendChild($closeModalBtn);
-
 	this.init = () => {
 		const { openPage, closeModal } = onClick;
+
+		$target.appendChild($openPage);
+		$target.appendChild($closeModalBtn);
 
 		$openPage.addEventListener('click', e => {
 			openPage();

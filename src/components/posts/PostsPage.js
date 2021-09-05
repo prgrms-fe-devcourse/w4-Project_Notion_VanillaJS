@@ -1,6 +1,6 @@
 import { emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
-import { checkDataForPlaceholder } from '../../utils/render.js';
+import { setCurrentLi, checkDataForPlaceholder } from '../../utils/render.js';
 
 import PageNoData from './PostsPageNoData.js';
 import PageBody from './PostsPageBody.js';
@@ -25,18 +25,6 @@ export default function Page({ $target, initialState }) {
 		}
 	};
 
-	const LIMIT_TIME = 200;
-	let pageBodyUpdateTimer = null;
-
-	const setUpdateEditTimer = (id, nextDocument) => {
-		if (pageBodyUpdateTimer) {
-			clearTimeout(pageBodyUpdateTimer);
-		}
-		pageBodyUpdateTimer = setTimeout(() => {
-			emit.updateDocument({ id, nextDocument, onModal: false });
-		}, LIMIT_TIME);
-	};
-
 	const noDataPage = new PageNoData({ $target: $pageBody });
 
 	const pageBody = new PageBody({
@@ -46,19 +34,16 @@ export default function Page({ $target, initialState }) {
 			updateTitle: nextDocument => {
 				const { id } = this.state.currentDocument;
 				const { title } = nextDocument;
-
-				const $currentLi = $(`li[data-id="${id}"] span.nav-page-title`);
-				$currentLi.textContent = title ? title : '제목 없음';
-
 				const $target = $('.show-page-title');
-				checkDataForPlaceholder({ $target });
 
-				setUpdateEditTimer(id, nextDocument);
+				setCurrentLi({ id, title });
+				checkDataForPlaceholder({ $target });
+				emit.updateDocument({ id, nextDocument, onModal: false });
 			},
 			updateContent: nextDocument => {
 				const { id } = this.state.currentDocument;
 
-				setUpdateEditTimer(id, nextDocument);
+				emit.updateDocument({ id, nextDocument, onModal: false });
 			},
 		},
 	});

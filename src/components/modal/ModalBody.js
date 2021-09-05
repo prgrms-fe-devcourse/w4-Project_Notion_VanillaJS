@@ -28,24 +28,18 @@ export default function ModalBody({ $target, onUpdate }) {
 		$target.appendChild($modalContent);
 
 		$titleInput.addEventListener('keyup', e => {
+			const title = e.target.textContent;
 			const content = $contentInput.value;
 
-			const nextDocument = {
-				title: e.target.textContent,
-				content,
-			};
-
+			const nextDocument = { title, content };
 			onUpdate.updateTitle(nextDocument);
 		});
 
 		$contentInput.addEventListener('keyup', e => {
 			const title = $titleInput.textContent;
+			const content = e.target.value;
 
-			const nextDocument = {
-				title,
-				content: e.target.value,
-			};
-
+			const nextDocument = { title, content };
 			onUpdate.updateContent(nextDocument);
 		});
 	};

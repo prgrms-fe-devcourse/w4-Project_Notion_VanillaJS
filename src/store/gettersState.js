@@ -50,7 +50,6 @@ const getters = {
 		});
 		const documents = await getDocuments();
 
-		history.pushState(null, null, `/posts/${currentDocument.id}`);
 		return { documents, currentDocument };
 	},
 	createOnModal: async id => {
@@ -69,21 +68,16 @@ const getters = {
 		const { documents } = getItemFromStorage('notionState');
 		const currentDocument = await getDocuments(id);
 
-		history.pushState(null, null, `/posts/${currentDocument.id}`);
 		return { documents, currentDocument };
 	},
 	update: async ({ id, nextDocument }) => {
 		const updatedDocument = await updateDocument(id, nextDocument);
 		const documents = await getDocuments();
 
-		return {
-			documents,
-			currentDocument: updatedDocument,
-		};
+		return { documents, currentDocument: updatedDocument };
 	},
 	updateOnModal: async ({ id, nextDocument }) => {
 		await updateDocument(id, nextDocument);
-
 		const documents = await getDocuments();
 		const { currentDocument } = getItemFromStorage('notionState');
 
@@ -109,9 +103,6 @@ const getters = {
 		}
 
 		const currentDocument = await getDocuments(postId);
-		const url = currentDocument.id ? `/posts/${currentDocument.id}` : '/';
-
-		history.replaceState(null, null, url);
 		return { documents, currentDocument };
 	},
 };

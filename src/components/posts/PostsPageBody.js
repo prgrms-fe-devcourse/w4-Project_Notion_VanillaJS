@@ -19,6 +19,7 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 
 	this.render = () => {
 		$target.innerHTML = '';
+
 		$pageTitle.appendChild($titleInput);
 		$pageTitle.appendChild($hiddenTitleInput);
 		$pageContent.appendChild($contentInput);
@@ -35,24 +36,18 @@ export default function PageBody({ $target, initialState, onUpdate }) {
 
 	this.init = () => {
 		$titleInput.addEventListener('keyup', e => {
+			const title = e.target.textContent;
 			const content = $contentInput.value;
 
-			const nextDocument = {
-				title: e.target.textContent,
-				content,
-			};
-
+			const nextDocument = { title, content };
 			onUpdate.updateTitle(nextDocument);
 		});
 
 		$contentInput.addEventListener('keyup', e => {
 			const title = $titleInput.textContent;
+			const content = e.target.value;
 
-			const nextDocument = {
-				title,
-				content: e.target.value,
-			};
-
+			const nextDocument = { title, content };
 			onUpdate.updateContent(nextDocument);
 		});
 	};

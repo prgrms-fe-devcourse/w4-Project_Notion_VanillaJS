@@ -11,9 +11,7 @@ export default function Sidebar({ $target, initialState }) {
 	const $sidebarBody = $createElement('div', '.sidebar-body');
 	const $sidebarFooter = $createElement('div');
 
-	this.state = {
-		...initialState,
-	};
+	this.state = initialState;
 	this.setState = nextState => {
 		this.state = nextState;
 		sidebarBody.setState(this.state);
@@ -40,12 +38,12 @@ export default function Sidebar({ $target, initialState }) {
 			deleteDocument: (id, isCurrent) => {
 				emit.deleteDocument(id, isCurrent);
 			},
-			createDocument: (id, $li) => {
+			createDocument: async (id, $li) => {
 				const onModal = !!id;
 				const needMark = onModal ? false : true;
 				const $target = $li ? $li : null;
 
-				emit.createDocument({ id, $target, needMark, onModal });
+				await emit.createDocument({ id, $target, needMark, onModal });
 			},
 		},
 	});
@@ -64,8 +62,12 @@ export default function Sidebar({ $target, initialState }) {
 		},
 	});
 
-	$target.appendChild($sidebar);
-	$sidebar.appendChild($sidebarHeader);
-	$sidebar.appendChild($sidebarBody);
-	$sidebar.appendChild($sidebarFooter);
+	this.init = () => {
+		$target.appendChild($sidebar);
+		$sidebar.appendChild($sidebarHeader);
+		$sidebar.appendChild($sidebarBody);
+		$sidebar.appendChild($sidebarFooter);
+	};
+
+	this.init();
 }

@@ -9,10 +9,15 @@ const DELETE_DOCUMENT = 'delete:document';
 const DELETE_DOCUMENT_EMPTY = 'delete:emptyDocument';
 
 const on = {
-	updateState(onUpdate) {
+	initRouter(onUpdate) {
+		window.addEventListener('popstate', e => {
+			onUpdate();
+		});
+	},
+	initStore(onUpdate) {
 		window.addEventListener(UPDATE_STATE, e => {
-			const { nextState, needUpdateItems } = e.detail;
-			onUpdate(nextState, needUpdateItems);
+			const { nextState, needRender } = e.detail;
+			onUpdate(nextState, needRender);
 		});
 	},
 	showModal(onShow) {
@@ -46,10 +51,10 @@ const on = {
 	},
 	updateDocument(onUpdate) {
 		window.addEventListener(UPDATE_DOCUMENT, e => {
-			const { id, nextDocument, onModal } = e.detail;
+			const { id, nextDocument } = e.detail;
 
 			if (id && nextDocument) {
-				onUpdate({ id, nextDocument, onModal });
+				onUpdate({ id, nextDocument });
 			}
 		});
 	},
@@ -73,12 +78,12 @@ const on = {
 	},
 };
 const emit = {
-	updateState(nextState, needUpdateItems) {
+	updateState(nextState, needRender) {
 		window.dispatchEvent(
 			new CustomEvent(UPDATE_STATE, {
 				detail: {
 					nextState,
-					needUpdateItems,
+					needRender,
 				},
 			}),
 		);
@@ -117,39 +122,28 @@ const emit = {
 	readDocument(id) {
 		window.dispatchEvent(
 			new CustomEvent(READ_DOCUMENT, {
-				detail: {
-					id,
-				},
+				detail: { id },
 			}),
 		);
 	},
-	updateDocument({ id, nextDocument, onModal }) {
+	updateDocument({ id, nextDocument }) {
 		window.dispatchEvent(
 			new CustomEvent(UPDATE_DOCUMENT, {
-				detail: {
-					id,
-					nextDocument,
-					onModal,
-				},
+				detail: { id, nextDocument },
 			}),
 		);
 	},
 	deleteDocument(id, isCurrent) {
 		window.dispatchEvent(
 			new CustomEvent(DELETE_DOCUMENT, {
-				detail: {
-					id,
-					isCurrent,
-				},
+				detail: { id, isCurrent },
 			}),
 		);
 	},
 	deleteEmptyDocument(id) {
 		window.dispatchEvent(
 			new CustomEvent(DELETE_DOCUMENT_EMPTY, {
-				detail: {
-					id,
-				},
+				detail: { id },
 			}),
 		);
 	},
