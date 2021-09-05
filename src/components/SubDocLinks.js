@@ -5,12 +5,7 @@ import { push } from '../services/router.js';
 
 export default function SubDocLinks({ $target, initialState }) {
   const $listContainer = document.createElement('div');
-  $listContainer.setAttribute('class', 'subdoclinks-container');
-
-  Object.assign($listContainer.style, {
-    overflow: 'auto',
-    'margin-bottom': '20px',
-  });
+  $listContainer.setAttribute('class', 'sub-doc-links-container');
 
   this.state = initialState;
 

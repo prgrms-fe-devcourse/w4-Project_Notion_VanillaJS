@@ -211,3 +211,8 @@ button[name="fold"].fold-button--unfolded {
 .editor__content {
   border: none;
 }
+
+.sub-doc-links-container {
+  overflow: auto;
+  margin-bottom: 20px;
+}
