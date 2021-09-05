@@ -1,17 +1,15 @@
 const renderLists = (documents, display = 'inline') => {
   return `
-    
       ${documents
         .map(
           ({ id, title, isToggled, documents }) => `
           <ul class="sidebar">
-            <li data-id="${id}">
-              <button class="sidebar__toggle" type="button" style="${display}">▶</button>
-              <span class="sidebar__title" style="${display}">${title}</span>
-              <button class="sidebar__add" type="button" style="${display}">+</button>
-              <button class="sidebar__delete" type="button" style="${display}">-</button>
+            <li data-id="${id}" style="${display}">
+              <button class="sidebar__toggle" type="button">▶</button>
+              <span class="sidebar__title">${title}</span>
+              <button class="sidebar__add" type="button">+</button>
+              <button class="sidebar__delete" type="button">-</button>
             </li>
-          
             ${
               documents.length > 0
                 ? renderLists(
@@ -24,7 +22,6 @@ const renderLists = (documents, display = 'inline') => {
           `
         )
         .join('')}
-    
     `;
 };
 

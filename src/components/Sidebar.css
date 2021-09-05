@@ -2,18 +2,16 @@ aside {
   position: fixed;
   width: 240px;
   height: 100vh;
-  padding: 15px 5px;
+  padding: 1rem 0;
   background-color: #f7f6f3;
 }
 
 ul {
   margin: 0;
-  padding-left: 3%;
+  padding-left: 1rem;
 }
 
 li {
-  margin-bottom: 10%;
-  padding-left: 3%;
   list-style: none;
 }
 
@@ -26,8 +24,14 @@ li {
   padding: 0;
   border: none;
   font-size: 18px;
-  font-weight: bold;
   background-color: transparent;
   color: gray;
   cursor: pointer;
+}
+
+.sidebar__toggle:hover,
+.sidebar__title:hover,
+.sidebar__add:hover,
+.sidebar__delete:hover {
+  background-color: #e8e7e4;
 }
