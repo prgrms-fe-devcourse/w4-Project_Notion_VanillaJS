@@ -72,7 +72,7 @@ export default function App({ $target }) {
       });
 
       sidebar.setState(nextState);
-      editor.setState();
+      editor.setState(null);
       push('/');
     }
   });

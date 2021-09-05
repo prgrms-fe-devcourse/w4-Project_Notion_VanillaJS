@@ -4,13 +4,15 @@ export default function Editor({ $target, initialState, onEditSave }) {
   const $editor = document.createElement('section');
   $target.appendChild($editor);
 
-  console.log(initialState);
   this.state = initialState;
 
   this.setState = async nextState => {
     if (nextState) {
       this.state = await request(`/documents/${nextState.id}`);
+    } else {
+      this.state = { id: '', title: '', content: '' };
     }
+
     this.render();
   };
 
