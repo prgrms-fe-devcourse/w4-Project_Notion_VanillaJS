@@ -9,6 +9,30 @@ const TOAST_FAIL_ICON = '×';
 const TOAST_FAIL_STATUS = 'Fail';
 const TOAST_FAIL_CLASSNAME = 'fail';
 
+const APPEAR_POSITION = '0';
+const DISAPPEAR_POSITION = '400px';
+
+const moveToLeft = ($toast, delay = 150) => new Promise((resolve) => {
+  setTimeout(() => {
+    $toast.style.transform = `translateX(${APPEAR_POSITION})`;
+    resolve();
+  }, delay);
+});
+
+const moveToRight = ($toast, delay) => new Promise((resolve) => {
+  setTimeout(() => {
+    $toast.style.transform = `translateX(${DISAPPEAR_POSITION})`;
+    resolve();
+  }, delay);
+});
+
+const removeToastWrapper = ($body, $wrapper, delay) => new Promise((resolve) => {
+  setTimeout(() => {
+    $body.removeChild($wrapper);
+    resolve();
+  }, delay);
+});
+
 export default function Toast({
   type,
   message,
@@ -31,12 +55,9 @@ export default function Toast({
 
   const { icon, status, className } = toastProperty;
 
-  this.render = () => {
-    const $body = document.querySelector('body');
-
-    $body.appendChild($wrapper);
+  this.render = async () => {
     $wrapper.innerHTML = `
-      <div id="toast">
+      <div id="toast" class=${className}>
         <div class="container-1">
           <span>${icon}<sapn>
         </div>
@@ -47,18 +68,14 @@ export default function Toast({
       </div>
     `;
 
-    const $toast = $wrapper.querySelector('#toast');
-    $toast.setAttribute('class', className);
+    const $body = document.querySelector('body');
+    $body.appendChild($wrapper);
 
-    setTimeout(() => {
-      $toast.style.transform = 'translateX(0)';
-      setTimeout(() => {
-        $toast.style.transform = 'translateX(400px)';
-        setTimeout(() => {
-          $body.removeChild($wrapper);
-        }, delay);
-      }, delay);
-    }, 150);
+    const $toast = $wrapper.querySelector('#toast');
+
+    await moveToLeft($toast, 150);
+    await moveToRight($toast, delay);
+    await removeToastWrapper($body, $wrapper, delay);
   };
 
   this.render();

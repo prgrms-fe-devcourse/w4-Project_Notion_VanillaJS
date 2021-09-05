@@ -1,3 +1,10 @@
+:root {
+  --color-success: #47d764;
+  --color-fail: #ff355b;
+  --color-summary: #101020;
+  --color-description: #656565;
+}
+
 .toast-wrapper,
 #toast,
 .container-1,
@@ -38,11 +45,11 @@
 }
 
 #toast.success {
-  border-left: 8px solid #47d764;
+  border-left: 8px solid var(--color-success);
 }
 
 #toast.fail {
-  border-left: 8px solid #ff355b;
+  border-left: 8px solid var(--color-fail);
 }
 
 .container-1,
@@ -59,29 +66,21 @@
 }
 
 #toast.success .container-1 span {
-  color: #47d764;
+  color: var(--color-success);
 }
 
 #toast.fail .container-1 span {
-  color: #ff355b;
+  color: var(--color-fail);
 }
 
 .container-2 p :first-child {
-  color: #101020;
+  color: var(--color-summary);
   font-size: 16px;
   font-weight: 600;
 }
 
 .container-2 p:last-child {
-  color: #656565;
+  color: var(--color-description);
   font-size: 12px;
   font-weight: 400;
-}
-
-#toast-close {
-  align-self: flex-start;
-  background-color: transparent;
-  line-height: 0;
-  color: #656565;
-  cursor: pointer;
 }
