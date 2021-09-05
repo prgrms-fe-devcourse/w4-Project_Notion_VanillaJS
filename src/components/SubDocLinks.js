@@ -29,7 +29,7 @@ export default function SubDocLinks({ $target, initialState }) {
   $listContainer.addEventListener('click', (e) => {
     const $eventTarget = e.target;
 
-    const $targetDoc = $eventTarget.className === 'table-span' ? $eventTarget : null;
+    const $targetDoc = $eventTarget.className === 'doc-table-list-item__text' ? $eventTarget : null;
 
     if (!$targetDoc) {
       return;

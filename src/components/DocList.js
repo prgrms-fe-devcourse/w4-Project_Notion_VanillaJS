@@ -8,8 +8,8 @@ export default function DocList({
   initialState,
   type = DOC_LIST_TREE_TYPE,
 }) {
-  const $list = document.createElement('div');
-  $list.setAttribute('class', 'doc-list');
+  const $listContainer = document.createElement('div');
+  $listContainer.setAttribute('class', 'doc-list-container');
 
   this.state = initialState;
 
@@ -20,19 +20,19 @@ export default function DocList({
 
   this.render = () => {
     if (!this.state || this.state.length === 0) {
-      $list.innerHTML = '';
+      $listContainer.innerHTML = '';
       return;
     }
 
     if (type === DOC_LIST_TREE_TYPE) {
-      $list.innerHTML = `
-      <ul class="tree-ul">
+      $listContainer.innerHTML = `
+      <ul class="doc-list">
         ${this.state.map(({ id, title }) => `
-          <li class="tree-li" data-id="${id}">
-            <div class="li-inner-container" data-id="${id}">
-              <button class="folded" data-id="${id}" name="fold" >▶</button>
+          <li class="doc-list-item" data-id="${id}">
+            <div class="doc-list-item__inner" data-id="${id}">
+              <button class="fold-button--folded" data-id="${id}" name="fold" >▶</button>
               ${title}(${id})
-              <button class="add" data-id="${id}" name="add">+</button>
+              <button class="add-button" data-id="${id}" name="add">+</button>
             </div>
           </li>
         `).join('')}
@@ -42,11 +42,11 @@ export default function DocList({
     }
 
     if (type === DOC_LIST_TABLE_TYPE) {
-      $list.innerHTML = `
-      <ul class="table-ul">
+      $listContainer.innerHTML = `
+      <ul class="doc-table-list">
         ${this.state.map(({ id, title }) => `
-          <li class="table-li" data-id="${id}">
-            <span class="table-span" data-id="${id}">${title}(${id})</span>
+          <li class="doc-table-list-item" data-id="${id}">
+            <span class="doc-table-list-item__text" data-id="${id}">${title}(${id})</span>
           </li>
         `).join('')}
       </ul>
@@ -56,5 +56,5 @@ export default function DocList({
 
   this.render();
 
-  $target.appendChild($list);
+  $target.appendChild($listContainer);
 }

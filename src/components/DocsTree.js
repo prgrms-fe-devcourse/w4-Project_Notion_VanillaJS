@@ -10,7 +10,7 @@ const renderSubDocList = async (parentDoc) => {
 
   if (!Array.isArray(subdocs) || subdocs.length === 0) {
     const $noPagesInsideMessage = document.createElement('div');
-    $noPagesInsideMessage.setAttribute('class', 'doc-list');
+    $noPagesInsideMessage.setAttribute('class', 'doc-list-container');
     $noPagesInsideMessage.textContent = 'No pages inside';
     parentDoc.appendChild($noPagesInsideMessage);
     return;
@@ -25,10 +25,10 @@ const renderSubDocList = async (parentDoc) => {
 const toggleFoldButton = ($button) => {
   const { className } = $button;
 
-  if (className === 'folded') {
-    $button.className = 'unfolded';
-  } else if (className === 'unfolded') {
-    $button.className = 'folded';
+  if (className === 'fold-button--folded') {
+    $button.className = 'fold-button--unfolded';
+  } else if (className === 'fold-button--unfolded') {
+    $button.className = 'fold-button--folded';
   }
 };
 
@@ -38,23 +38,24 @@ const unfoldSubDocList = (parentDoc, $button) => {
 };
 
 const foldSubDocList = (parentDoc, $button) => {
-  parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
+  parentDoc.removeChild(parentDoc.querySelector('.doc-list-container'));
   toggleFoldButton($button);
 };
 
 const refreshSubDocList = (parentDoc) => {
-  if (parentDoc.querySelector('.doc-list')) {
-    parentDoc.removeChild(parentDoc.querySelector('.doc-list'));
+  if (parentDoc.querySelector('.doc-list-container')) {
+    parentDoc.removeChild(parentDoc.querySelector('.doc-list-container'));
   }
 
   renderSubDocList(parentDoc);
-  if (parentDoc.querySelector('.folded')) {
-    toggleFoldButton(parentDoc.querySelector('.folded'));
+  if (parentDoc.querySelector('.fold-button--folded')) {
+    toggleFoldButton(parentDoc.querySelector('.fold-button--folded'));
   }
 };
 
 export default function DocsTree({ $target, initialState }) {
   const $tree = document.createElement('div');
+  $tree.setAttribute('class', 'sidebar__docs-tree');
 
   this.state = initialState;
 
@@ -79,7 +80,7 @@ export default function DocsTree({ $target, initialState }) {
 
     const { id } = $eventTarget.dataset;
 
-    if ($eventTarget.className === 'li-inner-container') {
+    if ($eventTarget.className === 'doc-list-item__inner') {
       push(`/documents/${id}`);
       return;
     }
@@ -90,11 +91,11 @@ export default function DocsTree({ $target, initialState }) {
 
     const { className } = $eventTarget;
 
-    if (className === 'folded') {
+    if (className === 'fold-button--folded') {
       unfoldSubDocList(targetDoc, $eventTarget);
-    } else if (className === 'unfolded') {
+    } else if (className === 'fold-button--unfolded') {
       foldSubDocList(targetDoc, $eventTarget);
-    } else if (className === 'add') {
+    } else if (className === 'add-button') {
       const createdDoc = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({

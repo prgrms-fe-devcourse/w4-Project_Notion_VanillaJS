@@ -4,13 +4,7 @@ export default function Editor({
   onEditing,
 }) {
   const $editor = document.createElement('div');
-
-  Object.assign($editor.style, {
-    display: 'flex',
-    'flex-direction': 'column',
-    'flex-basis': '80%',
-    'flex-shrink': 0,
-  });
+  $editor.setAttribute('class', 'editor');
 
   this.state = initialState;
 
@@ -43,7 +37,7 @@ export default function Editor({
     if (!isInitialized) {
       $editor.innerHTML = `
         <input
-          class="editor-title"
+          class="editor__title"
           name="title"
           type="text"
           style="width:100%; padding: 10px"
@@ -52,7 +46,7 @@ export default function Editor({
           placeholder="${id === null ? '문서를 선택해주세요' : ''}"
         />
         <textarea
-        class="editor-content"
+          class="editor__content"
           name="content"
           style="width:100%; height:100%; padding: 10px"
           ${id === null ? 'disabled' : ''}

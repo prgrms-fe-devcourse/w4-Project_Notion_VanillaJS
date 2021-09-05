@@ -9,25 +9,8 @@ export default function Sidebar({ $target, initialState }) {
   const $sidebarContainer = document.createElement('div');
   $sidebarContainer.setAttribute('class', 'sidebar-container');
 
-  Object.assign($sidebarContainer.style, {
-    position: 'relative',
-    width: '320px',
-    'background-color': 'rgb(247 246 243)',
-    color: 'rgb(55 53 47)',
-  });
-
   const $sidebar = document.createElement('aside');
   $sidebar.setAttribute('class', 'sidebar');
-  $sidebarContainer.appendChild($sidebar);
-
-  Object.assign($sidebar.style, {
-    display: 'flex',
-    'flex-direction': 'column',
-    'justify-content': 'space-between',
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-  });
 
   this.state = initialState;
 
@@ -67,5 +50,6 @@ export default function Sidebar({ $target, initialState }) {
     await addRootButton.render();
   };
 
+  $sidebarContainer.appendChild($sidebar);
   $target.appendChild($sidebarContainer);
 }

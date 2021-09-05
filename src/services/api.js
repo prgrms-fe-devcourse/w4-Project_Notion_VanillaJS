@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Toast, { TOAST_FAIL_TYPE } from '../components/Toast.js';
 
 const API_END_POINT = 'https://kdt.roto.codes';

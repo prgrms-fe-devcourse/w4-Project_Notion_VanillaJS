@@ -11,24 +11,11 @@ import {
 
 export default function EditorPage({ $target, initialState }) {
   const $pageContainer = document.createElement('div');
-  $pageContainer.setAttribute('class', 'editorpage-container');
-
-  Object.assign($pageContainer.style, {
-    position: 'relative',
-    width: '100%',
-    margin: '0 auto',
-  });
+  $pageContainer.setAttribute('class', 'editor-page-container');
 
   const $page = document.createElement('div');
-  $page.setAttribute('class', 'editorpage');
+  $page.setAttribute('class', 'editor-page');
   $pageContainer.appendChild($page);
-
-  Object.assign($page.style, {
-    margin: '10px 20px',
-    height: '100%',
-    display: 'flex',
-    'flex-direction': 'column',
-  });
 
   this.state = initialState;
 

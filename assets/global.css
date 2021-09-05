@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
 
+:root {
+  --sidebar-background-color: rgb(247, 246, 243);
+  --sidebar__user-info-color: black;
+  --sidebar__add-new-root-button-padding: 2px 14px;
+  --editor-page-margin: 10px 20px;
+}
+
 * {
   font-family: "Noto Sans KR", sans-serif;
   box-sizing: border-box;
@@ -19,6 +26,7 @@ body,
 
 button {
   cursor: pointer;
+  border: 0;
 }
 
 textarea:focus,
@@ -26,18 +34,69 @@ input:focus {
   outline: none;
 }
 
-.tree-ul {
+/* CUSTOM COMPONENTS */
+
+/* App */
+
+.app__inner {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+
+.sidebar-container {
+  position: relative;
+  width: 320px;
+  background-color: var(--sidebar-background-color);
+}
+
+.sidebar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar__user-info {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  height: 45px;
+  margin-left: 20px;
+  color: var(--sidebar__user-info-color);
+}
+
+.sidebar__docs-page {
+  flex-grow: 1;
+
+  overflow: auto;
+}
+
+.sidebar__add-new-root-button {
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 45px;
+  padding: var(--sidebar__add-new-root-button-padding);
+}
+
+.doc-list {
   list-style-type: none;
   padding-left: 20px;
   white-space: nowrap;
   color: rgba(25, 23, 17, 0.6);
 }
 
-.tree-li {
+.doc-list-item {
   line-height: 2;
 }
 
-.li-inner-container {
+.doc-list-item__inner {
   position: relative;
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -46,7 +105,7 @@ input:focus {
   overflow: hidden;
 }
 
-.table-ul {
+.doc-table-list {
   list-style-type: none;
   padding: 0;
 
@@ -56,13 +115,13 @@ input:focus {
   column-gap: 20px;
 }
 
-.table-span {
+.doc-table-list-item__text {
   padding-bottom: 2px;
   border-bottom: 1px solid #c7c7c5;
   color: rgba(25, 23, 17, 0.6);
 }
 
-.table-span:hover {
+.doc-table-list-item__text:hover {
   background: rgb(247 246 243);
   cursor: pointer;
   color: black;
@@ -74,7 +133,7 @@ input:focus {
   position: relative;
 }
 
-li.current-hover ul {
+.current-hover .doc-list {
   background: rgb(247 246 243);
 }
 
@@ -93,16 +152,16 @@ button[name="fold"] {
   transition: 0.5s;
 }
 
-button[name="fold"].unfolded {
-  transform: rotate(90deg);
-  transition: 0.5s;
-}
-
 button[name="fold"]:hover {
   color: black;
 }
 
-.add {
+button[name="fold"].fold-button--unfolded {
+  transform: rotate(90deg);
+  transition: 0.5s;
+}
+
+.add-button {
   display: none;
   border: none;
   color: rgba(55, 53, 47, 0.4);
@@ -111,22 +170,44 @@ button[name="fold"]:hover {
   width: 24px;
 }
 
-.current-hover .add {
+.current-hover .add-button {
   display: inline;
   right: 0;
   top: 0;
 }
 
-li.current-hover ul button.add {
+.current-hover .doc-list .add-button {
   display: none;
 }
 
-.editor-title {
+/* EditorPage */
+
+.editor-page-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.editor-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: var(--editor-page-margin);
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 80%;
+  flex-shrink: 0;
+}
+
+.editor__title {
   font-size: 40px;
   border: none;
   font-weight: bold;
 }
 
-.editor-content {
+.editor__content {
   border: none;
 }
