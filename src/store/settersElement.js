@@ -16,7 +16,7 @@ const setters = {
 		const newPostId = nextState.currentDocument.id;
 
 		makeNewPostLi({ $target, needMark, newPostId });
-		history.pushState(null, null, `/posts/${newPostId}`);
+		history.pushState(null, null, `/documents/${newPostId}`);
 	},
 	createOnModal: ({ $target, needMark, modalDocument }) => {
 		const newPostId = modalDocument.id;
@@ -27,7 +27,7 @@ const setters = {
 	},
 	read: ({ id }) => {
 		markListItemOfId(id);
-		history.pushState(null, null, `/posts/${id}`);
+		history.pushState(null, null, `/documents/${id}`);
 	},
 	delete: ({ id, nextState }) => {
 		closeChildList(id);
@@ -38,7 +38,7 @@ const setters = {
 		let url = '/';
 
 		if (nextId) {
-			url = `/posts/${nextId}`;
+			url = `/documents/${nextId}`;
 
 			const $needRemoveSelected = $(`li[data-id="${id}"] .selected`);
 			closeChildList(id);
