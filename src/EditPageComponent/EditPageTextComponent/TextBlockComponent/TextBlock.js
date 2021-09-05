@@ -17,7 +17,7 @@ export default function TextBlock({ targetElement, initialState }) {
     const handleInBlock = new HandleInBlock({ targetElement: textBlock });
     const textInBlock = new TextInBlock({ targetElement: textBlock });
     this.element = textInBlock.element;
-    // dragEvent(handleInBlock.element);
+    dragEvent(handleInBlock.element);
   };
 
   this.render();

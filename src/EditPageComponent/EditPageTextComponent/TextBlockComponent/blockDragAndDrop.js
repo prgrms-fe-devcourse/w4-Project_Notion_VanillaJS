@@ -25,18 +25,17 @@ function onMouseUp() {
 }
 
 export const dragEvent = (targetElement) => {
-  console.log(targetElement);
-  const parentElement = targetElement;
-  parentElement.addEventListener("mousedown", (e) => {
+  const parentElement = targetElement.closest(".editor-text-block");
+  targetElement.addEventListener("mousedown", (e) => {
     onMouseDown(e, parentElement);
   });
-  parentElement.addEventListener("mousemove", (e) => {
+  targetElement.addEventListener("mousemove", (e) => {
     onMouseMove(e, parentElement);
   });
-  parentElement.addEventListener("mouseup", (e) => {
+  targetElement.addEventListener("mouseup", (e) => {
     onMouseUp(e, parentElement);
   });
-  parentElement.addEventListener("mouseleave", (e) => {
+  targetElement.addEventListener("mouseleave", (e) => {
     // 마우스가 엘리멘트를 벗어날 경우 방어코드
     onMouseUp(e, parentElement);
   });
