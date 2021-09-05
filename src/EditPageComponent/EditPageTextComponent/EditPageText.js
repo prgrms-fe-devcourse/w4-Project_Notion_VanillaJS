@@ -30,7 +30,7 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
   };
 
   editPageContentElement.addEventListener("keydown", (e) => {
-    // onSave(this.state.id);
+    onSave(this.state.id);
     if (e.key !== "Enter" || e.shiftKey) return;
     e.preventDefault();
     makeNewBlock();

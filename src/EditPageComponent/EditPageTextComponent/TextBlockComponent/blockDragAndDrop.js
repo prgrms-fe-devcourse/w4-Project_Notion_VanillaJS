@@ -23,14 +23,10 @@ function onMouseMove(e, targetElement) {
 function onMouseUp() {
   isMouseDown = false;
 }
-export const existingBlockEvent = () => {
-  const blockList = document.querySelectorAll(".drag-button");
-  for (const block of blockList) {
-    dragEvent(block);
-  }
-};
+
 export const dragEvent = (targetElement) => {
-  const parentElement = targetElement.closest("div");
+  console.log(targetElement);
+  const parentElement = targetElement;
   parentElement.addEventListener("mousedown", (e) => {
     onMouseDown(e, parentElement);
   });
