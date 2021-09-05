@@ -45,7 +45,7 @@ export default function App({ $target }) {
     $target,
     intialState: [],
     createList: async id => {
-      await request('/documents', {
+      const createdDocument = await request('/documents', {
         method: 'POST',
         body: JSON.stringify({
           title: '제목 없음',
@@ -53,6 +53,7 @@ export default function App({ $target }) {
         })
       });
 
+      push(`/documents/${createdDocument.id}`);
       this.setState();
     },
     showDocument: documentId => {
