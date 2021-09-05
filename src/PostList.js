@@ -26,21 +26,36 @@ export default function PostList({
     
 
     this.render = () => {
+        
         $postList.innerHTML=`
         ${this.state.map(post=>`
             <li data-id="${post.id}" class="link">
             <div class="text-area">
-                <button name="inheritArrow">></button>
-                <span class="link">
-                ${post.title}
-                </span>
+                <button name="inheritArrow">▶︎</button>
+                <span class="link">${post.title}</span>
+                <span class="forAddInput"></span>
             </div>
             <div class="editButtons">
                 <button name="removeButton">x</button>
                 <button name="addInheritButton">+</button>
             </div>
             </li>
+            <div class="child-list">
+            ${post.documents? post.documents.map(list=> `
             
+                <li data-id="${list.id}" class="link">
+                    <div class="text-area">
+                        <button name="inheritArrow">▶︎</button>
+                        <span class="link">${list.title}</span>
+                        <div class="forAddInput"></div>
+                    </div> 
+                    <div class="editButtons">
+                        <button name="removeButton">x</button>
+                        <button name="addInheritButton">+</button>
+                    </div>
+                </li>
+                `).join(''):``}
+                </div>
         `).join('')}
         `
     }
@@ -55,7 +70,9 @@ export default function PostList({
         } 
         if(targetedList.name === 'addInheritButton'){
             const inheritInput = document.createElement('form')
-            $postList.appendChild(inheritInput)
+            const target = targetedList.closest('li')
+            const inputPlace = target.querySelector('.forAddInput')
+            inputPlace.appendChild(inheritInput)
             inheritInput.innerHTML=`
             <input placeholder='+추가하기'/>
             `
@@ -69,11 +86,18 @@ export default function PostList({
                 inheritInput.querySelector('input').value = ''
             })
         }
-      /*  if(targetedList.name === 'inheritArrow'){
+        if(targetedList.name === 'inheritArrow'){
             e.preventDefault()
-            const {id} = targetedList.closest('li').dataset
-            findInherit(id)
-        } */
+            const target = targetedList.closest('li')
+            const {id} = target.dataset
+            const parentList = target.querySelector('.child-list')
+
+           /* if(target.classList === 'isToggled')
+            target.classList.add('isToggled') */
+
+           // findInherit(id,parentList)
+
+        } 
 
         if(targetedList.className === 'link'){
             const {id} = targetedList.closest('li').dataset

@@ -12,9 +12,34 @@ export default function Navigation({$target}){
         $target: $page ,
         initialState:[],
         removeList :async(id) => {
-            await request(`/documents/${id}`,{
-                method: 'DELETE'
+            
+            const parent =  await request(`/documents/${id}`,{
+                method: 'GET'
             })
+            if(parent.documents){
+                if(window.confirm("하위 파일들도 삭제 할까요?")){
+                    parent.documents.map(list=> {
+                        const listId = list.id
+                         request(`/documents/${listId}`,{
+                            method: 'DELETE'
+                        })
+                    })
+                    await request(`/documents/${id}`,{
+                        method: 'DELETE'
+                    })
+                }else{
+                    await request(`/documents/${id}`,{
+                        method: 'DELETE'
+                    })
+                }
+            }else{
+                await request(`/documents/${id}`,{
+                    method: 'DELETE'
+                })
+            }
+         /*   await request(`/documents/${id}`,{
+                method: 'DELETE'
+            }) */
             this.setState()
         },
         addNewList : async(content) => {
@@ -39,10 +64,13 @@ export default function Navigation({$target}){
             this.setState() 
         
         },
-        findInherit : async(id) => {
+        findInherit : async(id, parentList) => {
            const parent =  await request(`/documents/${id}`,{
                 method: 'GET'
             }) 
+            const childLists = parent.documents
+            console.log(parent.documents.map(list=>list.id))
+            
             
         }
     })

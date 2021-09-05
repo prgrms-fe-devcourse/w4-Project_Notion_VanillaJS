@@ -4,8 +4,8 @@ export default function Editor({$target, initialState, onEditing}){
     $target.appendChild($editor)
 
     $editor.innerHTML = `
-    <input type="text" name="title" style="width:300px" />
-    <textarea name="content" style="width:300px;height:300px"></textarea> 
+    <input type="text" name="title" placeholder="제목을 추가해 주세요🥕"  />
+    <textarea name="content" placeholder="내용도 추가해 주세요🌽"></textarea> 
     `
     this.state = initialState
 

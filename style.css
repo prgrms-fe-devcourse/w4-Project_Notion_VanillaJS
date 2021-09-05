@@ -47,20 +47,25 @@ li:hover{
     background-color: #e3e3de;
     
 }
+.editButtons{
+    visibility: hidden;
+}
+li:hover .editButtons{
+     visibility: visible;
+}
 li button {
     border: none;
     padding: 0px 3px;
     font-size: 10px;
     background-color: transparent;
 }
-
 article{
     padding: 0px;
     margin: 0px;
     width: 75vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: start;
 }
 a{
     text-decoration: none;
@@ -68,7 +73,36 @@ a{
 }
 .editor{
     display: block;
-    margin-top: 30px;
+    margin: 0px;
+}
+.inputEditor input {
+    width: 75vw;
+    height: 15px;
+    padding: 17px 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    border-bottom: solid 0.5px rgba(0, 0, 0, 0.2) ;
+}
+.inputEditor input:hover {
+    background-color: whitesmoke;
+}
+.inputEditor input:focus{
+    outline: none;
+}
+.inputEditor textarea {
+    background-color: transparent;
+    border: none;
+    width: 75vw;
+    height: 50vh;
+    font-size: 10px;
+    padding: 2px 10px;
+}
+.inputEditor textarea:hover {
+    background-color: whitesmoke;
+}
+.inputEditor textarea:focus{
+    outline: none;
 }
 .main-header{
     margin: 0px;
@@ -84,7 +118,7 @@ a{
     justify-content: start;
 }
 .addNewButton input{
-    margin: 0px 20px;
+    margin: 5px 20px;
     background-color: transparent;
     border: none;
     font-size: 10px;
@@ -99,4 +133,25 @@ a{
     border: none;
     font-size: 10px;
     background-color: #e3e3de;
+}
+.child-list li{
+    padding-left: 40px;
+    width: calc(25vw - 60px);
+
+}
+.forAddInput form{
+    margin:0px;
+    padding:0px;
+}
+.forAddInput input{
+    width: 70px;
+    margin: 0px 0px 0px 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 10px;
+    padding: 2px 0px 0px 0px;
+}
+.editButton{
+    display: flex;
+    justify-content: end;
 }
