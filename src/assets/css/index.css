@@ -321,8 +321,20 @@ p.blank {
 
 /* page - nodata*/
 .nodata-page {
-	font-size: 3rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.nodata-title {
+	margin-top: 10vh;
+	font-size: 5.5rem;
 	font-weight: 700;
+	color: #dad9d6;
+}
+.nodata-img {
+	margin-top: 5vh;
+	width: 60vh;
 }
 /* js-controll */
 .show {
