@@ -38,12 +38,12 @@ export default function Sidebar({ $target, initialState }) {
 			deleteDocument: (id, isCurrent) => {
 				emit.deleteDocument(id, isCurrent);
 			},
-			createDocument: async (id, $li) => {
+			createDocument: (id, $li) => {
 				const onModal = !!id;
 				const needMark = onModal ? false : true;
 				const $target = $li ? $li : null;
 
-				await emit.createDocument({ id, $target, needMark, onModal });
+				emit.createDocument({ id, $target, needMark, onModal });
 			},
 		},
 	});
