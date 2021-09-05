@@ -12,8 +12,8 @@ export default function Modal({ $target }) {
 
 	this.state = {
 		id: 'new',
-		title: '제목 없음',
-		content: '문서의 내용을 입력하세요!',
+		title: '',
+		content: '',
 	};
 
 	this.setState = nextState => {

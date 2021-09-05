@@ -8,7 +8,7 @@ export default function MainPage({ $target, initialState }) {
 	const $row = $createElement('div', '.row');
 
 	this.state = initialState;
-	this.setState = (nextState, needRender) => {
+	this.setState = ({ nextState, needRender }) => {
 		this.state = nextState;
 		sideBar.setState(this.state);
 		postsPage.setState(this.state);
@@ -44,6 +44,4 @@ export default function MainPage({ $target, initialState }) {
 	});
 
 	$target.appendChild($row);
-
-	this.render();
 }

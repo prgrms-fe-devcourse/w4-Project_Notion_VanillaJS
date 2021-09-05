@@ -1,3 +1,4 @@
+import { isValidState } from '../utils/valid.js';
 import { getItemFromStorage, setItemToStorage } from '../utils/storage.js';
 
 import {
@@ -7,91 +8,54 @@ import {
 	deleteDocument,
 } from '../api/notion.js';
 
-const DEFAULT_STATE = {
-	documents: {},
-	currentDocument: {},
-};
-
-const isValid = state => {
-	let validResult = true;
-
-	if (state && typeof state === 'object') {
-		for (let key in DEFAULT_STATE) {
-			validResult = state.hasOwnProperty(key);
-		}
-	}
-
-	return validResult;
-};
-
 const getStateAfter = async (action, option) => {
 	try {
-		const state = await getters[action](option);
+		const newState = await getters[action](option);
 
-		if (!isValid(state)) {
-			throw new Error('올바른 데이터 형식이 아닙니다!');
+		isValidState(newState);
+
+		if (newState && !action.includes('Modal')) {
+			setItemToStorage('notionState', newState);
 		}
 
-		if (state && !action.includes('Modal')) {
-			setItemToStorage('notionState', state);
-		}
-
-		return state;
+		return newState;
 	} catch (e) {
-		alert('오류가 발생하여 notion을 다시 불러옵니다!');
+		alert('state에 오류가 발생하여 notion을 다시 불러옵니다!');
 		window.location = window.origin;
-		console.log(e);
 	}
 };
 
 const getters = {
-	init: async () => {
+	fetch: async () => {
+		const nextState = {};
+
 		const { pathname } = window.location;
 		const [, , id] = pathname.split('/');
 		let postId = id;
 
-		const documents = await getDocuments();
-		const noData = !postId && !documents.length;
+		nextState.documents = await getDocuments();
 
-		if (noData) {
-			history.pushState(null, null, `/`);
-		} else if (!postId) {
-			postId = documents[0].id;
-			history.pushState(null, null, `/posts/${postId}`);
+		if (postId) {
+			nextState.currentDocument = await getDocuments(postId);
+		} else {
+			nextState.currentDocument = {};
 		}
 
-		const currentDocument = await getDocuments(postId);
-		return { documents, currentDocument };
-	},
-	fetch: async () => {
-		let postId;
-		const documents = await getDocuments();
-
-		if (documents.length) {
-			postId = documents[0].id;
-		}
-
-		const currentDocument = await getDocuments(postId);
-
-		history.pushState(null, null, `/`);
-		return { documents, currentDocument };
+		return nextState;
 	},
 	create: async id => {
-		const newDocument = await createDocument({
+		const currentDocument = await createDocument({
 			title: '',
 			parent: id,
 		});
 		const documents = await getDocuments();
 
-		history.pushState(null, null, `/posts/${newDocument.id}`);
-		return {
-			documents,
-			currentDocument: newDocument,
-		};
+		history.pushState(null, null, `/posts/${currentDocument.id}`);
+		return { documents, currentDocument };
 	},
 	createOnModal: async id => {
 		const modalDocument = await createDocument({
-			title: '제목 없음',
+			title: '',
 			parent: id,
 		});
 
@@ -102,9 +66,10 @@ const getters = {
 		return { documents, currentDocument, modalDocument };
 	},
 	read: async id => {
-		const documents = getItemFromStorage('notionState')?.documents;
+		const { documents } = getItemFromStorage('notionState');
 		const currentDocument = await getDocuments(id);
 
+		history.pushState(null, null, `/posts/${currentDocument.id}`);
 		return { documents, currentDocument };
 	},
 	update: async ({ id, nextDocument }) => {
@@ -118,8 +83,8 @@ const getters = {
 	},
 	updateOnModal: async ({ id, nextDocument }) => {
 		await updateDocument(id, nextDocument);
-		const documents = await getDocuments();
 
+		const documents = await getDocuments();
 		const { currentDocument } = getItemFromStorage('notionState');
 
 		setItemToStorage('notionState', { documents, currentDocument });
@@ -134,9 +99,9 @@ const getters = {
 		return { documents, currentDocument };
 	},
 	deleteCurrent: async id => {
-		let postId;
 		await deleteDocument(id);
 
+		let postId;
 		const documents = await getDocuments();
 
 		if (documents.length) {
@@ -144,7 +109,9 @@ const getters = {
 		}
 
 		const currentDocument = await getDocuments(postId);
+		const url = currentDocument.id ? `/posts/${currentDocument.id}` : '/';
 
+		history.replaceState(null, null, url);
 		return { documents, currentDocument };
 	},
 };

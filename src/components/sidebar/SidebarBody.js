@@ -16,16 +16,15 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 
 	this.render = () => {
 		const { documents, currentDocument } = this.state;
-
 		const $selected = $('p.selected');
+
 		const openedLi = getOpenedLiAfter('fetch');
 
 		$ul.innerHTML = '';
 		drawNavList($ul, documents, openedLi);
 
-		if (!$selected) {
-			markListItemOfId(currentDocument.id);
-		}
+		removeClass($selected, 'selected');
+		markListItemOfId(currentDocument.id);
 	};
 
 	this.init = () => {

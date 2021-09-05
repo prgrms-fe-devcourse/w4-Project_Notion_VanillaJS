@@ -1,5 +1,3 @@
-import NotFoundPage from '../../pages/NotFoundPage.js';
-
 const BASE_URL = 'https://kdt.roto.codes/documents';
 
 const request = async (url, options = {}) => {
@@ -19,9 +17,8 @@ const request = async (url, options = {}) => {
 		throw new Error('API 처리 중 오류가 발생하였습니다!');
 	} catch (e) {
 		console.log(e.message);
-
-		const $target = $('#app');
-		return new NotFoundPage({ $target });
+		history.replaceState(null, null, '/404');
+		window.location = `${window.location.origin}/404`;
 	}
 };
 

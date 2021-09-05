@@ -11,12 +11,12 @@ function addClass($element, ...classNames) {
 		return;
 	}
 
-	classNames.forEach(className => $element.classList.add(className));
+	classNames.forEach(className => $element?.classList.add(className));
 }
 
 function addClassAll($NodeList, className) {
 	$NodeList.forEach($element => {
-		$element.classList.add(className);
+		$element?.classList.add(className);
 	});
 }
 
@@ -25,12 +25,12 @@ function removeClass($element, ...classNames) {
 		return;
 	}
 
-	classNames.forEach(className => $element.classList.remove(className));
+	classNames.forEach(className => $element?.classList.remove(className));
 }
 
 function removeClassAll($NodeList, className) {
 	$NodeList.forEach($element => {
-		$element.classList.remove(className);
+		$element?.classList.remove(className);
 	});
 }
 

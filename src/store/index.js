@@ -52,7 +52,6 @@ export default function Store() {
 			commit('SET_STATE', { nextState, needRender: 'all' });
 
 			markListItemOfId(id);
-			history.pushState(null, null, `/posts/${id}`);
 		},
 		updateDocument: async ({ id, nextDocument }) => {
 			const nextState = await getStateAfter('update', { id, nextDocument });
@@ -71,6 +70,7 @@ export default function Store() {
 				closeChildList(id);
 
 				const nextState = await getStateAfter('delete', id);
+				markListItemOfId(nextState.id);
 				commit('SET_STATE', { nextState, needRender: 'sideBar' });
 			}
 		},
@@ -78,17 +78,12 @@ export default function Store() {
 			if (confirm('문서를 삭제하시겠습니까?')) {
 				const $needRemoveSelected = $(`li[data-id="${id}"] .selected`);
 				removeClass($needRemoveSelected, 'selected');
+
 				closeChildList(id);
 
 				const nextState = await getStateAfter('deleteCurrent', id);
-				const postId = nextState.currentDocument.id;
+				markListItemOfId(nextState.id);
 				commit('SET_STATE', { nextState, needRender: 'all' });
-
-				history.replaceState(
-					null,
-					null,
-					`${postId ? `/posts/${postId}` : '/'}`,
-				);
 			}
 		},
 		deleteEmptyDocument: async ({ id }) => {

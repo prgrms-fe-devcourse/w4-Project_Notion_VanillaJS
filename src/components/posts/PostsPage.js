@@ -16,7 +16,7 @@ export default function Page({ $target, initialState }) {
 	};
 
 	this.render = () => {
-		const haveData = this.state.documents.length > 0;
+		const haveData = Object.keys(this.state.currentDocument).length > 0;
 
 		if (haveData) {
 			pageBody.render();

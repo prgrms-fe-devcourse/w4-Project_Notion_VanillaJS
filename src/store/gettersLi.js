@@ -1,11 +1,20 @@
+import { isValidOpenedLi } from '../utils/valid.js';
 import { getItemFromStorage, setItemToStorage } from '../utils/storage.js';
 
 const getOpenedLiAfter = (action, option) => {
-	const newOpenedLi = gettersLi[action](option);
+	try {
+		const newOpenedLi = gettersLi[action](option);
 
-	gettersLi.openedLi = newOpenedLi;
-	setItemToStorage('openedLi', newOpenedLi);
-	return newOpenedLi;
+		isValidOpenedLi(newOpenedLi);
+
+		gettersLi.openedLi = newOpenedLi;
+		setItemToStorage('openedLi', newOpenedLi);
+
+		return newOpenedLi;
+	} catch (e) {
+		alert('List에 오류가 발생하여 notion을 다시 불러옵니다!');
+		window.location = window.origin;
+	}
 };
 
 const gettersLi = {
