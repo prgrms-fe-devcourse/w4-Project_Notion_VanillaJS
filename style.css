@@ -201,10 +201,6 @@ input[name=title] {
     letter-spacing : 2px;
 }
 
-div[name=content] {
-
-}
-
 input[name=title]::placeholder {
     color: #e4e4e3;
 }
