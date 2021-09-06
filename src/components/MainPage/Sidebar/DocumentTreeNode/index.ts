@@ -11,11 +11,14 @@ import {
   removeDocument,
 } from "@/utils/api/documents";
 import styles from "@/components/MainPage/Sidebar/DocumentTreeNode/styles.module.scss";
-import DocumentsStorage from "@/utils/storage/DocumentsStorage";
+import DocumentsStorage, {
+  INSERT,
+  REMOVE,
+} from "@/utils/storage/DocumentsStorage";
 
 interface DocumentTreeNodeState {
   isOpen: boolean;
-  documentStorage: DocumentsStorage;
+  documentsStorage: DocumentsStorage;
 }
 interface DocumentTreeNodeProps {
   document: Document;
@@ -28,10 +31,33 @@ const DocumentTreeNode = createComponent(
   class extends Component<DocumentTreeNodeProps, DocumentTreeNodeState> {
     state = {
       isOpen: false,
-      documentStorage: DocumentsStorage.getInstance(),
+      documentsStorage: DocumentsStorage.getInstance(),
     };
 
+    componentDidMount() {
+      const { documentsStorage } = this.state;
+      const {
+        document: { id: documentId },
+      } = this.props;
+
+      const openKeys = documentsStorage.getOpenKeys();
+
+      if (!openKeys.includes(`${documentId}`)) return;
+
+      this.setState((prevState) => ({
+        ...prevState,
+        isOpen: true,
+      }));
+    }
+
     toggleOpen(event: Event) {
+      const { documentsStorage, isOpen } = this.state;
+      const {
+        document: { id: documentId },
+      } = this.props;
+
+      documentsStorage.setOpenKeys(`${documentId}`, isOpen ? REMOVE : INSERT);
+
       this.setState((prevState) => ({
         ...prevState,
         isOpen: !prevState.isOpen,
@@ -79,11 +105,13 @@ const DocumentTreeNode = createComponent(
         changeRoute,
         currentDocumentId,
       } = this.props;
-      const { documentStorage } = this.state;
+      const { documentsStorage } = this.state;
 
       await removeDocument(documentId);
 
-      documentStorage.clearDocument(currentDocumentId);
+      documentsStorage.setOpenKeys(`${documentId}`, REMOVE);
+
+      documentsStorage.clearDocument(currentDocumentId);
 
       if (currentDocumentId === `${documentId}`) {
         changeRoute("/");
@@ -101,7 +129,7 @@ const DocumentTreeNode = createComponent(
 
     render(): VDOMNode {
       const {
-        document: { id, title, documents },
+        document: { id: documentId, title, documents },
         setDocuments,
         currentDocumentId,
         changeRoute,
@@ -112,10 +140,10 @@ const DocumentTreeNode = createComponent(
       return li({ role: "treeitem" }, [
         div(
           {
-            id,
+            id: documentId,
             className: `${styles.DocumentTreeNode} ${
               isOpen ? styles.open : ""
-            } ${`${id}` === currentDocumentId ? styles.choose : ""}`,
+            } ${`${documentId}` === currentDocumentId ? styles.choose : ""}`,
           },
           [
             div({ className: `${styles.Content}` }, [
@@ -124,7 +152,7 @@ const DocumentTreeNode = createComponent(
                 toggleOpen: this.toggleOpen.bind(this),
               }),
               DocumentTitle({
-                href: `/documents/${id}`,
+                href: `/documents/${documentId}`,
                 onClick: this.onDocumentClick.bind(this),
                 title,
               }),
