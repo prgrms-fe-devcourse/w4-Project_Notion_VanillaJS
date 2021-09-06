@@ -1,3 +1,5 @@
+import { parse } from "./parseMd.js";
+
 export default function Editor({
     $target,
     initialState = {
@@ -19,7 +21,6 @@ export default function Editor({
     $target.appendChild($editor);
 
     this.setState = nextState => {
-        console.log(nextState);
         this.state = nextState;
         this.render();
     }
@@ -33,19 +34,18 @@ export default function Editor({
         let content = this.state.content || '';
 
         if (content) {
-            console.log(content);
             content = content.split('<div>').map(line => {
                 if (line.indexOf('# ') === 0) {
-                    return `<div><h1>${line}</h1></div>`;
+                    return `<h1>${line.substr(2)}</h1>`;
                 } else if (line.indexOf('## ') === 0) {
-                    return `<div><h2>${line}</h2></div>`;
+                    return `<h2>${line.substr(3)}</h2>`;
                 } else if (line.indexOf('### ') === 0) {
-                    return `<div><h3>${line}</h3></div>`;
+                    return `<h3>${line.substr(4)}</h3>`;
                 } else if (line.indexOf('- ') === 0 || line.indexOf('* ') === 0) {
-                    return `<li>${line}</li>`
-                }
+                    return `<li>${line.substr(2)}</li>`;
+                } 
                 return line;
-            }).join('<div>');
+            }).join('</div><div>');
         }
 
         $editor.querySelector(`[name=title]`).value = this.state.title;
