@@ -1,4 +1,4 @@
-const ROUTE_CHANGE_EVENT_NAME = 'route-change';
+import { ROUTE_CHANGE_EVENT_NAME } from "./constant";
 
 export const initRouter = (onRoute) => {
     window.addEventListener(ROUTE_CHANGE_EVENT_NAME, (e) => {

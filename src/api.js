@@ -1,4 +1,5 @@
-export const API_END_POINT = "https://kdt.roto.codes";
+import { API_END_POINT } from "./constant";
+import { USER_NAME } from "./constant";
 
 export const request = async (url, options = {}) => {
     try {
@@ -6,7 +7,7 @@ export const request = async (url, options = {}) => {
             ...options,
             headers: {
                 'Content-Type': 'application/json',
-                'x-username': 'young-d'
+                'x-username': USER_NAME
             }
         })
 
@@ -16,6 +17,6 @@ export const request = async (url, options = {}) => {
 
         throw new Error('API 처리 중 뭔가 이상해요!');
     } catch(e) {
-        alert(e.message);
+        console.error(e.message);
     }
 }
