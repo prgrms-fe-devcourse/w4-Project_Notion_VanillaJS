@@ -12,7 +12,7 @@ export default function EditPageImage({
   editPageImageContainerElemnet.appendChild(editPageImageElement);
 
   const changeImage = (url) => {
-    editPageImageElement.src = url;
+    editPageImageElement.src = url || defaultImage;
     onSaveImage();
   };
   this.state = initialState || {
