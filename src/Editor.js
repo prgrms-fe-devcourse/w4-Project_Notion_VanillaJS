@@ -1,5 +1,3 @@
-import { parse } from "./parseMd.js";
-
 export default function Editor({
     $target,
     initialState = {
