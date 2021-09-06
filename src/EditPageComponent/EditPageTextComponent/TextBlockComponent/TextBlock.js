@@ -1,6 +1,6 @@
 import HandleInBlock from "./handleInBlock.js";
 import TextInBlock from "./TextInBlock.js";
-import { dragEvent } from "./blockDragAndDrop.js";
+import { dragEvent, existingDrag } from "./blockDragAndDrop.js";
 export default function TextBlock({ targetElement, initialState }) {
   this.state = initialState || { text: "", tagName: "div" };
   const { text, tagName } = this.state;
@@ -11,6 +11,7 @@ export default function TextBlock({ targetElement, initialState }) {
     this.state = nextState || { text: "", tagName: "div" };
     this.render();
   };
+
   this.render = () => {
     targetElement.appendChild(textBlock);
     textBlock.textContent = "";
@@ -19,6 +20,6 @@ export default function TextBlock({ targetElement, initialState }) {
     this.element = textInBlock.element;
     dragEvent(handleInBlock.element);
   };
-
+  existingDrag();
   this.render();
 }

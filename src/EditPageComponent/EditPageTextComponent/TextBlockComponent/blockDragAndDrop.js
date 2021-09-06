@@ -40,3 +40,10 @@ export const dragEvent = (targetElement) => {
     onMouseUp(e, parentElement);
   });
 };
+
+export const existingDrag = () => {
+  const existingDragButtons = document.querySelectorAll(".handle-in-block");
+  for (const button of existingDragButtons) {
+    dragEvent(button);
+  }
+};
