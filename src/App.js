@@ -44,6 +44,7 @@ export default function App({ targetElement }) {
     const parentDocument = await getDocumentById(id);
     const newDocument = await createDocument(parentDocument);
     pushStateUrl(newDocument.id);
+    removeChildStorage(id);
   };
 
   const onCreate = async (id) => {
