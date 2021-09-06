@@ -20,6 +20,10 @@ const Router = createComponent(
     componentDidMount() {
       const { currentPath, eventCollector } = this.state;
 
+      window.addEventListener("popstate", (event: Event) => {
+        this.checkRoute();
+      });
+
       eventCollector.addEventListener(ROUTE_CHANGE, ((event: CustomEvent) => {
         const {
           detail: { pathname },

@@ -54,10 +54,10 @@ export function createComponent<P extends Record<string, any>>(
   component: Class<Component<P, unknown>>
 ) {
   return (props: P): VDOMComponent => {
-    return {
+    return Object.assign(Object.create(null), {
       type: VDOMType.COMPONENT,
       component,
       props,
-    };
+    });
   };
 }

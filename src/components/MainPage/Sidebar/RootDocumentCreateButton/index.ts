@@ -1,14 +1,14 @@
 import { Component } from "@/VDOM/Component";
 import { div } from "@/VDOM/elements";
 import { createComponent, VDOMNode } from "@/VDOM";
-import { Action } from "@/types";
+import { Document } from "@/types";
 import { addDocument, fetchDocuments } from "@/utils/api/documents";
 import styles from "@/components/MainPage/Sidebar/RootDocumentCreateButton/styles.module.scss";
 
 interface RootDocumentCreateButtonState {}
 interface RootDocumentCreateButtonProps {
   changeRoute: (pathname: string) => void;
-  dispatcher: (action: Action) => void;
+  setDocuments: (documents: Document[]) => void;
 }
 
 const RootDocumentCreateButton = createComponent(
@@ -17,11 +17,15 @@ const RootDocumentCreateButton = createComponent(
     RootDocumentCreateButtonState
   > {
     async onAddDocument(event: Event) {
-      const { dispatcher, changeRoute } = this.props;
+      const { setDocuments, changeRoute } = this.props;
+
       const { id: newDocumentId } = await addDocument();
+
       changeRoute(`/documents/${newDocumentId}`);
+
       const documents = await fetchDocuments();
-      dispatcher({ type: "UPDATE_DOCUMENTS", payload: documents });
+
+      setDocuments(documents);
     }
 
     render(): VDOMNode {

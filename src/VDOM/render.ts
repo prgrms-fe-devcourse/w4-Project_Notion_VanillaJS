@@ -50,13 +50,13 @@ export const render = (node: VDOMNode): HTMLElement | Text => {
   }
 };
 
-export function renderDOM(id: string, rootNode: VDOMNode): void {
+export const renderDOM = (id: string, rootNode: VDOMNode): void => {
   const root = document.getElementById(id);
   if (root === null) {
     throw new Error("id를 확인해주세요.");
   }
   root.appendChild(render(rootNode));
-}
+};
 
 export const applyOperation = (
   element: HTMLElement | Text,

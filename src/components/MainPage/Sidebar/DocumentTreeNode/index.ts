@@ -1,7 +1,7 @@
 import { Component } from "@/VDOM/Component";
 import { div, li, button } from "@/VDOM/elements";
 import { createComponent, VDOMNode } from "@/VDOM";
-import { Action, Document } from "@/types";
+import { Document } from "@/types";
 import DocumentTree from "@/components/MainPage/Sidebar/DocumentTree";
 import ChildrenVisibilityToggler from "@/components/MainPage/Sidebar/DocumentTreeNode/ChildrenVisibilityToggler";
 import DocumentTitle from "@/components/MainPage/Sidebar/DocumentTreeNode/DocumentTitle";
@@ -19,7 +19,7 @@ interface DocumentTreeNodeState {
 }
 interface DocumentTreeNodeProps {
   document: Document;
-  dispatcher: (action: Action) => void;
+  setDocuments: (documents: Document[]) => void;
   changeRoute: (pathname: string) => void;
   currentDocumentId: string;
 }
@@ -54,7 +54,7 @@ const DocumentTreeNode = createComponent(
     async onAddDocument(event: Event) {
       const {
         document: { id: documentId },
-        dispatcher,
+        setDocuments,
         changeRoute,
       } = this.props;
 
@@ -64,10 +64,7 @@ const DocumentTreeNode = createComponent(
 
       const documents = await fetchDocuments();
 
-      dispatcher({
-        type: "UPDATE_DOCUMENTS",
-        payload: documents,
-      });
+      setDocuments(documents);
 
       this.setState((prevState: DocumentTreeNodeState) => ({
         ...prevState,
@@ -78,7 +75,7 @@ const DocumentTreeNode = createComponent(
     async onRemoveDocument(event: Event) {
       const {
         document: { id: documentId },
-        dispatcher,
+        setDocuments,
         changeRoute,
         currentDocumentId,
       } = this.props;
@@ -94,10 +91,7 @@ const DocumentTreeNode = createComponent(
 
       const documents = await fetchDocuments();
 
-      dispatcher({
-        type: "UPDATE_DOCUMENTS",
-        payload: documents,
-      });
+      setDocuments(documents);
 
       this.setState((prevState: DocumentTreeNodeState) => ({
         ...prevState,
@@ -108,22 +102,25 @@ const DocumentTreeNode = createComponent(
     render(): VDOMNode {
       const {
         document: { id, title, documents },
-        dispatcher,
+        setDocuments,
         currentDocumentId,
+        changeRoute,
       } = this.props;
+
+      const { isOpen } = this.state;
 
       return li({ role: "treeitem" }, [
         div(
           {
             id,
             className: `${styles.DocumentTreeNode} ${
-              this.state.isOpen ? styles.open : ""
+              isOpen ? styles.open : ""
             } ${`${id}` === currentDocumentId ? styles.choose : ""}`,
           },
           [
             div({ className: `${styles.Content}` }, [
               ChildrenVisibilityToggler({
-                isOpen: this.state.isOpen,
+                isOpen,
                 toggleOpen: this.toggleOpen.bind(this),
               }),
               DocumentTitle({
@@ -145,8 +142,8 @@ const DocumentTreeNode = createComponent(
         ),
         DocumentTree({
           documents,
-          dispatcher,
-          changeRoute: this.props.changeRoute,
+          setDocuments,
+          changeRoute,
           currentDocumentId,
         }),
       ]);

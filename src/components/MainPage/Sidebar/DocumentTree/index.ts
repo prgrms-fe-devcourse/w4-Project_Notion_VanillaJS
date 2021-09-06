@@ -1,7 +1,7 @@
 import { Component } from "@/VDOM/Component";
 import { ul } from "@/VDOM/elements";
 import { createComponent } from "@/VDOM";
-import { Document, Action } from "@/types";
+import { Document } from "@/types";
 import DocumentTreeNode from "@/components/MainPage/Sidebar/DocumentTreeNode";
 import DocumentTreeEmptyNode from "@/components/MainPage/Sidebar/DocumentTreeEmptyNode";
 import styles from "@/components/MainPage/Sidebar/DocumentTree/styles.module.scss";
@@ -9,7 +9,7 @@ import styles from "@/components/MainPage/Sidebar/DocumentTree/styles.module.scs
 interface DocumentTreeState {}
 interface DocumentTreeProps {
   documents: Document[];
-  dispatcher: (action: Action) => void;
+  setDocuments: (documents: Document[]) => void;
   changeRoute: (pathname: string) => void;
   currentDocumentId: string;
 }
@@ -17,7 +17,7 @@ interface DocumentTreeProps {
 const DocumentTree = createComponent(
   class extends Component<DocumentTreeProps, DocumentTreeState> {
     render() {
-      const { documents, dispatcher, changeRoute, currentDocumentId } =
+      const { documents, setDocuments, changeRoute, currentDocumentId } =
         this.props;
 
       return documents.length
@@ -26,7 +26,7 @@ const DocumentTree = createComponent(
             documents.map((document) =>
               DocumentTreeNode({
                 document,
-                dispatcher,
+                setDocuments,
                 changeRoute,
                 currentDocumentId,
               })

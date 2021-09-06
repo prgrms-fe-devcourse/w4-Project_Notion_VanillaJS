@@ -2,7 +2,7 @@ import { createComponent } from "@/VDOM";
 import { div } from "@/VDOM/elements";
 import { Component } from "@/VDOM/Component";
 import { debounce } from "@/utils";
-import { Action } from "@/types";
+import { Document } from "@/types";
 import {
   editDocument,
   fetchDocument,
@@ -15,7 +15,7 @@ import DocumentsStorage from "@/utils/storage/DocumentsStorage";
 
 interface DocumentEditorProps {
   currentDocumentId: string;
-  dispatcher: (action: Action) => void;
+  setDocuments: (documents: Document[]) => void;
 }
 interface DocumentEditorState {
   title: string | null;
@@ -32,7 +32,8 @@ const DocumentEditor = createComponent(
     };
 
     componentDidMount() {
-      this.getDocumentFromStorageOrAPI(this.props.currentDocumentId);
+      const { currentDocumentId } = this.props;
+      this.getDocumentFromStorageOrAPI(currentDocumentId);
     }
 
     componentWillReceiveProps(nextProps: DocumentEditorProps) {
@@ -40,33 +41,36 @@ const DocumentEditor = createComponent(
     }
 
     async getDocumentFromStorageOrAPI(documentId: string) {
-      const { title, content } =
-        this.state.documentsStorage.getDocument(documentId);
+      const { documentsStorage, title, content } = this.state;
+      const { title: storedTitle, content: storedContent } =
+        documentsStorage.getDocument(documentId);
 
-      if (!(title || content)) {
-        const document = await fetchDocument(documentId);
+      if (!(storedTitle || storedContent)) {
+        const { title: fetchedTitle, content: fetchedContent } =
+          await fetchDocument(documentId);
         this.setState((prevState) => ({
           ...prevState,
-          title: document.title,
-          content: document.content,
+          title: fetchedTitle,
+          content: fetchedContent,
         }));
       } else {
         this.setState((prevState) => ({
           ...prevState,
-          title: title || this.state.title,
-          content: content || this.state.content,
+          title: storedTitle || title,
+          content: storedContent || content,
         }));
       }
     }
 
     async onTitleChange(event: Event) {
-      const { dispatcher, currentDocumentId } = this.props;
+      const { setDocuments, currentDocumentId } = this.props;
+      const { documentsStorage, content } = this.state;
 
       const inputValue = (event.target as HTMLInputElement).value;
 
-      this.state.documentsStorage.setDocument(currentDocumentId, {
+      documentsStorage.setDocument(currentDocumentId, {
         title: inputValue,
-        content: this.state.content,
+        content,
       });
 
       this.setState((prevState) => ({
@@ -74,23 +78,21 @@ const DocumentEditor = createComponent(
         title: inputValue,
       }));
 
-      await editDocument(currentDocumentId, inputValue, this.state.content);
+      await editDocument(currentDocumentId, inputValue, content);
 
       const documents = await fetchDocuments();
 
-      dispatcher({
-        type: "UPDATE_DOCUMENTS",
-        payload: documents,
-      });
+      setDocuments(documents);
     }
 
     async onContentChange(event: Event) {
-      const { dispatcher, currentDocumentId } = this.props;
+      const { setDocuments, currentDocumentId } = this.props;
+      const { documentsStorage, title } = this.state;
 
       const textAreaValue = (event.target as HTMLTextAreaElement).value;
 
-      this.state.documentsStorage.setDocument(currentDocumentId, {
-        title: this.state.title,
+      documentsStorage.setDocument(currentDocumentId, {
+        title,
         content: textAreaValue,
       });
 
@@ -99,24 +101,23 @@ const DocumentEditor = createComponent(
         content: textAreaValue,
       }));
 
-      await editDocument(currentDocumentId, this.state.title, textAreaValue);
+      await editDocument(currentDocumentId, title, textAreaValue);
 
       const documents = await fetchDocuments();
 
-      dispatcher({
-        type: "UPDATE_DOCUMENTS",
-        payload: documents,
-      });
+      setDocuments(documents);
     }
 
     render() {
+      const { title, content } = this.state;
+
       return div({ className: styles.DocumentEditor }, [
         DocumentTitleEditor({
-          value: this.state.title,
+          value: title,
           onKeyUp: debounce(this.onTitleChange.bind(this), 100),
         }),
         DocumentContentEditor({
-          value: this.state.content,
+          value: content,
           onKeyUp: debounce(this.onContentChange.bind(this), 100),
         }),
       ]);
