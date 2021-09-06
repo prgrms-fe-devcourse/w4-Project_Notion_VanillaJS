@@ -28,7 +28,6 @@ export default function DocsList({ $target, initialState, onCreateNewDoc, onRemo
             $docsTitle.addEventListener('click', () => {
                 const { pathname } = window.location;
                 const selectedDocId = pathname.split('/')[2];
-                console.log(selectedDocId, id);
                 
                 if (selectedDocId !== id) {
                     push(`/documents/${id}`);
