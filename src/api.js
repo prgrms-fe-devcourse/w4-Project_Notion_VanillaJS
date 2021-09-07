@@ -1,5 +1,5 @@
-import { API_END_POINT } from "./constant";
-import { USER_NAME } from "./constant";
+import { API_END_POINT } from "./constant.js";
+import { USER_NAME } from "./constant.js";
 
 export const request = async (url, options = {}) => {
     try {
