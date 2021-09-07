@@ -1,0 +1,12 @@
+:root {
+  --skyblue: #e4ebee;
+}
+
+html,
+body {
+  height: 100%;
+}
+h1 {
+  font-size: 2em;
+  font-weight: 600;
+}
