@@ -51,14 +51,7 @@ export default function PostEditPage({
       };
       this.state = nextState;
       this.setState({ $target, nextState });
-      onEditing(this.state);
-    }
-  });
-
-  $page.addEventListener("click", (e) => {
-    const { target } = e;
-    if (target.id === "edit-btn") {
-      onPosting({ $target: target, nextState: this.state });
+      onEditing({ $target: target, nextState: this.state });
     }
   });
 

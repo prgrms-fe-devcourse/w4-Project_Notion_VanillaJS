@@ -80,23 +80,20 @@ export default function App({ $target, initialState = [] }) {
   const postsEditPage = new PostsEditPage({
     $target,
     initialState,
-    onEditing: (post) => {
+    onEditing: ({ $target, nextState }) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
-      timer = setTimeout(() => {
+      this.setState({ $target, nextState, type: "edit-btn-click" });
+      timer = setTimeout(async () => {
+        const { title, id, content } = nextState;
+        await putDocument(title, id, content);
         setItem(`temp-post-${this.state.id}`, {
-          ...post,
+          ...nextState,
           tempSaveDate: new Date(),
         });
-        this.state = post;
+        this.state = nextState;
       }, 1000);
-    },
-    onPosting: async ({ $target, nextState }) => {
-      const { title, id, content } = nextState;
-      await putDocument(title, id, content);
-      this.setState({ $target, nextState, type: "edit-btn-click" });
-      // 해야할 것 : title은 Post 후에 바뀌지 않으니 이를 this.setState를 통해 다시 렌더처리
     },
   });
 
