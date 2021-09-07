@@ -10,7 +10,7 @@ export default function Editor({ $page: $target, initialState = "" }) {
     if ($target) {
       this.state = nextState;
       $editor.querySelector("[name=title]").value = this.state.title;
-      $editor.querySelector("[name=content]").value = this.state.content;
+      $editor.querySelector("[name=content]").value = this.state.content || "";
       this.render();
     }
   };

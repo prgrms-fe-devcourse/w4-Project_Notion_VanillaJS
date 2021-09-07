@@ -7,7 +7,7 @@ import {
   putDocument,
   postDocument,
 } from "../api/request.js";
-import { setItem } from "./page/storage.js";
+import { setItem } from "../storage/storage.js";
 
 export default function App({ $target, initialState = [] }) {
   this.state = initialState;
@@ -81,12 +81,14 @@ export default function App({ $target, initialState = [] }) {
     $target,
     initialState,
     onEditing: ({ $target, nextState }) => {
+      console.log("!!");
       if (timer !== null) {
         clearTimeout(timer);
       }
       this.setState({ $target, nextState, type: "edit-btn-click" });
       timer = setTimeout(async () => {
         const { title, id, content } = nextState;
+        console.log(title, id, content);
         await putDocument(title, id, content);
         setItem(`temp-post-${this.state.id}`, {
           ...nextState,

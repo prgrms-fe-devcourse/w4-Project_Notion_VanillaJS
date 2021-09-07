@@ -1,5 +1,5 @@
 import { postDocument } from "../../../api/request.js";
-import { getItem, setItem } from "../storage.js";
+import { getItem, setItem } from "../../../storage/storage.js";
 import Editor from "./Editor.js";
 
 export default function PostEditPage({
@@ -43,16 +43,14 @@ export default function PostEditPage({
   $page.addEventListener("keyup", (e) => {
     const { target } = e;
     const name = target.getAttribute("name");
-    if (this.state[name] !== undefined) {
-      // title과 content인 곳에서만 반응하게하는 방어코드
-      const nextState = {
-        ...this.state,
-        [name]: target.value,
-      };
-      this.state = nextState;
-      this.setState({ $target, nextState });
-      onEditing({ $target: target, nextState: this.state });
-    }
+
+    const nextState = {
+      ...this.state,
+      [name]: target.value,
+    };
+    this.state = nextState;
+    this.setState({ $target, nextState });
+    onEditing({ $target: target, nextState: this.state });
   });
 
   this.render();
