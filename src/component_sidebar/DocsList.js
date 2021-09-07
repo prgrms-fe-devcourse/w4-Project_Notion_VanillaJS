@@ -1,12 +1,10 @@
 import { push } from '../utils/Router.js';
-import { setStyle, htmlReset, createElement, setAttribute } from '../utils/DOM.js';
+import { setStyle, htmlReset, createElement } from '../utils/DOM.js';
 import { isEnterEntered } from '../utils/Check.js';
 
 export default function DocsList({ $target, initialState = [], addDoc, deleteDoc, reviseDocName }) {
     const $docsList = createElement('div');
-    setAttribute([['class', 'doc-list']], $docsList);
-
-    $target.appendChild($docsList);
+    $docsList.setAttribute('class', 'doc-list');
 
     this.state = initialState;
 
@@ -15,6 +13,7 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
         this.render();
     };
 
+    // 서버에서 받아온 문서 정보 list 만들기
     const makeDocsTree = function (docArr, $target, depth) {
         if (docArr?.length === 0) return;
 
@@ -25,6 +24,8 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
             const doc = docArr[i];
             const [docTitle, _] = doc.title.split('/');
 
+            // 렌더링 되지 않고, 메모리상에서 $ul의 내부 태그만 업데이트 되므로,
+            // 리플로우 걱정 없이 작성함
             $ul.innerHTML += `
       <li data-id=${doc.id} data-depth=${depth} class='doc-list'>
       <div class='list-container'>
@@ -35,9 +36,8 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
       </div>
       </li>
       `;
-            $ul.addEventListener('click', (e) => onClick(e));
-            const $li = $ul.lastElementChild;
-            makeDocsTree(doc.documents, $li, depth + 1);
+            $ul.addEventListener('click', (e) => onListClick(e));
+            makeDocsTree(doc.documents, $ul.lastElementChild, depth + 1);
         }
     };
 
@@ -48,9 +48,12 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
         $docsList.appendChild($dummy);
     };
 
-    let isExistInputTag = false;
+    this.render();
 
-    const onClick = (e) => {
+    // 렌더링이 된 후 appendChild
+    $target.appendChild($docsList);
+
+    const onListClick = (e) => {
         e.stopImmediatePropagation();
         const { id } = e.target.closest('li[class=doc-list]').dataset;
 
@@ -64,7 +67,7 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
                 break;
 
             case 'revise-button':
-                docNameRevise(id, e);
+                nameRevise(id, e);
                 break;
 
             case 'doc-title':
@@ -76,7 +79,11 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
         }
     };
 
+    // 문서 수정시 input태그의 존재 유무 확인
+    let isExistInputTag = false;
+
     const docAdd = (id, e) => {
+        // 이미 새로운 문서를 작성하려고 준비중인데 add 버튼을 또 클릭하는 경우 처리
         if (!isExistInputTag) {
             const $docNameInput = createElement('input');
 
@@ -85,16 +92,18 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
                 ['margin', '0.5rem 0'],
             ]);
 
+            // input태그가 blur되면 문서 자동 작성
             $docNameInput.addEventListener('blur', (e) => {
                 if (isExistInputTag) {
-                    addDoc(e.target.value, id);
+                    addDoc(checkDocTitleLen(e), id);
                     isExistInputTag = false;
                 }
             });
 
+            // Enter가 입력돼도 문서 작성
             $docNameInput.addEventListener('keyup', (e) => {
                 if (isEnterEntered(e)) {
-                    addDoc(e.target.value, id);
+                    addDoc(checkDocTitleLen(e), id);
                     isExistInputTag = false;
                 }
             });
@@ -105,7 +114,8 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
         }
     };
 
-    const docNameRevise = (id, e) => {
+    const nameRevise = (id, e) => {
+        // if문을 통해서 이름 수정 버튼을 두번 누르는 경우, 제외
         if (!isExistInputTag) {
             const $divContainer = e.target.closest('.list-container');
             const $title = $divContainer.querySelector('.doc-title');
@@ -117,25 +127,28 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
                 ['display', 'inline'],
             ]);
 
-            $docNameInput.addEventListener('blur', (e) => {
-                setTimeout(() => {
-                    if (isExistInputTag) {
-                        if($divContainer.querySelector('input').value.length > 0) {
-                            $title.innerText = $divContainer.querySelector('input').value;
-                        }
-                        $divContainer.replaceChild($title, $docNameInput);
-                        isExistInputTag = false;
-                    } else return;
-                });
+            $docNameInput.addEventListener('keyup', (e) => {
+                if (isEnterEntered(e)) {
+                    // 이름이 정상적으로 수정된 경우에만 실행
+                    reviseDocName(checkDocTitleLen(e, $title.textContent), id);
+                    // 문서 수정 이름이 입력되지 않은 경우와 입력된 경우를 나누어서 처리
+                    $title.textContent = checkDocTitleLen(e, $title.textContent);
+                    $divContainer.replaceChild($title, $docNameInput);
+                    isExistInputTag = !isExistInputTag;
+                }
             });
 
-            $docNameInput.addEventListener('keyup', (e) => {
-                if (e.keyCode === numOfEnter) {
-                    reviseDocName(e.target.value, id);
-                    $title.innerText = e.target.value;
-                    $divContainer.replaceChild($title, $docNameInput);
-                    isExistInputTag = false;
-                }
+            $docNameInput.addEventListener('blur', (e) => {
+                // setTimeout을 통해서 딜레이를 주지 않으면, 이름을 수정하고 엔터를 누를 때
+                // 'keup'이벤트의 콜백 함수 내에서 isExistInpuTag를 false로 만들었음에도 불구하고
+                // 'blur'이벤트의 콜백 함수 내에선 이 값이 반영이 안돼있음
+                setTimeout(() => {
+                    if (isExistInputTag) {
+                        $title.textContent = checkDocTitleLen(e, $title.textContent);
+                        $divContainer.replaceChild($title, $docNameInput);
+                        isExistInputTag = !isExistInputTag;
+                    } else return;
+                });
             });
 
             $divContainer.replaceChild($docNameInput, $title);
@@ -144,5 +157,7 @@ export default function DocsList({ $target, initialState = [], addDoc, deleteDoc
         isExistInputTag = true;
     };
 
-    this.render();
+    // 수정하는 문서 제목의 길이가 1보다 작은 경우, defalutValue 할당
+    // defaultValue가 없는 경우 'new doc'할당
+    const checkDocTitleLen = (e, defaultValue) => (e.target.value.length ? e.target.value : defaultValue ? defaultValue : 'new doc');
 }

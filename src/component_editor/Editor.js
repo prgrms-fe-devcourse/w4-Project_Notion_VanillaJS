@@ -1,5 +1,5 @@
 import { createElement, createTextNode, getElementById } from '../utils/DOM.js';
-import { lazyFilter, revisedReduce, take, head, map, lazyMap, wrappedByArr } from '../utils/RxJS.js';
+import { lazyFilter, revisedReduce, take, head, lazyMap } from '../utils/FxJS.js';
 import { isEnterEntered, isSpacebarEntered } from '../utils/Check.js';
 
 export default function Editor({
@@ -28,20 +28,10 @@ export default function Editor({
     let trie = null;
 
     this.setState = (nextState) => {
-        // 경우의수
-        // 페이지에 들어오고나서 다시 같은 페이지를 누르는 경우(id 같음 && content, title 같음, 렌더링 필요X)
-        // 페이지에 들어오고나서 키워드를 입력하는 경우(id 같음 && content, title 같음, 렌더링 필요 X)
-        // 페이지에 들어오고나서 다른 페이지를 누르는 경우(id 변경 || content, title 다름, 렌더링 필요 O)
-        if (isAutoCompleteUpdated(nextState)) {
-            this.state = nextState;
-            trie = this.state.trie;
-            console.log('실행유무');
-        } else if (isSentFromApp(nextState) || isContentDifferent(nextState)) {
-            this.state = nextState;
-            trie = this.state.trie;
-            tempState = { title: this.state.title, content: this.state.content };
-            this.render();
-        }
+        this.state = nextState;
+        trie = this.state.trie;
+        tempState = { title: this.state.title, content: this.state.content };
+        this.render();
     };
 
     this.render = () => {
@@ -54,7 +44,7 @@ export default function Editor({
           </div>
           <div class='content-container'>
           <div class='subject'>content</div>
-          <div class='content' contentEditable='true'>${content}</div>
+          <div class='content' contentEditable='true'>${content ? content : ''}</div>
           </div>
           `;
 
@@ -62,20 +52,6 @@ export default function Editor({
         setTimeout(() => {
             $editor.querySelector('.content').focus();
         });
-
-        sel = window.getSelection && window.getSelection();
-
-        // 셀렉션 방어 코드
-        // 문서에 focus가 됐음에도 getSelection()이 안되는 경우가 존재.
-        // 구체적인 이유는 모르겠으나 스택 오버플로우에서 다음과 같은 방어 코드를 제시함.
-        if (sel && sel.rangeCount > 0) {
-            range = sel.getRangeAt(0);
-        }
-
-        if (sel && typeof headerIndex === 'number') {
-            const $header = $editor.querySelector('.content').querySelector(`.header${headerIndex}`);
-            range.setStartAfter($header);
-        }
     };
 
     const findMarkDown = (str) => {
@@ -104,9 +80,7 @@ export default function Editor({
     const showContents = (content) => {
         if (!content) return '';
 
-        // const $dummy = document.createDocumentFragment();
-        const $dummy = document.createElement('div');
-        $dummy.innerHTML = '';
+        let markDownStr = '';
 
         content.split('<div>').forEach((str, index) => {
             switch (findMarkDown(str, content)) {
@@ -114,31 +88,36 @@ export default function Editor({
                     {
                         headerIndex = index;
                         str = str.replace('</div>', '').replace('&nbsp;', '').slice(1, str.length);
-                        $dummy.innerHTML += `<h1 class='header${index}'>${str.length ? str : '#'}</h1>`;
+                        markDownStr += `<h1 class='header${index}'>${str.length ? str : '#'}</h1>`;
                     }
                     break;
                 case 'hashTwo':
                     {
                         headerIndex = index;
                         str = str.replace('</div>', '').replace('&nbsp;', '').slice(2, str.length);
-                        $dummy.innerHTML += `<h2 class='header${index}'>${str.length ? str : '#'}</h2>`;
+                        markDownStr += `<h2 class='header${index}'>${str.length ? str : '#'}</h2>`;
                     }
                     break;
                 case 'hashThree':
                     {
                         headerIndex = index;
                         str = str.replace('</div>', '').replace('&nbsp;', '').slice(3, str.length);
-                        $dummy.innerHTML += `<h3 class='header${index}'>${str.length ? str : '#'}</h3>`;
+                        markDownStr += `<h3 class='header${index}'>${str.length ? str : '#'}</h3>`;
                     }
                     break;
                 default:
-                    $dummy.innerHTML += str.includes('</div>') ? `<div>${str}` : `${str}`;
+                    markDownStr += str.includes('</div>') ? `<div>${str}` : `${str}`;
                     break;
             }
         });
 
         const $content = $editor.querySelector('.content');
-        $content.innerHTML = $dummy.innerHTML;
+        $content.innerHTML = markDownStr;
+
+        sel = window.getSelection();
+        range = sel.getRangeAt(0);
+        const $header = $editor.querySelector('.content').querySelector(`.header${headerIndex}`);
+        range.setStartAfter($header);
     };
 
     let firstString = '';
@@ -147,12 +126,13 @@ export default function Editor({
 
     let cursorPosBeforeChar = null;
     let cursorPosAfterChar = null;
-    
+
     $editor.addEventListener('keyup', (e) => {
         switch (e.target.className) {
             case 'content':
                 {
-                    if (isAutoCompleteExist === true && isEnterEntered) {
+                    // 자동완성이 구현된 상태에서 엔터를 입력하는 경우
+                    if (isAutoCompleteExist === true && isEnterEntered(e)) {
                         e.preventDefault();
                         const $autoComplete = getElementById('autoComplete');
                         const $autoCompleteParent = $autoComplete.parentNode;
@@ -175,7 +155,6 @@ export default function Editor({
 
                     // #, ##, ### 이 들어오는 경우 체크
                     if (isMarkDownInput(tempState.content)) {
-                        // this.setState(tempState);
                         showContents(tempState.content);
                         return;
                     }
@@ -185,7 +164,6 @@ export default function Editor({
                     if (isSpacebarEntered(e)) {
                         spacebarFlag = true;
 
-                        console.log('실1');
                         // 초기화
                         cursorPosBeforeChar = null;
                         firstString = '';
@@ -215,7 +193,6 @@ export default function Editor({
 
                             // 뛰어쓰기 이후 첫 글자를 획득함
                             if (cloned.toString().length === 1) {
-                                console.log('실2');
                                 firstString = cloned.toString();
                             }
                         }
@@ -232,7 +209,6 @@ export default function Editor({
 
                     // trie에 획득된 첫 글자를 던져주고, 등록된 키워드가 있는지 확인하는 절차
                     if (trie.getAllWords(firstString).length !== 0) {
-                        console.log('실3');
                         // 이미 입력된 자동 완성이 있다면 삭제함
                         deleteAutoComplete();
 
@@ -253,14 +229,13 @@ export default function Editor({
 
                         // 현재 자동 완성된 텍스트가 존재하고 있음을 true로 만듬
                         isAutoCompleteExist = true;
-
-                        // 이후에는 1. 엔터가 입력되는 경우, 2. 엔터 이외의 입력이 일어나는 경우로 나뉨
                     }
                 }
                 break;
 
             case 'title-input':
                 {
+                    // 제목이 입력된 경우, 문서 파일 제목과, 문서 제목을 분리
                     const [docTitle, _] = this.state.title.split('/');
                     tempState.title = docTitle + '/' + e.target.value;
                     onEditing(tempState);
@@ -273,8 +248,8 @@ export default function Editor({
     });
 
     $editor.addEventListener('keydown', (e) => {
-        // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter인 경우, 자동완성 실행
-        if (isAutoCompleteExist === true && isEnterEntered) {
+        // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter인 경우, 줄바꿈이 발생하지 않도록 Enter이벤트 막음
+        if (isAutoCompleteExist === true && isEnterEntered(e)) {
             e.preventDefault();
         }
     });
@@ -291,15 +266,10 @@ export default function Editor({
 
     const deleteAutoComplete = () => {
         const $autoComplete = getElementById('autoComplete');
-        const $autoCompleteParent = $autoComplete?.parentNode || null;
+        const $autoCompleteParent = $autoComplete?.parentNode;
 
         if ($autoComplete && $autoCompleteParent) {
             $autoCompleteParent.removeChild($autoComplete);
         }
     };
-
-    const isSentFromApp = (nextState) => this.state.id === nextState.id;
-    const isContentDifferent = (nextState) => this.state.content !== nextState.content || this.state.title !== nextState.title;
-    const isAutoCompleteUpdated = (nextState) =>
-        this.state.id === nextState.id && this.state.content === nextState.content && this.state.title === nextState.title;
 }

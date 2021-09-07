@@ -2,7 +2,7 @@ import AddDocButton from './AddDocButton.js';
 import UserName from './Username.js';
 import { createElement } from '../utils/DOM.js'
 
-export default function SidebarHeader({$target, onClick}) {
+export default function SidebarHeader({$target, makeRootDoc}) {
   const $sidebarHeader= createElement('div');
   $sidebarHeader.setAttribute('class','sidebar-header');
 
@@ -15,7 +15,7 @@ export default function SidebarHeader({$target, onClick}) {
 
   new AddDocButton({
     $target : $sidebarHeader,
-    initialState : 'New Doc',
-    onClick,
+    initialState : 'NEW DOC',
+    makeRootDoc,
   })
 }

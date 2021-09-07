@@ -1,19 +1,17 @@
 import { createElement } from '../utils/DOM.js'
 
-export default function AddDockButton({ $target, initialState, onClick }) {
+export default function AddDocButton({ $target, initialState, makeRootDoc }) {
     const $addButton = createElement('button');
     $addButton.setAttribute('class','add-doc-button');
 
-    $addButton.addEventListener('click', onClick);
+    $addButton.addEventListener('click', makeRootDoc);
     
     this.state = initialState;
 
-    $addButton.textContent = this.state;
-
     this.render = () => {
-        $target.appendChild($addButton);
+        $addButton.textContent = this.state;
     };
-
-
+    
     this.render();
+    $target.appendChild($addButton);
 }

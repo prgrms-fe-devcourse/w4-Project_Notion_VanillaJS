@@ -9,7 +9,7 @@ export default function DocsListPage({ $target, initialState = [] }) {
 
     new SidebarHeader({
         $target: $docsListPage,
-        onClick: async () => {
+        makeRootDoc: async () => {
             await request('/documents', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -49,7 +49,7 @@ export default function DocsListPage({ $target, initialState = [] }) {
             });
 
             const [_, contentTitle] = currentDocContent.title.split('/');
-            console.log(docTitle + '/' + contentTitle);
+
             await request(`/documents/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify({

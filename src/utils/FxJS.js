@@ -32,10 +32,6 @@ export const take = canGetElementsLater((limiter, iter) => {
     return res;
 });
 
-export const length = (iter) => {
-    return iter.length;
-};
-
 export const map = canGetElementsLater(function (appliedFunc, iter) {
     const res = [];
     for (const value of iter) {
@@ -43,16 +39,3 @@ export const map = canGetElementsLater(function (appliedFunc, iter) {
     }
     return res;
 });
-
-export const wrappedByArr = (value) => [value];
-
-export const join = canGetElementsLater((seper, iter) => {
-    let res = '';
-    
-    for(const str of iter) {
-        res = res + seper + str;
-    }
-
-    res = res.replace(seper, '');
-    return res;
-})
