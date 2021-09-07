@@ -4,6 +4,8 @@ import { drawNavList, markListItemOfId } from '../../utils/render.js';
 import { getOpenedLiAfter } from '../../store/gettersLi.js';
 
 export default function SidebarBody({ $target, initialState, onClick }) {
+	const $navContainer = $createElement('div', '.nav-container');
+	const $navRow = $createElement('div', '.list-row');
 	const $navList = $createElement('div', '.nav-list');
 	const $ul = $createElement('ul', '.root');
 	const $createBtn = $createElement('div', '.create-btn');
@@ -29,8 +31,10 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 
 	this.init = () => {
 		$navList.appendChild($ul);
-		$target.appendChild($navList);
-		$target.appendChild($createBtn);
+		$navRow.appendChild($navList);
+		$navContainer.appendChild($navRow);
+		$navContainer.appendChild($createBtn);
+		$target.appendChild($navContainer);
 
 		$createBtn.addEventListener('click', e => {
 			onClick.createDocument(null, null);

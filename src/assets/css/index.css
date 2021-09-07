@@ -46,6 +46,13 @@ button {
 	font-size: 1.4rem;
 	color: rgb(55, 53, 47);
 }
+.nav-container {
+	overflow-y: scroll;
+	height: 85vh;
+}
+.nav-list {
+	position: relative;
+}
 .nav-item {
 	display: flex;
 	align-items: center;
@@ -67,7 +74,7 @@ button {
 	position: absolute;
 	left: 0;
 	width: 240px;
-	height: 3rem;
+	height: 3.1rem;
 }
 p.blank {
 	margin-left: 35px;

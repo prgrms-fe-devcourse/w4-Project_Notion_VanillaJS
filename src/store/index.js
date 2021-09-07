@@ -1,7 +1,7 @@
 import { on, emit } from '../utils/emitter.js';
 
-import { setElementAfter } from './settersElement.js';
 import { getStateAfter } from './gettersState.js';
+import { setElementAfter } from './settersElement.js';
 
 export default function Store() {
 	let updateTimer = null;
