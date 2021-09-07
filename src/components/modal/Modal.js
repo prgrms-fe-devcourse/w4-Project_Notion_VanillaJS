@@ -1,6 +1,10 @@
 import { on, emit } from '../../utils/emitter.js';
 import { $createElement } from '../../utils/templates.js';
-import { setCurrentLi, checkDataForPlaceholder } from '../../utils/render.js';
+import {
+	setCurrentLi,
+	markListItemOfId,
+	checkDataForPlaceholder,
+} from '../../utils/render.js';
 
 import ModalHeader from './ModalHeader.js';
 import ModalBody from './ModalBody.js';
@@ -25,6 +29,7 @@ export default function Modal({ $target }) {
 			openPage: () => {
 				const { id } = this.state;
 
+				markListItemOfId(id);
 				emit.readDocument({ id });
 				hideModal();
 			},
