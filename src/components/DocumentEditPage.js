@@ -3,7 +3,7 @@ import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { request } from "../api/api.js";
 import { push } from "../utils/router.js";
 
-export default function DocumentEditPage({ $target, initialState }) {
+export default function DocumentEditPage({ $target, initialState, onClick }) {
   const $editPage = document.createElement("div");
   $editPage.className = "edit-page";
   this.state = initialState;
@@ -34,32 +34,33 @@ export default function DocumentEditPage({ $target, initialState }) {
           tempSaveData: new Date(),
         });
 
-        const isNew = this.state.documentId === "new";
-        if (isNew) {
-          const createdDocument = await request("/", {
-            method: "POST",
-            body: JSON.stringify({
-              title: document.title,
-              parent: this.state.parentId,
-            }),
-          });
-          history.replaceState(null, null, `/${createdDocument.id}`);
-          await request(`/${createdDocument.id}`, {
-            method: "PUT",
-            body: JSON.stringify(document),
-          });
-          push({
-            type: "list",
-            id: createdDocument.id,
-          });
-          removeItem(documentLocalSaveKey);
-        } else {
-          await request(`/${this.state.documentId}`, {
-            method: "PUT",
-            body: JSON.stringify(document),
-          });
-          removeItem(documentLocalSaveKey);
-        }
+        // const isNew = this.state.documentId === "new";
+        // if (isNew) {
+        //   const createdDocument = await request("/", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //       title: document.title,
+        //       parent: this.state.parentId,
+        //     }),
+        //   });
+
+        //   history.replaceState(null, null, `/${createdDocument.id}`);
+        //   await request(`/${createdDocument.id}`, {
+        //     method: "PUT",
+        //     body: JSON.stringify(document),
+        //   });
+        //   push({
+        //     type: "list",
+        //     id: createdDocument.id,
+        //   });
+        //   removeItem(documentLocalSaveKey);
+        // } else {
+        // }
+        await request(`/${this.state.documentId}`, {
+          method: "PUT",
+          body: JSON.stringify(document),
+        });
+        removeItem(documentLocalSaveKey);
       }, 1000);
     },
   });
@@ -70,10 +71,17 @@ export default function DocumentEditPage({ $target, initialState }) {
       this.state = nextState;
 
       if (this.state.documentId === "new") {
-        editor.setState({
-          title: "",
-          content: "",
-        });
+        editor.setState(
+          this.state.document || {
+            title: "",
+            content: "",
+          }
+        );
+        // push({
+        //   type : 'add-btn',
+        //   id : this.state.documentId
+        // })
+
       } else {
         await fetchDocument();
       }

@@ -19,9 +19,27 @@ export const initRoute = (onRoute) => {
       await request(`/${id}`, {
         method: "DELETE",
       });
+      if(documentId === id){
+        history.pushState(null, null, '/')
+      }
       onRoute(null);
     } else if (type === "add-btn") {
-      history.pushState(null, null, "/new");
+      const createdDocument = await request("/", {
+        method: "POST",
+        body: JSON.stringify({
+          title: '제목없음',
+          parent: id,
+        }),
+      });
+
+      history.pushState(null, null, `/${createdDocument.id}`);
+      await request(`/${createdDocument.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: '',
+          content : ''
+        }),
+      });
       onRoute(id);
     } else if (type === "header") {
       console.log("header");

@@ -36,7 +36,8 @@ export default function App({ $target }) {
       documentEditPage.setState({
         documentId: id,
         parentId: parent,
-      });
+      },
+      );
     }
   };
 
