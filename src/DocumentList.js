@@ -20,7 +20,7 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
       $documentList.innerHTML = `
       <h2>${USERNAME}의 페이지 목록 📚</h2>
       ${this.state.map(doc => `
-      <li data-id="${doc.id}">${doc.title}
+      <li data-id="${doc.id}" ${doc.documents.length ? `class="parentFolder"`:''}>${doc.title}
       <button class="removeBtn">삭제</button></li>
      `).join('')}
     `
@@ -38,13 +38,13 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
     // 접기버튼
     if (className === 'foldupBtn') {
       const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
-      $li.innerHTML = `${originTitle.title} <button class="removeBtn">삭제</button>`
+      $li.innerHTML = `${originTitle.documents.length ? `<strong>${originTitle.title}</strong>`:originTitle.title} <button class="removeBtn">삭제</button>`
     } else{ // 클릭 시 펼침
       const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
       if(originTitle){
-        $li.innerHTML = `${originTitle.title} <button class="removeBtn">삭제</button>${originTitle.documents.length ? `<button class="foldupBtn" >접기</button>` : ''}
+        $li.innerHTML = `${originTitle.documents.length ? `<strong>${originTitle.title}</strong>`:originTitle.title} <button class="removeBtn">삭제</button>${originTitle.documents.length ? `<button class="foldupBtn" >접기</button>` : ''}
         ${originTitle.documents.map(doc => `
-        <li data-id="${doc.id}" class="spreadTitle">${doc.title} <button class="removeBtn">삭제</button></li>
+        <li data-id="${doc.id}" class="spreadTitle ${doc.documents.length ? "parentFolder" : ""}">${doc.title} <button class="removeBtn">삭제</button></li>
       `).join('')}
       `}
       }
