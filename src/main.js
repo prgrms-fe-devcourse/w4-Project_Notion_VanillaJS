@@ -1,4 +1,3 @@
-import api, { USER_NAME } from "./api.js";
 import App from "./App.js";
 import { LOCAL_STORAGE_KEY } from "./constants.js";
 import { getItem } from "./storage.js";
