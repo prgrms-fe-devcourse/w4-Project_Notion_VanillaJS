@@ -91,7 +91,7 @@ export default function Editor({
         makeHeader(node.parentNode, node.textContent);
         return true;
       case "/":
-        searchDocument(node.parentNode);
+        searchDocument(node.parentNode, node.textContent);
         return true;
       default:
         return;
@@ -101,7 +101,11 @@ export default function Editor({
   const makeHeader = (node, text) => {
     const parentNode = $editor.querySelector("[name=content]");
     let $header;
-    if (text.indexOf("####") === 0 || !text.startsWith("#")) {
+    if (
+      text.indexOf("####") === 0 ||
+      !text.startsWith("#") ||
+      text.match(/[^#\s]/g)
+    ) {
       return;
     } else if (text.indexOf("###") === 0) {
       $header = document.createElement("h3");
@@ -123,7 +127,10 @@ export default function Editor({
     window.getSelection().collapse($header, 0);
   };
 
-  const searchDocument = (node) => {
+  const searchDocument = (node, text) => {
+    if (text.match(/[^/\s]/g)) {
+      return;
+    }
     if (node.getAttribute("name") === "content") {
       const $newNode = document.createElement("div");
       node.textContent = "";
