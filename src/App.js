@@ -8,7 +8,6 @@ export default function App({ $target }) {
   const contentPage = new ContentPage({ $target });
 
   this.route = () => {
-    console.log("라우팅 발생!");
     const { pathname } = window.location;
     const [, , documentId = "/", parentId = null] = pathname.split("/");
     const $contentPage = document.querySelector(".contentPage");

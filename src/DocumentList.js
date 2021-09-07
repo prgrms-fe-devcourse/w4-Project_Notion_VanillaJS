@@ -99,7 +99,6 @@ export default function DocumentList({
       const { id } = $li;
       switch (className) {
         case "toggleDocument":
-          console.log("토글~~");
           onToggle(id);
           break;
         case "selectDocument":
