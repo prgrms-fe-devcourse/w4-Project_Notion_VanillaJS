@@ -50,21 +50,30 @@ export default function Sidebar({
   this.render();
 
   $sidebar.addEventListener('click', e => {
-    const target = e.target;
-    const className = target.className;
-    const $li = target.closest('li');
-    if ($li) {
-      const documentId = parseInt($li.dataset.id);
+    const className = e.target.className;
+    const $li = e.target.closest('li');
 
-      if (className === 'sidebar__add') {
+    if (!$li) {
+      return;
+    }
+
+    const documentId = parseInt($li.dataset.id);
+
+    switch (className) {
+      case 'sidebar__add':
         createList(documentId);
-      } else if (className === 'sidebar__title') {
+        break;
+      case 'sidebar__title':
         showDocument(documentId);
-      } else if (className === 'sidebar__toggle') {
+        break;
+      case 'sidebar__toggle':
         toggleList({ rootDocuments: this.state, documentId });
-      } else if (className === 'sidebar__delete') {
+        break;
+      case 'sidebar__delete':
         deleteList(documentId);
-      }
+        break;
+      default:
+        console.log('out of className');
     }
   });
 }
