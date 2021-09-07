@@ -1,4 +1,4 @@
-const storage = window.localStorage // storage 타입변환을 쉽게 할 수 있음
+const storage = window.localStorage
 
 export const getItem = (key, defaultValue) => {
   try {

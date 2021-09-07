@@ -1,6 +1,7 @@
 import { request } from "./api.js"
+import { push, initRouter } from "./router.js"
 
-export default function Editor({ $target, initialState
+export default function Editor({ $target, initialState, documentEditing
 }) {
   const $editor = document.createElement('div')
   $target.appendChild($editor)
@@ -32,9 +33,11 @@ export default function Editor({ $target, initialState
   this.render()
 
   $editor.addEventListener('keyup', (e) => {
-    const newArticleTitle = document.getElementById('newArticleTitle').value
-    const newArticleContent = document.getElementById('newArticleContent').value
-    editDocument(newArticleTitle, newArticleContent, this.state.id)
+    if(document.getElementById('newArticleTitle')){
+      const newArticleTitle = document.getElementById('newArticleTitle').value
+      const newArticleContent = document.getElementById('newArticleContent').value
+      editDocument(newArticleTitle, newArticleContent, this.state.id)
+    }
   })
 
   $editor.addEventListener('click', (e) => {
@@ -47,9 +50,9 @@ export default function Editor({ $target, initialState
       const newTitle = document.getElementById('newTitle').value
       console.log("creatBtnTest")
       console.log(this.state.id);
+      
       if(newTitle){
-       newDocument(newTitle, this.state.id)
-       history.go(0)
+        documentEditing(newTitle, null, this.state.id)
       } else alert("제목을 입력하세요")
     } else if (className === 'cancelBtn'){
       history.go(0)
@@ -69,19 +72,6 @@ export default function Editor({ $target, initialState
     </article>
     `
   }
-  
-  // 생성 요청
-  const newDocument = async (title, id) => {
-
-    const document = await request(`/documents`,{
-      method: 'POST',
-      body: JSON.stringify({
-        'title': title,
-        'parent': Number(id),
-      })
-    })
-    console.log(document);
-  }
 
   // 수정
   const editDocument = async (title, content, id) => {
@@ -93,5 +83,6 @@ export default function Editor({ $target, initialState
       })
     })
   }
+
   this.render()
 }
