@@ -1,7 +1,24 @@
+import { getItem, setItem } from "./storage.js";
+
 const API_END_POINT = "https://kdt.roto.codes";
-export let USER_NAME = "AlangGY";
 const ROUTE = "/documents";
-USER_NAME = window.prompt("유저 명을 입력해주세요");
+export let USER_NAME = getUserName();
+
+function getUserName() {
+  let userName = getItem("user-name", "");
+  userName =
+    userName === ""
+      ? window.prompt(
+          "유저 명을 입력해주세요(띄어쓰기 없이 영문,숫자, 기호(-)만 가능합니다)"
+        )
+      : userName;
+  if (userName.match(/[^A-Z0-9-]/gi)) {
+    getUserName();
+    return;
+  }
+  setItem("user-name", userName);
+  return userName;
+}
 
 const api = {
   // Root Documents 가져오기
