@@ -111,6 +111,7 @@ export default function Editor({
             }
         });
 
+        // 에디터 내용 작성 부분을 다시 렌더링
         const $content = $editor.querySelector('.content');
         $content.innerHTML = markDownStr;
 
@@ -120,8 +121,13 @@ export default function Editor({
         range.setStartAfter($header);
     };
 
+    // 자동완성 글자가 '한개'입력된 경우,
     let firstString = '';
+
+    // 자동완성 글자가 화면에 표시된 경우,
     let isAutoCompleteExist = false;
+    
+    // 띄어쓰기가 입력된 경우, 자동완성을 활성화시킬 준비 시작
     let spacebarFlag = false;
 
     let cursorPosBeforeChar = null;
@@ -133,6 +139,7 @@ export default function Editor({
                 {
                     // 자동완성이 구현된 상태에서 엔터를 입력하는 경우
                     if (isAutoCompleteExist === true && isEnterEntered(e)) {
+                        // 엔터 이벤트가 발생하면 안되므로 preventDefault를 해줌
                         e.preventDefault();
                         const $autoComplete = getElementById('autoComplete');
                         const $autoCompleteParent = $autoComplete.parentNode;
@@ -150,6 +157,7 @@ export default function Editor({
                         firstString = '';
                     }
 
+                    // 입력되는 글자들은 기본적으로 모두 서버에 업데이트
                     tempState.content = e.target.innerHTML;
                     onEditing(tempState);
 
@@ -183,7 +191,7 @@ export default function Editor({
                         }
 
                         const cloned = range.cloneRange();
-
+                    
                         cloned.selectNodeContents($editor.querySelector('.content'));
 
                         cloned.setStart(range.startContainer, cursorPosBeforeChar);
@@ -198,8 +206,8 @@ export default function Editor({
                         }
                     }
 
-                    // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter가 아닌 경우(커서가 앞이나 뒤로 이동하는 경우 === 글자가 입력된 경우)
-                    // 자동완성을 삭제함
+                    // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter가 아닌 경우
+                    // 그리고 (커서가 앞이나 뒤로 이동하는 경우 === 글자가 입력된 경우) 자동완성을 삭제함
                     if (isAutoCompleteExist && (range.startOffset <= cursorPosBeforeChar || range.startOffset > cursorPosAfterChar)) {
                         deleteAutoComplete();
                         isAutoCompleteExist = false;
@@ -260,8 +268,6 @@ export default function Editor({
         range.insertNode($autoComplete);
         if (decision === 'preview') range.setEndBefore($autoComplete);
         else if (decision === 'insert') range.setEndAfter($autoComplete);
-
-        sel = null;
     };
 
     const deleteAutoComplete = () => {

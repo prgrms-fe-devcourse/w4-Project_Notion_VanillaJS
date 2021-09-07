@@ -4,7 +4,7 @@ export const setItem = (key, value) => {
   try {
     storage.setItem(key, JSON.stringify(value));
   }catch(e) {
-    alert(e.message);
+    console.log(e.message);
   }
 };
 
