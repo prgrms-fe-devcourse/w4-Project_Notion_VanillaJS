@@ -1,4 +1,10 @@
 import { emit } from '../../utils/emitter.js';
+import {
+	toggleList,
+	markListItemOfId,
+	makeNewListItemOnTree,
+	makeNewListItemOnRoot,
+} from '../../utils/render.js';
 import { $createElement } from '../../utils/templates.js';
 
 import SidebarHeader from './SidebarHeader.js';
@@ -30,20 +36,25 @@ export default function Sidebar({ $target, initialState }) {
 		initialState: this.state,
 		onClick: {
 			toggleList: (act, $li) => {
-				emit.toggleList({ act, $li });
+				toggleList({ act, $li });
 			},
 			readDocument: id => {
+				markListItemOfId(id);
 				emit.readDocument({ id });
 			},
 			deleteDocument: (id, isCurrent) => {
 				emit.deleteDocument(id, isCurrent);
 			},
-			createDocument: (id, $li) => {
-				const onModal = !!id;
-				const needMark = onModal ? false : true;
-				const $target = $li ? $li : null;
+			createDocument: id => {
+				makeNewListItemOnRoot({ needMark: true });
 
-				emit.createDocument({ id, $target, needMark, onModal });
+				emit.createDocument({ id, onModal: false });
+			},
+			createDocumentOnModal: (id, $li) => {
+				makeNewListItemOnTree({ $target: $li });
+
+				emit.showModal();
+				emit.createDocument({ id, onModal: true });
 			},
 		},
 	});
@@ -52,12 +63,10 @@ export default function Sidebar({ $target, initialState }) {
 		$target: $sidebarFooter,
 		onClick: {
 			createDocument: () => {
-				emit.createDocument({
-					id: null,
-					$target: null,
-					needMark: false,
-					onModal: true,
-				});
+				makeNewListItemOnRoot({ needMark: false });
+
+				emit.showModal();
+				emit.createDocument({ id: null, onModal: true });
 			},
 		},
 	});

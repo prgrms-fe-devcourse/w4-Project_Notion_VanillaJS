@@ -1,10 +1,9 @@
-import { on, emit } from '../utils/emitter.js';
+import { emit } from '../utils/emitter.js';
 
 import {
-	toggleList,
-	makeNewPostLi,
-	markListItemOfId,
 	closeChildList,
+	markListItemOfId,
+	setListItemToDataId,
 } from '../utils/render.js';
 
 const setElementAfter = (action, options) => {
@@ -12,22 +11,16 @@ const setElementAfter = (action, options) => {
 };
 
 const setters = {
-	create: ({ nextState, $target, needMark }) => {
+	create: ({ nextState }) => {
 		const newPostId = nextState.currentDocument.id;
 
-		makeNewPostLi({ $target, needMark, newPostId });
-		history.pushState(null, null, `/documents/${newPostId}`);
+		setListItemToDataId(newPostId);
 	},
-	createOnModal: ({ $target, needMark, modalDocument }) => {
+	createOnModal: ({ modalDocument }) => {
 		const newPostId = modalDocument.id;
 
-		emit.showModal();
+		setListItemToDataId(newPostId);
 		emit.updateModal(modalDocument);
-		makeNewPostLi({ $target, needMark, newPostId });
-	},
-	read: ({ id }) => {
-		markListItemOfId(id);
-		history.pushState(null, null, `/documents/${id}`);
 	},
 	delete: ({ id, nextState }) => {
 		closeChildList(id);
@@ -49,7 +42,5 @@ const setters = {
 		history.replaceState(null, null, url);
 	},
 };
-
-on.toggleList(({ act, $li }) => toggleList({ act, $li }));
 
 export { setElementAfter };

@@ -61,9 +61,8 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 		});
 
 		$ul.addEventListener('click', e => {
-			const { toggleList, deleteDocument, createDocument, readDocument } =
-				onClick;
 			const { tagName, className, parentNode } = e.target;
+
 			const $li = parentNode.parentNode;
 			const { id } = $li.dataset;
 			const { act } = e.target.dataset;
@@ -77,20 +76,26 @@ export default function SidebarBody({ $target, initialState, onClick }) {
 					const isOpened = className.includes('icon-down-dir');
 
 					if (isOpened) {
-						toggleList('hide', $li);
+						onClick.toggleList('hide', $li);
 					} else {
-						toggleList('show', $li);
+						onClick.toggleList('show', $li);
 					}
 					break;
 				case 'create':
-					createDocument(id, $li);
+					const onModal = !!id;
+
+					if (onModal) {
+						onClick.createDocumentOnModal(id, $li);
+					} else {
+						onClick.createDocument($li);
+					}
 					break;
 				case 'delete':
 					const isCurrent = Number(id) === this.state.currentDocument.id;
-					deleteDocument(id, isCurrent);
+					onClick.deleteDocument(id, isCurrent);
 					break;
 				default:
-					readDocument(id);
+					onClick.readDocument(id);
 					break;
 			}
 		});

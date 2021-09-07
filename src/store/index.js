@@ -21,13 +21,15 @@ export default function Store() {
 	};
 
 	this.actions = {
-		createDocument: async ({ id, $target, needMark }) => {
+		createDocument: async ({ id }) => {
 			const nextState = await getStateAfter('create', id);
+			const newPostId = nextState.currentDocument.id;
 
 			commit('SET_STATE', { nextState, needRender: 'postsPage' });
-			setElementAfter('create', { nextState, $target, needMark });
+			setElementAfter('create', { nextState });
+			history.pushState(null, null, `/documents/${newPostId}`);
 		},
-		createDocumentOnModal: async ({ id, $target, needMark }) => {
+		createDocumentOnModal: async ({ id }) => {
 			const { documents, currentDocument, modalDocument } = await getStateAfter(
 				'createOnModal',
 				id,
@@ -37,13 +39,13 @@ export default function Store() {
 				nextState: { documents, currentDocument },
 				needRender: 'null',
 			});
-			setElementAfter('createOnModal', { $target, needMark, modalDocument });
+			setElementAfter('createOnModal', { modalDocument });
 		},
 		readDocument: async ({ id }) => {
 			const nextState = await getStateAfter('read', id);
 
 			commit('SET_STATE', { nextState, needRender: 'all' });
-			setElementAfter('read', { id });
+			history.pushState(null, null, `/documents/${id}`);
 		},
 		updateDocument: async ({ id, nextDocument, onModal }) => {
 			if (updateTimer) {
@@ -52,6 +54,7 @@ export default function Store() {
 
 			updateTimer = setTimeout(async () => {
 				const action = onModal ? 'updateOnModal' : 'update';
+
 				const nextState = await getStateAfter(action, { id, nextDocument });
 				commit('SET_STATE', { nextState, needRender: 'null' });
 			}, 200);
@@ -81,11 +84,11 @@ export default function Store() {
 	};
 
 	this.init = () => {
-		on.createDocument(({ id, $target, needMark, onModal }) => {
+		on.createDocument(({ id, onModal }) => {
 			if (onModal) {
-				dispatch('createDocumentOnModal', { id, $target, needMark });
+				dispatch('createDocumentOnModal', { id });
 			} else {
-				dispatch('createDocument', { id, $target, needMark });
+				dispatch('createDocument', { id });
 			}
 		});
 		on.readDocument(({ id }) => dispatch('readDocument', { id }));

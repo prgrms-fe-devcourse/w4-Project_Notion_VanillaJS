@@ -1,11 +1,11 @@
 import { getOpenedLiAfter } from '../store/gettersLi.js';
 
 import {
+	$createElement,
+	$blankItem,
 	$listItem,
 	$treeItem,
-	$blankItem,
 	$newPostListItem,
-	$createElement,
 } from './templates.js';
 
 const drawNavList = (target, childDocuments, openedLi) => {
@@ -27,6 +27,61 @@ const drawNavList = (target, childDocuments, openedLi) => {
 		const $filledList = fillListItem($li, { id, title, openedLi });
 		target.appendChild($filledList);
 	});
+};
+
+const makeNewListItemOnTree = ({ $target }) => {
+	const $newPostLi = $newPostListItem();
+	const $blank = $target.querySelector(':scope > .blank');
+
+	if ($blank) {
+		$blank.remove();
+
+		const $tree = $createElement('ul', '.tree');
+		$tree.appendChild($newPostLi);
+
+		$target.appendChild($tree);
+		addClass($target, 'nav-header', 'tree-toggler');
+	} else {
+		const $tree = $target.querySelector(':scope > .tree');
+		$tree.appendChild($newPostLi);
+	}
+
+	toggleList({ act: 'show', $li: $target });
+};
+
+const makeNewListItemOnRoot = ({ needMark }) => {
+	const $newPostLi = $newPostListItem();
+
+	if (needMark) {
+		markListItemofLi($newPostLi);
+	}
+
+	$('.root').appendChild($newPostLi);
+};
+
+const toggleList = ({ act, $li }) => {
+	const { id } = $li.dataset;
+
+	if (act === 'show') {
+		getOpenedLiAfter('add', { id });
+
+		const $hidden = $li.querySelector(':scope > .hide');
+		const $toggleBtn = $li.querySelector(':scope > p .icon-play');
+
+		removeClass($hidden, 'hide');
+		replaceClass($toggleBtn, 'icon-play', 'icon-down-dir');
+		return;
+	}
+
+	if (act === 'hide') {
+		getOpenedLiAfter('delete', { id });
+
+		const $needHide = $li.querySelector('.tree') || $li.querySelector('.blank');
+		const $toggleBtn = $li.querySelector('.icon-down-dir');
+
+		addClass($needHide, 'hide');
+		replaceClass($toggleBtn, 'icon-down-dir', 'icon-play');
+	}
 };
 
 const fillListItem = ($li, { id, title, openedLi }) => {
@@ -62,67 +117,9 @@ const markListItemofLi = $li => {
 	addClass($needMark, 'selected');
 };
 
-const makeNewPostLi = ({ $target, needMark, newPostId }) => {
-	const $newPostLi = $newPostListItem();
+const setListItemToDataId = newPostId => {
+	const $newPostLi = $('li[data-id="new"]');
 	$newPostLi.setAttribute('data-id', newPostId);
-
-	if (needMark) {
-		markListItemofLi($newPostLi);
-	}
-
-	const onRoot = () => {
-		$('.root').appendChild($newPostLi);
-	};
-
-	const onTree = () => {
-		const $blank = $target.querySelector(':scope > .blank');
-
-		if ($blank) {
-			$blank.remove();
-
-			const $tree = $createElement('ul', '.tree');
-			$tree.appendChild($newPostLi);
-
-			$target.appendChild($tree);
-			addClass($target, 'nav-header', 'tree-toggler');
-		} else {
-			const $tree = $target.querySelector(':scope > .tree');
-			$tree.appendChild($newPostLi);
-		}
-
-		toggleList({ act: 'show', $li: $target });
-	};
-
-	if ($target) {
-		onTree({ $target, needMark });
-	} else {
-		onRoot({ needMark });
-	}
-};
-
-const toggleList = ({ act, $li }) => {
-	const { id } = $li.dataset;
-
-	if (act === 'show') {
-		getOpenedLiAfter('add', { id });
-
-		const $hidden = $li.querySelector(':scope > .hide');
-		const $toggleBtn = $li.querySelector(':scope > p .icon-play');
-
-		removeClass($hidden, 'hide');
-		replaceClass($toggleBtn, 'icon-play', 'icon-down-dir');
-		return;
-	}
-
-	if (act === 'hide') {
-		getOpenedLiAfter('delete', { id });
-
-		const $needHide = $li.querySelector('.tree') || $li.querySelector('.blank');
-		const $toggleBtn = $li.querySelector('.icon-down-dir');
-
-		addClass($needHide, 'hide');
-		replaceClass($toggleBtn, 'icon-down-dir', 'icon-play');
-	}
 };
 
 const closeChildList = id => {
@@ -144,12 +141,9 @@ const closeChildList = id => {
 	});
 };
 
-const setPlaceholderTitle = ({ $target, title }) => {
-	if (!title) {
-		removeClass($target, 'hide');
-	} else {
-		addClass($target, 'hide');
-	}
+const setCurrentLi = ({ id, title }) => {
+	const currentLi = $(`li[data-id="${id}"] .nav-page-title`);
+	currentLi.textContent = title ? title : '제목 없음';
 };
 
 const checkDataForPlaceholder = ({ $target }) => {
@@ -163,20 +157,25 @@ const checkDataForPlaceholder = ({ $target }) => {
 	}
 };
 
-const setCurrentLi = ({ id, title }) => {
-	const currentLi = $(`li[data-id="${id}"] .nav-page-title`);
-	currentLi.textContent = title ? title : '제목 없음';
+const setPlaceholderTitle = ({ $target, title }) => {
+	if (!title) {
+		removeClass($target, 'hide');
+	} else {
+		addClass($target, 'hide');
+	}
 };
 
 export {
 	drawNavList,
+	makeNewListItemOnTree,
+	makeNewListItemOnRoot,
 	fillListItem,
+	setListItemToDataId,
 	markListItemOfId,
 	markListItemofLi,
-	makeNewPostLi,
 	toggleList,
 	closeChildList,
+	setCurrentLi,
 	setPlaceholderTitle,
 	checkDataForPlaceholder,
-	setCurrentLi,
 };
