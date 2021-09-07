@@ -26,7 +26,7 @@ export default function PostsList({ $target, initialState = [] }) {
       liClickRender({ $target, state: this.state });
     } else if (type === "erase-btn-click") {
       eraseBtnClickRender({ $div, state: this.state });
-    } else if (type === "edit-btn-click") {
+    } else if (type === "edit") {
       editBtnClickRender({ $target, state: this.state });
     } else if (type === "add-btn-click") {
       addBtnClickRender({ $target, state: this.state });

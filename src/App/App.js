@@ -19,7 +19,7 @@ export default function App({ $target, initialState = [] }) {
     } else if (type === "erase-btn-click") {
       $target = document.querySelector("#app");
       postsPage.setState({ $target, nextState: this.state, type });
-    } else if (type === "edit-btn-click") {
+    } else if (type === "edit") {
       const $target = document.getElementById(`${nextState.id}`);
       console.log(this.state);
       postsPage.setState({ $target, nextState: this.state, type });
@@ -85,7 +85,7 @@ export default function App({ $target, initialState = [] }) {
       if (timer !== null) {
         clearTimeout(timer);
       }
-      this.setState({ $target, nextState, type: "edit-btn-click" });
+      this.setState({ $target, nextState, type: "edit" });
       timer = setTimeout(async () => {
         const { title, id, content } = nextState;
         console.log(title, id, content);
