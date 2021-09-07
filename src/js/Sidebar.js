@@ -90,8 +90,16 @@ export default function Sidebar({ target, initialState = {} }) {
     sidebar.addEventListener("mouseover", (e) => {
         const target = e.target;
 
-        if (target.className === "document") {
-            // target.classList.toggle("mouse-over");
+        if (target.className.includes("document") || target.className.includes("childDocument")) {
+            target.classList.toggle("mouse-over");
+        }
+    });
+
+    sidebar.addEventListener("mouseout", (e) => {
+        const target = e.target;
+
+        if (target.className.includes("document") || target.className.includes("childDocument")) {
+            target.classList.toggle("mouse-over");
         }
     });
 

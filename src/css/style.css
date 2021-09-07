@@ -73,7 +73,11 @@ ul,
     cursor: pointer;
 }
 
-.sidebar .document:hover {
+.add-document {
+    margin-right: 15px;
+}
+
+.mouse-over {
     background: rgba(55, 53, 47, 0.08);
 }
 

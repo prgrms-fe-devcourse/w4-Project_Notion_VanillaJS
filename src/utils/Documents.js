@@ -55,11 +55,11 @@ export const getAllDocuments = (root, documentId) => {
                     <img src="/src/image/arrow.png" class="rootDocument">
                     ${root.title}
                     <img src="/src/image/add.png" class="add-document" >
-                    <img src="/src/image/delete.png" class="delete-document">
-                <ul class="childDocument">
-                    ${root.documents.map((child) => getAllDocuments(child, documentId)).join("")}
-                </ul>
+                    <img src="/src/image/delete.png" class="delete-document">    
             </li>
+            <ul class="childDocument">
+                ${root.documents.map((child) => getAllDocuments(child, documentId)).join("")}
+            </ul>
             `;
 };
 
