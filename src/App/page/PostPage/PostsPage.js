@@ -34,14 +34,22 @@ export default function PostsPage({
 
   $postPage.addEventListener("click", (e) => {
     const { target } = e;
-    if (target.classList.contains("erase-btn")) {
-      onEraseBtnClick(target.closest("li"));
-    } else if (target.classList.contains("add-btn")) {
-      onAddBtnClick(target.closest("li"));
-    } else if (target.classList.contains("root-add-btn")) {
-      onRootAddBtnClick(target);
-    } else if (target.classList.contains("span-tag")) {
-      onClick(target.closest("li"));
+
+    switch (true) {
+      case target.classList.contains("erase-btn"):
+        onEraseBtnClick(target.closest("li"));
+        break;
+      case target.classList.contains("add-btn"):
+        onAddBtnClick(target.closest("li"));
+        break;
+      case target.classList.contains("root-add-btn"):
+        onRootAddBtnClick(target);
+        break;
+      case target.classList.contains("span-tag"):
+        onClick(target.closest("li"));
+        break;
+      default:
+        break;
     }
   });
 
