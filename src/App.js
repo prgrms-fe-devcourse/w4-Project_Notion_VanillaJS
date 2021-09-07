@@ -14,7 +14,7 @@ export default function App({ $target }) {
     const { pathname } = window.location
 
     if (pathname === '/') {
-      postPage.render()
+      postsPage.render()
     } else if (pathname.indexOf('/documents/') === 0) {
       const [, , postId] = pathname.split('/')
       postEditPage.setState({ postId })

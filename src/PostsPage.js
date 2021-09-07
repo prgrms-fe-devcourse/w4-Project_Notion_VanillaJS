@@ -4,7 +4,7 @@ import PostList from "./PostList.js"
 export default function PostsPage({ $target }) {
   const $page = document.createElement('div')
 
-  this.state = initialState
+  // this.state = initialState
 
   const postList = new PostList({
     $target: $page,
