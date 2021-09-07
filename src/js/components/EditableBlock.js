@@ -47,14 +47,14 @@ const EditableBlock = class extends Component{
       const {target} = e
       const blockIndex = Number(target.dataset.index);
       const text = target.textContent;
-      if (text.startsWith('#') || text.length === 0) return;
+      if (text.startsWith('#')) return;
 
       e.stopImmediatePropagation();
-
-        if (this.timer) {
-          clearTimeout(this.timer)
-        }    
-        this.timer = setTimeout(() => onEditing(blockIndex, text), 1000)  
+      
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }    
+      this.timer = setTimeout(() => onEditing(blockIndex, text), 200)  
     })
   }
 
