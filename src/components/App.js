@@ -73,7 +73,11 @@ export default function App({ $target }) {
       });
 
       sidebar.setState(nextState);
-      editor.setState(null);
+      editor.setState({
+        id: 'new',
+        title: '제목 없음',
+        content: ''
+      });
       push('/');
     }
   });
@@ -175,16 +179,14 @@ export default function App({ $target }) {
     }
   });
 
-  this.route = () => {
+  this.route = async () => {
     const { pathname } = window.location;
 
     if (pathname.indexOf('/documents/') === 0) {
       const [, , documentId] = pathname.split('/');
+      const selectedDocument = await request(`/documents/${documentId}`);
 
-      editor.setState({
-        ...editor.state,
-        id: documentId
-      });
+      editor.setState(selectedDocument);
     }
   };
 

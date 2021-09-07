@@ -1,19 +1,13 @@
-import { request } from '../api.js';
-
 export default function Editor({ $target, initialState, onEditSave }) {
   const $editor = document.createElement('section');
   $target.appendChild($editor);
 
   this.state = initialState;
 
-  this.setState = async nextState => {
-    if (nextState) {
-      this.state = await request(`/documents/${nextState.id}`);
-    } else {
-      this.state = { id: '', title: '', content: '' };
-    }
-
+  this.setState = nextState => {
+    this.state = nextState;
     this.render();
+    this.addEventListener();
   };
 
   this.render = () => {
@@ -40,8 +34,6 @@ export default function Editor({ $target, initialState, onEditSave }) {
       ${content === null ? '' : content}
     </div>
     `;
-
-    this.addEventListener();
   };
 
   this.addEventListener = () => {
@@ -63,4 +55,5 @@ export default function Editor({ $target, initialState, onEditSave }) {
   };
 
   this.render();
+  this.addEventListener();
 }
