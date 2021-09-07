@@ -40,9 +40,9 @@ const ListPage= class {
   
   template() {
     return `
-      <header class="js-title"></header>
-      <button class="js-create-root-doc" style="width: 100%; height: 100px;  border: solid 1px; font-size: 10px;"></button>
-      <nav class="js-documents-list"></nav>
+      <header class="list-header js-title"></header>
+      <nav class="document-list js-documents-list"></nav>
+      <div class="new-doc-create-btn js-create-root-doc"></div>
     `
   }
 

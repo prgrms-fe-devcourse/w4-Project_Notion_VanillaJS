@@ -13,8 +13,8 @@ const App = class extends Component{
 
   template() {
     return `
-      <section class="sidebar js-list-page" style="height: 100%;"></section>
-      <section class="js-post-page" style="disply: flex; flex-direction: column; width: 100%; height: 100%"></section>
+      <aside class="list-page js-list-page"></aside>
+      <section class="post-page js-post-page"></section>
     `     
   }
   

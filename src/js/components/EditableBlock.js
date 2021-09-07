@@ -14,6 +14,7 @@ const EditableBlock = class extends Component{
         contenteditable="true"
         data-index="${index}" 
         placeholder='${placeholder}'
+        autofocus
       >${text}</div>
     `
   }

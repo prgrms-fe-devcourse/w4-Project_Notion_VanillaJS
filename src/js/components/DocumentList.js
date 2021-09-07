@@ -12,14 +12,15 @@ const DocumentList = class extends Component {
     return `
       <ul class="js-doc-list">
         ${rootDocs.map(({ id, title, documents }) => 
-          `<li class="doc-info" data-id="${id}">
-              <div style="display: flex;">
-                <i class="bx bxs-right-arrow js-toggle-sub-docs" role="button"></i>
+          `<li data-id="${id}">
+              <div class="doc-info">
+                <i class="bx bxs-right-arrow js-toggle-sub-docs" role="checkbox"></i>
+                <i class='bx bx-file'></i>
                 <div class="doc-title js-select-doc">${title || '제목 없음' }</div>
-                <button class="js-delete-doc">-</button>
-                <button class="js-create-new-doc">+</button>
+                <i class="bx bx-trash js-delete-doc"></i>
+                <i class="bx bx-plus js-create-new-doc"></i>
               </div>  
-              <div class="sub-docs root">${this.template(documents)}</div> 
+              <div class="sub-docs">${documents.length !== 0 ? this.template(documents) : "<div class='no-sub-doc'>하위 페이지가 없습니다.</div>"}</div> 
           </li>`).join('')}
       </ul>
     `
@@ -41,6 +42,7 @@ const DocumentList = class extends Component {
     
       if (e.target.classList.contains('js-toggle-sub-docs')) {
         $subList.classList.toggle('active')
+        e.target.classList.toggle('rotate')
         return;
       }
 

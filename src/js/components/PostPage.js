@@ -44,7 +44,7 @@ const PostPage = class extends Component{
 
   template() {
     return `
-      <header class="js-document-header" style="max-width: 100%; height: 45px"></header>
+      <header class="post-header js-document-header"></header>
       <main style="max-width: 100vw; height: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="js-selected-doc-title" style="width: 50%; height: 20%; padding-left: 100px; padding-right: 100px; display: flex; flex-direction: column; justify-content: flex-end;"></div>
         <div class="js-selected-doc-content" style="width: 50%; height: auto; padding-left: 100px; padding-right: 100px; padding-bottom: 30vh;"></div>

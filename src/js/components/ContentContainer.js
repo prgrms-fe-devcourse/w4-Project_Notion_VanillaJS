@@ -7,8 +7,8 @@ const ContentContainer = class extends Component {
     const {convertBlock, removeBlock, updateBlock, createNewBlock} = this
     const { content } = this.state;
 
-    content.forEach((block, index) => {
-      new EditableBlock(
+    content.map((block, index) => {
+      return new EditableBlock(
         this.$target,
         { 
           state: {
@@ -85,7 +85,11 @@ const ContentContainer = class extends Component {
     newContent[index].text = newText
     
     const newState = { content: newContent }
-    this.setState(newState);
+    
+    const {onUpdate} = this.props
+    this.state = newState;
+    onUpdate(newState)
+    //this.setState(newState);
   }
 
   removeBlock(index, text) {
