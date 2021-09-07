@@ -9,7 +9,7 @@ const TitleContiainer = class extends Component {
   }
 
   setEvent() {
-    const { onUpdate } = this.props
+    const { onUpdate, onUpdateTitle } = this.props
     
     this.$target.addEventListener('keyup', e => {
       const newTitle = e.target.textContent;
@@ -18,6 +18,8 @@ const TitleContiainer = class extends Component {
       }
       this.state = newState
       
+      onUpdateTitle(newState)
+
       if (this.timer) {
         clearTimeout(this.timer)
       }    

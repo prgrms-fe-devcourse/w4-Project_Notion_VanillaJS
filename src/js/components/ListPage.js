@@ -55,7 +55,7 @@ const ListPage= class {
     const $header = this.$target.querySelector('.js-title');
     const $documentList = this.$target.querySelector('.js-documents-list');
     const $createRootDoc = this.$target.querySelector('.js-create-root-doc');
-    console.log('ismounted')
+  
     this.headerComponent = new Header(
       $header,
     )
@@ -88,7 +88,6 @@ const ListPage= class {
       parent: parentId
     }
     const { id }  = await api.create(newDoc);
-    console.log(id)
     const updatedRootDocs = await api.getAllDocs() 
     const newState = {
       rootDocuments: updatedRootDocs,

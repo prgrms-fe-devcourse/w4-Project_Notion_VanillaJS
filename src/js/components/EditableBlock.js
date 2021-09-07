@@ -53,20 +53,8 @@ const EditableBlock = class extends Component{
         if (this.timer) {
           clearTimeout(this.timer)
         }    
-        this.timer = setTimeout(() => onEditing(blockIndex, text), 500)  
+        this.timer = setTimeout(() => onEditing(blockIndex, text), 1000)  
     })
-
-    // this.$target.addEventListener('blur', (e) => {
-    //   const {target} = e
-    //   const blockIndex = Number(target.dataset.index);
-    //   const text = target.textContent;
-
-    //   if (this.timer) {
-    //     clearTimeout(this.timer)
-    //   }    
-    //   this.timer = setTimeout(() => onEditing(blockIndex, text), 1000) 
-    // }, true)
-
   }
 
   render() {

@@ -3,10 +3,18 @@ import Router from './core/Router.js';
 
 const $app = document.querySelector('#app');
 
-const app = new App($app)
+let app = new App($app) 
 
-const notionRouter = new Router((id) => {
-  app.setState({selectedId: id})
-})
+const notionRouter = new Router(
+  id => {
+    app.setState({selectedId: id})
+  },
+  id => {
+    app = new App($app)
+    if (id) {
+      app.setState({selectedId: id})  
+    }
+  }
+)
 
 export default notionRouter

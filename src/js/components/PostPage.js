@@ -77,7 +77,8 @@ const PostPage = class extends Component{
         state: {
           title,
         },
-        onUpdate: this.updateContent.bind(this)
+        onUpdate: this.updateContent.bind(this),
+        onUpdateTitle: this.updateTitle.bind(this)
       }
     )
 
@@ -92,12 +93,19 @@ const PostPage = class extends Component{
     )
   }
 
+  updateTitle(updatedTitle) {
+    this.state = {
+      ...this.state,
+      ...updatedTitle
+    }
+    this.documentHeader.setState({title: this.state.title})
+  }
+
   async updateContent(updatedState) {
     this.state = {
       ...this.state,
       ...updatedState
     }  
-    console.log(this.state)
     const {id} = this.state
     if(!id) return; 
     

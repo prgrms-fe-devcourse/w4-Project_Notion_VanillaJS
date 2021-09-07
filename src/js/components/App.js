@@ -35,7 +35,6 @@ const App = class extends Component{
       rootDocuments: [],
       ...this.state,
     })
-    console.log(this.state)
     this.postPage.setState({
       id: this.state.selectedId
     })
