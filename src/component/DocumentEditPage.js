@@ -1,5 +1,5 @@
 import Editor from "./Editor.js";
-import { setItem, getItem, removeItem } from "../utils/Storage.js";
+import { getItem, removeItem } from "../utils/Storage.js";
 import { request } from "../utils/api.js";
 import LinkButton from "./LinkButton.js";
 
@@ -9,27 +9,21 @@ export default function DocumentEditPage({ $target, initialState }) {
 
   this.state = initialState;
 
-  let tempSaveKey = `temp-post-${this.state.documentId}`;
-
-  const documents = getItem(tempSaveKey, {
+  const documentDefault = {
     title: "",
     content: "",
-  });
+  };
+
   let timer = null;
 
   const editor = new Editor({
     $target: $page,
-    initialState: documents,
+    initialState: documentDefault,
     onEditing: (documents) => {
       if (timer !== null) {
         clearTimeout(timer);
       }
       timer = setTimeout(async () => {
-        setItem(tempSaveKey, {
-          ...documents,
-          tempSaveDate: new Date(),
-        });
-
         const isNew = this.state.documentId === "new";
         if (isNew) {
           try {
@@ -38,7 +32,6 @@ export default function DocumentEditPage({ $target, initialState }) {
               body: JSON.stringify(documents),
             });
             history.replaceState(null, null, `/documents/${createDocument.id}`);
-            removeItem(tempSaveKey);
           } catch (e) {
             alert(e.message);
           }
@@ -48,7 +41,6 @@ export default function DocumentEditPage({ $target, initialState }) {
               method: "PUT",
               body: JSON.stringify(documents),
             });
-            removeItem(tempSaveKey);
           } catch (e) {
             alert(e.message);
           }

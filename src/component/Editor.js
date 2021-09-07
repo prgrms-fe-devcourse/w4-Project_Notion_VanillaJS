@@ -1,4 +1,4 @@
-export default function Editor({ $target, initialState, onEditing }) {
+export default function Editor___({ $target, initialState, onEditing }) {
   const $editPage = document.createElement("div");
   $editPage.setAttribute("id", "editor-outer-wrapper");
   $target.appendChild($editPage);
