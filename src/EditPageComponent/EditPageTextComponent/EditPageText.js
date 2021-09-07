@@ -29,7 +29,8 @@ export default function EditPageText({ targetElement, onSave, initialState }) {
     setCaret(newBlock.element);
   };
 
-  editPageContentElement.addEventListener("keydown", (e) => {
+  editPageContentElement.addEventListener("keypress", (e) => {
+    console.log(e.key);
     onSave(this.state.id);
     if (e.key !== "Enter" || e.shiftKey) return;
     e.preventDefault();
