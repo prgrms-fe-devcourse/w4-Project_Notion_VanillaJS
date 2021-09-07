@@ -12,7 +12,6 @@ import { setItem } from "./page/storage.js";
 export default function App({ $target, initialState = [] }) {
   this.state = initialState;
   this.setState = ({ $target, nextState, type }) => {
-    console.log($target);
     this.state = nextState;
     if (type === "li-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });
@@ -22,6 +21,7 @@ export default function App({ $target, initialState = [] }) {
       postsPage.setState({ $target, nextState: this.state, type });
     } else if (type === "edit-btn-click") {
       const $target = document.getElementById(`${nextState.id}`);
+      console.log(this.state);
       postsPage.setState({ $target, nextState: this.state, type });
     } else if (type === "add-btn-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });

@@ -17,7 +17,6 @@ export default function PostsPage({
   const $postPage = document.createElement("div");
   $postPage.setAttribute("class", "post");
   $target.appendChild($postPage);
-  let isFirst = true;
 
   this.state = initialState;
   this.setState = ({ $target, nextState, type }) => {
@@ -31,24 +30,20 @@ export default function PostsPage({
     initialState: this.state,
   });
 
-  this.render = () => {
-    if (isFirst) {
-      $postPage.addEventListener("click", (e) => {
-        const { target } = e;
-        if (target.classList.contains("erase-btn")) {
-          onEraseBtnClick(target.closest("li"));
-        } else if (target.classList.contains("add-btn")) {
-          onAddBtnClick(target.closest("li"));
-        } else if (target.classList.contains("root-add-btn")) {
-          onRootAddBtnClick(target);
-        } else if (target.classList.contains("span-tag")) {
-          onClick(target.closest("li"));
-        }
-      });
+  this.render = () => {};
 
-      isFirst = false;
+  $postPage.addEventListener("click", (e) => {
+    const { target } = e;
+    if (target.classList.contains("erase-btn")) {
+      onEraseBtnClick(target.closest("li"));
+    } else if (target.classList.contains("add-btn")) {
+      onAddBtnClick(target.closest("li"));
+    } else if (target.classList.contains("root-add-btn")) {
+      onRootAddBtnClick(target);
+    } else if (target.classList.contains("span-tag")) {
+      onClick(target.closest("li"));
     }
-  };
+  });
 
   this.render();
 }

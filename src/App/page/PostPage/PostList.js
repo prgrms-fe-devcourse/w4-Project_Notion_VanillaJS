@@ -4,10 +4,8 @@ export default function PostsList({ $target, initialState = [] }) {
   $target.appendChild($div);
   this.state = initialState;
   let isFirst = true;
-
   this.setState = ({ $target, nextState, type }) => {
     this.state = nextState;
-
     this.render({ $target, type });
   };
 
