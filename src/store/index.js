@@ -44,7 +44,7 @@ export default function Store() {
 		readDocument: async ({ id }) => {
 			const nextState = await getStateAfter('read', id);
 
-			commit('SET_STATE', { nextState, needRender: 'all' });
+			commit('SET_STATE', { nextState, needRender: 'postsPage' });
 			history.pushState(null, null, `/documents/${id}`);
 		},
 		updateDocument: async ({ id, nextDocument, onModal }) => {
