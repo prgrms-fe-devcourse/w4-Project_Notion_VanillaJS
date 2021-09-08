@@ -11,9 +11,10 @@ li{
 .spreadTitle{
   font-size: 90%;
   margin-left: 5%;
+  font-weight: 400;
   color: dimgray;
 }
 
 .parentFolder{
-  font-weight: 600;
+  font-weight: bold;
 }
