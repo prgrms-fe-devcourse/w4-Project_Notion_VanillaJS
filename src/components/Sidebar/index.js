@@ -60,10 +60,17 @@ export default function Sidebar({
 
         if ($li) {
           const { id } = $li.dataset
-
           onDocumentAdd(Number(id))
         } else {
           onDocumentAdd(null)
+        }
+        break
+      }
+      case COLLAPSE_BUTTON: {
+        const $li = e.target.closest('li')
+        const $ul = $li.nextElementSibling
+        if ($ul) {
+          $ul.classList.toggle('none')
         }
         break
       }

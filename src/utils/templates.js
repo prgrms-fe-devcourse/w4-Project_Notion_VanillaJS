@@ -6,7 +6,7 @@ import {
 } from '../constants.js'
 
 const DEFAULT_TITLE = 'Untitled'
-const TITLE_MAX_LENGTH = 14
+const TITLE_MAX_LENGTH = 18
 
 const getTitle = (title) => (title ? title : DEFAULT_TITLE)
 
@@ -34,6 +34,12 @@ const renderListItem = (
   const collapseIcon = isOpen
     ? `<i class="fas fa-caret-down"></i>`
     : `<i class="fas fa-caret-right"></i>`
+  const collapseButton =
+    documents.length !== 0
+      ? `<button type="button" style="pointer-events: all;" class="${COLLAPSE_BUTTON}">
+          ${collapseIcon}
+       </button>`
+      : '<div>⦁&nbsp</div>'
 
   const childDocuments =
     documents.length !== 0
@@ -49,9 +55,7 @@ const renderListItem = (
   return `
     <li class="${listItemClass}" data-id="${id}" style="${listItemStyle}">
         <div class="PageBlock__column" style="pointer-events: none;">
-            <button type="button" style="pointer-events: all;" class="${COLLAPSE_BUTTON}">
-                ${collapseIcon}
-            </button>
+            ${collapseButton}
             <span>${substrTitle(getTitle(title), depth)}</span>
         </div>
         <div class="PageBlock__buttons">
@@ -62,7 +66,7 @@ const renderListItem = (
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-        <li>
+    </li>
         ${childDocuments}
     
     `
