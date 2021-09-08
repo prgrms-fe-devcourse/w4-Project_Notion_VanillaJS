@@ -37,7 +37,7 @@ export default function App({$target}) {
         $('.editor').style.display = type;
     };
 
-    this.route = () => {
+    this.route = async () => {
         const {pathname} = window.location;
 
         if (pathname === '/') {
@@ -47,7 +47,7 @@ export default function App({$target}) {
             $('.editor [name="title"]').focus();
 
             const [, , documentId] = pathname.split('/');
-            fetchEditor(documentId);
+            await fetchEditor(documentId);
         }
     };
 
@@ -227,8 +227,8 @@ export default function App({$target}) {
         this.route();
     };
 
-    const init = () => {
-        fetchDocuments();
+    const init = async () => {
+        await fetchDocuments();
         this.route();
         initRouter(() => this.route());
     };
