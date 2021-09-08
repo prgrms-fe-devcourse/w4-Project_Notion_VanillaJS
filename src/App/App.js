@@ -13,7 +13,6 @@ import { setItem } from "../storage/storage.js";
 export default function App({ $target, initialState = [] }) {
   this.state = initialState;
   this.setState = ({ $target, nextState, type }) => {
-    console.log($target, nextState, type);
     this.state = nextState;
     if (type === "li-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });
@@ -23,7 +22,6 @@ export default function App({ $target, initialState = [] }) {
       postsPage.setState({ $target, nextState: this.state, type });
     } else if (type === "edit") {
       const $target = document.getElementById(`${nextState.id}`);
-      console.log(this.state);
       postsPage.setState({ $target, nextState: this.state, type });
     } else if (type === "add-btn-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });
@@ -107,7 +105,7 @@ export default function App({ $target, initialState = [] }) {
   this.route = () => {
     // $target.innerHTML = ''
     const { pathname } = window.location;
-    console.log(pathname);
+    // console.log(pathname);
     //
     // if (pathname === '/'){
     //   postsPage.setState()

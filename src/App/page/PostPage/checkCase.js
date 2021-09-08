@@ -1,6 +1,9 @@
+import { setItem, getItem, removeItem } from "../../../storage/storage.js";
+
 const isFirstRender = ({ $div, state }) => {
-  $div.innerHTML = `<button class="root-add-btn" class="root-add-btn"> Root ➕</button>
-         <ul>
+  if (!getItem("toggle")) {
+    $div.innerHTML = `<button class="root-add-btn" class="root-add-btn"> Root ➕</button>
+         <ul class="rootUl">
         ${state
           .map(
             (document) =>
@@ -11,6 +14,10 @@ const isFirstRender = ({ $div, state }) => {
           .join("")}
         </ul>
           `;
+  } else {
+    console.log("!!");
+    $div.closest(".list").innerHTML = getItem("toggle");
+  }
 };
 
 const liClickRender = ({ $target, state }) => {
@@ -39,12 +46,14 @@ const liClickRender = ({ $target, state }) => {
     $target.dataset.isOpen = false;
     $target.innerHTML = `<span class="span-tag">${$target.firstElementChild.innerText}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>`;
   }
+
+  setItem("toggle", $target.closest(".rootUl"));
 };
 
 const eraseBtnClickRender = ({ $div, state }) => {
   $div.innerHTML = `
         <button class="root-add-btn"> Root ➕</button>
-         <ul>
+         <ul class="rootUl">
         ${state
           .map(
             (document) =>
@@ -54,10 +63,13 @@ const eraseBtnClickRender = ({ $div, state }) => {
           .join("")}
         </ul>
           `;
+
+  setItem("toggle", $target.closest(".rootUl"));
 };
 
 const editBtnClickRender = ({ $target, state }) => {
   $target.firstElementChild.innerHTML = state.title;
+  setItem("toggle", $target.closest(".rootUl"));
 };
 
 const addBtnClickRender = ({ $target, state }) => {
@@ -78,6 +90,7 @@ const addBtnClickRender = ({ $target, state }) => {
         </ul>
           `
   );
+  setItem("toggle", $target.closest(".rootUl"));
 };
 
 const rootAddBtnClick = ({ $target, state }) => {
@@ -87,6 +100,8 @@ const rootAddBtnClick = ({ $target, state }) => {
                     <span class="span-tag">${state.title}</span><button class="add-btn">➕</button><button class="erase-btn">🗑</button>
                     </li>`
   );
+
+  setItem("toggle", $target.closest(".rootUl"));
 };
 
 export {

@@ -1,14 +1,16 @@
 const storage = window.localStorage;
 
-export const getItem = (key, defaultValue) => {
-  try {
-    const storedValue = storage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : defaultValue;
-  } catch (e) {
-    return defaultValue;
-  }
+export const getItem = (key) => {
+  return storage.getItem(key);
 };
 
 export const setItem = (key, value) => {
-  storage.setItem(key, JSON.stringify(value));
+  console.log(value);
+  storage.setItem(key, value.outerHTML);
+};
+
+export const removeItem = (key, value) => {
+  const arr = JSON.parse(localStorage.getItem(key));
+  arr.splice(arr.indexOf(value), 1);
+  localStorage.setItem("toggle", JSON.stringify(arr));
 };
