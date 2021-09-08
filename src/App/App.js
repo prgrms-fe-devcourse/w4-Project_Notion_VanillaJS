@@ -8,7 +8,7 @@ import {
   postDocument,
 } from "../api/request.js";
 import { initRouter } from "./router.js";
-import { setItem } from "../storage/storage.js";
+// import { setItem } from "../storage/storage.js";
 
 export default function App({ $target, initialState = [] }) {
   this.state = initialState;
@@ -90,10 +90,10 @@ export default function App({ $target, initialState = [] }) {
         const { title, id, content } = nextState;
         console.log(title, id, content);
         await putDocument(title, id, content);
-        setItem(`temp-post-${this.state.id}`, {
-          ...nextState,
-          tempSaveDate: new Date(),
-        });
+        // setItem(`temp-post-${this.state.id}`, {
+        //   ...nextState,
+        //   tempSaveDate: new Date(),
+        // });
         this.state = nextState;
       }, 1000);
     },
