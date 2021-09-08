@@ -1,5 +1,5 @@
-import { postDocument } from "../../../api/request.js";
-import { getItem, setItem } from "../../../storage/storage.js";
+// import { postDocument } from "../../../api/request.js";
+// import { getItem, setItem } from "../../../storage/storage.js";
 import Editor from "./Editor.js";
 
 export default function PostEditPage({
@@ -55,16 +55,16 @@ export default function PostEditPage({
 
   this.render();
 
-  const fetchPost = async () => {
-    const { postId } = this.state;
-
-    if (postId !== "new") {
-      const post = await postDocument(`${postId}`);
-
-      this.setState({
-        ...this.state,
-        post,
-      });
-    }
-  };
+  // const fetchPost = async () => {
+  //   const { postId } = this.state;
+  //
+  //   if (postId !== "new") {
+  //     const post = await postDocument(`${postId}`);
+  //
+  //     this.setState({
+  //       ...this.state,
+  //       post,
+  //     });
+  //   }
+  // };
 }
