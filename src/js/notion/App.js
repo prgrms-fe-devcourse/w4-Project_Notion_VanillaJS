@@ -13,6 +13,7 @@ import DocumentHeader from './document/DocumentHeader.js';
 import {USER_NAME} from '../constants/notion.js';
 import ParentDocumentPath from './editor/main/ParentDocumentPath.js';
 import {toggleOff, toggleOn} from './document/ToggleControl.js';
+import {editorTemplate} from '../templates/editor.js';
 
 export default function App({$target}) {
     const $documentListContainer = $('.document-list-container');
@@ -88,6 +89,8 @@ export default function App({$target}) {
     const onAddSubDocument = async (parentId) => {
         setItem(CURRENT_EDIT_DOCUMENT_ID, parentId);
         onModalOpen();
+
+        $('.modal-editor').innerHTML = editorTemplate('', '');
         const document = {
             title: '',
             parent: parentId,
