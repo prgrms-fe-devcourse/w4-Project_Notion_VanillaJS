@@ -15,16 +15,20 @@ export default function PostList({ $target, initialState }) {
 
   this.render = () => {
     $documentList.innerHTML = `
-            <button ><i class="fas fa-plus" name ="add-btn parent" data-id = "null"></i> 페이지 추가</button>
+            <button name ="add-btn" data-id = "null" ><i class="fas fa-plus"></i>페이지 추가</button>
             ${displayDocumentList(this.state)}
         `;
   };
 
   $documentList.addEventListener("click", (e) => {
-    const { target } = e;
+    let { target } = e;
+    if(!target.getAttribute('name')){
+      target = target.closest('button')
+    }
     const name = target.getAttribute("name");
-    console.log;
+    console.log(target)
     if (name) {
+      
       push({
         type: name,
         id: target.dataset.id,

@@ -5,12 +5,12 @@ export const displayDocumentList = (documents) => {
                     (document) =>
                       `<li data-id = "${document.id}" name = "list">
                            ${document.title}
-                            <span class ="btn-box"></span><button><i class="far fa-plus-square" name = "add-btn" data-id ="${
+                            <span class ="btn-box"><button name = "add-btn" data-id ="${
                               document.id
-                            }"></i></button>
-                            <button ><i class="far fa-trash-alt" name = "remove-btn" data-id ="${
+                            }"><i class="far fa-plus-square"></i></button>
+                            <button name = "remove-btn" data-id ="${
                               document.id
-                            }"></i></button></span>
+                            }"><i class="far fa-minus-square"></i></button></span>
                             ${
                               document.documents.length
                                 ? displayDocumentList(document.documents)

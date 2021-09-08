@@ -1,9 +1,9 @@
 import Editor from "./Editor.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { request } from "../api/api.js";
-import { push } from "../utils/router.js";
+import { initRoute, push } from "../utils/router.js";
 
-export default function DocumentEditPage({ $target, initialState, onClick }) {
+export default function DocumentEditPage({ $target, initialState, }) {
   const $editPage = document.createElement("div");
   $editPage.className = "edit-page";
   this.state = initialState;
@@ -133,4 +133,25 @@ export default function DocumentEditPage({ $target, initialState, onClick }) {
       });
     }
   };
+
+  // this.route = () => {
+  //   // $target.innerHTML = "";
+  //   const { pathname } = window.location;
+  //   if (pathname !== "/") {
+  //     editor.render()
+  //   } 
+  //   else {
+  //     const [, id] = pathname.split("/");
+  //     documentPage.render();
+  //     documentEditPage.setState({
+  //       documentId: id,
+  //       parentId: parent,
+  //     },
+  //     );
+  //   }
+
+  // }
+
+  // this.route()
+  // initRoute(() => this.route())
 }

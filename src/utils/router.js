@@ -8,7 +8,7 @@ export const initRoute = (onRoute) => {
     const { id } = e.detail;
     const { pathname } = window.location;
     const [, documentId] = pathname.split("/");
-    console.log(documentId, id);
+    // console.log(documentId, id);
     if (type === "list" && documentId !== id) {
       if (id == null) {
         id = documentId;
@@ -19,27 +19,28 @@ export const initRoute = (onRoute) => {
       await request(`/${id}`, {
         method: "DELETE",
       });
-      if(documentId === id){
-        history.pushState(null, null, '/')
+      if (documentId === id) {
+        history.pushState(null, null, "/");
+      } else {
       }
       onRoute(null);
     } else if (type === "add-btn") {
       const createdDocument = await request("/", {
         method: "POST",
         body: JSON.stringify({
-          title: '제목없음',
+          title: "",
           parent: id,
         }),
       });
-
+      console.log('hi')
       history.pushState(null, null, `/${createdDocument.id}`);
-      await request(`/${createdDocument.id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          title: '',
-          content : ''
-        }),
-      });
+      // await request(`/${createdDocument.id}`, {
+      //   method: "PUT",
+      //   body: JSON.stringify({
+      //     title: '',
+      //     content : ''
+      //   }),
+      // });
       onRoute(id);
     } else if (type === "header") {
       console.log("header");
