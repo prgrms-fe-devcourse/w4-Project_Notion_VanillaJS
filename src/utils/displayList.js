@@ -18,7 +18,6 @@ export const displayDocumentList = (documents) => {
                             }
                         </li>`
                   )
-                  .join("")}
-                        
+                  .join("")}       
             </ul>`;
 };

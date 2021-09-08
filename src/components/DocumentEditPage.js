@@ -1,7 +1,7 @@
 import Editor from "./Editor.js";
 import { setItem, getItem, removeItem } from "../utils/storage.js";
 import { request } from "../api/api.js";
-import { initRoute, push } from "../utils/router.js";
+import { push } from "../utils/router.js";
 
 export default function DocumentEditPage({ $target, initialState, }) {
   const $editPage = document.createElement("div");
@@ -24,6 +24,7 @@ export default function DocumentEditPage({ $target, initialState, }) {
       content: "",
     },
     onEditing: (document) => {
+      
       if (timer !== null) {
         clearTimeout(timer);
       }
@@ -34,34 +35,20 @@ export default function DocumentEditPage({ $target, initialState, }) {
           tempSaveData: new Date(),
         });
 
-        // const isNew = this.state.documentId === "new";
-        // if (isNew) {
-        //   const createdDocument = await request("/", {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       title: document.title,
-        //       parent: this.state.parentId,
-        //     }),
-        //   });
-
-        //   history.replaceState(null, null, `/${createdDocument.id}`);
-        //   await request(`/${createdDocument.id}`, {
-        //     method: "PUT",
-        //     body: JSON.stringify(document),
-        //   });
-        //   push({
-        //     type: "list",
-        //     id: createdDocument.id,
-        //   });
-        //   removeItem(documentLocalSaveKey);
-        // } else {
-        // }
         await request(`/${this.state.documentId}`, {
           method: "PUT",
           body: JSON.stringify(document),
         });
+        if(this.state.document.title){
+          if(this.state.document.title !==document.title){
+            push({
+              type : null,
+              id : null
+            })
+          }
+        }
         removeItem(documentLocalSaveKey);
-      }, 1000);
+      }, 500);
     },
   });
 
@@ -77,10 +64,7 @@ export default function DocumentEditPage({ $target, initialState, }) {
             content: "",
           }
         );
-        // push({
-        //   type : 'add-btn',
-        //   id : this.state.documentId
-        // })
+
 
       } else {
         await fetchDocument();
@@ -90,15 +74,29 @@ export default function DocumentEditPage({ $target, initialState, }) {
     }
 
     this.state = nextState;
-    this.render();
-    editor.setState(
-      this.state.document || {
-        title: "",
-        content: "",
+    const document = this.state.document
+    if(document){
+      if(document.title === "제목없음"){
+        editor.setState(
+           {
+            title: "",
+            content: this.state.document.content,
+          }
+        );  
+      }else{
+        editor.setState(
+          this.state.document ||{
+           title: "",
+           content: "",
+         }
+       );
       }
-    );
+    }
+    
+    
+    this.render();
   };
-
+  
   this.render = () => {
     $target.appendChild($editPage);
   };
@@ -106,7 +104,7 @@ export default function DocumentEditPage({ $target, initialState, }) {
   const fetchDocument = async () => {
     const { documentId } = this.state;
 
-    if (this.state.documentId !== "new") {
+    if (this.state.documentId !== null) {
       const document = await request(`/${documentId}`);
 
       const getTempDocument = getItem(documentLocalSaveKey, {
@@ -127,31 +125,11 @@ export default function DocumentEditPage({ $target, initialState, }) {
       //     }
       //   }
 
+
       this.setState({
         ...this.state,
         document,
       });
     }
   };
-
-  // this.route = () => {
-  //   // $target.innerHTML = "";
-  //   const { pathname } = window.location;
-  //   if (pathname !== "/") {
-  //     editor.render()
-  //   } 
-  //   else {
-  //     const [, id] = pathname.split("/");
-  //     documentPage.render();
-  //     documentEditPage.setState({
-  //       documentId: id,
-  //       parentId: parent,
-  //     },
-  //     );
-  //   }
-
-  // }
-
-  // this.route()
-  // initRoute(() => this.route())
 }

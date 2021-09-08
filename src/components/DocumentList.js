@@ -20,15 +20,15 @@ export default function PostList({ $target, initialState }) {
         `;
   };
 
+  this.render()
+
   $documentList.addEventListener("click", (e) => {
     let { target } = e;
     if(!target.getAttribute('name')){
       target = target.closest('button')
     }
     const name = target.getAttribute("name");
-    console.log(target)
     if (name) {
-      
       push({
         type: name,
         id: target.dataset.id,

@@ -1,9 +1,8 @@
 import DocumentPage from "./DocumentPage.js";
 import DocumentEditPage from "./DocumentEditPage.js";
-import { initRoute } from "../utils/router.js";
+import { editorRoute } from "../utils/router.js";
 import MainPage from "./MainPage.js";
 import { removeDiv } from "../utils/removeDiv.js";
-
 
 export default function App({ $target }) {
   const documentPage = new DocumentPage({
@@ -13,7 +12,7 @@ export default function App({ $target }) {
   const documentEditPage = new DocumentEditPage({
     $target,
     initialState: {
-      documentId: "new",
+      documentId: null,
       document: {
         title: "",
         content: "",
@@ -31,13 +30,14 @@ export default function App({ $target }) {
   };
 
   this.render();
+
   this.route = (parent) => {
     const { pathname } = window.location;
     if (pathname === "/") {
-      removeDiv('.edit-page')
-      mainPage.render()
+      removeDiv(".edit-page");
+      mainPage.render();
     } else {
-      removeDiv('.main-page')
+      removeDiv(".main-page");
       const [, id] = pathname.split("/");
       documentEditPage.setState({
         documentId: id,
@@ -46,6 +46,7 @@ export default function App({ $target }) {
     }
   };
 
+  this.route();
 
-  initRoute((parent) => this.route(parent));
+  editorRoute((parent) => this.route(parent));
 }

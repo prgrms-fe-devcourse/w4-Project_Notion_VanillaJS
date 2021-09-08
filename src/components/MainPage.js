@@ -11,6 +11,4 @@ export default function MainPage({ $target, initialState }) {
   this.render = () => {
     $target.appendChild($mainPage);
   };
-
-  this.render();
 }
