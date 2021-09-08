@@ -9,7 +9,7 @@ export default function TextInBlock({ targetElement, initialState }) {
 
   this.render = () => {
     targetElement.appendChild(textInBlock);
-    textInBlock.innerText = this.state;
+    textInBlock.setAttribute("data-placeholder", this.state);
   };
   this.element = textInBlock;
   this.render();

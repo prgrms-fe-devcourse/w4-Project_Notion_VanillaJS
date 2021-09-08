@@ -174,3 +174,6 @@ button {
   padding: 10px;
   font-size: 1.2rem;
 }
+.text-in-block:empty::before {
+  content: attr(data-placeholder);
+}
