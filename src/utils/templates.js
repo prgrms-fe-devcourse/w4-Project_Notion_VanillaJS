@@ -6,8 +6,14 @@ import {
 } from '../constants.js'
 
 const DEFAULT_TITLE = 'Untitled'
+const TITLE_MAX_LENGTH = 14
 
 const getTitle = (title) => (title ? title : DEFAULT_TITLE)
+
+const substrTitle = (title, depth) =>
+  title.length >= TITLE_MAX_LENGTH
+    ? `${title.substring(0, TITLE_MAX_LENGTH - (depth + depth - 1))}...`
+    : title
 
 const renderListItem = (
   { id, title, documents },
@@ -46,7 +52,7 @@ const renderListItem = (
             <button type="button" style="pointer-events: all;" class="${COLLAPSE_BUTTON}">
                 ${collapseIcon}
             </button>
-            <span>${getTitle(title)}</span>
+            <span>${substrTitle(getTitle(title), depth)}</span>
         </div>
         <div class="PageBlock__buttons">
             <button class="${DELETE_BUTTON}" type="button">
@@ -63,12 +69,14 @@ const renderListItem = (
 }
 
 export const renderDocumentTree = (documents) => {
-  const { ADD_BUTTON } = listItemClasses
+  const { ADD_BUTTON, DOCUMENT } = listItemClasses
   const rootDocumentAddTemplate = `
-        <li class="${ADD_BUTTON}">
+      <ul class="${DOCUMENT}">      
+        <li class="${ADD_BUTTON}" style="width: 100%;">
             <i class="fas fa-plus"></i>
             <span> Add a Page </span>    
         </li>
+      </ul>
     `
 
   return `
