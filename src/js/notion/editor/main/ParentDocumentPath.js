@@ -29,8 +29,6 @@ export default function ParentDocumentPath({initialState}) {
         const {id} = $parentDocument.dataset
         const title = $('.document-element .document', $parentDocument).innerText
 
-        console.log(title)
-
         parentDocumentList = [...parentDocumentList, {id, title}]
         findParent($parentDocument)
     }

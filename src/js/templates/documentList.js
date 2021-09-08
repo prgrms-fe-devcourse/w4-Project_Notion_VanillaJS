@@ -16,8 +16,8 @@ export const documentListTemplate = (documents, isRoot = false) => {
                 `
                 )
                 .join('')}
-            `
-}
+            `;
+};
 
 export const documentTemplate = (id, title) => {
     return `
@@ -31,5 +31,5 @@ export const documentTemplate = (id, title) => {
                     </div>
                 </li>
             </ul>
-            `
-}
+            `;
+};

@@ -7,5 +7,5 @@ export const parentDocumentPathTemplate = (parentDocumentList) => {
             `
             )
             .join(`<span class="path-separation-bar">/</span>`)}
-    `
-}
+    `;
+};

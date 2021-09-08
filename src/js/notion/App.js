@@ -1,22 +1,22 @@
-import {request} from '../utils/api.js'
-import DocumentForm from './document/DocumentForm.js'
-import DocumentList from './document/DocumentList.js'
-import PostEditMain from './editor/main/PostEditMain.js'
-import PostEditModal from './editor/modal/PostEditModal.js'
-import {onModalOpen} from './ModalControl.js'
-import {$} from '../utils/DOM.js'
-import {getItem, setItem} from '../utils/storage.js'
-import {CURRENT_EDIT_DOCUMENT_ID} from '../constants/storage.js'
-import {initRouter, push} from '../utils/router.js'
-import {documentTemplate} from '../templates/documentList.js'
-import DocumentHeader from './document/DocumentHeader.js'
-import {USER_NAME} from '../constants/notion.js'
-import ParentDocumentPath from './editor/main/ParentDocumentPath.js'
-import {toggleOff, toggleOn} from './document/ToggleControl.js'
+import {request} from '../utils/api.js';
+import DocumentForm from './document/DocumentForm.js';
+import DocumentList from './document/DocumentList.js';
+import PostEditMain from './editor/main/PostEditMain.js';
+import PostEditModal from './editor/modal/PostEditModal.js';
+import {onModalOpen} from './ModalControl.js';
+import {$} from '../utils/DOM.js';
+import {getItem, setItem} from '../utils/storage.js';
+import {CURRENT_EDIT_DOCUMENT_ID} from '../constants/storage.js';
+import {initRouter, push} from '../utils/router.js';
+import {documentTemplate} from '../templates/documentList.js';
+import DocumentHeader from './document/DocumentHeader.js';
+import {USER_NAME} from '../constants/notion.js';
+import ParentDocumentPath from './editor/main/ParentDocumentPath.js';
+import {toggleOff, toggleOn} from './document/ToggleControl.js';
 
 export default function App({$target}) {
-    const $documentListContainer = $('.document-list-container')
-    const $editorContainer = $('.editor-container')
+    const $documentListContainer = $('.document-list-container');
+    const $editorContainer = $('.editor-container');
 
     this.state = {
         documents: [],
@@ -25,80 +25,80 @@ export default function App({$target}) {
             title: null,
             content: null,
         },
-    }
+    };
 
     this.setState = (nextState) => {
-        this.state = nextState
-    }
+        this.state = nextState;
+    };
 
     const setDisplay = (type) => {
-        $('.parent-path').style.display = type
-        $('.editor').style.display = type
-    }
+        $('.parent-path').style.display = type;
+        $('.editor').style.display = type;
+    };
 
     this.route = () => {
-        const {pathname} = window.location
+        const {pathname} = window.location;
 
         if (pathname === '/') {
-            setDisplay('none')
+            setDisplay('none');
         } else if (pathname.indexOf('/documents/') === 0) {
-            setDisplay('block')
-            $('.editor [name="title"]').focus()
+            setDisplay('block');
+            $('.editor [name="title"]').focus();
 
-            const [, , documentId] = pathname.split('/')
-            fetchEditor(documentId)
+            const [, , documentId] = pathname.split('/');
+            fetchEditor(documentId);
         }
-    }
+    };
 
     const onSubmit = async (newTitle) => {
         const document = {
             title: newTitle,
             parent: null,
-        }
+        };
 
         const {id, title} = await request(`/documents`, {
             method: 'POST',
             body: JSON.stringify({
                 ...document,
             }),
-        })
+        });
 
-        const newDocument = {id, title, documents: []}
+        const newDocument = {id, title, documents: []};
 
         this.setState({
             documents: [...this.state.documents, newDocument],
             selectedDocument: newDocument,
-        })
+        });
 
-        $('.document-list').insertAdjacentHTML('beforeend', documentTemplate(id, title))
-        push(`/documents/${id}`)
-        fetchEditor(id)
-    }
+        $('.document-list').insertAdjacentHTML('beforeend', documentTemplate(id, title));
+        push(`/documents/${id}`);
+        fetchEditor(id);
+    };
 
     const onToggle = (id) => {
-        const $target = $(`[data-id='${id}']`)
-        $target.className.includes('toggled') ? toggleOff(id) : toggleOn(id)
-    }
+        const $target = $(`[data-id='${id}']`);
+        $target.className.includes('toggled') ? toggleOff(id) : toggleOn(id);
+    };
 
     const onSelect = (id) => {
-        push(`/documents/${id}`)
-        setItem(CURRENT_EDIT_DOCUMENT_ID, id)
-    }
+        push(`/documents/${id}`);
+        setItem(CURRENT_EDIT_DOCUMENT_ID, id);
+    };
 
     const onAddSubDocument = async (parentId) => {
-        setItem(CURRENT_EDIT_DOCUMENT_ID, parentId)
-        onModalOpen()
+        setItem(CURRENT_EDIT_DOCUMENT_ID, parentId);
+        onModalOpen();
         const document = {
             title: '',
             parent: parentId,
-        }
+        };
 
         const {id, title} = await request(`/documents`, {
             method: 'POST',
             body: JSON.stringify({
                 ...document,
             }),
-        })
+        });
 
         this.setState({
             ...this.state,
@@ -107,43 +107,43 @@ export default function App({$target}) {
                 title,
                 content: '',
             },
-        })
+        });
 
         postEditModal.setState({
             id,
             title,
             content: '',
-        })
-    }
+        });
+    };
 
     const onRemove = async (id) => {
-        const {documents} = this.state
-        const nextDocuments = [...documents]
-        const documentIndex = documents.findIndex((document) => document.id === id)
-        nextDocuments.splice(documentIndex, 1)
+        const {documents} = this.state;
+        const nextDocuments = [...documents];
+        const documentIndex = documents.findIndex((document) => document.id === id);
+        nextDocuments.splice(documentIndex, 1);
 
         await request(`/documents/${id}`, {
             method: 'DELETE',
-        })
+        });
 
-        this.setState(nextDocuments)
-        fetchDocuments()
-        push(`/`)
-    }
+        this.setState(nextDocuments);
+        fetchDocuments();
+        push(`/`);
+    };
 
     new DocumentHeader({
         $target: $documentListContainer,
         text: USER_NAME,
-    })
+    });
 
     new DocumentForm({
         $target: $documentListContainer,
         onSubmit,
-    })
+    });
 
     const parentDocumentPath = new ParentDocumentPath({
         initialState: this.state,
-    })
+    });
 
     const documentList = new DocumentList({
         $target: $documentListContainer,
@@ -152,12 +152,12 @@ export default function App({$target}) {
         onSelect,
         onAddSubDocument,
         onRemove,
-    })
+    });
 
     const postEditMainPostEditMain = new PostEditMain({
         $target: $editorContainer,
         initialState: this.state.selectedDocument,
-    })
+    });
 
     const postEditModal = new PostEditModal({
         initialState: {
@@ -165,21 +165,21 @@ export default function App({$target}) {
             title: '',
             content: '',
         },
-    })
+    });
 
     const fetchDocuments = async () => {
-        const documents = await request('/documents')
+        const documents = await request('/documents');
         this.setState({
             ...this.state,
             documents,
-        })
-        documentList.setState(this.state.documents)
-    }
+        });
+        documentList.setState(this.state.documents);
+    };
 
     const fetchEditor = async (id) => {
-        const {title, content} = await request(`/documents/${id}`)
+        const {title, content} = await request(`/documents/${id}`);
 
-        $('title').innerText = title
+        $('title').innerText = title;
         this.setState({
             ...this.state,
             selectedDocument: {
@@ -187,37 +187,37 @@ export default function App({$target}) {
                 title,
                 content,
             },
-        })
+        });
 
-        postEditMainPostEditMain.setState(this.state.selectedDocument)
-        parentDocumentPath.setState(this.state.selectedDocument)
-    }
+        postEditMainPostEditMain.setState(this.state.selectedDocument);
+        parentDocumentPath.setState(this.state.selectedDocument);
+    };
 
     $('.modal-close').addEventListener('click', async () => {
-        const $modalEditor = $('.modal-editor')
-        $(`[name='title']`, $modalEditor).value = ''
-        $(`[name='content']`, $modalEditor).value = ''
+        const $modalEditor = $('.modal-editor');
+        $(`[name='title']`, $modalEditor).value = '';
+        $(`[name='content']`, $modalEditor).value = '';
 
-        const {id} = this.state.selectedDocument
-        const {title} = await request(`/documents/${id}`)
-        push(`/documents/${id}`)
+        const {id} = this.state.selectedDocument;
+        const {title} = await request(`/documents/${id}`);
+        push(`/documents/${id}`);
 
-        const parentId = getItem(CURRENT_EDIT_DOCUMENT_ID)
-        $(`[data-id='${parentId}']`).insertAdjacentHTML('beforeend', documentTemplate(id, title))
+        const parentId = getItem(CURRENT_EDIT_DOCUMENT_ID);
+        $(`[data-id='${parentId}']`).insertAdjacentHTML('beforeend', documentTemplate(id, title));
 
-        toggleOn(parentId)
-        await fetchEditor(id)
-    })
+        toggleOn(parentId);
+        await fetchEditor(id);
+    });
 
     window.onpopstate = () => {
-        this.route()
-    }
+        this.route();
+    };
 
     const init = () => {
-        fetchDocuments()
-        this.route()
-        initRouter(() => this.route())
-    }
+        fetchDocuments();
+        this.route();
+        initRouter(() => this.route());
+    };
 
-    init()
+    init();
 }

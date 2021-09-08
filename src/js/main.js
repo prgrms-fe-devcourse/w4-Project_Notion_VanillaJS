@@ -1,8 +1,8 @@
-import {$} from './utils/DOM.js'
-import App from './notion/App.js'
-import {ModalController} from './notion/ModalControl.js'
+import {$} from './utils/DOM.js';
+import App from './notion/App.js';
+import {ModalController} from './notion/ModalControl.js';
 
-const $target = $('#app')
+const $target = $('#app');
 
-new App({$target})
-ModalController()
+new App({$target});
+ModalController();
