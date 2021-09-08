@@ -12,8 +12,9 @@ import {documentTemplate} from '../templates/documentList.js';
 import DocumentHeader from './document/DocumentHeader.js';
 import {USER_NAME} from '../constants/notion.js';
 import ParentDocumentPath from './editor/main/ParentDocumentPath.js';
-import {toggleOff, toggleOn} from './document/ToggleControl.js';
+import {toggleOn} from './document/ToggleControl.js';
 import {editorTemplate} from '../templates/editor.js';
+import {onToggle, onSelect} from './handler.js';
 
 export default function App({$target}) {
     const $documentListContainer = $('.document-list-container');
@@ -74,16 +75,6 @@ export default function App({$target}) {
         $('.document-list').insertAdjacentHTML('beforeend', documentTemplate(id, title));
         push(`/documents/${id}`);
         fetchEditor(id);
-    };
-
-    const onToggle = (id) => {
-        const $target = $(`[data-id='${id}']`);
-        $target.className.includes('toggled') ? toggleOff(id) : toggleOn(id);
-    };
-
-    const onSelect = (id) => {
-        push(`/documents/${id}`);
-        setItem(CURRENT_EDIT_DOCUMENT_ID, id);
     };
 
     const onAddSubDocument = async (parentId) => {
@@ -196,7 +187,7 @@ export default function App({$target}) {
         parentDocumentPath.setState(this.state.selectedDocument);
     };
 
-    const modalCloseController = async () => {
+    const modalCloseHandler = async () => {
         const $modalEditor = $('.modal-editor');
         $(`[name='title']`, $modalEditor).value = '';
         $(`[name='content']`, $modalEditor).value = '';
@@ -212,29 +203,25 @@ export default function App({$target}) {
         await fetchEditor(id);
     };
 
-    $('.modal-close').addEventListener('click', () => {
-        modalCloseController();
-    });
-
-    window.addEventListener('click', async ({target}) => {
-        if (target.className === 'modal open') {
-            onModalClose();
-            modalCloseController();
-        }
-    });
-
-    window.onpopstate = () => {
-        this.route();
+    const onEventHandler = () => {
+        window.onpopstate = () => this.route();
+        window.addEventListener('click', async ({target}) => {
+            if (target.className === 'modal open') {
+                onModalClose();
+                modalCloseHandler();
+            }
+        });
+        $('.modal-close').addEventListener('click', modalCloseHandler);
+        $('.username').addEventListener('click', () => {
+            push(`/`);
+        });
     };
-
-    $('.username').addEventListener('click', ({target}) => {
-        push(`/`);
-    });
 
     const init = async () => {
         await fetchDocuments();
         this.route();
         initRouter(() => this.route());
+        onEventHandler();
     };
 
     init();
