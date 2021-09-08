@@ -1,7 +1,6 @@
 import { docsTreeToArray } from "./tool.js"
-import { request, USERNAME } from "./api.js"
-import { push, initRouter } from "./router.js"
-import Editor from "./Editor.js"
+import { USERNAME } from "./api.js"
+import { push } from "./router.js"
 
 export default function DocumentList({ $target, initialState, onDocsClick }) {
   const $documentList = document.createElement('div')
@@ -18,7 +17,7 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
   this.render = () => {
     if (this.state && Array.isArray(this.state)) {
       $documentList.innerHTML = `
-      <h2>${USERNAME}의 페이지 목록 📚</h2>
+      <h2 class="mainLogo">${USERNAME}의 페이지 목록 📚</h2>
       ${this.state.map(doc => `
       <li data-id="${doc.id}" ${doc.documents.length ? `class="parentFolder"`:''}>${doc.title}
       <button class="removeBtn">삭제</button></li>
@@ -31,6 +30,10 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
     const $li = e.target.closest('li')
     const { className } = e.target
     
+    if (className === 'mainLogo'){ // 메인로고 클릭 시 홈화면으로 이동
+      push('/')
+    }
+
     if ($li) {
       const { id } = $li.dataset
       onDocsClick(id, {className}, this.state)
@@ -50,6 +53,7 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
       }
     }
   })
-    
+
+
   this.render()
 }

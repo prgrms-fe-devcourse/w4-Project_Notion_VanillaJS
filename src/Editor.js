@@ -1,5 +1,5 @@
 import { request } from "./api.js"
-import { push, initRouter } from "./router.js"
+import { push } from "./router.js"
 
 export default function Editor({ $target, initialState, documentEditing
 }) {
@@ -55,7 +55,7 @@ export default function Editor({ $target, initialState, documentEditing
         documentEditing(newTitle, null, this.state.id)
       } else alert("제목을 입력하세요")
     } else if (className === 'cancelBtn'){
-      history.go(0)
+      push('/')
     }
   }
   )

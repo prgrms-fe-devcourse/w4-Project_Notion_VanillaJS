@@ -1,16 +1,17 @@
 import DocumentList from "./DocumentList.js";
 import Editor from "./Editor.js";
-import { docsTreeToArray } from "./tool.js";
 import { request, USERNAME } from "./api.js"
+import { initRouter, push } from "./router.js";
 
 export default function App ({ $target }) {
   const documentList = new DocumentList({ 
     $target,
     initialState: [],
-    onDocsClick: (id, {className}, state) => {
-      fetchDocument(id)
+    onDocsClick: (id, {className}) => {
+      history.pushState('','',`/documents/${id}`)
+      this.route()
 
-      if(className === 'removeBtn'){
+      if (className === 'removeBtn') {
         if(confirm("삭제하실건가요?")) {
           removeDocument(id)
         }
@@ -37,7 +38,6 @@ export default function App ({ $target }) {
     documentList.setState(docList)
   }
   fetchDocumentList()
-
   // 문서 조회
   const fetchDocument = async (id) => {
     const document = await request(`/documents/${id}`,{
@@ -64,5 +64,26 @@ export default function App ({ $target }) {
       })
     })
     fetchDocumentList()
+    push(`/documents/${document.id}`);
   }
+
+  this.route = () => {
+    const { pathname } = window.location
+
+    if (pathname === '/') {
+      editor.setState({
+        title: `${USERNAME} 님 반가워요 😃`,
+        content: '',
+        createdAt: '',
+        updatedAt: ''
+       })
+    } else if (pathname.indexOf('/documents/') === 0 ) {
+      const [, , documentId] = pathname.split('/')
+      fetchDocument(documentId)
+    }
+  }
+
+  this.route()
+
+  initRouter(() => this.route())
 }
