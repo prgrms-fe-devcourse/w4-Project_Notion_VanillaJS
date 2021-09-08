@@ -1,18 +1,18 @@
-import DocumentList from "./DocumentList.js";
-import Editor from "./Editor.js";
-import { request, USERNAME } from "./api.js"
-import { initRouter, push } from "./router.js";
+import DocumentList from './DocumentList.js'
+import Editor from './Editor.js'
+import { request, USERNAME } from './api.js'
+import { initRouter, push } from './router.js'
 
 export default function App ({ $target }) {
   const documentList = new DocumentList({ 
     $target,
     initialState: [],
-    onDocsClick: (id, {className}) => {
-      history.pushState('','',`/documents/${id}`)
+    onDocsClick: (id, { className }) => {
+      history.pushState('','',`/documents/${ id }`)
       this.route()
 
       if (className === 'removeBtn') {
-        if(confirm("삭제하실건가요?")) {
+        if(confirm('삭제하실건가요?')) {
           removeDocument(id)
         }
       }
@@ -21,13 +21,8 @@ export default function App ({ $target }) {
 
   const editor = new Editor({ 
   $target,
-  initialState: {
-    title: `${USERNAME} 님 반가워요 😃`,
-    content: '',
-    createdAt: '',
-    updatedAt: ''
-   },
-   documentEditing: (title, content, id) => {
+  initialState: [],
+   documentEditing: (title, id) => {
     newDocument(title, id)
    }
   })

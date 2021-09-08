@@ -1,3 +1,4 @@
+// docsTree의 documents를 Array에 담는 함수
 export function docsTreeToArray(res) { 
   const tree = [];
   for(let i=0; i<res.length; i++) 

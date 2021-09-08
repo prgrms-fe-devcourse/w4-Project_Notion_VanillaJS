@@ -1,5 +1,5 @@
-import { request } from "./api.js"
-import { push } from "./router.js"
+import { request } from './api.js'
+import { push } from './router.js'
 
 export default function Editor({ $target, initialState, documentEditing
 }) {
@@ -48,12 +48,10 @@ export default function Editor({ $target, initialState, documentEditing
       newDocumentEditor()
     } else if (className === 'createBtn') {
       const newTitle = document.getElementById('newTitle').value
-      console.log("creatBtnTest")
-      console.log(this.state.id);
       
       if(newTitle){
-        documentEditing(newTitle, null, this.state.id)
-      } else alert("제목을 입력하세요")
+        documentEditing(newTitle, this.state.id)
+      } else alert('제목을 입력하세요')
     } else if (className === 'cancelBtn'){
       push('/')
     }
@@ -73,7 +71,7 @@ export default function Editor({ $target, initialState, documentEditing
     `
   }
 
-  // 수정
+  // 문서 수정
   const editDocument = async (title, content, id) => {
     const document = await request(`/documents/${id}`,{
       method: 'PUT',

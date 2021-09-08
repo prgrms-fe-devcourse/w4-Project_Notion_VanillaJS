@@ -1,6 +1,6 @@
-import { docsTreeToArray } from "./tool.js"
-import { USERNAME } from "./api.js"
-import { push } from "./router.js"
+import { docsTreeToArray } from './tool.js'
+import { USERNAME } from './api.js'
+import { push } from './router.js'
 
 export default function DocumentList({ $target, initialState, onDocsClick }) {
   const $documentList = document.createElement('div')
@@ -30,7 +30,8 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
     const $li = e.target.closest('li')
     const { className } = e.target
     
-    if (className === 'mainLogo'){ // 메인로고 클릭 시 홈화면으로 이동
+    // 메인로고 클릭 시 홈화면으로 이동
+    if (className === 'mainLogo'){ 
       push('/')
     }
 
@@ -39,13 +40,13 @@ export default function DocumentList({ $target, initialState, onDocsClick }) {
       onDocsClick(id, {className}, this.state)
 
     // 접기버튼
-    if (className === 'foldupBtn') {
+    if (className === "foldupBtn") {
       const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
-      $li.innerHTML = `${originTitle.documents.length ? `<strong>${originTitle.title}</strong>`:originTitle.title} <button class="removeBtn">삭제</button>`
+      $li.innerHTML = `${originTitle.documents.length ? `<b>${originTitle.title}</b>`:originTitle.title} <button class="removeBtn">삭제</button>`
     } else{ // 클릭 시 펼침
       const originTitle = docsTreeToArray(this.state).filter(obj=>obj.id==id)[0]
       if(originTitle){
-        $li.innerHTML = `${originTitle.documents.length ? `<strong>${originTitle.title}</strong>`:originTitle.title} <button class="removeBtn">삭제</button>${originTitle.documents.length ? `<button class="foldupBtn" >접기</button>` : ''}
+        $li.innerHTML = `${originTitle.documents.length ? `<b>${originTitle.title}</b>`:originTitle.title} <button class="removeBtn">삭제</button>${originTitle.documents.length ? `<button class="foldupBtn" >접기</button>` : ''}
         ${originTitle.documents.map(doc => `
         <li data-id="${doc.id}" class="spreadTitle ${doc.documents.length ? "parentFolder" : ""}">${doc.title} <button class="removeBtn">삭제</button></li>
       `).join('')}
