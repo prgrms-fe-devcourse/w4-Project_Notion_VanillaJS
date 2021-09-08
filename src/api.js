@@ -56,4 +56,4 @@ const removeDocument = async (documentId = '') => {
     })
 }
 
-export {  getDocument, createDocument, editDocument, removeDocument }
+export { getDocument, createDocument, editDocument, removeDocument }

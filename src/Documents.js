@@ -1,11 +1,15 @@
-export default function Documents({ $target, currentState, onGetDocument, onCreateDocument, onRoute }) {
+export default function Documents({ $target, currentState, 
+    onGetDocument, onCreateDocument, makeEditor, onPushRoute }) {
     const $documents = document.createElement('div');
-    this.state = currentState
 
+    this.state = currentState
+  
     this.setState = (nextState) => {
         this.state = nextState
         this.render()
     }
+
+    const { documentsInfos } = this.state;
 
     $target.appendChild($documents);
 
@@ -18,9 +22,9 @@ export default function Documents({ $target, currentState, onGetDocument, onCrea
                             +
                         </button>
                         ${documents.length > 0 ? 
-                            this.showDocumentsTree(documents) 
+                            this.showDocumentsTree(documents, id) 
                             : ''
-                        }  
+                        }
                     </li>`
                 ).join('')}
             </ul>
@@ -32,7 +36,7 @@ export default function Documents({ $target, currentState, onGetDocument, onCrea
             `
                 <span>홍중 워크스페이스</span>
                 <button>+</button>
-                ${this.showDocumentsTree(this.state)}
+                ${this.showDocumentsTree(documentsInfos)}
             `
     }
 
@@ -42,13 +46,17 @@ export default function Documents({ $target, currentState, onGetDocument, onCrea
         const { tagName } = event.target
 
         if (!$li) {
-            if (this.state.length === 0) {
+            if (documentsInfos.length === 0) {
                 onCreateDocument()
                 onGetDocument()
                 return 
             }
 
-            throw new Error('근처 li를 찾을 수 없습니다.')
+            console.log('근처 li를 찾을 수 없습니다.')
+        } else {
+            const documentId = $li.id
+            history.pushState(null, null, `/documents/${documentId}`)
+            onPushRoute(`/documents/${documentId}`)
         }
 
         if (tagName === 'BUTTON') {

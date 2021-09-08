@@ -1,4 +1,4 @@
-export default function Documents({ $target, currentState }) {
+export default function Editor({ $target, currentState, updateContent }) {
     const $editor = document.createElement('div')
 
     this.state = currentState
@@ -24,18 +24,8 @@ export default function Documents({ $target, currentState }) {
         const $input = $editor.querySelector('input[name=title]')
         const title = $input.value
 
-        if (title) {
-            this.setState({
-                ...this.state,
-                title,
-            })
-        }
-        
-        if (textContent) {
-            this.setState({
-                ...this.state,
-                content: textContent
-            })
+        if(title && textContent){
+            updateContent(title, textContent)
         }
     })
     

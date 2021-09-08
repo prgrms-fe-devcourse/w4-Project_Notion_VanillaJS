@@ -1,29 +1,86 @@
-import Documents from "./Documents.js"
-import Editor from './Editor.js'
-import { getDocument,createDocument } from "./api.js"
-import { setItem } from "./storage.js";
+import DocumentsPage from './DocumentsPage.js';
+import EditorPage from './EditorPage.js'
+import { getItem, setItem } from './storage.js';
+import { initRouter } from './router.js';
 
-export default function App({ $target, currentState }) {
-    const documents = new Documents({
+const savedDocuments = getItem('documents')
+const editors = getItem('editors')
+
+export default function App({ $target }) {
+    this.state = {
+        documentsInfos: [
+            ...savedDocuments
+        ],
+        editorsInfos: [
+            ...editors
+        ]
+    }
+
+    this.setState = (nextState) => {
+        this.state = nextState
+        this.render()
+    }
+    
+    new DocumentsPage({
         $target,
-        currentState,
-        onGetDocument: async () => {
-            const savedDocuments = await getDocument()
+        currentState: this.state,
+    });
     
-            documents.setState(savedDocuments)
-    
-            setItem('documents', savedDocuments)
-        },
-        onCreateDocument: async (parent) => {
-            await createDocument('untitled', parent)
-        },
-    })
-
-    new Editor({
+    const editorPage = new EditorPage({
         $target,
         currentState: {
-            title: '오늘 할 공부',
-            content: '자바스크립트 공부'
+            documentId: '',
+            title: '',
+            content: ''
         },
+        updateContent: (title, content) => {
+            editorPage.setState({
+                    documentId: editorPage.state.documentId,
+                    title,
+                    content
+            });
+
+            const targetId = editorPage.state.documentId    
+            
+            const previousEditors = this.state.editorsInfos.filter(({ documentId }) => documentId !== targetId)
+
+            const nextEditors = [
+                ...previousEditors,
+                editorPage.state
+            ]
+
+            const nextState = {
+                documentsInfos: this.state.documentsInfos,
+                editorsInfos: nextEditors
+                
+            }
+
+            this.setState(nextState)
+            setItem('editors', nextEditors);
+        }
     })
+
+    this.route = async () => {
+        const { pathname } = window.location;
+        if (pathname.includes('/documents/')) {
+            const [, , documentId] = pathname.split('/');
+            const targetId = documentId
+
+            editorPage.setState({
+                documentId: targetId,
+                title: '',
+                content: ''
+            });
+        }
+    }
+
+    this.render = () => {
+
+    }
+
+    this.render()
+
+    this.route();
+
+    initRouter(() => this.route());
 }

@@ -22,3 +22,5 @@ const setItem = (key, value) => {
         console.log(error)
     }
 }
+
+export { getItem, setItem }
