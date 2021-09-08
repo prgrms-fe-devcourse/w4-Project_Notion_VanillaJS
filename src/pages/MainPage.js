@@ -1,4 +1,5 @@
 import Editor from '../components/Editor/index.js'
+import LoadingBox from '../components/LoadingBox/index.js'
 import Sidebar from '../components/Sidebar/index.js'
 
 export default function MainPage({
@@ -32,14 +33,20 @@ export default function MainPage({
     onDocumentEdit,
   })
 
+  const loadingBox = new LoadingBox({
+    $target: $page,
+    initialState: this.state.isSaveLoading,
+  })
+
   this.setState = (nextState) => {
     this.state = nextState
-    const { username, documents, document } = this.state
+    const { username, documents, document, isSaveLoading } = this.state
     sidebar.setState({
       username,
       documents,
     })
     editor.setState(document)
+    loadingBox.setState(isSaveLoading)
   }
 
   this.render = () => {

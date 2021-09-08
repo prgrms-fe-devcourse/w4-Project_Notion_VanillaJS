@@ -2,7 +2,7 @@ import { renderBottomBar } from '../../utils/templates.js'
 
 export default function BottomBar({ $target, onDocumentClick }) {
   const $bottomBar = document.createElement('div')
-  $bottomBar.className = 'Editor__bottomBar'
+  $bottomBar.className = 'Editor__bottom-bar'
 
   $target.appendChild($bottomBar)
 

@@ -50,7 +50,7 @@ export default function EditorContainer({
 
       onDocumentEdit(id, { title, content })
     }
-  }, 1000)
+  }, 2000)
 
   $editorContainer.addEventListener('keyup', debouncedOnEdit)
 

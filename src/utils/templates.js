@@ -5,6 +5,10 @@ import {
   CHILD_DOCUMENTS_NOT_EXIST_TEXT,
 } from '../constants.js'
 
+const DEFAULT_TITLE = 'Untitled'
+
+const getTitle = (title) => (title ? title : DEFAULT_TITLE)
+
 const renderListItem = (
   { id, title, documents },
   depth = 1,
@@ -42,7 +46,7 @@ const renderListItem = (
             <button type="button" style="pointer-events: all;" class="${COLLAPSE_BUTTON}">
                 ${collapseIcon}
             </button>
-            <span>${title ? title : 'Untitled'}</span>
+            <span>${getTitle(title)}</span>
         </div>
         <div class="PageBlock__buttons">
             <button class="${DELETE_BUTTON}" type="button">
@@ -91,13 +95,13 @@ export const renderEditor = (document) => {
 
 export const renderBottomBar = (documents) => {
   const bottomBarTitle = `
-    <div>이 문서의 하위 문서</div>
+    <div class="BottomBar__title">하위 문서</div>
   `
 
   if (!documents || documents.length === 0) {
     return `
         ${bottomBarTitle}
-        <div>${CHILD_DOCUMENTS_NOT_EXIST_TEXT}</div>
+        <div class="BottomBar__none">${CHILD_DOCUMENTS_NOT_EXIST_TEXT}</div>
     `
   }
 
@@ -105,11 +109,11 @@ export const renderBottomBar = (documents) => {
 
   return `
     ${bottomBarTitle}
-    <ul>
+    <ul class="BottomBar__list">
         ${documents
           .map(
             ({ id, title }) =>
-              `<li class="${DOCUMENT}" data-id=${id}>${title}</li>`,
+              `<li class="${DOCUMENT}" data-id=${id}>${getTitle(title)}</li>`,
           )
           .join('')}
     </ul>`

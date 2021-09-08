@@ -35,10 +35,10 @@ export default function App({ $target }) {
     })
   }
 
-  const onDocumentAdd = async (id) => {
-    await requestPOST('/documents', {
+  const onDocumentAdd = async (parent) => {
+    const { id } = await requestPOST('/documents', {
       title: '',
-      parent: id,
+      parent,
     })
 
     const document = await requestGET(`/documents/${id}`)
@@ -52,6 +52,10 @@ export default function App({ $target }) {
   }
 
   const onDocumentEdit = async (id, documentData) => {
+    this.setState({
+      ...this.state,
+      isSaveLoading: true,
+    })
     await requestPUT(`/documents/${id}`, documentData)
 
     const document = await requestGET(`/documents/${id}`)
@@ -59,6 +63,7 @@ export default function App({ $target }) {
 
     this.setState({
       ...this.state,
+      isSaveLoading: false,
       document,
       documents,
     })

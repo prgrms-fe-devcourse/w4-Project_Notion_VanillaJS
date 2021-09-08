@@ -19,6 +19,10 @@ i {
   font-size: 14px;
 }
 
+.none {
+  display: none;
+}
+
 .MainPage {
   display: flex;
   width: 100vw;
@@ -50,12 +54,12 @@ i {
 }
 
 .Editor {
-  width: 80%;
+  max-width: 900px;
   display: inline-block;
+  width: 80%;
   flex-shrink: 1;
   flex-grow: 1;
   margin-top: 96px;
-
   color: var(--editor-font-color);
 }
 
@@ -64,6 +68,7 @@ i {
 }
 
 .Editor__title {
+  display: block;
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 28px;
@@ -71,28 +76,48 @@ i {
   border: 0;
   outline: 0;
   flex-grow: 0;
-  display: block;
 }
 
 .Editor__content {
+  display: inline-block;
+  height: 90%;
   font-size: 16px;
   padding: 2px 1px;
   border: 0;
   outline: 0;
-  flex-grow: 1;
   resize: none;
   overflow: visible;
-  display: inline-block;
 }
 
-.Editor__bottomBar ul {
+.Editor__bottom-bar {
+  max-width: 900px;
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+.Editor__bottom-bar ul {
   display: flex;
 }
-.Editor__bottomBar li {
+
+.Editor__bottom-bar .Sidebar__Document {
   margin: 10px 0;
   margin-right: 5px;
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+}
+
+.BottomBar__title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.BottomBar__none {
+  margin: 10px 0;
+  margin-left: 5px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  color: var(--sidebar-document-font-color);
 }
 
 .PageBlock__buttons {
@@ -167,18 +192,13 @@ i {
   background: var(--sidebar-btn-hover-color);
 }
 
-/* TODO: 일단 add하는 블록은 별도 안에서 찾아서 처리중, 나중에 다시 찾아내서 별도로 분리해주기*/
-.Sidebar__DocumentAdd {
-  padding: 0px;
-}
-
-.Sidebar__DocumentAdd .Sidebar__AddButton {
-  width: 100%;
-  display: flex;
-  padding: 8px 0px;
-  padding-left: 19px;
-}
-
-.Sidebar__DocumentAdd .Sidebar__AddButton:hover {
-  background: var(--sidebar-document-hover-color);
+.LoadingBox {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  background-color: rgba(55, 53, 47, 0.8);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 5px;
 }
