@@ -3,7 +3,7 @@ import DocumentForm from './document/DocumentForm.js';
 import DocumentList from './document/DocumentList.js';
 import PostEditMain from './editor/main/PostEditMain.js';
 import PostEditModal from './editor/modal/PostEditModal.js';
-import {onModalOpen} from './ModalControl.js';
+import {onModalClose, onModalOpen} from './ModalControl.js';
 import {$} from '../utils/DOM.js';
 import {getItem, setItem} from '../utils/storage.js';
 import {CURRENT_EDIT_DOCUMENT_ID} from '../constants/storage.js';
@@ -196,7 +196,7 @@ export default function App({$target}) {
         parentDocumentPath.setState(this.state.selectedDocument);
     };
 
-    $('.modal-close').addEventListener('click', async () => {
+    const modalCloseController = async () => {
         const $modalEditor = $('.modal-editor');
         $(`[name='title']`, $modalEditor).value = '';
         $(`[name='content']`, $modalEditor).value = '';
@@ -210,6 +210,17 @@ export default function App({$target}) {
 
         toggleOn(parentId);
         await fetchEditor(id);
+    };
+
+    $('.modal-close').addEventListener('click', () => {
+        modalCloseController();
+    });
+
+    window.addEventListener('click', async ({target}) => {
+        if (target.className === 'modal open') {
+            onModalClose();
+            modalCloseController();
+        }
     });
 
     window.onpopstate = () => {
