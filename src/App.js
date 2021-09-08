@@ -1,5 +1,6 @@
 import MainPage from './pages/MainPage.js'
 import NotFoundPage from './pages/NotFoundPage.js'
+import RouterUtils from './utils/router.js'
 import {
   requestDELETE,
   requestGET,
@@ -22,6 +23,8 @@ export default function App({ $target }) {
       ...this.state,
       document,
     })
+
+    RouterUtils.push(`/documents/${id}`)
   }
 
   const onDocumentDelete = async (id) => {
@@ -33,6 +36,11 @@ export default function App({ $target }) {
       ...this.state,
       documents,
     })
+
+    const { prevUrl } = history.state
+    if (`/documents/${id}` === location.pathname) {
+      RouterUtils.replace(prevUrl)
+    }
   }
 
   const onDocumentAdd = async (parent) => {
@@ -49,6 +57,8 @@ export default function App({ $target }) {
       document,
       documents,
     })
+
+    RouterUtils.push(`/documents/${id}`)
   }
 
   const onDocumentEdit = async (id, documentData) => {
@@ -104,7 +114,7 @@ export default function App({ $target }) {
     const { pathname } = location
     const [, , documentId] = pathname.split('/')
     let document = null
-    if (pathname.indexOf('/documents/') === 0) {
+    if (typeof Number(documentId) === 'number') {
       document = await requestGET(`/documents/${documentId}`)
     }
 
@@ -118,4 +128,5 @@ export default function App({ $target }) {
   }
 
   this.init()
+  RouterUtils.initRoute(this.init)
 }
