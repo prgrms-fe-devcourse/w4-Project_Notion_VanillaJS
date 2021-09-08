@@ -12,11 +12,12 @@ export default function App({ $target }) {
     username: 'grighth12',
     documents: null,
     document: null,
-    isPOSTLoading: false,
+    isSaveLoading: false,
   }
 
   const onDocumentClick = async (id) => {
     const document = await requestGET(`/documents/${id}`)
+
     this.setState({
       ...this.state,
       document,
@@ -35,11 +36,12 @@ export default function App({ $target }) {
   }
 
   const onDocumentAdd = async (id) => {
-    const document = await requestPOST('/documents', {
-      title: 'Untitled',
+    await requestPOST('/documents', {
+      title: '',
       parent: id,
     })
 
+    const document = await requestGET(`/documents/${id}`)
     const documents = await requestGET('/documents')
 
     this.setState({
@@ -50,10 +52,9 @@ export default function App({ $target }) {
   }
 
   const onDocumentEdit = async (id, documentData) => {
-    const document = await requestPUT(`/documents/${id}`, documentData)
+    await requestPUT(`/documents/${id}`, documentData)
 
-    console.log(document)
-
+    const document = await requestGET(`/documents/${id}`)
     const documents = await requestGET('/documents')
 
     this.setState({
@@ -62,6 +63,7 @@ export default function App({ $target }) {
       documents,
     })
   }
+
   const notFoundPage = new NotFoundPage({
     $target,
   })

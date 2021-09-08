@@ -1,3 +1,4 @@
+import { editorClasses } from '../../constants.js'
 import { renderEditor } from '../../utils/templates.js'
 
 export default function Editor({ $target, initialState }) {
@@ -15,7 +16,17 @@ export default function Editor({ $target, initialState }) {
 
   this.render = () => {
     $editor.innerHTML = renderEditor(this.state)
-  }
 
+    const { TITLE, CONTENT } = editorClasses
+
+    const $title = $editor.querySelector(`.${TITLE}`)
+    const $content = $editor.querySelector(`.${CONTENT}`)
+
+    if (this.state?.title === '') {
+      $title && $title.focus()
+    } else if (this.state?.content == '') {
+      $content && $content.focus()
+    }
+  }
   this.render()
 }

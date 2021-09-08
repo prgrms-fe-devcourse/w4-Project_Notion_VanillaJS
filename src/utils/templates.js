@@ -42,7 +42,7 @@ const renderListItem = (
             <button type="button" style="pointer-events: all;" class="${COLLAPSE_BUTTON}">
                 ${collapseIcon}
             </button>
-            <span>${title}</span>
+            <span>${title ? title : 'Untitled'}</span>
         </div>
         <div class="PageBlock__buttons">
             <button class="${DELETE_BUTTON}" type="button">

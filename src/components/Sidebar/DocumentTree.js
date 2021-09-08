@@ -48,7 +48,7 @@ export default function DocumentTree({
 
         if ($li) {
           const { id } = $li.dataset
-          console.log(id)
+
           onDocumentAdd(Number(id))
         } else {
           onDocumentAdd(null)

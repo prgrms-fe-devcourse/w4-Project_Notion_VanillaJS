@@ -41,8 +41,12 @@ export default function EditorContainer({
     const { className } = e.target
     if (className === TITLE || className === CONTENT) {
       const { id } = this.state
-      const title = $editorContainer.querySelector(`.${TITLE}`).value
-      const content = $editorContainer.querySelector(`.${CONTENT}`).innerHTML
+
+      const $title = $editorContainer.querySelector(`.${TITLE}`)
+      const title = $title.value
+
+      const $content = $editorContainer.querySelector(`.${CONTENT}`)
+      const content = $content.innerHTML
 
       onDocumentEdit(id, { title, content })
     }
