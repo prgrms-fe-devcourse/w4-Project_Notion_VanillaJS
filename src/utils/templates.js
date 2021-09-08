@@ -5,23 +5,40 @@ import {
   CHILD_DOCUMENTS_NOT_EXIST_TEXT,
 } from '../constants.js'
 
-const renderListItem = ({ id, title, depth, isOpen, isSelected }) => {
+const renderListItem = (
+  { id, title, documents },
+  depth = 1,
+  isOpen,
+  selectedId,
+) => {
   const { DOCUMENT, DELETE_BUTTON, ADD_BUTTON, COLLAPSE_BUTTON } =
     listItemClasses
 
+  const isSelected = selectedId === id
   const listItemClass = isSelected
     ? `${DOCUMENT} ${DOCUMENT}--selected`
     : DOCUMENT
 
-  const listItemStyle = `style="padding-left: ${depth * 14}px;"`
+  const listItemStyle = `padding-left: ${depth * 14}px;`
 
   const collapseIcon = isOpen
     ? `<i class="fas fa-caret-down"></i>`
     : `<i class="fas fa-caret-right"></i>`
 
+  const childDocuments =
+    documents.length !== 0
+      ? `
+        <ul class="PageBlock">
+          ${documents
+            .map((document) => renderListItem(document, depth + 1, true, 1))
+            .join('')}
+        </ul>
+       `
+      : ''
+
   return `
-    <li class="${listItemClass}" data-id="${id}">
-        <div class="PageBlock__column" style="pointer-events: none;" style="${listItemStyle}">
+    <li class="${listItemClass}" data-id="${id}" style="${listItemStyle}">
+        <div class="PageBlock__column" style="pointer-events: none;">
             <button type="button" style="pointer-events: all;" class="${COLLAPSE_BUTTON}">
                 ${collapseIcon}
             </button>
@@ -35,7 +52,10 @@ const renderListItem = ({ id, title, depth, isOpen, isSelected }) => {
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-    <li>`
+        <li>
+        ${childDocuments}
+    
+    `
 }
 
 export const renderDocumentTree = (documents) => {
