@@ -15,8 +15,13 @@ const isFirstRender = ({ $div, state }) => {
         </ul>
           `;
   } else {
-    console.log("!!");
-    $div.closest(".list").innerHTML = getItem("toggle");
+    $div
+      .closest(".list")
+      .insertAdjacentHTML(
+        "beforeend",
+        `<button class="root-add-btn" class="root-add-btn"> Root ➕</button>`
+      );
+    $div.closest(".list").insertAdjacentHTML("beforeend", getItem("toggle"));
   }
 };
 
