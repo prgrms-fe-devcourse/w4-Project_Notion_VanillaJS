@@ -8,23 +8,76 @@ import {
 } from './utils/api.js'
 
 export default function App({ $target }) {
+  this.state = {
+    username: 'grighth12',
+    documents: null,
+    document: null,
+    isPOSTLoading: false,
+  }
+
+  const onDocumentClick = async (id) => {
+    const document = await requestGET(`/documents/${id}`)
+    this.setState({
+      ...this.state,
+      document,
+    })
+  }
+
+  const onDocumentDelete = async (id) => {
+    await requestDELETE(`/documents/${id}`)
+
+    const documents = await requestGET('/documents')
+
+    this.setState({
+      ...this.state,
+      documents,
+    })
+  }
+
+  const onDocumentAdd = async (id) => {
+    const document = await requestPOST('/documents', {
+      title: 'Untitled',
+      parent: id,
+    })
+
+    const documents = await requestGET('/documents')
+
+    this.setState({
+      ...this.state,
+      document,
+      documents,
+    })
+  }
+
+  const onDocumentEdit = async (id, documentData) => {
+    const document = await requestPUT(`/documents/${id}`, documentData)
+
+    console.log(document)
+
+    const documents = await requestGET('/documents')
+
+    this.setState({
+      ...this.state,
+      document,
+      documents,
+    })
+  }
   const notFoundPage = new NotFoundPage({
     $target,
   })
 
   const mainPage = new MainPage({
     $target,
+    initialState: this.state,
+    onDocumentClick,
+    onDocumentAdd,
+    onDocumentDelete,
+    onDocumentEdit,
   })
-
-  this.state = {
-    user: 'grighth12',
-    documents: null,
-    document: null,
-    isPOSTLoading: false,
-  }
 
   this.setState = (nextState) => {
     this.state = nextState
+    mainPage.setState(this.state)
   }
 
   this.route = () => {
@@ -48,11 +101,11 @@ export default function App({ $target }) {
       document = await requestGET(`/documents/${documentId}`)
     }
 
-    this.setState = {
+    this.setState({
       ...this.state,
       documents,
       document,
-    }
+    })
 
     this.route()
   }
