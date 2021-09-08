@@ -5,6 +5,8 @@ import {
   putDocument,
   deleteDocument,
 } from "../../../api/request.js";
+import { push } from "../../router.js";
+
 import PostList from "./PostList.js";
 export default function PostsPage({
   $target,
@@ -34,7 +36,11 @@ export default function PostsPage({
 
   $postPage.addEventListener("click", (e) => {
     const { target } = e;
-
+    const $li = e.target.closest("li");
+    if ($li) {
+      const id = $li.id;
+      push(`/posts/${id}`);
+    }
     switch (true) {
       case target.classList.contains("erase-btn"):
         onEraseBtnClick(target.closest("li"));

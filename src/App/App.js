@@ -7,11 +7,13 @@ import {
   putDocument,
   postDocument,
 } from "../api/request.js";
+import { initRouter } from "./router.js";
 import { setItem } from "../storage/storage.js";
 
 export default function App({ $target, initialState = [] }) {
   this.state = initialState;
   this.setState = ({ $target, nextState, type }) => {
+    console.log($target, nextState, type);
     this.state = nextState;
     if (type === "li-click") {
       postsPage.setState({ $target, nextState: this.state.documents, type });
@@ -101,4 +103,22 @@ export default function App({ $target, initialState = [] }) {
 
   this.render = () => {};
   this.render();
+
+  this.route = () => {
+    // $target.innerHTML = ''
+    const { pathname } = window.location;
+    console.log(pathname);
+    //
+    // if (pathname === '/'){
+    //   postsPage.setState()
+    // }
+    // else if (pathname.indexOf('/posts/') === 0){
+    //   const [, , postId] = pathname.split('/')
+    //   postsEditPage.setState({ postId })
+    // }
+  };
+  //
+  // this.route()
+  //
+  initRouter(() => this.route());
 }
