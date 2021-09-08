@@ -51,6 +51,7 @@ export default function App ({ $target }) {
     const document = await request(`/documents/${id}`,{
       method: 'DELETE',
     })
+    push('/')
     fetchDocumentList()
   }
 
@@ -64,7 +65,7 @@ export default function App ({ $target }) {
       })
     })
     fetchDocumentList()
-    push(`/documents/${document.id}`);
+    push(`/documents/${document.id}`)
   }
 
   this.route = () => {
