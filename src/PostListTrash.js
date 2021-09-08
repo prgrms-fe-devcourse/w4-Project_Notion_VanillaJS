@@ -1,9 +1,10 @@
-import { getItem,setItem,removeItem} from "./storage.js"
+import { getItem,setItem} from "./storage.js"
 import { push} from "./router.js";
+
+
 export default function PostListTrash({$target,initialState,onHardRemove,onRecover,onRemoveAllTrash})
     {
     const $postListTrash = document.createElement('div')
-    //const $postList=$target
 
     $target.appendChild($postListTrash)
     
@@ -29,18 +30,12 @@ export default function PostListTrash({$target,initialState,onHardRemove,onRecov
     this.forRender=()=>{
         if(init===false){
         for (let i in window.localStorage){
-            console.log(window.localStorage[i])
-            // console.log(window.localStorage[i].title)
-            // console.log(window.localStorage.title)
-            console.log(getItem(i))
             if(getItem(i)!=undefined){
             this.state.push(getItem(i))
-            console.log(this.state)
             }
         }
         init=true
         }
-        console.log(this.state)
         this.render()
 
     }
@@ -104,6 +99,9 @@ export default function PostListTrash({$target,initialState,onHardRemove,onRecov
             else if(className==='recoverButton'){
                 alert('수정 후 복구 시키겠습니까?')
                 onRecover(id,title)
+            }
+            else if(className==='trashDocs'){
+                alert('휴지통의 내용은 삭제되어 볼 수 없습니다.')
             }
 
             else{

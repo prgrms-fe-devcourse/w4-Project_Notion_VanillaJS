@@ -1,11 +1,12 @@
+import { request } from "./api.js"
+import { removeItem,getItem } from "./storage.js"
+import { push } from "./router.js"
 import PostList from "./PostList.js"
 import LinkButton from "./LinkButton.js"
 import PostListTrash from "./PostListTrash.js"
 import FirstPage from "./FirstPage.js"
-import { request } from "./api.js"
 
-import { removeItem,getItem } from "./storage.js"
-import { push } from "./router.js"
+
 export default function PostsPage({
     $target,
     
@@ -21,9 +22,8 @@ export default function PostsPage({
         initialState:[],
         onRemove: async (Id)=>{
 
-            const findChild=(docsObj,docsId)=>{
+            const findChildForRemove=(docsObj,docsId)=>{
                 const checkDocumetToremove=docsObj.map(findDocs=>findDocs.documents)
-                console.log(checkDocumetToremove)
                 for(let i in checkDocumetToremove){
                     for(let j=0;j<checkDocumetToremove[i].length;j++){
                         console.log(checkDocumetToremove[i])
@@ -33,7 +33,7 @@ export default function PostsPage({
                             console.log('index',docsIndex)
                             if(docsIndex===-1)
                             {
-                                findChild(checkDocumetToremove,docsId)
+                                findChildForRemove(checkDocumetToremove,docsId)
                             }
                             else{
                                 postListTrash.setState(checkDocumetToremove[i][docsIndex])
@@ -43,31 +43,23 @@ export default function PostsPage({
                         }
                     }
                 }
-                console.log(checkDocumetToremove)
                 for(let i in checkDocumetToremove){
                     if(checkDocumetToremove[i].length!=0){
-                        findChild(checkDocumetToremove[i],docsId)
+                        findChildForRemove(checkDocumetToremove[i],docsId)
                     }
                 }
                 
             }
             const docsId=parseInt(Id)
-            console.log('id',docsId)
-            console.log('state',postList.state)
             let docsIndex=postList.state.findIndex(docs=>docs.id===docsId)
             if(docsIndex===-1){
-                findChild(postList.state,docsId)
+                findChildForRemove(postList.state,docsId)
                 await request(`/documents/${Id}`,
                 {method:'DELETE'})
                 postList.setState(postList.state)
                 return
             }
-            
-            console.log(docsIndex)
-            console.log('index',docsIndex)
-            console.log('state',postList.state)
-            console.log(postList.state[docsIndex])
-            console.log(postList.state[docsIndex].title)
+    
             postListTrash.setState(postList.state[docsIndex])
             postList.state.splice(docsIndex,1)
 
@@ -81,8 +73,7 @@ export default function PostsPage({
         }
         
     })
-    // const $lButton = document.createElement('button')
-    // $page.appendChild($lButton)
+
     new LinkButton({
         $target:$page,
         initialState:{
@@ -102,7 +93,6 @@ export default function PostsPage({
         removeItem(`temp-trash-${docsId}`)
         postListTrash.state.splice(docsIndex,1)
         postListTrash.Eventrender()
-        console.log(docsId)
         
         },
         onRecover:(Id,title)=>{
@@ -112,15 +102,11 @@ export default function PostsPage({
             removeItem(`temp-trash-${recoverId}`)
             postListTrash.state.splice(docsIndex,1)
             postListTrash.Eventrender()
-            console.log(recoverTitle)
-            console.log(`documents/new/recover/${recoverTitle}`)
             push(`/documents/new/recover/${recoverTitle}`)
             
         },
         onRemoveAllTrash:()=>{
             for (let i in window.localStorage){
-                console.log(window.localStorage[i])
-                console.log(getItem(i))
                 if(getItem(i)!=undefined){
                     removeItem(i)
                 }
@@ -142,8 +128,8 @@ export default function PostsPage({
         this.render()
         firstPage.render()
     }
-    this.deletfirstPage= ()=>{
-        firstPage.deleteRender()
+    this.deletFirstPage= ()=>{
+        firstPage.deleteFirstPageRender()
     }
 
 

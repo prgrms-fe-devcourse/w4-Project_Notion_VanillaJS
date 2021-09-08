@@ -8,8 +8,6 @@ export const initRouter = (onRoute)=>{
             history.pushState(null,null,nextUrl)
             onRoute()
         }
-        //console .log(e.detail)
-        //this.route()
     })
 
 

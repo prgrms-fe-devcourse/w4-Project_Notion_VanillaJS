@@ -1,9 +1,9 @@
 import { request } from "./api.js"
 import { setItem,getItem,removeItem } from "./storage.js"
+import { push } from "./router.js"
 import Editor from "./Editor.js"
 import LinkButton from "./LinkButton.js"
-import { push } from "./router.js"
-import PostsPage from "./PostsPage.js"
+
 
 export default function PostEditPage({
     $target,
@@ -16,10 +16,6 @@ export default function PostEditPage({
 
     let postLocalSaveKey = `temp-post-${this.state.postId}`
 
-    const postPage=new PostsPage({
-        $target,
-        initialState:[]
-    })
 
     const post = getItem(postLocalSaveKey, {
         title: '',
@@ -44,7 +40,6 @@ export default function PostEditPage({
 
                 const isNew = this.state.postId === 'new'
                 if (isNew) {
-                    console.log(post)
                     const createdPost = await request('/documents', {
                         method: 'POST',
                         body: JSON.stringify(post)
@@ -55,14 +50,12 @@ export default function PostEditPage({
                     history.replaceState(null, null, `/documents/${createdPost.id}`)
                     push('/')
                     history.pushState(null, null, `/documents/${createdPost.id}`)
-                    console.log(this.state)
                     this.setState({
                         postId:createdPost.id,
                         parent:createdPost.parent
                         
                     })
-                    console.log(this.state)
-                    console.log('???')
+
 
 
                 } else {
@@ -80,7 +73,6 @@ export default function PostEditPage({
     })
 
     this.setState = async nextState => {
-        console.log(nextState)
         if (this.state.postId !== nextState.postId) {
             postLocalSaveKey = `temp-post-${nextState.postId}`
             this.state = nextState
@@ -93,7 +85,6 @@ export default function PostEditPage({
                         content: '',
                         parent: null
                     })
-                    console.log(post)
 
                     this.render()
                     editor.setState(post)
@@ -104,7 +95,6 @@ export default function PostEditPage({
                         content: '',
                         parent: null
                     })
-                    console.log(post)
                     this.render()
                     editor.setState(post)
                 }
@@ -114,7 +104,6 @@ export default function PostEditPage({
                         content: '',
                         parent: nextState.parent
                     })
-                    console.log(post)
                     this.render()
                     editor.setState(post)
                 }
@@ -124,13 +113,9 @@ export default function PostEditPage({
             }
             return
         }
-        console.log(nextState)
         this.state = nextState
         this.render()
-        //editor.render()
-        console.log(this.state.post)
 
-        //editor.render()
 
         editor.setState(this.state.post || {
             title:'',
@@ -140,7 +125,6 @@ export default function PostEditPage({
     }
 
     this.render = () => {
-        //editor.render()
         $target.appendChild($page)
     }
     this.render()

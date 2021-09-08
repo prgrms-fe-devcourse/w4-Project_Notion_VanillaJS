@@ -1,7 +1,8 @@
 import PostsPage from "./PostsPage.js"
 import PostEditPage from "./PostEditPage.js"
 import { initRouter } from "./router.js"
-import FirstPage from "./FirstPage.js"
+
+
 export default function App({$target}){
     
     const postsPage = new PostsPage({
@@ -34,13 +35,10 @@ export default function App({$target}){
 
             postsPage.setState()
             
-            //postsPage.deletfirstPage()
-
         }else if(pathname.indexOf('/documents/')===0){
-            postsPage.deletfirstPage()
+            postsPage.deletFirstPage()
             const [, , postId,parent,retitle] = pathname.split('/')
             const decodeRetitle=decodeURIComponent(retitle)
-            console.log(pathname.split('/'))
             if(parent!=''&& parent!='recover'){
                 postEditPage.setState({postId,parent})
             }
@@ -48,7 +46,6 @@ export default function App({$target}){
                 postEditPage.setState({postId,decodeRetitle})
             }
             else{
-                console.log({postId})
             postEditPage.setState({postId})
             }
 

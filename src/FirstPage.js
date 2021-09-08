@@ -3,25 +3,21 @@ export default function FirstPage({$target
 }){
     const $firstPage = document.createElement('div')
     
-    //const $postList=$target
     $firstPage.className='first'
     $target.appendChild($firstPage)
 
 
 
     this.setState=()=>{
-        //console.log(nextState);
         this.render()
     }
 
     this.render = () =>{
         const $firstPage = document.createElement('div')
     
-        //const $postList=$target
         $firstPage.className='first'
         $target.appendChild($firstPage)
     
-        //console.log(this.state)
         $firstPage.innerHTML=`
                 <input type="text" class="documentTitle"  name="title" placeholder='' value="시작하기" style="left-padding :300px "></input>
                 <div class="textAreadiv">
@@ -54,7 +50,7 @@ export default function FirstPage({$target
             
 
     }
-    this.deleteRender = () => {
+    this.deleteFirstPageRender = () => {
         const $first = $target.getElementsByClassName('first')
         $first[0].innerHTML = ''
     }
