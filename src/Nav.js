@@ -37,9 +37,6 @@ export default function Navigation({$target}){
                     method: 'DELETE'
                 })
             }
-         /*   await request(`/documents/${id}`,{
-                method: 'DELETE'
-            }) */
             this.setState()
         },
         addNewList : async(content) => {
@@ -62,16 +59,6 @@ export default function Navigation({$target}){
                 })
             }) 
             this.setState() 
-        
-        },
-        findInherit : async(id, parentList) => {
-           const parent =  await request(`/documents/${id}`,{
-                method: 'GET'
-            }) 
-            const childLists = parent.documents
-            console.log(parent.documents.map(list=>list.id))
-            
-            
         }
     })
     

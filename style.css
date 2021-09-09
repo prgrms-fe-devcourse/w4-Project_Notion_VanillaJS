@@ -39,13 +39,15 @@ li{
     list-style: none;
     width: calc(25vw - 40px);
     padding: 1px 20px;
-    display:flex;
+    display: fel;
+}
+.list-area{
+    display: flex;
     justify-content: space-between;
    
 }
 li:hover{
-    background-color: #e3e3de;
-    
+    background-color: #e3e3de;  
 }
 .editButtons{
     visibility: hidden;
@@ -134,10 +136,8 @@ a{
     font-size: 10px;
     background-color: #e3e3de;
 }
-.child-list li{
-    padding-left: 40px;
-    width: calc(25vw - 60px);
-
+.child-list{
+    display: block;
 }
 .forAddInput form{
     margin:0px;

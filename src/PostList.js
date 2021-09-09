@@ -5,8 +5,7 @@ export default function PostList({
     initialState,
     removeList,
     addNewList,
-    addInheritList,
-    findInherit
+    addInheritList
 }){
     const $postList = document.createElement('ul')
     $target.appendChild($postList)
@@ -30,6 +29,7 @@ export default function PostList({
         $postList.innerHTML=`
         ${this.state.map(post=>`
             <li data-id="${post.id}" class="link">
+            <section class="list-area">
             <div class="text-area">
                 <button name="inheritArrow">▶︎</button>
                 <span class="link">${post.title}</span>
@@ -39,31 +39,52 @@ export default function PostList({
                 <button name="removeButton">x</button>
                 <button name="addInheritButton">+</button>
             </div>
+            </section>
+               ${DFS(post)} 
             </li>
-            <div class="child-list">
-            ${post.documents? post.documents.map(list=> `
             
-                <li data-id="${list.id}" class="link">
-                    <div class="text-area">
-                        <button name="inheritArrow">▶︎</button>
-                        <span class="link">${list.title}</span>
-                        <div class="forAddInput"></div>
-                    </div> 
-                    <div class="editButtons">
-                        <button name="removeButton">x</button>
-                        <button name="addInheritButton">+</button>
-                    </div>
-                </li>
-                `).join(''):``}
-                </div>
+            
         `).join('')}
         `
     }
     
+    const DFS = (post) => {
+        if(!post.documents){
+            return ''
+        }
+        if(post.documents){
+            return `
+                
+                <ul class="child-list" style="display:none">
+                ${post.documents.map(list=> `
+                    <li data-id="${list.id}" class="link under-child">
+                    <section class="list-area">
+                    <div class="text-area">
+                        <button name="inheritArrow">▶︎</button>
+                        <span class="link">${list.title}</span>
+                        <span class="forAddInput"></span>
+                    </div>
+                    <div class="editButtons">
+                        <button name="removeButton">x</button>
+                        <button name="addInheritButton">+</button>
+                    </div> 
+                    </section>
+                    ${DFS(list)}
+                    </li>
+                    
+                    
+                
+                `).join('')}
+                </ul>
+            `
+        }
+    }
+
+    
 
     $postList.addEventListener('click', (e)=>{
         const targetedList = e.target
-        
+
         if(targetedList.name === 'removeButton'){
             const {id} = targetedList.closest('li').dataset
             removeList(id)
@@ -87,16 +108,23 @@ export default function PostList({
             })
         }
         if(targetedList.name === 'inheritArrow'){
-            e.preventDefault()
-            const target = targetedList.closest('li')
-            const {id} = target.dataset
-            const parentList = target.querySelector('.child-list')
-
-           /* if(target.classList === 'isToggled')
-            target.classList.add('isToggled') */
-
-           // findInherit(id,parentList)
-
+            const parent = targetedList.closest('li')
+            const child = parent.querySelector('.child-list')
+            const defaultWidth = parent.clientWidth - 60
+            targetedList.style.transition = 'transform 0.3s ease-in-out'
+                if(child.style.display === 'none'){
+                child.style.display = 'block'
+                targetedList.style.transform = 'rotate(90deg)'
+            }else {
+                child.style.display = 'none'
+                targetedList.style.transform = 'rotate(0deg)'
+            }
+            const underChild = child.querySelectorAll('li')
+            for(let i=0;i<underChild.length;i++){
+                underChild[i].style.width = defaultWidth + 'px'
+            }
+            
+            
         } 
 
         if(targetedList.className === 'link'){
