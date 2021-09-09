@@ -5,11 +5,17 @@
 }
 
 .notion_list {
-    width: 30%;
     float: left;
+    width: 30%;
     padding-right: 10px;
     height: 100%;
 }
+
+.editor {
+    margin-left: 400px;
+    width: 100%;
+}
+
 
 li {
     padding-bottom: 10px;
@@ -19,6 +25,12 @@ li {
 .removeBtn {
     width: 60px;
     height: 30px;
+}
+
+.disabled {
+    pointer-events:none;
+    font-weight: bold;
+    color: #198754;
 }
 
 .addRootBtn {
