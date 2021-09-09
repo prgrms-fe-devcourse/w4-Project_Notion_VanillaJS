@@ -206,6 +206,7 @@ button[name="fold"].fold-button--unfolded {
   font-size: 40px;
   border: none;
   font-weight: bold;
+  text-overflow: ellipsis;
 }
 
 .editor__content {
