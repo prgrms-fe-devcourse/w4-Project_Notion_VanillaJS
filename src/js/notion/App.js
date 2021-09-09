@@ -3,18 +3,14 @@ import DocumentForm from './document/DocumentForm.js';
 import DocumentList from './document/DocumentList.js';
 import PostEditMain from './editor/main/PostEditMain.js';
 import PostEditModal from './editor/modal/PostEditModal.js';
-import {onModalClose, onModalOpen} from './ModalControl.js';
+import {ModalController, onModalClose} from './ModalControl.js';
 import {$} from '../utils/DOM.js';
-import {getItem, setItem} from '../utils/storage.js';
-import {CURRENT_EDIT_DOCUMENT_ID} from '../constants/storage.js';
 import {initRouter, push} from '../utils/router.js';
-import {documentTemplate} from '../templates/documentList.js';
 import DocumentHeader from './document/DocumentHeader.js';
 import {USER_NAME} from '../constants/notion.js';
 import ParentDocumentPath from './editor/main/ParentDocumentPath.js';
-import {toggleOn} from './document/ToggleControl.js';
-import {editorTemplate} from '../templates/editor.js';
-import {onToggle, onSelect} from './handler.js';
+import {onToggle, onSelect, removeHandler, addSubDocumentHandler, modalCloseHandler, submitHandler} from './handler.js';
+import SubDocumentLink from './editor/main/SubDocumentLink.js';
 
 export default function App({$target}) {
     const $documentListContainer = $('.document-list-container');
@@ -52,57 +48,6 @@ export default function App({$target}) {
         }
     };
 
-    const onSubmit = async (newTitle) => {
-        const {id, title} = await API.addDocument(newTitle);
-        const newDocument = {id, title, documents: []};
-
-        this.setState({
-            documents: [...this.state.documents, newDocument],
-            selectedDocument: newDocument,
-        });
-
-        $('.document-list').insertAdjacentHTML('beforeend', documentTemplate(id, title));
-        push(`/documents/${id}`);
-        fetchEditor(id);
-    };
-
-    const onAddSubDocument = async (parentId) => {
-        setItem(CURRENT_EDIT_DOCUMENT_ID, parentId);
-        onModalOpen();
-
-        $('.modal-editor').innerHTML = editorTemplate('', '');
-
-        const {id, title} = await API.addDocument('', parentId);
-
-        this.setState({
-            ...this.state,
-            selectedDocument: {
-                id,
-                title,
-                content: '',
-            },
-        });
-
-        postEditModal.setState({
-            id,
-            title,
-            content: '',
-        });
-    };
-
-    const onRemove = async (id) => {
-        const {documents} = this.state;
-        const nextDocuments = [...documents];
-        const documentIndex = documents.findIndex((document) => document.id === id);
-        nextDocuments.splice(documentIndex, 1);
-
-        await API.deleteDocument(id);
-
-        this.setState(nextDocuments);
-        fetchDocuments();
-        push(`/`);
-    };
-
     new DocumentHeader({
         $target: $documentListContainer,
         text: USER_NAME,
@@ -110,7 +55,15 @@ export default function App({$target}) {
 
     new DocumentForm({
         $target: $documentListContainer,
-        onSubmit,
+        onSubmit: async (newTitle) => {
+            const {id, newDocument} = await submitHandler(newTitle);
+            this.setState({
+                documents: [...this.state.documents, newDocument],
+                selectedDocument: newDocument,
+            });
+
+            fetchEditor(id);
+        },
     });
 
     const parentDocumentPath = new ParentDocumentPath({
@@ -122,8 +75,34 @@ export default function App({$target}) {
         initialState: this.state.documents,
         onToggle,
         onSelect,
-        onAddSubDocument,
-        onRemove,
+        onAddSubDocument: async (parentId) => {
+            addSubDocumentHandler(parentId);
+            const {id, title} = await API.addDocument('', parentId);
+
+            this.setState({
+                ...this.state,
+                selectedDocument: {
+                    id,
+                    title,
+                    content: '',
+                },
+            });
+
+            postEditModal.setState({
+                id,
+                title,
+                content: '',
+            });
+        },
+        onRemove: async (id) => {
+            const {documents} = this.state;
+            const nextDocuments = removeHandler(documents, id);
+
+            await API.deleteDocument(id);
+            this.setState(nextDocuments);
+            fetchDocuments();
+            push(`/`);
+        },
     });
 
     const postEditMainPostEditMain = new PostEditMain({
@@ -137,6 +116,10 @@ export default function App({$target}) {
             title: '',
             content: '',
         },
+    });
+
+    const subDocumentLink = new SubDocumentLink({
+        initialState: this.state,
     });
 
     const fetchDocuments = async () => {
@@ -163,21 +146,11 @@ export default function App({$target}) {
 
         postEditMainPostEditMain.setState(this.state.selectedDocument);
         parentDocumentPath.setState(this.state.selectedDocument);
+        subDocumentLink.setState(this.state.selectedDocument.id);
     };
 
-    const modalCloseHandler = async () => {
-        const $modalEditor = $('.modal-editor');
-        $(`[name='title']`, $modalEditor).value = '';
-        $(`[name='content']`, $modalEditor).value = '';
-
-        const {id} = this.state.selectedDocument;
-        const {title} = await API.getContent(id);
-        push(`/documents/${id}`);
-
-        const parentId = getItem(CURRENT_EDIT_DOCUMENT_ID);
-        $(`[data-id='${parentId}']`).insertAdjacentHTML('beforeend', documentTemplate(id, title));
-
-        toggleOn(parentId);
+    const setModalClose = async () => {
+        const id = await modalCloseHandler(this.state.selectedDocument);
         await fetchEditor(id);
     };
 
@@ -186,10 +159,10 @@ export default function App({$target}) {
         window.addEventListener('click', async ({target}) => {
             if (target.className === 'modal open') {
                 onModalClose();
-                modalCloseHandler();
+                setModalClose();
             }
         });
-        $('.modal-close').addEventListener('click', modalCloseHandler);
+        $('.modal-close').addEventListener('click', setModalClose);
         $('.username').addEventListener('click', () => {
             push(`/`);
         });
@@ -200,6 +173,7 @@ export default function App({$target}) {
         this.route();
         initRouter(() => this.route());
         onEventHandler();
+        ModalController();
     };
 
     init();
