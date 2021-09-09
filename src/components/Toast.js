@@ -1,4 +1,4 @@
-import { createElement } from '../utils/dom.js';
+import { $, createElement } from '../utils/dom.js';
 
 export const TOAST_SUCCESS_TYPE = 'TOAST_SUCCESS_TYPE';
 export const TOAST_FAIL_TYPE = 'TOAST_FAIL_TYPE';
@@ -71,10 +71,10 @@ export default function Toast({
       </div>
     `;
 
-    const $body = document.querySelector('body');
+    const $body = $('body');
     $body.appendChild($wrapper);
 
-    const $toast = $wrapper.querySelector('#toast');
+    const $toast = $('#toast', $wrapper);
 
     await moveToLeft($toast, 150);
     await moveToRight($toast, delay);

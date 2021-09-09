@@ -9,7 +9,7 @@ import {
   setItem,
 } from '../services/storage.js';
 
-import { createElement } from '../utils/dom.js';
+import { $, createElement } from '../utils/dom.js';
 
 export default function EditorPage({ $target, initialState }) {
   const $pageContainer = createElement('div', {
@@ -119,7 +119,7 @@ export default function EditorPage({ $target, initialState }) {
   this.render = () => {
     $target.appendChild($pageContainer);
 
-    const $content = $target.querySelector('[name=content]');
+    const $content = $('[name=content]', $target);
 
     if ($content.value) {
       setTimeout(() => {
@@ -128,7 +128,7 @@ export default function EditorPage({ $target, initialState }) {
       return;
     }
 
-    const $title = $target.querySelector('[name=title]');
+    const $title = $('[name=title]', $target);
 
     setTimeout(() => {
       $title.focus();

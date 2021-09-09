@@ -3,7 +3,7 @@ import DocList from './DocList.js';
 import { request } from '../services/api.js';
 import { push } from '../services/router.js';
 
-import { createElement } from '../utils/dom.js';
+import { $, createElement } from '../utils/dom.js';
 
 const renderSubDocList = async (parentDoc) => {
   const { id } = parentDoc.dataset;
@@ -43,18 +43,25 @@ const unfoldSubDocList = (parentDoc, $button) => {
 };
 
 const foldSubDocList = (parentDoc, $button) => {
-  parentDoc.removeChild(parentDoc.querySelector('.doc-list-container'));
+  const subDocList = $('.doc-list-container', parentDoc);
+
+  parentDoc.removeChild(subDocList);
   toggleFoldButton($button);
 };
 
 const refreshSubDocList = (parentDoc) => {
-  if (parentDoc.querySelector('.doc-list-container')) {
-    parentDoc.removeChild(parentDoc.querySelector('.doc-list-container'));
+  const subDocList = $('.doc-list-container', parentDoc);
+
+  if (subDocList) {
+    parentDoc.removeChild(subDocList);
   }
 
   renderSubDocList(parentDoc);
-  if (parentDoc.querySelector('.fold-button--folded')) {
-    toggleFoldButton(parentDoc.querySelector('.fold-button--folded'));
+
+  const foldedButton = $('.fold-button--folded', parentDoc);
+
+  if (foldedButton) {
+    toggleFoldButton(foldedButton);
   }
 };
 

@@ -1,4 +1,4 @@
-import { createElement } from '../utils/dom.js';
+import { $, createElement } from '../utils/dom.js';
 
 export default function Editor({
   $target,
@@ -16,8 +16,8 @@ export default function Editor({
 
     const { id, title, content } = this.state;
 
-    const $title = $editor.querySelector('[name=title]');
-    const $content = $editor.querySelector('[name=content]');
+    const $title = $('[name=title]', $editor);
+    const $content = $('[name=content]', $editor);
 
     $title.value = title;
     $content.value = content;

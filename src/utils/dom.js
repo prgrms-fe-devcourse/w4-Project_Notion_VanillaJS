@@ -11,3 +11,9 @@ export const createElement = (tagName, attributes = {}, ...children) => {
 
   return $element;
 };
+
+export const $ = (selector, parent = null) => (
+  parent instanceof Element
+    ? parent.querySelector(selector)
+    : document.querySelector(selector)
+);

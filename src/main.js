@@ -1,6 +1,8 @@
 import App from './components/App.js';
 
-const $app = document.querySelector('#app');
+import { $ } from './utils/dom.js';
+
+const $app = $('#app');
 
 new App({
   $target: $app,
