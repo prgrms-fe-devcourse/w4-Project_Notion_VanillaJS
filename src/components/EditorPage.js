@@ -9,12 +9,17 @@ import {
   setItem,
 } from '../services/storage.js';
 
-export default function EditorPage({ $target, initialState }) {
-  const $pageContainer = document.createElement('div');
-  $pageContainer.setAttribute('class', 'editor-page-container');
+import { createElement } from '../utils/dom.js';
 
-  const $page = document.createElement('div');
-  $page.setAttribute('class', 'editor-page');
+export default function EditorPage({ $target, initialState }) {
+  const $pageContainer = createElement('div', {
+    class: 'editor-page-container',
+  });
+
+  const $page = createElement('div', {
+    class: 'editor-page',
+  });
+
   $pageContainer.appendChild($page);
 
   this.state = initialState;

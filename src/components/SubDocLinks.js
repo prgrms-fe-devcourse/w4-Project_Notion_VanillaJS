@@ -3,9 +3,12 @@ import DocList from './DocList.js';
 import { DOC_LIST_TABLE_TYPE } from '../constants.js';
 import { push } from '../services/router.js';
 
+import { createElement } from '../utils/dom.js';
+
 export default function SubDocLinks({ $target, initialState }) {
-  const $listContainer = document.createElement('div');
-  $listContainer.setAttribute('class', 'sub-doc-links-container');
+  const $listContainer = createElement('div', {
+    class: 'sub-doc-links-container',
+  });
 
   this.state = initialState;
 

@@ -1,6 +1,9 @@
+import { createElement } from '../utils/dom.js';
+
 export default function AddRootDocButton({ $target, onClickAddButton }) {
-  const $button = document.createElement('button');
-  $button.setAttribute('class', 'sidebar__add-new-root-button');
+  const $button = createElement('button', {
+    class: 'sidebar__add-new-root-button',
+  });
 
   this.render = () => {
     $button.textContent = '+ New root document';

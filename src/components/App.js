@@ -2,10 +2,12 @@ import Sidebar from './Sidebar.js';
 import EditorPage from './EditorPage.js';
 
 import { initRouter } from '../services/router.js';
+import { createElement } from '../utils/dom.js';
 
 export default function App({ $target }) {
-  const $container = document.createElement('div');
-  $container.setAttribute('class', 'app__inner');
+  const $container = createElement('div', {
+    class: 'app__inner',
+  });
 
   this.state = {
     username: 'datalater',

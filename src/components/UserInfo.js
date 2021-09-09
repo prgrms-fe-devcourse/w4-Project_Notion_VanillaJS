@@ -1,6 +1,9 @@
+import { createElement } from '../utils/dom.js';
+
 export default function UserInfo({ $target, initialState }) {
-  const $userInfo = document.createElement('div');
-  $userInfo.setAttribute('class', 'sidebar__user-info');
+  const $userInfo = createElement('div', {
+    class: 'sidebar__user-info',
+  });
 
   this.state = initialState;
 

@@ -3,15 +3,20 @@ import DocList from './DocList.js';
 import { request } from '../services/api.js';
 import { push } from '../services/router.js';
 
+import { createElement } from '../utils/dom.js';
+
 const renderSubDocList = async (parentDoc) => {
   const { id } = parentDoc.dataset;
 
   const { documents: subdocs } = await request(`/documents/${id}`);
 
   if (!Array.isArray(subdocs) || subdocs.length === 0) {
-    const $noPagesInsideMessage = document.createElement('div');
-    $noPagesInsideMessage.setAttribute('class', 'doc-list-container');
-    $noPagesInsideMessage.textContent = 'No pages inside';
+    const $noPagesInsideMessage = createElement(
+      'div',
+      { class: 'doc-list-container' },
+      document.createTextNode('No pages insde'),
+    );
+
     parentDoc.appendChild($noPagesInsideMessage);
     return;
   }
@@ -54,8 +59,9 @@ const refreshSubDocList = (parentDoc) => {
 };
 
 export default function DocsTree({ $target, initialState }) {
-  const $tree = document.createElement('div');
-  $tree.setAttribute('class', 'sidebar__docs-tree');
+  const $tree = createElement('div', {
+    class: 'sidebar__docs-tree',
+  });
 
   this.state = initialState;
 

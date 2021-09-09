@@ -1,10 +1,13 @@
+import { createElement } from '../utils/dom.js';
+
 export default function Editor({
   $target,
   initialState,
   onEditing,
 }) {
-  const $editor = document.createElement('div');
-  $editor.setAttribute('class', 'editor');
+  const $editor = createElement('div', {
+    class: 'editor',
+  });
 
   this.state = initialState;
 

@@ -3,13 +3,16 @@ import {
   DOC_LIST_TABLE_TYPE,
 } from '../constants.js';
 
+import { createElement } from '../utils/dom.js';
+
 export default function DocList({
   $target,
   initialState,
   type = DOC_LIST_TREE_TYPE,
 }) {
-  const $listContainer = document.createElement('div');
-  $listContainer.setAttribute('class', 'doc-list-container');
+  const $listContainer = createElement('div', {
+    class: 'doc-list-container',
+  });
 
   this.state = initialState;
 

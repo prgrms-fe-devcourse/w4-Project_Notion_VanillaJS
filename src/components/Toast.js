@@ -1,3 +1,5 @@
+import { createElement } from '../utils/dom.js';
+
 export const TOAST_SUCCESS_TYPE = 'TOAST_SUCCESS_TYPE';
 export const TOAST_FAIL_TYPE = 'TOAST_FAIL_TYPE';
 
@@ -38,8 +40,9 @@ export default function Toast({
   message,
   delay = 2000,
 }) {
-  const $wrapper = document.createElement('div');
-  $wrapper.setAttribute('class', 'toast-wrapper');
+  const $wrapper = createElement('div', {
+    class: 'toast-wrapper',
+  });
 
   const toastProperty = type === TOAST_SUCCESS_TYPE
     ? {

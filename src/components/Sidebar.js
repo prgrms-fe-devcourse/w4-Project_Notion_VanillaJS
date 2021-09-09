@@ -5,12 +5,16 @@ import AddRootDocButton from './AddRootDocButton.js';
 import { request } from '../services/api.js';
 import { push } from '../services/router.js';
 
-export default function Sidebar({ $target, initialState }) {
-  const $sidebarContainer = document.createElement('div');
-  $sidebarContainer.setAttribute('class', 'sidebar-container');
+import { createElement } from '../utils/dom.js';
 
-  const $sidebar = document.createElement('aside');
-  $sidebar.setAttribute('class', 'sidebar');
+export default function Sidebar({ $target, initialState }) {
+  const $sidebarContainer = createElement('div', {
+    class: 'sidebar-container',
+  });
+
+  const $sidebar = createElement('aside', {
+    class: 'sidebar',
+  });
 
   this.state = initialState;
 
