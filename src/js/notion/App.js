@@ -1,4 +1,4 @@
-import {request} from '../utils/api.js';
+import {API} from '../utils/api.js';
 import DocumentForm from './document/DocumentForm.js';
 import DocumentList from './document/DocumentList.js';
 import PostEditMain from './editor/main/PostEditMain.js';
@@ -53,18 +53,7 @@ export default function App({$target}) {
     };
 
     const onSubmit = async (newTitle) => {
-        const document = {
-            title: newTitle,
-            parent: null,
-        };
-
-        const {id, title} = await request(`/documents`, {
-            method: 'POST',
-            body: JSON.stringify({
-                ...document,
-            }),
-        });
-
+        const {id, title} = await API.addDocument(newTitle);
         const newDocument = {id, title, documents: []};
 
         this.setState({
@@ -82,17 +71,8 @@ export default function App({$target}) {
         onModalOpen();
 
         $('.modal-editor').innerHTML = editorTemplate('', '');
-        const document = {
-            title: '',
-            parent: parentId,
-        };
 
-        const {id, title} = await request(`/documents`, {
-            method: 'POST',
-            body: JSON.stringify({
-                ...document,
-            }),
-        });
+        const {id, title} = await API.addDocument('', parentId);
 
         this.setState({
             ...this.state,
@@ -116,9 +96,7 @@ export default function App({$target}) {
         const documentIndex = documents.findIndex((document) => document.id === id);
         nextDocuments.splice(documentIndex, 1);
 
-        await request(`/documents/${id}`, {
-            method: 'DELETE',
-        });
+        await API.deleteDocument(id);
 
         this.setState(nextDocuments);
         fetchDocuments();
@@ -162,7 +140,7 @@ export default function App({$target}) {
     });
 
     const fetchDocuments = async () => {
-        const documents = await request('/documents');
+        const documents = await API.getDocuments();
         this.setState({
             ...this.state,
             documents,
@@ -171,7 +149,7 @@ export default function App({$target}) {
     };
 
     const fetchEditor = async (id) => {
-        const {title, content} = await request(`/documents/${id}`);
+        const {title, content} = await API.getContent(id);
 
         $('title').innerText = title;
         this.setState({
@@ -193,7 +171,7 @@ export default function App({$target}) {
         $(`[name='content']`, $modalEditor).value = '';
 
         const {id} = this.state.selectedDocument;
-        const {title} = await request(`/documents/${id}`);
+        const {title} = await API.getContent(id);
         push(`/documents/${id}`);
 
         const parentId = getItem(CURRENT_EDIT_DOCUMENT_ID);

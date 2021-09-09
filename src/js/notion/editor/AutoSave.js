@@ -1,4 +1,4 @@
-import {request} from '../../utils/api.js';
+import {API} from '../../utils/api.js';
 import {setItem, removeItem} from '../../utils/storage.js';
 
 export const autoSave = (post, postLocalSaveKey, timer) => {
@@ -9,10 +9,8 @@ export const autoSave = (post, postLocalSaveKey, timer) => {
         setItem(postLocalSaveKey, {
             ...post,
         });
-        await request(`/documents/${post.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(post),
-        });
+        const {id, title, content} = post;
+        await API.editDocument(id, title, content);
 
         // history.pushState(null, null, `/documents/${post.id}`);
         removeItem(postLocalSaveKey);
