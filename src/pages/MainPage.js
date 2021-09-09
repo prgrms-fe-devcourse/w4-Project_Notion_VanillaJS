@@ -45,7 +45,7 @@ export default function MainPage({
       username,
       documents,
     })
-    editor.setState(document)
+    !isSaveLoading && editor.setState(document)
     loadingBox.setState(isSaveLoading)
   }
 
