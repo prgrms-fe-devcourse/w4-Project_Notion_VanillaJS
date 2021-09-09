@@ -3,11 +3,11 @@ export default function Editor({ $target, initialState = {
     content: ""
 }, onEditing }) {
     const $editor = document.createElement("div");
+    $editor.className = "editor";
 
     let isInit = false;
 
     this.state = initialState;
-
     this.setState = (nextState) => {
         this.state = nextState;
         $editor.querySelector('[name=title]').value = this.state.title;
@@ -21,6 +21,7 @@ export default function Editor({ $target, initialState = {
     this.render = () => {
         if (!isInit) {
             $editor.innerHTML = `
+                <br><h3> 💡 오늘의 기록</h3><br>
                 <input class="form-control" type="text" name="title" style="width: 50%" value="${this.state.title}" />
                 <textarea class="form-control" name="content" style="width:50%; height:400px;">${this.state.content}</textarea></div>
             `;
