@@ -1,19 +1,15 @@
 html,
 body {
-  width: 100%;
-  height: 150vh;
+  height: 100%;
 }
-
+nav {
+  background-color: rgb(247, 246, 243);
+}
 #App {
   display: flex;
-  width: 100%;
-}
-
-.nav-page {
-  height: 150%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: stretch;
+  height: 100%;
 }
 
 .edit-page {
@@ -45,18 +41,18 @@ div.icon-container {
 }
 
 div.editor-image-container {
-  width: 100vh;
+  width: 100vw;
   height: 214.8px;
 }
 
-nav.nav-page {
+.nav-page {
+  height: 100%;
   width: 240px;
-  height: 100vh;
   background-color: rgb(247, 246, 243);
 }
 
 img.editor-image {
-  width: 140vh;
+  width: 140vw;
   height: 214px;
 }
 
@@ -98,7 +94,7 @@ div.icon-container > ul.hide {
 
 h1.editor-title {
   outline: 0px solid transparent;
-  margin-top: 0;
+  margin-top: 25px;
   border-bottom: 2px solid antiquewhite;
 }
 

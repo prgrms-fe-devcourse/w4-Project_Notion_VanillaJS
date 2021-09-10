@@ -66,6 +66,10 @@ export default function App({ targetElement }) {
   };
 
   const onDelete = async (id) => {
+    const confirmation = confirm("정말 지우겠습니까?");
+    if (!confirmation) {
+      return;
+    }
     if (id === 12835) {
       alert("🥺");
       return;
