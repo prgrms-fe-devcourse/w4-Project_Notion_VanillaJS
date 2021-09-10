@@ -1,7 +1,11 @@
 import { push } from '@/apis/router';
 import checkState from '@/utils/checkState';
 import names from '@/utils/classNames';
-import { _createElemWithAttr, _appendChilds } from '@/utils/customDOMMethods';
+import {
+  _createElemWithAttr,
+  _appendChilds,
+  _renderChild,
+} from '@/utils/customDOMMethods';
 
 export default function Header({
   $target,
@@ -24,7 +28,7 @@ export default function Header({
   const $logoBox = _createElemWithAttr('div', [logoBox]);
   const $logo = _createElemWithAttr('img', [logo]);
   const $nameLogo = _createElemWithAttr('span', [nameLogo], 'no#tation');
-  $logo.src = LOGO_URL;
+  $logo.setAttribute('src', LOGO_URL);
 
   _appendChilds($logoBox, $logo, $nameLogo);
   $userOptionBox.appendChild($usernameMark);
@@ -41,10 +45,10 @@ export default function Header({
   };
 
   this.render = () => {
-    if (!$target.querySelector(`.${headerBlock}`)) {
-      $target.appendChild($header);
-    }
+    _renderChild($target, $header, headerBlock);
   };
+
+  this.render();
 
   $logoBox.addEventListener('click', () => {
     push('/');

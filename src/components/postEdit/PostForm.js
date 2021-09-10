@@ -1,5 +1,5 @@
 import names from '@/utils/classNames';
-import { _createElemWithAttr } from '@/utils/customDOMMethods';
+import { _createElemWithAttr, _renderChild } from '@/utils/customDOMMethods';
 import Input from '@/components/common/Input';
 
 export default function PostForm({
@@ -58,14 +58,11 @@ export default function PostForm({
   };
 
   this.render = () => {
-    if (!$postForm.querySelector(`.${editor}`)) {
-      $postForm.appendChild($editor);
-    }
-    if (!$target.querySelector(`.${postForm}`)) {
-      $target.appendChild($postForm);
-    }
+    _renderChild($postForm, $editor);
+    _renderChild($target, $postForm);
   };
 
+  this.render();
   $editor.addEventListener('keyup', async e => {
     this.setState({
       ...this.state,

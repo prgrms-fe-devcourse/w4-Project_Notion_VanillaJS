@@ -1,4 +1,4 @@
-import Post from '@/components/Post';
+import Post from '@/components/common/Post';
 import names from '@/utils/classNames';
 
 export const _createElemWithAttr = (
@@ -25,7 +25,7 @@ export const _removeAllChildNodes = node => {
   }
 };
 
-export const _renderPosts = ($parentNode, nowDocuments) => {
+export const _renderPosts = ($parentNode, nowDocuments, isSidebar = true) => {
   const {
     outlinedIcon,
     addIcon,
@@ -35,7 +35,7 @@ export const _renderPosts = ($parentNode, nowDocuments) => {
     postNextNewIcon,
   } = names;
 
-  if (!nowDocuments.length) {
+  if (!nowDocuments.length && isSidebar) {
     const $postNextNew = _createElemWithAttr('div', [postNextNew]);
 
     const $postNewIcon = _createElemWithAttr(
@@ -63,8 +63,14 @@ export const _renderPosts = ($parentNode, nowDocuments) => {
         id,
         title,
       },
+      isSidebar,
     });
 
-    _renderPosts(post.$postNext, nextDocs);
+    _renderPosts(post.$postNext, nextDocs, isSidebar);
   });
+};
+
+export const _renderChild = ($parent, $target, targetSelector) => {
+  if ($parent.querySelector(`.${targetSelector}`)) return;
+  $parent.appendChild($target);
 };

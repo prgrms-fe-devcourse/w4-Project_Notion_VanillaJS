@@ -11,7 +11,7 @@ export default function Modal({
 }) {
   const {
     modalBlock,
-    container,
+    modalContainer,
     modalConformButton,
     modalCancelButton,
     modalHead,
@@ -20,7 +20,7 @@ export default function Modal({
   } = names;
 
   const $fragment = new DocumentFragment();
-  this.$container = _createElemWithAttr('div', [container]);
+  this.$container = _createElemWithAttr('div', [modalContainer]);
 
   const $modal = _createElemWithAttr('div', [modalBlock]);
   const $modalHead = _createElemWithAttr('h3', [modalHead], head);
@@ -62,14 +62,13 @@ export default function Modal({
   };
 
   const onCancel = () => {
-    if ($target.querySelector(`.${container}`)) {
-      $target.removeChild(this.$container);
-    }
+    if (!$target.querySelector(`.${modalContainer}`)) return;
+    $target.removeChild(this.$container);
   };
 
   $conformButton.addEventListener('click', async () => {
     await onConform(isInput ? this.state.title : undefined);
-    onCancel(); // 확인 후 모달을 없앱니다!
+    onCancel();
   });
   $cancelButton.addEventListener('click', () => onCancel());
 }

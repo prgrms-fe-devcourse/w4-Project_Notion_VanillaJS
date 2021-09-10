@@ -18,7 +18,7 @@ export default function Input({
 
   this.render = () => {
     $target.appendChild(this.$input);
-  }; // 자체적인 렌더링.
+  };
 
   this.render();
 
