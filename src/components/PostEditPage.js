@@ -25,7 +25,7 @@ export default function PostEditPage({ $target, initialState, refresh }) {
           ...post,
           tempSavedDate: new Date()
         })
-      }, 1000)
+      }, 500)
 
       timer = setTimeout(async() => {
         await request(`/documents/${post.id}`, {
@@ -34,7 +34,7 @@ export default function PostEditPage({ $target, initialState, refresh }) {
         })
         removeItem(postLocalSaveKey)
         refresh()
-      },2000)
+      },1000)
     }
   })
 
