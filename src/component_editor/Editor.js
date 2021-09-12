@@ -151,20 +151,36 @@ export default function Editor({
                         range = sel.getRangeAt(0);
                         range.insertNode($text);
                         range.setStartAfter($text);
-
+                        
                         isAutoCompleteExist = false;
                         spacebarFlag = false;
                         firstString = '';
                     }
-
+                    
                     // 입력되는 글자들은 기본적으로 모두 서버에 업데이트
                     tempState.content = e.target.innerHTML;
                     onEditing(tempState);
-
+                    
                     // #, ##, ### 이 들어오는 경우 체크
                     if (isMarkDownInput(tempState.content)) {
                         showContents(tempState.content);
                         return;
+                    }
+
+                    // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter가 아닌 경우
+                    // 그리고 (커서가 앞이나 뒤로 이동하는 경우 === 글자가 입력된 경우) 자동완성을 삭제함
+                    if (isAutoCompleteExist && (range.startOffset <= cursorPosBeforeChar || range.startOffset > cursorPosAfterChar)) {
+                        deleteAutoComplete();
+                        isAutoCompleteExist = false;
+                        spacebarFlag = false;
+                        firstString = '';
+                    }
+                    
+                    // spacebarFlag가 형성되고, 다시 삭제를 하는 경우
+                    if(spacebarFlag && (range.startOffset < cursorPosBeforeChar)) {
+                        isAutoCompleteExist = false;
+                        spacebarFlag = false;
+                        firstString = '';
                     }
 
                     // 스페이스바가 입력된 경우,
@@ -206,14 +222,6 @@ export default function Editor({
                         }
                     }
 
-                    // 자동 완성이 현재 화면에 display 돼있고, 사용자로부터 입력받은 키가 Enter가 아닌 경우
-                    // 그리고 (커서가 앞이나 뒤로 이동하는 경우 === 글자가 입력된 경우) 자동완성을 삭제함
-                    if (isAutoCompleteExist && (range.startOffset <= cursorPosBeforeChar || range.startOffset > cursorPosAfterChar)) {
-                        deleteAutoComplete();
-                        isAutoCompleteExist = false;
-                        spacebarFlag = false;
-                        firstString = '';
-                    }
 
                     // trie에 획득된 첫 글자를 던져주고, 등록된 키워드가 있는지 확인하는 절차
                     if (trie.getAllWords(firstString).length !== 0) {
