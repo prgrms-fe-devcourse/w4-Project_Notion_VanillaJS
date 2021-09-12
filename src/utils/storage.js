@@ -16,5 +16,7 @@ export const getItem = (key, defaultValue) => {
 export const removeItem = (key) => {
   try {
     storage.removeItem(key);
-  } catch (e) {}
+  } catch (e) {
+    console.log(e.message)
+  }
 };

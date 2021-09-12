@@ -18,14 +18,18 @@ body {
 
 .document-page {
   background-color: #f7f6f3;
-  padding: 8% 5%;
+  padding: 8% 0;
   height: 100vh;
 }
 /* #e8e7e4 */
 .edit-page {
   background-color: #ffffff;
   text-align: center;
-  /*     padding : 10% 5%; */
+}
+.root-page-add{
+  width:100%;
+/*   background-color:red; */
+  text-align:center;
 }
 
 .editor {
@@ -41,7 +45,7 @@ body {
 }
 .editor-content {
   width: 100%;
-  height: 560px;
+  height: 470px;
   font-size: 1.1em;
   overflow: scroll;
   /* scroll-bar :none; */
@@ -57,19 +61,27 @@ button {
 }
 
 ul {
-  /*     list-style : none; */
-  padding: 0 7%;
+/*   background-color:skyblue; */
+  width:100%;
+      list-style : none;
+      padding: 0 3%;
 }
 
 .document-list {
   font-size: 0.98em;
   margin-top: 2%;
-  overflow: scroll;
   /* scroll-bar :none; */
 }
+.list-box{
+  width:100%;
+  overflow:scroll;
+}
 
-.document-list::-webkit-scrollbar {
+.list-box::-webkit-scrollbar {
   display: none;
+}
+.root-page-add{
+  font-size : 1.1em;
 }
 
 input:focus {
@@ -103,4 +115,24 @@ input {
 .main-content {
   font-size: 1.2em;
   padding-top: 1.2%;
+}
+li{
+/*   background-color:#e8e7e4; */
+  cursor:pointer;
+  
+}
+/* li :hover{
+} */
+
+button{
+  cursor:pointer;
+  text-align:center;
+}
+
+.no-page{
+  color :#C6C6C6;
+}
+
+.toggle-btn:visited{
+  /* transform : rotation(45deg); */
 }

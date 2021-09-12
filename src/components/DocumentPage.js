@@ -27,7 +27,7 @@ export default function documentPage({ $target }) {
     $target.prepend($documentPage);
   };
 
-  this.route = (documentTitle) => {
+  this.route = () => {
     this.setState();
   };
 

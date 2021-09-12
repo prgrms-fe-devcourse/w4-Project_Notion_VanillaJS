@@ -39,6 +39,7 @@ export default function DocumentEditPage({ $target, initialState, }) {
           method: "PUT",
           body: JSON.stringify(document),
         });
+        
         if(this.state.document.title){
           if(this.state.document.title !==document.title){
             push({

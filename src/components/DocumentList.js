@@ -1,5 +1,7 @@
 import { displayDocumentList } from "../utils/displayList.js";
 import { push } from "../utils/router.js";
+import {setItem, getItem,removeItem} from '../utils/storage.js';
+
 
 export default function PostList({ $target, initialState }) {
   const $documentList = document.createElement("div");
@@ -15,24 +17,39 @@ export default function PostList({ $target, initialState }) {
 
   this.render = () => {
     $documentList.innerHTML = `
-            <button name ="add-btn" data-id = "null" ><i class="fas fa-plus"></i>페이지 추가</button>
+            <button name ="add-btn" data-id = "null" class="root-page-add" >페이지 추가</button>
+            <div class ="list-box">
             ${displayDocumentList(this.state)}
+            </div>
         `;
   };
 
   this.render()
 
   $documentList.addEventListener("click", (e) => {
-    let { target } = e;
-    if(!target.getAttribute('name')){
-      target = target.closest('button')
-    }
-    const name = target.getAttribute("name");
-    if (name) {
-      push({
-        type: name,
-        id: target.dataset.id,
-      });
+    const { target } = e;
+    const element = target.closest("[name]")
+
+    
+    if(element){
+      const id = element.dataset.id
+      const listToggleState = `isOpened-${id}`
+      const name = element.getAttribute("name");
+      if(target.className ==='toggle-btn'){
+        const getToggleState = getItem(listToggleState)
+        getToggleState ? removeItem(listToggleState) : setItem(listToggleState,'block')
+        this.render()
+  
+        return 
+      }
+  
+      if (name) {
+        push({
+          type: name,
+          id,
+        });
+      }
     }
   });
+
 }
