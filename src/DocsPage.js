@@ -5,6 +5,8 @@ import { push } from "./router.js";
 export default function DocsPage({ $target }) {
     const $page = document.createElement('div');
     $page.className = 'docs-page';
+    $target.appendChild($page);
+
 
     const $addDocButton = document.createElement('button');
     $addDocButton.id = 'addDocButton';
@@ -60,18 +62,10 @@ export default function DocsPage({ $target }) {
         }
     })
 
-    //this.setState로 lsit 데이터 업데이트해주기 (렌더링할 때말고) -> EditPage와 일관성 맞추기 위해서
     this.setState = async () => {
         const docs = await request('/documents');
 
-        docslist.setState({
-            docs: docs.sort((a, b) => a.id - b.id)
-        });
-
-        this.render();
+        docslist.setState(docs.sort((a, b) => a.id - b.id));
     }
 
-    this.render = () => {
-        $target.appendChild($page);
-    }    
 }

@@ -8,44 +8,57 @@ export default function DocsList({ $target, initialState, onCreateNewDoc, onRemo
     this.state = initialState;
 
     this.setState = nextState => {
-        this.state = nextState;
-        this.render();
+        if (getDocsId(this.state.docs) !== getDocsId(nextState)) {
+            this.state = {
+                docs: nextState
+            };
+    
+            this.render();
+        }
+    }
+
+    const getDocsId = (docs = []) => {
+        return Object.values(docs)
+                    .map(({ id, documents }) => id + getDocsId(documents))
+                    .join('');
     }
 
     this.render = () => {
         $docsList.innerHTML = `<ul id="rootDocs">${getAllDocuments(this.state.docs)}</ul>`;
-        
-        $docsList.querySelectorAll('li.each-doc').forEach($li => {
-            const $docsTitle = $li.getElementsByClassName('docs-title').item(0);
-            const $addButton = $li.getElementsByClassName('add-btn').item(0);
-            const $removeButton = $li.getElementsByClassName('remove-btn').item(0);
-            
+    };
+
+    $docsList.addEventListener('click', (e) => {
+        const $li = e.target.closest('.each-doc');
+
+        if ($li) {
             const { id } = $li.dataset;
+            const $label = e.target.closest('.docs-title');
+            const $addButton = e.target.closest('.add-btn');
+            const $removeButton = e.target.closest('.remove-btn');
             
-            
-            
-            //문서를 최초로 클릭했을 경우에만 라우팅
-            $docsTitle.addEventListener('click', () => {
+            if ($label) {
                 const { pathname } = window.location;
                 const selectedDocId = pathname.split('/')[2];
                 
                 if (selectedDocId !== id) {
                     push(`/documents/${id}`);
                 }
-            })
+                return;
+            }
     
-            $addButton.addEventListener('click', () => {
+            if ($addButton) {
                 onCreateNewDoc(parseInt(id));
-            })
-
-            $removeButton.addEventListener('click', () => {
+                return;
+            }
+            
+            if ($removeButton) {
                 onRemoveDoc(parseInt(id));
-            })
-        })
-    };
+                return;
+            }
+        }
+    });
 
     const getAllDocuments = (docs) => {
-        if(docs.length === 0) return '';
         
         return docs.reduce((acc, eachDoc) => {
             acc += `<li class="each-doc" data-id=${eachDoc.id}>
