@@ -8,6 +8,24 @@ export default function DocsEditPage({ $target, initialState }) {
 
     this.state = initialState;
 
+    this.setState = async nextState => {
+        if (this.state.docId !== nextState.docId) {
+            this.state = nextState;
+
+            await fetchEachDoc(); 
+
+            this.render();
+
+            return;
+        }
+
+        this.state = nextState;
+        
+        editor.setState(this.state.docInfo);
+                
+        subDocsList.setState(this.state.docInfo);
+    }
+
     let timer = null;
 
     const editor = new Editor({
@@ -18,44 +36,21 @@ export default function DocsEditPage({ $target, initialState }) {
             }
 
             timer = setTimeout(async () => {
-
                 await request(`/documents/${docInfo.id}`, {
                     method: 'PUT',
                     body: JSON.stringify({
                         "title": docInfo.title,
                         "content": docInfo.content
                     })
-                })
+                });
             }, 1000);
         }
-    })
+    });
 
     const subDocsList = new SubDocsList({
         $target: $page,
-        initialState: {}
-    })
-
-    this.setState = async nextState => {
-        if (this.state.docId !== nextState.docId) {
-            this.state = nextState;
-
-            await fetchEachDoc(); 
-
-            return;
-        }
-
-        this.state = nextState;
-        
-        this.render();
-
-        editor.setState(this.state.docInfo || {
-            title: '',
-            content: ''
-        });
-                
-        subDocsList.setState(this.state.docInfo || {});
-
-    }
+        initialState: this.state.docInfo
+    });
 
     this.render = () => {
         $target.appendChild($page);
@@ -70,7 +65,7 @@ export default function DocsEditPage({ $target, initialState }) {
             this.setState({
                 ...this.state,
                 docInfo
-            })
+            });
         }
     }
 }
