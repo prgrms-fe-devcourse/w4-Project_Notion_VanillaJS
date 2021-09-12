@@ -7,7 +7,6 @@ export default function DocsPage({ $target }) {
     $page.className = 'docs-page';
     $target.appendChild($page);
 
-
     const $addDocButton = document.createElement('button');
     $addDocButton.id = 'addDocButton';
     $addDocButton.innerHTML = '<i class="fas fa-plus"></i>';
@@ -24,7 +23,13 @@ export default function DocsPage({ $target }) {
 
         push(`/documents/${createdRootDoc.id}`);
         this.setState();
-    })
+    });
+    
+    this.setState = async () => {
+        const docs = await request('/documents');
+
+        docslist.setState(docs.sort((a, b) => a.id - b.id));
+    }
 
     const docslist = new DocsList({
         $target: $page,
@@ -45,6 +50,13 @@ export default function DocsPage({ $target }) {
             push(`/documents/${createdDoc.id}`);
             this.setState();
         },
+        onToggleDoc: (id) => {
+            const nextToggledDocs = this.state.toggledDocs.some(id) 
+                ? [...this.state.toggledDocs, id] 
+                : this.state.toggledDocs.filter(toggledId => toggledId !== id);
+            
+            this.setState(nextToggledDocs);
+        },
         onRemoveDoc: async (id) => {
             await request(`/documents/${id}`, {
                 method: 'DELETE'
@@ -61,11 +73,4 @@ export default function DocsPage({ $target }) {
             this.setState();
         }
     })
-
-    this.setState = async () => {
-        const docs = await request('/documents');
-
-        docslist.setState(docs.sort((a, b) => a.id - b.id));
-    }
-
 }

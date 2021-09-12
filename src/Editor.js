@@ -29,7 +29,7 @@ export default function Editor({
             $editor.querySelector('[name=title]').focus();
         } 
 
-        let content = this.state.content || '';
+        let content = this.state.content;
 
         if (content) {
             content = content.split('<div>').map(line => {
