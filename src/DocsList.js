@@ -8,23 +8,29 @@ export default function DocsList({ $target, initialState, onCreateNewDoc, onRemo
     this.state = initialState;
 
     this.setState = nextState => {
-        if (getDocsId(this.state.docs) !== getDocsId(nextState)) {
+        if (getAllDocsId(this.state.docs) !== getAllDocsId(nextState)) {
             this.state = {
                 docs: nextState
             };
-    
+
             this.render();
         }
     }
 
-    const getDocsId = (docs = []) => {
+    const getAllDocsId = (docs = []) => {
         return Object.values(docs)
-                    .map(({ id, documents }) => id + getDocsId(documents))
+                    .map(({ id, documents }) => id + getAllDocsId(documents))
                     .join('');
     }
 
     this.render = () => {
-        $docsList.innerHTML = `<ul id="rootDocs">${getAllDocuments(this.state.docs)}</ul>`;
+        if (this.state.docs.length === 0) return;
+
+        $docsList.innerHTML = `
+            <ul id="rootDocs">
+                ${getAllDocuments(this.state.docs)}
+            </ul>
+        `;
     };
 
     $docsList.addEventListener('click', (e) => {
@@ -35,6 +41,7 @@ export default function DocsList({ $target, initialState, onCreateNewDoc, onRemo
             const $label = e.target.closest('.docs-title');
             const $addButton = e.target.closest('.add-btn');
             const $removeButton = e.target.closest('.remove-btn');
+            const $toggleButton = e.target.closest('.toggle-btn');
             
             if ($label) {
                 const { pathname } = window.location;
@@ -55,14 +62,18 @@ export default function DocsList({ $target, initialState, onCreateNewDoc, onRemo
                 onRemoveDoc(parseInt(id));
                 return;
             }
+
+            if ($toggleButton) {
+                $li.classList.toggle('toggled');
+            }
         }
     });
 
     const getAllDocuments = (docs) => {
-        
         return docs.reduce((acc, eachDoc) => {
             acc += `<li class="each-doc" data-id=${eachDoc.id}>
                         <section class="parent">
+                            <button class="toggle-btn">▶️</button>
                             <label class="docs-title">
                                 <i class="doc-icon ${eachDoc.title ? 'far fa-file-alt' : 'far fa-file'}"></i>
                                 ${eachDoc.title || '제목 없음'}
