@@ -26,7 +26,7 @@ export default function EditorPage({
 
     new EditorTools({
         $target: $editorPage,
-        saveKeyWord: (text) => {
+        saveKeyword: (text) => {
             trie.insert(text);
             this.setState({ ...this.state, trie });
         },
