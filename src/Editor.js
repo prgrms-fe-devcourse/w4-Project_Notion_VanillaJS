@@ -1,5 +1,6 @@
 import { request } from "./api.js";
 import { push } from "./router.js";
+import debounce from "./debounce.js";
 
 export default function Editor({ $target, initialState, documentEditing }) {
   const $editor = document.createElement("div");
@@ -83,7 +84,7 @@ export default function Editor({ $target, initialState, documentEditing }) {
   };
 
   // 문서 수정
-  const editDocument = async (title, content, id) => {
+  const editDocument = debounce( async (title, content, id) => {
     const document = await request(`/documents/${id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -91,7 +92,7 @@ export default function Editor({ $target, initialState, documentEditing }) {
         content: content,
       }),
     });
-  };
+  }, 500);
 
   this.render();
 }
