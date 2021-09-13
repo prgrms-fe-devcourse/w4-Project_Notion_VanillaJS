@@ -176,13 +176,6 @@ export default function Editor({
                         firstString = '';
                     }
                     
-                    // spacebarFlag가 형성되고, 다시 삭제를 하는 경우
-                    if(spacebarFlag && (range.startOffset < cursorPosBeforeChar)) {
-                        isAutoCompleteExist = false;
-                        spacebarFlag = false;
-                        firstString = '';
-                    }
-
                     // 스페이스바가 입력된 경우,
                     // AutoComplete 로직을 실행시키기 위해 isSpaceBarEntered를 true로 만듬
                     if (isSpacebarEntered(e)) {

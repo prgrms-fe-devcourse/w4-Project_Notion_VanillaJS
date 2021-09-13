@@ -13,8 +13,8 @@ body {
 }
 
 #app {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .sidebar-header {
@@ -26,50 +26,49 @@ body {
     margin-bottom: 1rem;
 }
 
-
 .username {
-  font-size: 1.5rem;
-  padding: 0.8rem 0 0 0.8rem;
+    font-size: 1.5rem;
+    padding: 0.8rem 0 0 0.8rem;
 }
 
 .add-doc-button {
-  position: absolute;
-  right: 0.2rem;
-  bottom: 0.2rem;
-  font-size: 0.8rem;
-  background-color: transparent;
-  border-radius: 50px;
-  text-transform: uppercase;
-  border: 0.1rem solid rgb(255, 255, 255);
-  color: white;
-  cursor: pointer;
+    position: absolute;
+    right: 0.2rem;
+    bottom: 0.2rem;
+    font-size: 0.8rem;
+    background-color: transparent;
+    border-radius: 50px;
+    text-transform: uppercase;
+    border: 0.1rem solid rgb(255, 255, 255);
+    color: white;
+    cursor: pointer;
 }
 
 ul {
     list-style: none;
     padding: 0 0 0 1rem;
-  }
-  
-  .doc-title {
+}
+
+.doc-title {
     position: absolute;
     color: white;
-  }
-  
-  .sidebar {
-    top : 0;
-    position : fixed;
-    display :block;
+}
+
+.sidebar {
+    top: 0;
+    position: fixed;
+    display: block;
     width: 300px;
     height: 100%;
     background-color: rgb(47, 55, 94);
-  }
-  
-  .list-container {
+}
+
+.list-container {
     position: relative;
     margin-bottom: 0.4rem;
-  }
-  
-  .list-container button {
+}
+
+.list-container button {
     position: relative;
     left: 6rem;
     font-size: 0.8rem;
@@ -77,73 +76,146 @@ ul {
     border: none;
     color: white;
     cursor: pointer;
-  }
-  
-  .doc-title {
-    cursor : pointer
-  }
-  
-  /* editor-container */
-  .editor-container {
-    display:block;
-    margin-left : 310px;
-    width: 75%;
-    height : 100%;
-  }
-  
-  /* editor-header */
-  .editor-header {
-      width: 100%;
-      height: 15%;
-      background-color: rgb(30, 18, 97);
-  }
+}
 
-  /* title 및 content 입력 */
-  .editor {
-    width : 100%;
-    height : 100%;
-    padding : 0 20px 0 20px;
-  }
-  
+.doc-title {
+    cursor: pointer;
+}
+
+/* editor-container */
+.editor-container {
+    display: block;
+    margin-left: 310px;
+    width: 75%;
+    height: 100%;
+}
+
+/* editor-header */
+.editor-header {
+    width: 100%;
+    height: 15%;
+    background-color: rgb(30, 18, 97);
+}
+
+/* title 및 content 입력 */
+.editor {
+    width: 100%;
+    height: 100%;
+    padding: 0 20px 0 20px;
+}
+
 .title-container {
-  margin : 0.5rem 0 0.5rem 0;
+    margin: 0.5rem 0 0.5rem 0;
 }
 
 .title-container input {
-  display : block;
-  width : 100%;
-  font-size : 22px;
+    display: block;
+    width: 100%;
+    font-size: 22px;
 }
 
 .title-container label {
-  font-size : 22px;
+    font-size: 22px;
 }
 
 .content-container {
-  width : 100%;
-  height : 100%;
-  font-size : 22px;
+    width: 100%;
+    height: 100%;
+    font-size: 22px;
 }
 
 .content-container .content {
-  width : 100%;
-  height : 100%;
-  border : 1px solid black;
-}
-
-.editor-tools {
-  padding : 0 20px 0 20px;
-}
-
-#autoComplete {
-  color : rgb(177, 177, 177);
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
 }
 
 /* editor-tools */
 .editor-tools {
-  margin-top : 10px;
+    width: 100%;
+    padding: 0 20px 0 20px;
+    margin-top: 10px;
 }
 
-.editor-tools input {
-  font-size : 20px;
+/* tools-list */
+.tool-list {
+}
+
+.editor-tools .tool-list input {
+  font-size : 30px;
+}
+/* keywords-list */
+.keywords-container {
+  margin-top: 10px;
+
+  width : 100%;
+  display : flex;
+  flex-flow : row nowrap;
+  flex-shrink: 0;
+  overflow : hidden;
+  position : relative;
+}
+
+.wrapped-container {
+  flex-flow : row wrap;
+}
+
+.keywords-container .item {
+  background-color: rgb(226, 226, 226);
+  display : flex;
+  align-items: center;
+  justify-content: center;
+  border-radius : 15px;
+  padding : 5px;
+  margin : 5px 5px 5px 5px;
+  white-space : nowrap;
+  font-size : 30px;
+}
+
+.keywords-container .expand {
+  background-color :rgb(255, 255, 255);
+  opacity : 0.9;
+  border : none;
+  position : absolute;
+  top : 5px;
+  right : 0;
+  border-radius : 15px;
+  padding : 5px;
+  font-size : 30px;
+}
+
+.keywords-container .wrapped-expand {
+  opacity : 0;
+}
+
+.keywords-container .collapse {
+  background-color : rgb(255,255,255);
+  opacity : 0;
+  border : none;
+  
+  right : 0;
+  bottom : 0;
+
+  position : absolute;
+  border-radius : 15px;
+  padding : 5px;
+  
+  font-size : 30px;
+}
+
+.keywords-container .wrapped-collapse {
+  opacity : 1;
+}
+
+.keyword-temp {
+  display : flex;
+  align-items: center;
+  justify-content: center;
+  padding : 5px;
+  margin : 5px 5px 5px 5px;
+  font-size : 30px;
+}
+
+#autoComplete {
+    color: rgb(177, 177, 177);
 }

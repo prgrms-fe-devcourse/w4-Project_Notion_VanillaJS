@@ -1,27 +1,40 @@
 import { createElement } from '../utils/DOM.js';
+import KeywordList from './KeywordList.js';
+import ToolList from './ToolList.js';
 
 export default function EditorTools({ $target, saveKeyword }) {
     const $editorTools = createElement('div');
     $editorTools.setAttribute('class', 'editor-tools');
-
-    this.render = () => {
-        $editorTools.innerHTML = `
-        <div class='autocomplete-container'>
-        <input type='text' placeholder='keyword입력'>
-        </div>
-        `;
-    };
-
-    this.render();
     $target.appendChild($editorTools);
 
-    $editorTools.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-            const text = $editorTools.querySelector('input').value;
-            if (text.length > 0) {
-                saveKeyword(text);
-                $editorTools.querySelector('input').value = '';
-            }
-        }
+    this.state = {
+        keywords: [],
+    };
+
+    this.setState = (nextState) => {
+        this.state = nextState;
+
+        keywordList.setState({
+            keywords: this.state.keywords,
+        });
+    };
+
+    new ToolList({
+        $target: $editorTools,
+        onKeywordInput: (text) => {
+            saveKeyword(text);
+            const newKeywords = [...this.state.keywords, text];
+            this.setState({
+                ...this.state,
+                keywords: newKeywords,
+            });
+        },
+    });
+
+    const keywordList = new KeywordList({
+        $target: $editorTools,
+        initialState: {
+            keywords: this.state.keywords,
+        },
     });
 }
