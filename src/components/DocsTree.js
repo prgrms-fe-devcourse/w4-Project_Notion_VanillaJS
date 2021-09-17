@@ -93,7 +93,7 @@ export default function DocsTree({ $target, initialState }) {
 
     const { id } = $eventTarget.dataset;
 
-    if ($eventTarget.className === 'doc-list-item__inner') {
+    if ($eventTarget.className === 'doc-title') {
       push(`/documents/${id}`);
       return;
     }

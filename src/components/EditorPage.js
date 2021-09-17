@@ -46,6 +46,9 @@ export default function EditorPage({ $target, initialState }) {
           tempSaveDate: new Date(),
         });
 
+        const $docTreeTitle = $(`.doc-title[data-id="${doc.id}"]`);
+        $docTreeTitle.textContent = `${doc.title}(${doc.id})`;
+
         await request(`/documents/${doc.id}`, {
           method: 'PUT',
           body: JSON.stringify(doc),

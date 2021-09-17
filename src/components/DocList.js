@@ -34,7 +34,7 @@ export default function DocList({
           <li class="doc-list-item" data-id="${id}">
             <div class="doc-list-item__inner" data-id="${id}">
               <button class="fold-button--folded" data-id="${id}" name="fold" >▶</button>
-              ${title}(${id})
+              <span class="doc-title" data-id="${id}">${title}(${id})</span>
               <button class="add-button" data-id="${id}" name="add">+</button>
             </div>
           </li>
