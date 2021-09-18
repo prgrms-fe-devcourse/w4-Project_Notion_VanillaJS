@@ -4,7 +4,7 @@ export const initRouter = (onRoute) => {
     window.onpopstate = (e) => {
         const currentUrl = document.location.href;
         const prevUrl = window.history.state.prevUrl;
-        history.pushState({ prevUrl: currentUrl }, null, prevUrl);
+        //history.replaceState({ prevUrl: currentUrl }, null, prevUrl);
         onRoute();
     }
 
