@@ -1,9 +1,9 @@
 import App from "./App.js";
 
 function main() {
-  const targetElement = document.getElementById("App");
+    const targetElement = document.getElementById("App");
 
-  new App({ targetElement });
+    new App({ targetElement });
 }
 
 main();
